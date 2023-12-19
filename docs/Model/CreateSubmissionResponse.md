@@ -1,12 +1,11 @@
-# CreateSubmissionResponse
+# # CreateSubmissionResponse
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**submission** | [**\DocSpring\Model\Submission**](Submission.md) |  | [optional] 
-**errors** | **string[]** |  | [optional] 
-**status** | **string** |  | [optional] 
+**status** | **string** |  |
+**errors** | **string[]** |  | [optional]
+**submission** | [**\DocSpring\Model\Submission**](Submission.md) |  |
 
-[[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-
+[[Back to Model list]](../../README.md#models) [[Back to API list]](../../README.md#endpoints) [[Back to README]](../../README.md)

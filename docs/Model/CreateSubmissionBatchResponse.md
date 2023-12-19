@@ -1,14 +1,13 @@
-# CreateSubmissionBatchResponse
+# # CreateSubmissionBatchResponse
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**submission_batch** | [**\DocSpring\Model\SubmissionBatch**](SubmissionBatch.md) |  | [optional] 
-**submissions** | [**\DocSpring\Model\CreateSubmissionBatchSubmissionsResponse[]**](CreateSubmissionBatchSubmissionsResponse.md) |  | [optional] 
-**error** | **string** |  | [optional] 
-**errors** | **string[]** |  | [optional] 
-**status** | **string** |  | [optional] 
+**status** | **string** |  |
+**error** | **string** |  | [optional]
+**errors** | **string[]** |  | [optional]
+**submission_batch** | [**\DocSpring\Model\SubmissionBatch**](SubmissionBatch.md) |  |
+**submissions** | [**\DocSpring\Model\CreateSubmissionBatchSubmissionsResponse[]**](CreateSubmissionBatchSubmissionsResponse.md) |  |
 
-[[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-
+[[Back to Model list]](../../README.md#models) [[Back to API list]](../../README.md#endpoints) [[Back to README]](../../README.md)

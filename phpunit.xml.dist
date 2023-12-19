@@ -10,18 +10,18 @@
         <ini name="error_reporting" value="E_ALL" />
     </php>
     <testsuites>
-        <testsuite>
+        <testsuite name="DocSpring PHP Client tests">
             <directory>./test</directory>
             <directory>./test/Api</directory>
             <directory>./test/Model</directory>
         </testsuite>
     </testsuites>
 
-    <filter>
-        <whitelist processUncoveredFilesFromWhitelist="true">
+    <coverage includeUncoveredFiles="true" processUncoveredFiles="true">
+        <include>
             <directory suffix=".php">./lib</directory>
             <directory suffix=".php">./lib/Api</directory>
             <directory suffix=".php">./lib/Model</directory>
-        </whitelist>
-    </filter>
+        </include>
+    </coverage>
 </phpunit>

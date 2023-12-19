@@ -1,3 +1,9 @@
+### 2.0.0 [December 19, 2023]
+
+- Updated OpenAPI Generator to 7.1 for this client update.
+- Guzzle 7.8.1 is now used by the client.
+- The API has changed from SubmissionData() to CreateSubmissionData() etc.
+
 ### 1.3.2 [November 28, 2021]
 
 - Added 'password' parameter to Generate PDF and Combine PDF API endpoints. You can now encrypt each generated PDF with a unique password.

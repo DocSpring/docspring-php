@@ -1,20 +1,21 @@
-# CombinedSubmission
+# # CombinedSubmission
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**metadata** | **object** |  | [optional] 
-**password** | **string** |  | [optional] 
-**expired** | **bool** |  | [optional] 
-**expires_at** | **string** |  | [optional] 
-**source_pdfs** | **object[]** |  | [optional] 
-**pdf_hash** | **string** |  | [optional] 
-**download_url** | **string** |  | [optional] 
-**submission_ids** | **string[]** |  | [optional] 
-**id** | **string** |  | [optional] 
-**state** | **string** |  | [optional] 
-**actions** | [**\DocSpring\Model\CombinedSubmissionAction[]**](CombinedSubmissionAction.md) |  | [optional] 
+**id** | **string** |  |
+**expired** | **bool** |  |
+**expires_in** | **int** |  | [optional]
+**expires_at** | **string** |  | [optional]
+**state** | **string** |  |
+**error_message** | **string** |  | [optional]
+**metadata** | **object** |  | [optional]
+**password** | **string** |  | [optional]
+**submission_ids** | **string[]** |  |
+**source_pdfs** | **object[]** |  |
+**download_url** | **string** |  | [optional]
+**pdf_hash** | **string** |  | [optional]
+**actions** | [**\DocSpring\Model\CombinedSubmissionAction[]**](CombinedSubmissionAction.md) |  | [optional]
 
-[[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-
+[[Back to Model list]](../../README.md#models) [[Back to API list]](../../README.md#endpoints) [[Back to README]](../../README.md)

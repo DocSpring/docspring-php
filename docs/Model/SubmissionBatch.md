@@ -1,18 +1,17 @@
-# SubmissionBatch
+# # SubmissionBatch
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**pending_count** | **int** |  | [optional] 
-**completion_percentage** | **int** |  | [optional] 
-**metadata** | **object** |  | [optional] 
-**total_count** | **int** |  | [optional] 
-**submissions** | [**\DocSpring\Model\Submission[]**](Submission.md) |  | [optional] 
-**processed_at** | **string** |  | [optional] 
-**id** | **string** |  | [optional] 
-**state** | **string** |  | [optional] 
-**error_count** | **int** |  | [optional] 
+**id** | **string** |  |
+**total_count** | **int** |  |
+**pending_count** | **int** |  |
+**error_count** | **int** |  |
+**completion_percentage** | **int** |  |
+**state** | **string** |  |
+**processed_at** | **string** |  |
+**metadata** | **object** |  |
+**submissions** | [**\DocSpring\Model\Submission[]**](Submission.md) |  | [optional]
 
-[[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-
+[[Back to Model list]](../../README.md#models) [[Back to API list]](../../README.md#endpoints) [[Back to README]](../../README.md)

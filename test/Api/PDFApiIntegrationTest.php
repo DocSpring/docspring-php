@@ -28,6 +28,7 @@
 
 namespace DocSpring;
 
+use \PHPUnit\Framework\TestCase;
 use \DocSpring\Configuration;
 use \DocSpring\ApiException;
 use \DocSpring\ObjectSerializer;
@@ -40,26 +41,26 @@ use \DocSpring\ObjectSerializer;
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
  */
-class PDFApiTest extends \PHPUnit_Framework_TestCase
+class PDFApiTest extends TestCase
 {
-
+  private $docspring;
     /**
      * Setup before running any test cases
      */
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
     }
 
     /**
      * Setup before running each test case
      */
-    public function setUp()
+    public function setUp(): void
     {
       // Configure HTTP basic authorization: api_token_basic
       $config = \DocSpring\Configuration::getDefaultConfiguration()
                     ->setUsername('api_token123')
                     ->setPassword('testsecret123')
-                    ->setHost('http://api.docspring.local:31337/api/v1');
+                    ->setHost('http://api.docspring.localhost:31337/api/v1');
       $this->docspring = new \DocSpring\Api\PDFApi(
           // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
           // This is optional, `GuzzleHttp\Client` will be used as default.
@@ -71,14 +72,14 @@ class PDFApiTest extends \PHPUnit_Framework_TestCase
     /**
      * Clean up after running each test case
      */
-    public function tearDown()
+    public function tearDown(): void
     {
     }
 
     /**
      * Clean up after running all test cases
      */
-    public static function tearDownAfterClass()
+    public static function tearDownAfterClass(): void
     {
     }
 
@@ -92,7 +93,7 @@ class PDFApiTest extends \PHPUnit_Framework_TestCase
     {
       $docspring = $this->docspring;
       $template_id = 'tpl_000000000000000001'; // string |
-      $submission_data = new \DocSpring\Model\SubmissionData();
+      $submission_data = new \DocSpring\Model\CreateSubmissionData();
       $submission_data->setData([
         "first_name" => 'John',
         "last_name" => 'Smith',

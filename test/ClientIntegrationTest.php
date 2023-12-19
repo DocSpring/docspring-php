@@ -28,6 +28,7 @@
 
 namespace DocSpring;
 
+use \PHPUnit\Framework\TestCase;
 use \DocSpring\Configuration;
 use \DocSpring\ApiException;
 use \DocSpring\ObjectSerializer;
@@ -40,19 +41,20 @@ use \DocSpring\ObjectSerializer;
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
  */
-class ClientTest extends \PHPUnit_Framework_TestCase
+class ClientTest extends TestCase
 {
+  private $docspring;
     /**
      * Setup before running any test cases
      */
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
     }
 
     /**
      * Setup before running each test case
      */
-    public function setUp()
+    public function setUp(): void
     {
       $docspring = new \DocSpring\Client();
       $docspring->getConfig()
@@ -60,20 +62,20 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         ->setPassword("testsecret123");
       $this->docspring = $docspring;
       $this->docspring->getConfig()
-        ->setHost('http://api.docspring.local:31337/api/v1');
+        ->setHost('http://api.docspring.localhost:31337/api/v1');
     }
 
     /**
      * Clean up after running each test case
      */
-    public function tearDown()
+    public function tearDown(): void
     {
     }
 
     /**
      * Clean up after running all test cases
      */
-    public static function tearDownAfterClass()
+    public static function tearDownAfterClass(): void
     {
     }
 
@@ -87,7 +89,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     {
       $docspring = $this->docspring;
       $template_id = 'tpl_000000000000000001'; // string |
-      $submission_data = new \DocSpring\Model\SubmissionData();
+      $submission_data = new \DocSpring\Model\CreateSubmissionData();
       $submission_data->setData([
         "first_name" => 'John',
         "last_name" => 'Smith',

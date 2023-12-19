@@ -1,12 +1,11 @@
-# ListSubmissionsResponse
+# # ListSubmissionsResponse
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**next_cursor** | **string** |  | [optional] 
-**submissions** | [**\DocSpring\Model\Submission[]**](Submission.md) |  | [optional] 
-**limit** | **float** |  | [optional] 
+**submissions** | [**\DocSpring\Model\Submission[]**](Submission.md) |  |
+**limit** | **float** |  |
+**next_cursor** | **string** |  |
 
-[[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-
+[[Back to Model list]](../../README.md#models) [[Back to API list]](../../README.md#endpoints) [[Back to README]](../../README.md)

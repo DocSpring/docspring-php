@@ -1,12 +1,11 @@
-# AddFieldsTemplateResponse
+# # AddFieldsTemplateResponse
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**new_field_ids** | **int[]** |  | [optional] 
-**errors** | **string[]** |  | [optional] 
-**status** | **string** |  | [optional] 
+**status** | **string** |  |
+**errors** | **string[]** |  | [optional]
+**new_field_ids** | **int[]** |  | [optional]
 
-[[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-
+[[Back to Model list]](../../README.md#models) [[Back to API list]](../../README.md#endpoints) [[Back to README]](../../README.md)
