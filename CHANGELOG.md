@@ -1,8 +1,7 @@
-### 2.0.0 [December 19, 2023]
+### 2.0.0 [February 23, 2025]
 
-- Updated OpenAPI Generator to 7.1 for this client update.
-- Guzzle 7.8.1 is now used by the client.
-- The API has changed from SubmissionData() to CreateSubmissionData() etc.
+- **BREAKING CHANGE**: Updated default host to our new synchronous API subdomain: sync.api.docspring.com. (EU customers should use sync.api-eu.docspring.com). Removed all custom polling code from library since this logic is now handled by the API service running on our sync subdomain
+- Fixed User-Agent header: docspring-php-x.x.x
 
 ### 1.3.2 [November 28, 2021]
 

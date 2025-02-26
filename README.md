@@ -1,6 +1,6 @@
 # DocSpring
 
-DocSpring is a service that helps you fill out and sign PDF templates.
+DocSpring provides an API that helps you fill out and sign PDF templates.
 
 
 ## Installation & Usage
@@ -61,7 +61,7 @@ $apiInstance = new DocSpring\Api\PDFApi(
     new GuzzleHttp\Client(),
     $config
 );
-$template_id = tpl_000000000000000002; // string
+$template_id = tpl_1234567890abcdef02; // string
 $data = new \DocSpring\Model\AddFieldsData(); // \DocSpring\Model\AddFieldsData
 
 try {
@@ -75,27 +75,29 @@ try {
 
 ## API Endpoints
 
-All URIs are relative to *https://api.docspring.com/api/v1*
+All URIs are relative to *https://sync.api.docspring.com/api/v1*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *PDFApi* | [**addFieldsToTemplate**](docs/Api/PDFApi.md#addfieldstotemplate) | **PUT** /templates/{template_id}/add_fields | Add new fields to a Template
-*PDFApi* | [**batchGeneratePdfV1**](docs/Api/PDFApi.md#batchgeneratepdfv1) | **POST** /templates/{template_id}/submissions/batch | Generates multiple PDFs
 *PDFApi* | [**batchGeneratePdfs**](docs/Api/PDFApi.md#batchgeneratepdfs) | **POST** /submissions/batches | Generates multiple PDFs
 *PDFApi* | [**combinePdfs**](docs/Api/PDFApi.md#combinepdfs) | **POST** /combined_submissions?v&#x3D;2 | Merge submission PDFs, template PDFs, or custom files
 *PDFApi* | [**combineSubmissions**](docs/Api/PDFApi.md#combinesubmissions) | **POST** /combined_submissions | Merge generated PDFs together
 *PDFApi* | [**copyTemplate**](docs/Api/PDFApi.md#copytemplate) | **POST** /templates/{template_id}/copy | Copy a Template
 *PDFApi* | [**createCustomFileFromUpload**](docs/Api/PDFApi.md#createcustomfilefromupload) | **POST** /custom_files | Create a new custom file from a cached presign upload
+*PDFApi* | [**createDataRequestEvent**](docs/Api/PDFApi.md#createdatarequestevent) | **POST** /data_requests/{data_request_id}/events | Creates a new event for emailing a signee a request for signature
 *PDFApi* | [**createDataRequestToken**](docs/Api/PDFApi.md#createdatarequesttoken) | **POST** /data_requests/{data_request_id}/tokens | Creates a new data request token for form authentication
 *PDFApi* | [**createFolder**](docs/Api/PDFApi.md#createfolder) | **POST** /folders/ | Create a folder
-*PDFApi* | [**createHTMLTemplate**](docs/Api/PDFApi.md#createhtmltemplate) | **POST** /templates?desc&#x3D;html | Create a new HTML template
+*PDFApi* | [**createHTMLTemplate**](docs/Api/PDFApi.md#createhtmltemplate) | **POST** /templates?endpoint_description&#x3D;html | Create a new HTML template
 *PDFApi* | [**createPDFTemplate**](docs/Api/PDFApi.md#createpdftemplate) | **POST** /templates | Create a new PDF template with a form POST file upload
-*PDFApi* | [**createPDFTemplateFromUpload**](docs/Api/PDFApi.md#createpdftemplatefromupload) | **POST** /templates?desc&#x3D;cached_upload | Create a new PDF template from a cached presign upload
+*PDFApi* | [**createPDFTemplateFromUpload**](docs/Api/PDFApi.md#createpdftemplatefromupload) | **POST** /templates?endpoint_description&#x3D;cached_upload | Create a new PDF template from a cached presign upload
 *PDFApi* | [**deleteFolder**](docs/Api/PDFApi.md#deletefolder) | **DELETE** /folders/{folder_id} | Delete a folder
 *PDFApi* | [**deleteTemplate**](docs/Api/PDFApi.md#deletetemplate) | **DELETE** /templates/{template_id} | Delete a template
 *PDFApi* | [**expireCombinedSubmission**](docs/Api/PDFApi.md#expirecombinedsubmission) | **DELETE** /combined_submissions/{combined_submission_id} | Expire a combined submission
 *PDFApi* | [**expireSubmission**](docs/Api/PDFApi.md#expiresubmission) | **DELETE** /submissions/{submission_id} | Expire a PDF submission
-*PDFApi* | [**generatePDF**](docs/Api/PDFApi.md#generatepdf) | **POST** /templates/{template_id}/submissions | Generates a new PDF
+*PDFApi* | [**generatePdf**](docs/Api/PDFApi.md#generatepdf) | **POST** /templates/{template_id}/submissions | Generates a new PDF
+*PDFApi* | [**generatePdfForHtmlTemplate**](docs/Api/PDFApi.md#generatepdfforhtmltemplate) | **POST** /templates/{template_id}/submissions?endpoint_description&#x3D;html_templates | Generates a new PDF for an HTML template
+*PDFApi* | [**generatePreview**](docs/Api/PDFApi.md#generatepreview) | **POST** /submissions/{submission_id}/generate_preview | Generated a preview PDF for partially completed data requests
 *PDFApi* | [**getCombinedSubmission**](docs/Api/PDFApi.md#getcombinedsubmission) | **GET** /combined_submissions/{combined_submission_id} | Check the status of a combined submission (merged PDFs)
 *PDFApi* | [**getDataRequest**](docs/Api/PDFApi.md#getdatarequest) | **GET** /data_requests/{data_request_id} | Look up a submission data request
 *PDFApi* | [**getFullTemplate**](docs/Api/PDFApi.md#getfulltemplate) | **GET** /templates/{template_id}?full&#x3D;true | Fetch the full template attributes
@@ -119,56 +121,53 @@ Class | Method | HTTP request | Description
 ## Models
 
 - [AddFieldsData](docs/Model/AddFieldsData.md)
-- [AddFieldsTemplateResponse](docs/Model/AddFieldsTemplateResponse.md)
-- [AuthenticationError](docs/Model/AuthenticationError.md)
-- [AuthenticationSuccessResponse](docs/Model/AuthenticationSuccessResponse.md)
+- [BatchGeneratePdfs201Response](docs/Model/BatchGeneratePdfs201Response.md)
 - [CombinePdfsData](docs/Model/CombinePdfsData.md)
 - [CombinedSubmission](docs/Model/CombinedSubmission.md)
 - [CombinedSubmissionAction](docs/Model/CombinedSubmissionAction.md)
 - [CombinedSubmissionData](docs/Model/CombinedSubmissionData.md)
-- [CopyTemplateData](docs/Model/CopyTemplateData.md)
+- [CopyTemplateOptions](docs/Model/CopyTemplateOptions.md)
 - [CreateCombinedSubmissionResponse](docs/Model/CreateCombinedSubmissionResponse.md)
 - [CreateCustomFileData](docs/Model/CreateCustomFileData.md)
 - [CreateCustomFileResponse](docs/Model/CreateCustomFileResponse.md)
-- [CreateFolderAttributes](docs/Model/CreateFolderAttributes.md)
 - [CreateFolderData](docs/Model/CreateFolderData.md)
-- [CreateHtmlTemplateData](docs/Model/CreateHtmlTemplateData.md)
-- [CreateSubmissionBatchResponse](docs/Model/CreateSubmissionBatchResponse.md)
-- [CreateSubmissionBatchSubmissionsResponse](docs/Model/CreateSubmissionBatchSubmissionsResponse.md)
-- [CreateSubmissionData](docs/Model/CreateSubmissionData.md)
+- [CreateHtmlSubmissionData](docs/Model/CreateHtmlSubmissionData.md)
+- [CreateHtmlTemplate](docs/Model/CreateHtmlTemplate.md)
+- [CreatePdfSubmissionData](docs/Model/CreatePdfSubmissionData.md)
+- [CreatePdfTemplate](docs/Model/CreatePdfTemplate.md)
 - [CreateSubmissionDataRequestData](docs/Model/CreateSubmissionDataRequestData.md)
+- [CreateSubmissionDataRequestEventRequest](docs/Model/CreateSubmissionDataRequestEventRequest.md)
+- [CreateSubmissionDataRequestEventResponse](docs/Model/CreateSubmissionDataRequestEventResponse.md)
+- [CreateSubmissionDataRequestResponse](docs/Model/CreateSubmissionDataRequestResponse.md)
 - [CreateSubmissionDataRequestTokenResponse](docs/Model/CreateSubmissionDataRequestTokenResponse.md)
 - [CreateSubmissionResponse](docs/Model/CreateSubmissionResponse.md)
-- [CreateTemplateFromUploadData](docs/Model/CreateTemplateFromUploadData.md)
-- [DataRequestToken](docs/Model/DataRequestToken.md)
-- [DeleteTemplateResponse](docs/Model/DeleteTemplateResponse.md)
+- [CustomFile](docs/Model/CustomFile.md)
 - [ErrorResponse](docs/Model/ErrorResponse.md)
 - [Folder](docs/Model/Folder.md)
-- [FullTemplate](docs/Model/FullTemplate.md)
-- [HtmlTemplateData](docs/Model/HtmlTemplateData.md)
-- [InvalidRequest](docs/Model/InvalidRequest.md)
+- [JsonSchema](docs/Model/JsonSchema.md)
 - [ListSubmissionsResponse](docs/Model/ListSubmissionsResponse.md)
 - [MoveFolderData](docs/Model/MoveFolderData.md)
 - [MoveTemplateData](docs/Model/MoveTemplateData.md)
-- [PendingTemplate](docs/Model/PendingTemplate.md)
+- [MultipleErrorsResponse](docs/Model/MultipleErrorsResponse.md)
 - [RenameFolderData](docs/Model/RenameFolderData.md)
 - [Submission](docs/Model/Submission.md)
 - [SubmissionAction](docs/Model/SubmissionAction.md)
 - [SubmissionBatch](docs/Model/SubmissionBatch.md)
 - [SubmissionBatchData](docs/Model/SubmissionBatchData.md)
-- [SubmissionData](docs/Model/SubmissionData.md)
-- [SubmissionDataBatchRequest](docs/Model/SubmissionDataBatchRequest.md)
+- [SubmissionBatchWithSubmissions](docs/Model/SubmissionBatchWithSubmissions.md)
 - [SubmissionDataRequest](docs/Model/SubmissionDataRequest.md)
+- [SubmissionDataRequestEvent](docs/Model/SubmissionDataRequestEvent.md)
+- [SubmissionDataRequestShow](docs/Model/SubmissionDataRequestShow.md)
+- [SubmissionDataRequestToken](docs/Model/SubmissionDataRequestToken.md)
+- [SubmissionPreview](docs/Model/SubmissionPreview.md)
+- [SuccessErrorResponse](docs/Model/SuccessErrorResponse.md)
+- [SuccessMultipleErrorsResponse](docs/Model/SuccessMultipleErrorsResponse.md)
 - [Template](docs/Model/Template.md)
-- [TemplateData](docs/Model/TemplateData.md)
-- [TemplateDefaults](docs/Model/TemplateDefaults.md)
-- [TemplateDocument](docs/Model/TemplateDocument.md)
-- [TemplateDocumentMetadata](docs/Model/TemplateDocumentMetadata.md)
-- [UpdateDataRequestResponse](docs/Model/UpdateDataRequestResponse.md)
+- [TemplateAddFieldsResponse](docs/Model/TemplateAddFieldsResponse.md)
+- [TemplatePreview](docs/Model/TemplatePreview.md)
+- [UpdateHtmlTemplate](docs/Model/UpdateHtmlTemplate.md)
 - [UpdateSubmissionDataRequestData](docs/Model/UpdateSubmissionDataRequestData.md)
-- [UpdateTemplateData](docs/Model/UpdateTemplateData.md)
-- [UpdateTemplateResponse](docs/Model/UpdateTemplateResponse.md)
-- [UploadTemplateData](docs/Model/UploadTemplateData.md)
+- [UploadPresignResponse](docs/Model/UploadPresignResponse.md)
 
 ## Authorization
 
@@ -196,4 +195,5 @@ This PHP package is automatically generated by the [OpenAPI Generator](https://o
 
 - API version: `v1`
     - Package version: `2.0.0`
-- Build package: `com.docspring.codegen.DocSpringPhpClientCodegen`
+    - Generator version: `7.11.0`
+- Build package: `org.openapitools.codegen.languages.PhpClientCodegen`

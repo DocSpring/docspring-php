@@ -5,17 +5,18 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **id** | **string** |  |
-**expired** | **bool** |  |
-**expires_in** | **int** |  | [optional]
-**expires_at** | **string** |  | [optional]
 **state** | **string** |  |
-**error_message** | **string** |  | [optional]
-**metadata** | **object** |  | [optional]
-**password** | **string** |  | [optional]
+**expired** | **bool** |  |
+**expires_in** | **int** |  |
+**expires_at** | **string** |  |
+**processed_at** | **string** |  |
+**error_message** | **string** |  |
 **submission_ids** | **string[]** |  |
 **source_pdfs** | **object[]** |  |
-**download_url** | **string** |  | [optional]
-**pdf_hash** | **string** |  | [optional]
-**actions** | [**\DocSpring\Model\CombinedSubmissionAction[]**](CombinedSubmissionAction.md) |  | [optional]
+**metadata** | **object** |  |
+**password** | **string** |  |
+**pdf_hash** | **string** |  |
+**download_url** | **string** |  |
+**actions** | [**\DocSpring\Model\CombinedSubmissionAction[]**](CombinedSubmissionAction.md) |  |
 
 [[Back to Model list]](../../README.md#models) [[Back to API list]](../../README.md#endpoints) [[Back to README]](../../README.md)
