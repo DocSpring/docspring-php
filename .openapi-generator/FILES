@@ -33,7 +33,9 @@ docs/Model/ListSubmissionsResponse.md
 docs/Model/MoveFolderData.md
 docs/Model/MoveTemplateData.md
 docs/Model/MultipleErrorsResponse.md
+docs/Model/PublishVersionData.md
 docs/Model/RenameFolderData.md
+docs/Model/RestoreVersionData.md
 docs/Model/Submission.md
 docs/Model/SubmissionAction.md
 docs/Model/SubmissionBatch.md
@@ -48,7 +50,9 @@ docs/Model/SuccessErrorResponse.md
 docs/Model/SuccessMultipleErrorsResponse.md
 docs/Model/Template.md
 docs/Model/TemplateAddFieldsResponse.md
+docs/Model/TemplateDeleteResponse.md
 docs/Model/TemplatePreview.md
+docs/Model/TemplatePublishVersionResponse.md
 docs/Model/UpdateHtmlTemplate.md
 docs/Model/UpdateSubmissionDataRequestData.md
 docs/Model/UploadPresignResponse.md
@@ -87,7 +91,9 @@ lib/Model/ModelInterface.php
 lib/Model/MoveFolderData.php
 lib/Model/MoveTemplateData.php
 lib/Model/MultipleErrorsResponse.php
+lib/Model/PublishVersionData.php
 lib/Model/RenameFolderData.php
+lib/Model/RestoreVersionData.php
 lib/Model/Submission.php
 lib/Model/SubmissionAction.php
 lib/Model/SubmissionBatch.php
@@ -102,7 +108,9 @@ lib/Model/SuccessErrorResponse.php
 lib/Model/SuccessMultipleErrorsResponse.php
 lib/Model/Template.php
 lib/Model/TemplateAddFieldsResponse.php
+lib/Model/TemplateDeleteResponse.php
 lib/Model/TemplatePreview.php
+lib/Model/TemplatePublishVersionResponse.php
 lib/Model/UpdateHtmlTemplate.php
 lib/Model/UpdateSubmissionDataRequestData.php
 lib/Model/UploadPresignResponse.php
@@ -138,7 +146,9 @@ test/Model/ListSubmissionsResponseTest.php
 test/Model/MoveFolderDataTest.php
 test/Model/MoveTemplateDataTest.php
 test/Model/MultipleErrorsResponseTest.php
+test/Model/PublishVersionDataTest.php
 test/Model/RenameFolderDataTest.php
+test/Model/RestoreVersionDataTest.php
 test/Model/SubmissionActionTest.php
 test/Model/SubmissionBatchDataTest.php
 test/Model/SubmissionBatchTest.php
@@ -152,7 +162,9 @@ test/Model/SubmissionTest.php
 test/Model/SuccessErrorResponseTest.php
 test/Model/SuccessMultipleErrorsResponseTest.php
 test/Model/TemplateAddFieldsResponseTest.php
+test/Model/TemplateDeleteResponseTest.php
 test/Model/TemplatePreviewTest.php
+test/Model/TemplatePublishVersionResponseTest.php
 test/Model/TemplateTest.php
 test/Model/UpdateHtmlTemplateTest.php
 test/Model/UpdateSubmissionDataRequestDataTest.php

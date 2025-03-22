@@ -173,7 +173,13 @@ class PDFApi
         'moveTemplateToFolder' => [
             'application/json',
         ],
+        'publishTemplateVersion' => [
+            'application/json',
+        ],
         'renameFolder' => [
+            'application/json',
+        ],
+        'restoreTemplateVersion' => [
             'application/json',
         ],
         'testAuthentication' => [
@@ -5350,15 +5356,16 @@ class PDFApi
      * Delete a template
      *
      * @param  string $template_id template_id (required)
+     * @param  string|null $version version (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['deleteTemplate'] to see the possible values for this operation
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \DocSpring\Model\SuccessMultipleErrorsResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
+     * @return \DocSpring\Model\TemplateDeleteResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
      */
-    public function deleteTemplate($template_id, string $contentType = self::contentTypes['deleteTemplate'][0])
+    public function deleteTemplate($template_id, $version = null, string $contentType = self::contentTypes['deleteTemplate'][0])
     {
-        list($response) = $this->deleteTemplateWithHttpInfo($template_id, $contentType);
+        list($response) = $this->deleteTemplateWithHttpInfo($template_id, $version, $contentType);
         return $response;
     }
 
@@ -5368,15 +5375,16 @@ class PDFApi
      * Delete a template
      *
      * @param  string $template_id (required)
+     * @param  string|null $version (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['deleteTemplate'] to see the possible values for this operation
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \DocSpring\Model\SuccessMultipleErrorsResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \DocSpring\Model\TemplateDeleteResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function deleteTemplateWithHttpInfo($template_id, string $contentType = self::contentTypes['deleteTemplate'][0])
+    public function deleteTemplateWithHttpInfo($template_id, $version = null, string $contentType = self::contentTypes['deleteTemplate'][0])
     {
-        $request = $this->deleteTemplateRequest($template_id, $contentType);
+        $request = $this->deleteTemplateRequest($template_id, $version, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -5403,11 +5411,11 @@ class PDFApi
 
             switch($statusCode) {
                 case 200:
-                    if ('\DocSpring\Model\SuccessMultipleErrorsResponse' === '\SplFileObject') {
+                    if ('\DocSpring\Model\TemplateDeleteResponse' === '\SplFileObject') {
                         $content = $response->getBody(); //stream goes to serializer
                     } else {
                         $content = (string) $response->getBody();
-                        if ('\DocSpring\Model\SuccessMultipleErrorsResponse' !== 'string') {
+                        if ('\DocSpring\Model\TemplateDeleteResponse' !== 'string') {
                             try {
                                 $content = json_decode($content, false, 512, JSON_THROW_ON_ERROR);
                             } catch (\JsonException $exception) {
@@ -5425,7 +5433,7 @@ class PDFApi
                     }
 
                     return [
-                        ObjectSerializer::deserialize($content, '\DocSpring\Model\SuccessMultipleErrorsResponse', []),
+                        ObjectSerializer::deserialize($content, '\DocSpring\Model\TemplateDeleteResponse', []),
                         $response->getStatusCode(),
                         $response->getHeaders()
                     ];
@@ -5498,7 +5506,7 @@ class PDFApi
                 );
             }
 
-            $returnType = '\DocSpring\Model\SuccessMultipleErrorsResponse';
+            $returnType = '\DocSpring\Model\TemplateDeleteResponse';
             if ($returnType === '\SplFileObject') {
                 $content = $response->getBody(); //stream goes to serializer
             } else {
@@ -5531,7 +5539,7 @@ class PDFApi
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\DocSpring\Model\SuccessMultipleErrorsResponse',
+                        '\DocSpring\Model\TemplateDeleteResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -5563,14 +5571,15 @@ class PDFApi
      * Delete a template
      *
      * @param  string $template_id (required)
+     * @param  string|null $version (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['deleteTemplate'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function deleteTemplateAsync($template_id, string $contentType = self::contentTypes['deleteTemplate'][0])
+    public function deleteTemplateAsync($template_id, $version = null, string $contentType = self::contentTypes['deleteTemplate'][0])
     {
-        return $this->deleteTemplateAsyncWithHttpInfo($template_id, $contentType)
+        return $this->deleteTemplateAsyncWithHttpInfo($template_id, $version, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -5584,15 +5593,16 @@ class PDFApi
      * Delete a template
      *
      * @param  string $template_id (required)
+     * @param  string|null $version (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['deleteTemplate'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function deleteTemplateAsyncWithHttpInfo($template_id, string $contentType = self::contentTypes['deleteTemplate'][0])
+    public function deleteTemplateAsyncWithHttpInfo($template_id, $version = null, string $contentType = self::contentTypes['deleteTemplate'][0])
     {
-        $returnType = '\DocSpring\Model\SuccessMultipleErrorsResponse';
-        $request = $this->deleteTemplateRequest($template_id, $contentType);
+        $returnType = '\DocSpring\Model\TemplateDeleteResponse';
+        $request = $this->deleteTemplateRequest($template_id, $version, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -5634,12 +5644,13 @@ class PDFApi
      * Create request for operation 'deleteTemplate'
      *
      * @param  string $template_id (required)
+     * @param  string|null $version (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['deleteTemplate'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function deleteTemplateRequest($template_id, string $contentType = self::contentTypes['deleteTemplate'][0])
+    public function deleteTemplateRequest($template_id, $version = null, string $contentType = self::contentTypes['deleteTemplate'][0])
     {
 
         // verify the required parameter 'template_id' is set
@@ -5650,6 +5661,7 @@ class PDFApi
         }
 
 
+
         $resourcePath = '/templates/{template_id}';
         $formParams = [];
         $queryParams = [];
@@ -5657,6 +5669,15 @@ class PDFApi
         $httpBody = '';
         $multipart = false;
 
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $version,
+            'version', // param base name
+            'string', // openApiType
+            '', // style
+            false, // explode
+            false // required
+        ) ?? []);
 
 
         // path params
@@ -8471,7 +8492,7 @@ class PDFApi
     /**
      * Operation getFullTemplate
      *
-     * Fetch the full template attributes
+     * Fetch the full attributes for a PDF template
      *
      * @param  string $template_id template_id (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getFullTemplate'] to see the possible values for this operation
@@ -8489,7 +8510,7 @@ class PDFApi
     /**
      * Operation getFullTemplateWithHttpInfo
      *
-     * Fetch the full template attributes
+     * Fetch the full attributes for a PDF template
      *
      * @param  string $template_id (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getFullTemplate'] to see the possible values for this operation
@@ -8684,7 +8705,7 @@ class PDFApi
     /**
      * Operation getFullTemplateAsync
      *
-     * Fetch the full template attributes
+     * Fetch the full attributes for a PDF template
      *
      * @param  string $template_id (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getFullTemplate'] to see the possible values for this operation
@@ -8705,7 +8726,7 @@ class PDFApi
     /**
      * Operation getFullTemplateAsyncWithHttpInfo
      *
-     * Fetch the full template attributes
+     * Fetch the full attributes for a PDF template
      *
      * @param  string $template_id (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getFullTemplate'] to see the possible values for this operation
@@ -13531,6 +13552,442 @@ class PDFApi
     }
 
     /**
+     * Operation publishTemplateVersion
+     *
+     * Publish a template version
+     *
+     * @param  string $template_id template_id (required)
+     * @param  \DocSpring\Model\PublishVersionData $data data (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['publishTemplateVersion'] to see the possible values for this operation
+     *
+     * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \InvalidArgumentException
+     * @return \DocSpring\Model\TemplatePublishVersionResponse|\DocSpring\Model\SuccessMultipleErrorsResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
+     */
+    public function publishTemplateVersion($template_id, $data, string $contentType = self::contentTypes['publishTemplateVersion'][0])
+    {
+        list($response) = $this->publishTemplateVersionWithHttpInfo($template_id, $data, $contentType);
+        return $response;
+    }
+
+    /**
+     * Operation publishTemplateVersionWithHttpInfo
+     *
+     * Publish a template version
+     *
+     * @param  string $template_id (required)
+     * @param  \DocSpring\Model\PublishVersionData $data (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['publishTemplateVersion'] to see the possible values for this operation
+     *
+     * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \InvalidArgumentException
+     * @return array of \DocSpring\Model\TemplatePublishVersionResponse|\DocSpring\Model\SuccessMultipleErrorsResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function publishTemplateVersionWithHttpInfo($template_id, $data, string $contentType = self::contentTypes['publishTemplateVersion'][0])
+    {
+        $request = $this->publishTemplateVersionRequest($template_id, $data, $contentType);
+
+        try {
+            $options = $this->createHttpClientOption();
+            try {
+                $response = $this->client->send($request, $options);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null,
+                    $e->getResponse() ? (string) $e->getResponse()->getBody() : null
+                );
+            } catch (ConnectException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    null,
+                    null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+
+            switch($statusCode) {
+                case 200:
+                    if ('\DocSpring\Model\TemplatePublishVersionResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\DocSpring\Model\TemplatePublishVersionResponse' !== 'string') {
+                            try {
+                                $content = json_decode($content, false, 512, JSON_THROW_ON_ERROR);
+                            } catch (\JsonException $exception) {
+                                throw new ApiException(
+                                    sprintf(
+                                        'Error JSON decoding server response (%s)',
+                                        $request->getUri()
+                                    ),
+                                    $statusCode,
+                                    $response->getHeaders(),
+                                    $content
+                                );
+                            }
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\DocSpring\Model\TemplatePublishVersionResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 422:
+                    if ('\DocSpring\Model\SuccessMultipleErrorsResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\DocSpring\Model\SuccessMultipleErrorsResponse' !== 'string') {
+                            try {
+                                $content = json_decode($content, false, 512, JSON_THROW_ON_ERROR);
+                            } catch (\JsonException $exception) {
+                                throw new ApiException(
+                                    sprintf(
+                                        'Error JSON decoding server response (%s)',
+                                        $request->getUri()
+                                    ),
+                                    $statusCode,
+                                    $response->getHeaders(),
+                                    $content
+                                );
+                            }
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\DocSpring\Model\SuccessMultipleErrorsResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 404:
+                    if ('\DocSpring\Model\ErrorResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\DocSpring\Model\ErrorResponse' !== 'string') {
+                            try {
+                                $content = json_decode($content, false, 512, JSON_THROW_ON_ERROR);
+                            } catch (\JsonException $exception) {
+                                throw new ApiException(
+                                    sprintf(
+                                        'Error JSON decoding server response (%s)',
+                                        $request->getUri()
+                                    ),
+                                    $statusCode,
+                                    $response->getHeaders(),
+                                    $content
+                                );
+                            }
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\DocSpring\Model\ErrorResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 401:
+                    if ('\DocSpring\Model\ErrorResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\DocSpring\Model\ErrorResponse' !== 'string') {
+                            try {
+                                $content = json_decode($content, false, 512, JSON_THROW_ON_ERROR);
+                            } catch (\JsonException $exception) {
+                                throw new ApiException(
+                                    sprintf(
+                                        'Error JSON decoding server response (%s)',
+                                        $request->getUri()
+                                    ),
+                                    $statusCode,
+                                    $response->getHeaders(),
+                                    $content
+                                );
+                            }
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\DocSpring\Model\ErrorResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+            }
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        (string) $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    (string) $response->getBody()
+                );
+            }
+
+            $returnType = '\DocSpring\Model\TemplatePublishVersionResponse';
+            if ($returnType === '\SplFileObject') {
+                $content = $response->getBody(); //stream goes to serializer
+            } else {
+                $content = (string) $response->getBody();
+                if ($returnType !== 'string') {
+                    try {
+                        $content = json_decode($content, false, 512, JSON_THROW_ON_ERROR);
+                    } catch (\JsonException $exception) {
+                        throw new ApiException(
+                            sprintf(
+                                'Error JSON decoding server response (%s)',
+                                $request->getUri()
+                            ),
+                            $statusCode,
+                            $response->getHeaders(),
+                            $content
+                        );
+                    }
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\TemplatePublishVersionResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 422:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\SuccessMultipleErrorsResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 404:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation publishTemplateVersionAsync
+     *
+     * Publish a template version
+     *
+     * @param  string $template_id (required)
+     * @param  \DocSpring\Model\PublishVersionData $data (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['publishTemplateVersion'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function publishTemplateVersionAsync($template_id, $data, string $contentType = self::contentTypes['publishTemplateVersion'][0])
+    {
+        return $this->publishTemplateVersionAsyncWithHttpInfo($template_id, $data, $contentType)
+            ->then(
+                function ($response) {
+                    return $response[0];
+                }
+            );
+    }
+
+    /**
+     * Operation publishTemplateVersionAsyncWithHttpInfo
+     *
+     * Publish a template version
+     *
+     * @param  string $template_id (required)
+     * @param  \DocSpring\Model\PublishVersionData $data (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['publishTemplateVersion'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function publishTemplateVersionAsyncWithHttpInfo($template_id, $data, string $contentType = self::contentTypes['publishTemplateVersion'][0])
+    {
+        $returnType = '\DocSpring\Model\TemplatePublishVersionResponse';
+        $request = $this->publishTemplateVersionRequest($template_id, $data, $contentType);
+
+        return $this->client
+            ->sendAsync($request, $this->createHttpClientOption())
+            ->then(
+                function ($response) use ($returnType) {
+                    if ($returnType === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ($returnType !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                },
+                function ($exception) {
+                    $response = $exception->getResponse();
+                    $statusCode = $response->getStatusCode();
+                    throw new ApiException(
+                        sprintf(
+                            '[%d] Error connecting to the API (%s)',
+                            $statusCode,
+                            $exception->getRequest()->getUri()
+                        ),
+                        $statusCode,
+                        $response->getHeaders(),
+                        (string) $response->getBody()
+                    );
+                }
+            );
+    }
+
+    /**
+     * Create request for operation 'publishTemplateVersion'
+     *
+     * @param  string $template_id (required)
+     * @param  \DocSpring\Model\PublishVersionData $data (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['publishTemplateVersion'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    public function publishTemplateVersionRequest($template_id, $data, string $contentType = self::contentTypes['publishTemplateVersion'][0])
+    {
+
+        // verify the required parameter 'template_id' is set
+        if ($template_id === null || (is_array($template_id) && count($template_id) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $template_id when calling publishTemplateVersion'
+            );
+        }
+
+        // verify the required parameter 'data' is set
+        if ($data === null || (is_array($data) && count($data) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $data when calling publishTemplateVersion'
+            );
+        }
+
+
+        $resourcePath = '/templates/{template_id}/publish_version';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = '';
+        $multipart = false;
+
+
+
+        // path params
+        if ($template_id !== null) {
+            $resourcePath = str_replace(
+                '{' . 'template_id' . '}',
+                ObjectSerializer::toPathValue($template_id),
+                $resourcePath
+            );
+        }
+
+
+        $headers = $this->headerSelector->selectHeaders(
+            ['application/json', ],
+            $contentType,
+            $multipart
+        );
+
+        // for model (json/xml)
+        if (isset($data)) {
+            if (stripos($headers['Content-Type'], 'application/json') !== false) {
+                # if Content-Type contains "application/json", json_encode the body
+                $httpBody = \GuzzleHttp\Utils::jsonEncode(ObjectSerializer::sanitizeForSerialization($data));
+            } else {
+                $httpBody = $data;
+            }
+        } elseif (count($formParams) > 0) {
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
+                    foreach ($formParamValueItems as $formParamValueItem) {
+                        $multipartContents[] = [
+                            'name' => $formParamName,
+                            'contents' => $formParamValueItem
+                        ];
+                    }
+                }
+                // for HTTP post (form)
+                $httpBody = new MultipartStream($multipartContents);
+
+            } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
+                # if Content-Type contains "application/json", json_encode the form parameters
+                $httpBody = \GuzzleHttp\Utils::jsonEncode($formParams);
+            } else {
+                // for HTTP post (form)
+                $httpBody = ObjectSerializer::buildQuery($formParams);
+            }
+        }
+
+        // this endpoint requires HTTP basic authentication
+        if (!empty($this->config->getUsername()) || !(empty($this->config->getPassword()))) {
+            $headers['Authorization'] = 'Basic ' . base64_encode($this->config->getUsername() . ":" . $this->config->getPassword());
+        }
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        $operationHost = $this->config->getHost();
+        $query = ObjectSerializer::buildQuery($queryParams);
+        return new Request(
+            'POST',
+            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
+            $headers,
+            $httpBody
+        );
+    }
+
+    /**
      * Operation renameFolder
      *
      * Rename a folder
@@ -13897,6 +14354,442 @@ class PDFApi
             $resourcePath = str_replace(
                 '{' . 'folder_id' . '}',
                 ObjectSerializer::toPathValue($folder_id),
+                $resourcePath
+            );
+        }
+
+
+        $headers = $this->headerSelector->selectHeaders(
+            ['application/json', ],
+            $contentType,
+            $multipart
+        );
+
+        // for model (json/xml)
+        if (isset($data)) {
+            if (stripos($headers['Content-Type'], 'application/json') !== false) {
+                # if Content-Type contains "application/json", json_encode the body
+                $httpBody = \GuzzleHttp\Utils::jsonEncode(ObjectSerializer::sanitizeForSerialization($data));
+            } else {
+                $httpBody = $data;
+            }
+        } elseif (count($formParams) > 0) {
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
+                    foreach ($formParamValueItems as $formParamValueItem) {
+                        $multipartContents[] = [
+                            'name' => $formParamName,
+                            'contents' => $formParamValueItem
+                        ];
+                    }
+                }
+                // for HTTP post (form)
+                $httpBody = new MultipartStream($multipartContents);
+
+            } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
+                # if Content-Type contains "application/json", json_encode the form parameters
+                $httpBody = \GuzzleHttp\Utils::jsonEncode($formParams);
+            } else {
+                // for HTTP post (form)
+                $httpBody = ObjectSerializer::buildQuery($formParams);
+            }
+        }
+
+        // this endpoint requires HTTP basic authentication
+        if (!empty($this->config->getUsername()) || !(empty($this->config->getPassword()))) {
+            $headers['Authorization'] = 'Basic ' . base64_encode($this->config->getUsername() . ":" . $this->config->getPassword());
+        }
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        $operationHost = $this->config->getHost();
+        $query = ObjectSerializer::buildQuery($queryParams);
+        return new Request(
+            'POST',
+            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
+            $headers,
+            $httpBody
+        );
+    }
+
+    /**
+     * Operation restoreTemplateVersion
+     *
+     * Restore a template version
+     *
+     * @param  string $template_id template_id (required)
+     * @param  \DocSpring\Model\RestoreVersionData $data data (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['restoreTemplateVersion'] to see the possible values for this operation
+     *
+     * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \InvalidArgumentException
+     * @return \DocSpring\Model\SuccessErrorResponse|\DocSpring\Model\SuccessMultipleErrorsResponse|\DocSpring\Model\SuccessMultipleErrorsResponse|\DocSpring\Model\ErrorResponse
+     */
+    public function restoreTemplateVersion($template_id, $data, string $contentType = self::contentTypes['restoreTemplateVersion'][0])
+    {
+        list($response) = $this->restoreTemplateVersionWithHttpInfo($template_id, $data, $contentType);
+        return $response;
+    }
+
+    /**
+     * Operation restoreTemplateVersionWithHttpInfo
+     *
+     * Restore a template version
+     *
+     * @param  string $template_id (required)
+     * @param  \DocSpring\Model\RestoreVersionData $data (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['restoreTemplateVersion'] to see the possible values for this operation
+     *
+     * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \InvalidArgumentException
+     * @return array of \DocSpring\Model\SuccessErrorResponse|\DocSpring\Model\SuccessMultipleErrorsResponse|\DocSpring\Model\SuccessMultipleErrorsResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function restoreTemplateVersionWithHttpInfo($template_id, $data, string $contentType = self::contentTypes['restoreTemplateVersion'][0])
+    {
+        $request = $this->restoreTemplateVersionRequest($template_id, $data, $contentType);
+
+        try {
+            $options = $this->createHttpClientOption();
+            try {
+                $response = $this->client->send($request, $options);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null,
+                    $e->getResponse() ? (string) $e->getResponse()->getBody() : null
+                );
+            } catch (ConnectException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    null,
+                    null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+
+            switch($statusCode) {
+                case 200:
+                    if ('\DocSpring\Model\SuccessErrorResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\DocSpring\Model\SuccessErrorResponse' !== 'string') {
+                            try {
+                                $content = json_decode($content, false, 512, JSON_THROW_ON_ERROR);
+                            } catch (\JsonException $exception) {
+                                throw new ApiException(
+                                    sprintf(
+                                        'Error JSON decoding server response (%s)',
+                                        $request->getUri()
+                                    ),
+                                    $statusCode,
+                                    $response->getHeaders(),
+                                    $content
+                                );
+                            }
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\DocSpring\Model\SuccessErrorResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 422:
+                    if ('\DocSpring\Model\SuccessMultipleErrorsResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\DocSpring\Model\SuccessMultipleErrorsResponse' !== 'string') {
+                            try {
+                                $content = json_decode($content, false, 512, JSON_THROW_ON_ERROR);
+                            } catch (\JsonException $exception) {
+                                throw new ApiException(
+                                    sprintf(
+                                        'Error JSON decoding server response (%s)',
+                                        $request->getUri()
+                                    ),
+                                    $statusCode,
+                                    $response->getHeaders(),
+                                    $content
+                                );
+                            }
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\DocSpring\Model\SuccessMultipleErrorsResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 404:
+                    if ('\DocSpring\Model\SuccessMultipleErrorsResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\DocSpring\Model\SuccessMultipleErrorsResponse' !== 'string') {
+                            try {
+                                $content = json_decode($content, false, 512, JSON_THROW_ON_ERROR);
+                            } catch (\JsonException $exception) {
+                                throw new ApiException(
+                                    sprintf(
+                                        'Error JSON decoding server response (%s)',
+                                        $request->getUri()
+                                    ),
+                                    $statusCode,
+                                    $response->getHeaders(),
+                                    $content
+                                );
+                            }
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\DocSpring\Model\SuccessMultipleErrorsResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 401:
+                    if ('\DocSpring\Model\ErrorResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\DocSpring\Model\ErrorResponse' !== 'string') {
+                            try {
+                                $content = json_decode($content, false, 512, JSON_THROW_ON_ERROR);
+                            } catch (\JsonException $exception) {
+                                throw new ApiException(
+                                    sprintf(
+                                        'Error JSON decoding server response (%s)',
+                                        $request->getUri()
+                                    ),
+                                    $statusCode,
+                                    $response->getHeaders(),
+                                    $content
+                                );
+                            }
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\DocSpring\Model\ErrorResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+            }
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        (string) $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    (string) $response->getBody()
+                );
+            }
+
+            $returnType = '\DocSpring\Model\SuccessErrorResponse';
+            if ($returnType === '\SplFileObject') {
+                $content = $response->getBody(); //stream goes to serializer
+            } else {
+                $content = (string) $response->getBody();
+                if ($returnType !== 'string') {
+                    try {
+                        $content = json_decode($content, false, 512, JSON_THROW_ON_ERROR);
+                    } catch (\JsonException $exception) {
+                        throw new ApiException(
+                            sprintf(
+                                'Error JSON decoding server response (%s)',
+                                $request->getUri()
+                            ),
+                            $statusCode,
+                            $response->getHeaders(),
+                            $content
+                        );
+                    }
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\SuccessErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 422:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\SuccessMultipleErrorsResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 404:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\SuccessMultipleErrorsResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation restoreTemplateVersionAsync
+     *
+     * Restore a template version
+     *
+     * @param  string $template_id (required)
+     * @param  \DocSpring\Model\RestoreVersionData $data (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['restoreTemplateVersion'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function restoreTemplateVersionAsync($template_id, $data, string $contentType = self::contentTypes['restoreTemplateVersion'][0])
+    {
+        return $this->restoreTemplateVersionAsyncWithHttpInfo($template_id, $data, $contentType)
+            ->then(
+                function ($response) {
+                    return $response[0];
+                }
+            );
+    }
+
+    /**
+     * Operation restoreTemplateVersionAsyncWithHttpInfo
+     *
+     * Restore a template version
+     *
+     * @param  string $template_id (required)
+     * @param  \DocSpring\Model\RestoreVersionData $data (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['restoreTemplateVersion'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function restoreTemplateVersionAsyncWithHttpInfo($template_id, $data, string $contentType = self::contentTypes['restoreTemplateVersion'][0])
+    {
+        $returnType = '\DocSpring\Model\SuccessErrorResponse';
+        $request = $this->restoreTemplateVersionRequest($template_id, $data, $contentType);
+
+        return $this->client
+            ->sendAsync($request, $this->createHttpClientOption())
+            ->then(
+                function ($response) use ($returnType) {
+                    if ($returnType === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ($returnType !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                },
+                function ($exception) {
+                    $response = $exception->getResponse();
+                    $statusCode = $response->getStatusCode();
+                    throw new ApiException(
+                        sprintf(
+                            '[%d] Error connecting to the API (%s)',
+                            $statusCode,
+                            $exception->getRequest()->getUri()
+                        ),
+                        $statusCode,
+                        $response->getHeaders(),
+                        (string) $response->getBody()
+                    );
+                }
+            );
+    }
+
+    /**
+     * Create request for operation 'restoreTemplateVersion'
+     *
+     * @param  string $template_id (required)
+     * @param  \DocSpring\Model\RestoreVersionData $data (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['restoreTemplateVersion'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    public function restoreTemplateVersionRequest($template_id, $data, string $contentType = self::contentTypes['restoreTemplateVersion'][0])
+    {
+
+        // verify the required parameter 'template_id' is set
+        if ($template_id === null || (is_array($template_id) && count($template_id) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $template_id when calling restoreTemplateVersion'
+            );
+        }
+
+        // verify the required parameter 'data' is set
+        if ($data === null || (is_array($data) && count($data) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $data when calling restoreTemplateVersion'
+            );
+        }
+
+
+        $resourcePath = '/templates/{template_id}/restore_version';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = '';
+        $multipart = false;
+
+
+
+        // path params
+        if ($template_id !== null) {
+            $resourcePath = str_replace(
+                '{' . 'template_id' . '}',
+                ObjectSerializer::toPathValue($template_id),
                 $resourcePath
             );
         }

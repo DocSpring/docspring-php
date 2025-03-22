@@ -188,6 +188,24 @@ class SubmissionTest extends TestCase
     }
 
     /**
+     * Test attribute "template_type"
+     */
+    public function testPropertyTemplateType()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * Test attribute "template_version"
+     */
+    public function testPropertyTemplateVersion()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
      * Test attribute "test"
      */
     public function testPropertyTest()

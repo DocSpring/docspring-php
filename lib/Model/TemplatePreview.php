@@ -91,8 +91,14 @@ class TemplatePreview implements ModelInterface, ArrayAccess, \JsonSerializable
         'slack_webhook_url' => 'string',
         'template_type' => 'string',
         'updated_at' => 'string',
+        'version_published_at' => 'string',
+        'version' => 'string',
         'webhook_url' => 'string',
-        'demo' => 'bool'
+        'demo' => 'bool',
+        'latest_version' => 'string',
+        'last_changed_at' => 'string',
+        'last_changed_by_type' => 'string',
+        'last_changed_by_id' => 'string'
     ];
 
     /**
@@ -137,8 +143,14 @@ class TemplatePreview implements ModelInterface, ArrayAccess, \JsonSerializable
         'slack_webhook_url' => null,
         'template_type' => null,
         'updated_at' => null,
+        'version_published_at' => null,
+        'version' => null,
         'webhook_url' => null,
-        'demo' => null
+        'demo' => null,
+        'latest_version' => null,
+        'last_changed_at' => null,
+        'last_changed_by_type' => null,
+        'last_changed_by_id' => null
     ];
 
     /**
@@ -181,8 +193,14 @@ class TemplatePreview implements ModelInterface, ArrayAccess, \JsonSerializable
         'slack_webhook_url' => true,
         'template_type' => false,
         'updated_at' => true,
+        'version_published_at' => true,
+        'version' => true,
         'webhook_url' => true,
-        'demo' => false
+        'demo' => false,
+        'latest_version' => true,
+        'last_changed_at' => true,
+        'last_changed_by_type' => true,
+        'last_changed_by_id' => true
     ];
 
     /**
@@ -305,8 +323,14 @@ class TemplatePreview implements ModelInterface, ArrayAccess, \JsonSerializable
         'slack_webhook_url' => 'slack_webhook_url',
         'template_type' => 'template_type',
         'updated_at' => 'updated_at',
+        'version_published_at' => 'version_published_at',
+        'version' => 'version',
         'webhook_url' => 'webhook_url',
-        'demo' => 'demo'
+        'demo' => 'demo',
+        'latest_version' => 'latest_version',
+        'last_changed_at' => 'last_changed_at',
+        'last_changed_by_type' => 'last_changed_by_type',
+        'last_changed_by_id' => 'last_changed_by_id'
     ];
 
     /**
@@ -349,8 +373,14 @@ class TemplatePreview implements ModelInterface, ArrayAccess, \JsonSerializable
         'slack_webhook_url' => 'setSlackWebhookUrl',
         'template_type' => 'setTemplateType',
         'updated_at' => 'setUpdatedAt',
+        'version_published_at' => 'setVersionPublishedAt',
+        'version' => 'setVersion',
         'webhook_url' => 'setWebhookUrl',
-        'demo' => 'setDemo'
+        'demo' => 'setDemo',
+        'latest_version' => 'setLatestVersion',
+        'last_changed_at' => 'setLastChangedAt',
+        'last_changed_by_type' => 'setLastChangedByType',
+        'last_changed_by_id' => 'setLastChangedById'
     ];
 
     /**
@@ -393,8 +423,14 @@ class TemplatePreview implements ModelInterface, ArrayAccess, \JsonSerializable
         'slack_webhook_url' => 'getSlackWebhookUrl',
         'template_type' => 'getTemplateType',
         'updated_at' => 'getUpdatedAt',
+        'version_published_at' => 'getVersionPublishedAt',
+        'version' => 'getVersion',
         'webhook_url' => 'getWebhookUrl',
-        'demo' => 'getDemo'
+        'demo' => 'getDemo',
+        'latest_version' => 'getLatestVersion',
+        'last_changed_at' => 'getLastChangedAt',
+        'last_changed_by_type' => 'getLastChangedByType',
+        'last_changed_by_id' => 'getLastChangedById'
     ];
 
     /**
@@ -445,6 +481,8 @@ class TemplatePreview implements ModelInterface, ArrayAccess, \JsonSerializable
     public const DOCUMENT_STATE_UNKNOWN_ERROR = 'unknown_error';
     public const TEMPLATE_TYPE_PDF = 'pdf';
     public const TEMPLATE_TYPE_HTML = 'html';
+    public const LAST_CHANGED_BY_TYPE_USER = 'user';
+    public const LAST_CHANGED_BY_TYPE_API = 'api';
 
     /**
      * Gets allowable values of the enum
@@ -472,6 +510,19 @@ class TemplatePreview implements ModelInterface, ArrayAccess, \JsonSerializable
         return [
             self::TEMPLATE_TYPE_PDF,
             self::TEMPLATE_TYPE_HTML,
+        ];
+    }
+
+    /**
+     * Gets allowable values of the enum
+     *
+     * @return string[]
+     */
+    public function getLastChangedByTypeAllowableValues()
+    {
+        return [
+            self::LAST_CHANGED_BY_TYPE_USER,
+            self::LAST_CHANGED_BY_TYPE_API,
         ];
     }
 
@@ -524,8 +575,14 @@ class TemplatePreview implements ModelInterface, ArrayAccess, \JsonSerializable
         $this->setIfExists('slack_webhook_url', $data ?? [], null);
         $this->setIfExists('template_type', $data ?? [], null);
         $this->setIfExists('updated_at', $data ?? [], null);
+        $this->setIfExists('version_published_at', $data ?? [], null);
+        $this->setIfExists('version', $data ?? [], null);
         $this->setIfExists('webhook_url', $data ?? [], null);
         $this->setIfExists('demo', $data ?? [], null);
+        $this->setIfExists('latest_version', $data ?? [], null);
+        $this->setIfExists('last_changed_at', $data ?? [], null);
+        $this->setIfExists('last_changed_by_type', $data ?? [], null);
+        $this->setIfExists('last_changed_by_id', $data ?? [], null);
     }
 
     /**
@@ -675,11 +732,38 @@ class TemplatePreview implements ModelInterface, ArrayAccess, \JsonSerializable
         if ($this->container['updated_at'] === null) {
             $invalidProperties[] = "'updated_at' can't be null";
         }
+        if ($this->container['version_published_at'] === null) {
+            $invalidProperties[] = "'version_published_at' can't be null";
+        }
+        if ($this->container['version'] === null) {
+            $invalidProperties[] = "'version' can't be null";
+        }
         if ($this->container['webhook_url'] === null) {
             $invalidProperties[] = "'webhook_url' can't be null";
         }
         if ($this->container['demo'] === null) {
             $invalidProperties[] = "'demo' can't be null";
+        }
+        if ($this->container['latest_version'] === null) {
+            $invalidProperties[] = "'latest_version' can't be null";
+        }
+        if ($this->container['last_changed_at'] === null) {
+            $invalidProperties[] = "'last_changed_at' can't be null";
+        }
+        if ($this->container['last_changed_by_type'] === null) {
+            $invalidProperties[] = "'last_changed_by_type' can't be null";
+        }
+        $allowedValues = $this->getLastChangedByTypeAllowableValues();
+        if (!is_null($this->container['last_changed_by_type']) && !in_array($this->container['last_changed_by_type'], $allowedValues, true)) {
+            $invalidProperties[] = sprintf(
+                "invalid value '%s' for 'last_changed_by_type', must be one of '%s'",
+                $this->container['last_changed_by_type'],
+                implode("', '", $allowedValues)
+            );
+        }
+
+        if ($this->container['last_changed_by_id'] === null) {
+            $invalidProperties[] = "'last_changed_by_id' can't be null";
         }
         return $invalidProperties;
     }
@@ -1754,6 +1838,74 @@ class TemplatePreview implements ModelInterface, ArrayAccess, \JsonSerializable
     }
 
     /**
+     * Gets version_published_at
+     *
+     * @return string
+     */
+    public function getVersionPublishedAt()
+    {
+        return $this->container['version_published_at'];
+    }
+
+    /**
+     * Sets version_published_at
+     *
+     * @param string $version_published_at version_published_at
+     *
+     * @return self
+     */
+    public function setVersionPublishedAt($version_published_at)
+    {
+        if (is_null($version_published_at)) {
+            array_push($this->openAPINullablesSetToNull, 'version_published_at');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('version_published_at', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['version_published_at'] = $version_published_at;
+
+        return $this;
+    }
+
+    /**
+     * Gets version
+     *
+     * @return string
+     */
+    public function getVersion()
+    {
+        return $this->container['version'];
+    }
+
+    /**
+     * Sets version
+     *
+     * @param string $version version
+     *
+     * @return self
+     */
+    public function setVersion($version)
+    {
+        if (is_null($version)) {
+            array_push($this->openAPINullablesSetToNull, 'version');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('version', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['version'] = $version;
+
+        return $this;
+    }
+
+    /**
      * Gets webhook_url
      *
      * @return string
@@ -1810,6 +1962,152 @@ class TemplatePreview implements ModelInterface, ArrayAccess, \JsonSerializable
             throw new \InvalidArgumentException('non-nullable demo cannot be null');
         }
         $this->container['demo'] = $demo;
+
+        return $this;
+    }
+
+    /**
+     * Gets latest_version
+     *
+     * @return string
+     */
+    public function getLatestVersion()
+    {
+        return $this->container['latest_version'];
+    }
+
+    /**
+     * Sets latest_version
+     *
+     * @param string $latest_version latest_version
+     *
+     * @return self
+     */
+    public function setLatestVersion($latest_version)
+    {
+        if (is_null($latest_version)) {
+            array_push($this->openAPINullablesSetToNull, 'latest_version');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('latest_version', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['latest_version'] = $latest_version;
+
+        return $this;
+    }
+
+    /**
+     * Gets last_changed_at
+     *
+     * @return string
+     */
+    public function getLastChangedAt()
+    {
+        return $this->container['last_changed_at'];
+    }
+
+    /**
+     * Sets last_changed_at
+     *
+     * @param string $last_changed_at last_changed_at
+     *
+     * @return self
+     */
+    public function setLastChangedAt($last_changed_at)
+    {
+        if (is_null($last_changed_at)) {
+            array_push($this->openAPINullablesSetToNull, 'last_changed_at');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('last_changed_at', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['last_changed_at'] = $last_changed_at;
+
+        return $this;
+    }
+
+    /**
+     * Gets last_changed_by_type
+     *
+     * @return string
+     */
+    public function getLastChangedByType()
+    {
+        return $this->container['last_changed_by_type'];
+    }
+
+    /**
+     * Sets last_changed_by_type
+     *
+     * @param string $last_changed_by_type last_changed_by_type
+     *
+     * @return self
+     */
+    public function setLastChangedByType($last_changed_by_type)
+    {
+        if (is_null($last_changed_by_type)) {
+            array_push($this->openAPINullablesSetToNull, 'last_changed_by_type');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('last_changed_by_type', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $allowedValues = $this->getLastChangedByTypeAllowableValues();
+        if (!is_null($last_changed_by_type) && !in_array($last_changed_by_type, $allowedValues, true)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value '%s' for 'last_changed_by_type', must be one of '%s'",
+                    $last_changed_by_type,
+                    implode("', '", $allowedValues)
+                )
+            );
+        }
+        $this->container['last_changed_by_type'] = $last_changed_by_type;
+
+        return $this;
+    }
+
+    /**
+     * Gets last_changed_by_id
+     *
+     * @return string
+     */
+    public function getLastChangedById()
+    {
+        return $this->container['last_changed_by_id'];
+    }
+
+    /**
+     * Sets last_changed_by_id
+     *
+     * @param string $last_changed_by_id last_changed_by_id
+     *
+     * @return self
+     */
+    public function setLastChangedById($last_changed_by_id)
+    {
+        if (is_null($last_changed_by_id)) {
+            array_push($this->openAPINullablesSetToNull, 'last_changed_by_id');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('last_changed_by_id', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['last_changed_by_id'] = $last_changed_by_id;
 
         return $this;
     }

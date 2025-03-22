@@ -1,6 +1,6 @@
 <?php
 /**
- * CreatePdfSubmissionDataTest
+ * TemplatePublishVersionResponseTest
  *
  * PHP version 7.4
  *
@@ -31,15 +31,15 @@ namespace DocSpring\Test\Model;
 use PHPUnit\Framework\TestCase;
 
 /**
- * CreatePdfSubmissionDataTest Class Doc Comment
+ * TemplatePublishVersionResponseTest Class Doc Comment
  *
  * @category    Class
- * @description CreatePdfSubmissionData
+ * @description TemplatePublishVersionResponse
  * @package     DocSpring
  * @author      OpenAPI Generator team
  * @link        https://openapi-generator.tech
  */
-class CreatePdfSubmissionDataTest extends TestCase
+class TemplatePublishVersionResponseTest extends TestCase
 {
 
     /**
@@ -71,90 +71,36 @@ class CreatePdfSubmissionDataTest extends TestCase
     }
 
     /**
-     * Test "CreatePdfSubmissionData"
+     * Test "TemplatePublishVersionResponse"
      */
-    public function testCreatePdfSubmissionData()
+    public function testTemplatePublishVersionResponse()
     {
         // TODO: implement
         self::markTestIncomplete('Not implemented');
     }
 
     /**
-     * Test attribute "data"
+     * Test attribute "status"
      */
-    public function testPropertyData()
+    public function testPropertyStatus()
     {
         // TODO: implement
         self::markTestIncomplete('Not implemented');
     }
 
     /**
-     * Test attribute "data_requests"
+     * Test attribute "result"
      */
-    public function testPropertyDataRequests()
+    public function testPropertyResult()
     {
         // TODO: implement
         self::markTestIncomplete('Not implemented');
     }
 
     /**
-     * Test attribute "editable"
+     * Test attribute "errors"
      */
-    public function testPropertyEditable()
-    {
-        // TODO: implement
-        self::markTestIncomplete('Not implemented');
-    }
-
-    /**
-     * Test attribute "expires_in"
-     */
-    public function testPropertyExpiresIn()
-    {
-        // TODO: implement
-        self::markTestIncomplete('Not implemented');
-    }
-
-    /**
-     * Test attribute "field_overrides"
-     */
-    public function testPropertyFieldOverrides()
-    {
-        // TODO: implement
-        self::markTestIncomplete('Not implemented');
-    }
-
-    /**
-     * Test attribute "metadata"
-     */
-    public function testPropertyMetadata()
-    {
-        // TODO: implement
-        self::markTestIncomplete('Not implemented');
-    }
-
-    /**
-     * Test attribute "password"
-     */
-    public function testPropertyPassword()
-    {
-        // TODO: implement
-        self::markTestIncomplete('Not implemented');
-    }
-
-    /**
-     * Test attribute "test"
-     */
-    public function testPropertyTest()
-    {
-        // TODO: implement
-        self::markTestIncomplete('Not implemented');
-    }
-
-    /**
-     * Test attribute "version"
-     */
-    public function testPropertyVersion()
+    public function testPropertyErrors()
     {
         // TODO: implement
         self::markTestIncomplete('Not implemented');

@@ -65,7 +65,8 @@ class CreateHtmlSubmissionData implements ModelInterface, ArrayAccess, \JsonSeri
         'html' => 'string',
         'metadata' => 'object',
         'password' => 'string',
-        'test' => 'bool'
+        'test' => 'bool',
+        'version' => 'string'
     ];
 
     /**
@@ -84,7 +85,8 @@ class CreateHtmlSubmissionData implements ModelInterface, ArrayAccess, \JsonSeri
         'html' => null,
         'metadata' => null,
         'password' => null,
-        'test' => null
+        'test' => null,
+        'version' => null
     ];
 
     /**
@@ -101,7 +103,8 @@ class CreateHtmlSubmissionData implements ModelInterface, ArrayAccess, \JsonSeri
         'html' => false,
         'metadata' => false,
         'password' => false,
-        'test' => false
+        'test' => false,
+        'version' => false
     ];
 
     /**
@@ -198,7 +201,8 @@ class CreateHtmlSubmissionData implements ModelInterface, ArrayAccess, \JsonSeri
         'html' => 'html',
         'metadata' => 'metadata',
         'password' => 'password',
-        'test' => 'test'
+        'test' => 'test',
+        'version' => 'version'
     ];
 
     /**
@@ -215,7 +219,8 @@ class CreateHtmlSubmissionData implements ModelInterface, ArrayAccess, \JsonSeri
         'html' => 'setHtml',
         'metadata' => 'setMetadata',
         'password' => 'setPassword',
-        'test' => 'setTest'
+        'test' => 'setTest',
+        'version' => 'setVersion'
     ];
 
     /**
@@ -232,7 +237,8 @@ class CreateHtmlSubmissionData implements ModelInterface, ArrayAccess, \JsonSeri
         'html' => 'getHtml',
         'metadata' => 'getMetadata',
         'password' => 'getPassword',
-        'test' => 'getTest'
+        'test' => 'getTest',
+        'version' => 'getVersion'
     ];
 
     /**
@@ -301,6 +307,7 @@ class CreateHtmlSubmissionData implements ModelInterface, ArrayAccess, \JsonSeri
         $this->setIfExists('metadata', $data ?? [], null);
         $this->setIfExists('password', $data ?? [], null);
         $this->setIfExists('test', $data ?? [], null);
+        $this->setIfExists('version', $data ?? [], null);
     }
 
     /**
@@ -584,6 +591,33 @@ class CreateHtmlSubmissionData implements ModelInterface, ArrayAccess, \JsonSeri
             throw new \InvalidArgumentException('non-nullable test cannot be null');
         }
         $this->container['test'] = $test;
+
+        return $this;
+    }
+
+    /**
+     * Gets version
+     *
+     * @return string|null
+     */
+    public function getVersion()
+    {
+        return $this->container['version'];
+    }
+
+    /**
+     * Sets version
+     *
+     * @param string|null $version version
+     *
+     * @return self
+     */
+    public function setVersion($version)
+    {
+        if (is_null($version)) {
+            throw new \InvalidArgumentException('non-nullable version cannot be null');
+        }
+        $this->container['version'] = $version;
 
         return $this;
     }

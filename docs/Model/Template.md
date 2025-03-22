@@ -38,8 +38,14 @@ Name | Type | Description | Notes
 **slack_webhook_url** | **string** |  |
 **template_type** | **string** |  |
 **updated_at** | **string** |  |
+**version_published_at** | **string** |  |
+**version** | **string** |  |
 **webhook_url** | **string** |  |
 **demo** | **bool** |  |
+**latest_version** | **string** |  |
+**last_changed_at** | **string** |  |
+**last_changed_by_type** | **string** |  |
+**last_changed_by_id** | **string** |  |
 **defaults** | **object** |  |
 **field_order** | **float[][]** |  |
 **fields** | **object** |  |
@@ -50,5 +56,6 @@ Name | Type | Description | Notes
 **predefined_fields** | **object[]** |  |
 **scss** | **string** |  |
 **shared_field_data** | **object** |  |
+**versions** | **object[]** |  |
 
 [[Back to Model list]](../../README.md#models) [[Back to API list]](../../README.md#endpoints) [[Back to README]](../../README.md)

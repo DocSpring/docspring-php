@@ -93,7 +93,7 @@ class SubmissionDataRequestEvent implements ModelInterface, ArrayAccess, \JsonSe
         'submission_id' => true,
         'submission_data_request_id' => true,
         'event_type' => false,
-        'message_type' => false,
+        'message_type' => true,
         'message_recipient' => true,
         'occurred_at' => true
     ];
@@ -581,10 +581,17 @@ class SubmissionDataRequestEvent implements ModelInterface, ArrayAccess, \JsonSe
     public function setMessageType($message_type)
     {
         if (is_null($message_type)) {
-            throw new \InvalidArgumentException('non-nullable message_type cannot be null');
+            array_push($this->openAPINullablesSetToNull, 'message_type');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('message_type', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
         }
         $allowedValues = $this->getMessageTypeAllowableValues();
-        if (!in_array($message_type, $allowedValues, true)) {
+        if (!is_null($message_type) && !in_array($message_type, $allowedValues, true)) {
             throw new \InvalidArgumentException(
                 sprintf(
                     "Invalid value '%s' for 'message_type', must be one of '%s'",

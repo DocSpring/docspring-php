@@ -90,7 +90,7 @@ class CombinedSubmissionAction implements ModelInterface, ArrayAccess, \JsonSeri
         'id' => true,
         'integration_id' => true,
         'state' => false,
-        'action_type' => false,
+        'action_type' => true,
         'action_category' => false,
         'result_data' => false
     ];
@@ -547,10 +547,17 @@ class CombinedSubmissionAction implements ModelInterface, ArrayAccess, \JsonSeri
     public function setActionType($action_type)
     {
         if (is_null($action_type)) {
-            throw new \InvalidArgumentException('non-nullable action_type cannot be null');
+            array_push($this->openAPINullablesSetToNull, 'action_type');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('action_type', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
         }
         $allowedValues = $this->getActionTypeAllowableValues();
-        if (!in_array($action_type, $allowedValues, true)) {
+        if (!is_null($action_type) && !in_array($action_type, $allowedValues, true)) {
             throw new \InvalidArgumentException(
                 sprintf(
                     "Invalid value '%s' for 'action_type', must be one of '%s'",

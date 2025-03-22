@@ -1,6 +1,6 @@
 <?php
 /**
- * CreatePdfSubmissionData
+ * TemplatePublishVersionResponse
  *
  * PHP version 7.4
  *
@@ -32,7 +32,7 @@ use \ArrayAccess;
 use \DocSpring\ObjectSerializer;
 
 /**
- * CreatePdfSubmissionData Class Doc Comment
+ * TemplatePublishVersionResponse Class Doc Comment
  *
  * @category Class
  * @package  DocSpring
@@ -40,7 +40,7 @@ use \DocSpring\ObjectSerializer;
  * @link     https://openapi-generator.tech
  * @implements \ArrayAccess<string, mixed>
  */
-class CreatePdfSubmissionData implements ModelInterface, ArrayAccess, \JsonSerializable
+class TemplatePublishVersionResponse implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
@@ -49,7 +49,7 @@ class CreatePdfSubmissionData implements ModelInterface, ArrayAccess, \JsonSeria
       *
       * @var string
       */
-    protected static $openAPIModelName = 'create_pdf_submission_data';
+    protected static $openAPIModelName = 'template_publish_version_response';
 
     /**
       * Array of property to type mappings. Used for (de)serialization
@@ -57,15 +57,9 @@ class CreatePdfSubmissionData implements ModelInterface, ArrayAccess, \JsonSeria
       * @var string[]
       */
     protected static $openAPITypes = [
-        'data' => 'object',
-        'data_requests' => '\DocSpring\Model\CreateSubmissionDataRequestData[]',
-        'editable' => 'bool',
-        'expires_in' => 'int',
-        'field_overrides' => 'object',
-        'metadata' => 'object',
-        'password' => 'string',
-        'test' => 'bool',
-        'version' => 'string'
+        'status' => 'string',
+        'result' => 'object',
+        'errors' => 'string[]'
     ];
 
     /**
@@ -76,15 +70,9 @@ class CreatePdfSubmissionData implements ModelInterface, ArrayAccess, \JsonSeria
       * @psalm-var array<string, string|null>
       */
     protected static $openAPIFormats = [
-        'data' => null,
-        'data_requests' => null,
-        'editable' => null,
-        'expires_in' => null,
-        'field_overrides' => null,
-        'metadata' => null,
-        'password' => null,
-        'test' => null,
-        'version' => null
+        'status' => null,
+        'result' => null,
+        'errors' => null
     ];
 
     /**
@@ -93,15 +81,9 @@ class CreatePdfSubmissionData implements ModelInterface, ArrayAccess, \JsonSeria
       * @var boolean[]
       */
     protected static array $openAPINullables = [
-        'data' => false,
-        'data_requests' => false,
-        'editable' => false,
-        'expires_in' => false,
-        'field_overrides' => false,
-        'metadata' => false,
-        'password' => false,
-        'test' => false,
-        'version' => false
+        'status' => false,
+        'result' => false,
+        'errors' => false
     ];
 
     /**
@@ -190,15 +172,9 @@ class CreatePdfSubmissionData implements ModelInterface, ArrayAccess, \JsonSeria
      * @var string[]
      */
     protected static $attributeMap = [
-        'data' => 'data',
-        'data_requests' => 'data_requests',
-        'editable' => 'editable',
-        'expires_in' => 'expires_in',
-        'field_overrides' => 'field_overrides',
-        'metadata' => 'metadata',
-        'password' => 'password',
-        'test' => 'test',
-        'version' => 'version'
+        'status' => 'status',
+        'result' => 'result',
+        'errors' => 'errors'
     ];
 
     /**
@@ -207,15 +183,9 @@ class CreatePdfSubmissionData implements ModelInterface, ArrayAccess, \JsonSeria
      * @var string[]
      */
     protected static $setters = [
-        'data' => 'setData',
-        'data_requests' => 'setDataRequests',
-        'editable' => 'setEditable',
-        'expires_in' => 'setExpiresIn',
-        'field_overrides' => 'setFieldOverrides',
-        'metadata' => 'setMetadata',
-        'password' => 'setPassword',
-        'test' => 'setTest',
-        'version' => 'setVersion'
+        'status' => 'setStatus',
+        'result' => 'setResult',
+        'errors' => 'setErrors'
     ];
 
     /**
@@ -224,15 +194,9 @@ class CreatePdfSubmissionData implements ModelInterface, ArrayAccess, \JsonSeria
      * @var string[]
      */
     protected static $getters = [
-        'data' => 'getData',
-        'data_requests' => 'getDataRequests',
-        'editable' => 'getEditable',
-        'expires_in' => 'getExpiresIn',
-        'field_overrides' => 'getFieldOverrides',
-        'metadata' => 'getMetadata',
-        'password' => 'getPassword',
-        'test' => 'getTest',
-        'version' => 'getVersion'
+        'status' => 'getStatus',
+        'result' => 'getResult',
+        'errors' => 'getErrors'
     ];
 
     /**
@@ -276,6 +240,21 @@ class CreatePdfSubmissionData implements ModelInterface, ArrayAccess, \JsonSeria
         return self::$openAPIModelName;
     }
 
+    public const STATUS_SUCCESS = 'success';
+    public const STATUS_ERROR = 'error';
+
+    /**
+     * Gets allowable values of the enum
+     *
+     * @return string[]
+     */
+    public function getStatusAllowableValues()
+    {
+        return [
+            self::STATUS_SUCCESS,
+            self::STATUS_ERROR,
+        ];
+    }
 
     /**
      * Associative array for storing property values
@@ -292,15 +271,9 @@ class CreatePdfSubmissionData implements ModelInterface, ArrayAccess, \JsonSeria
      */
     public function __construct(?array $data = null)
     {
-        $this->setIfExists('data', $data ?? [], null);
-        $this->setIfExists('data_requests', $data ?? [], null);
-        $this->setIfExists('editable', $data ?? [], null);
-        $this->setIfExists('expires_in', $data ?? [], null);
-        $this->setIfExists('field_overrides', $data ?? [], null);
-        $this->setIfExists('metadata', $data ?? [], null);
-        $this->setIfExists('password', $data ?? [], null);
-        $this->setIfExists('test', $data ?? [], null);
-        $this->setIfExists('version', $data ?? [], null);
+        $this->setIfExists('status', $data ?? [], null);
+        $this->setIfExists('result', $data ?? [], null);
+        $this->setIfExists('errors', $data ?? [], null);
     }
 
     /**
@@ -330,8 +303,20 @@ class CreatePdfSubmissionData implements ModelInterface, ArrayAccess, \JsonSeria
     {
         $invalidProperties = [];
 
-        if ($this->container['data'] === null) {
-            $invalidProperties[] = "'data' can't be null";
+        if ($this->container['status'] === null) {
+            $invalidProperties[] = "'status' can't be null";
+        }
+        $allowedValues = $this->getStatusAllowableValues();
+        if (!is_null($this->container['status']) && !in_array($this->container['status'], $allowedValues, true)) {
+            $invalidProperties[] = sprintf(
+                "invalid value '%s' for 'status', must be one of '%s'",
+                $this->container['status'],
+                implode("', '", $allowedValues)
+            );
+        }
+
+        if ($this->container['result'] === null) {
+            $invalidProperties[] = "'result' can't be null";
         }
         return $invalidProperties;
     }
@@ -349,244 +334,92 @@ class CreatePdfSubmissionData implements ModelInterface, ArrayAccess, \JsonSeria
 
 
     /**
-     * Gets data
+     * Gets status
+     *
+     * @return string
+     */
+    public function getStatus()
+    {
+        return $this->container['status'];
+    }
+
+    /**
+     * Sets status
+     *
+     * @param string $status status
+     *
+     * @return self
+     */
+    public function setStatus($status)
+    {
+        if (is_null($status)) {
+            throw new \InvalidArgumentException('non-nullable status cannot be null');
+        }
+        $allowedValues = $this->getStatusAllowableValues();
+        if (!in_array($status, $allowedValues, true)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value '%s' for 'status', must be one of '%s'",
+                    $status,
+                    implode("', '", $allowedValues)
+                )
+            );
+        }
+        $this->container['status'] = $status;
+
+        return $this;
+    }
+
+    /**
+     * Gets result
      *
      * @return object
      */
-    public function getData()
+    public function getResult()
     {
-        return $this->container['data'];
+        return $this->container['result'];
     }
 
     /**
-     * Sets data
+     * Sets result
      *
-     * @param object $data data
+     * @param object $result result
      *
      * @return self
      */
-    public function setData($data)
+    public function setResult($result)
     {
-        if (is_null($data)) {
-            throw new \InvalidArgumentException('non-nullable data cannot be null');
+        if (is_null($result)) {
+            throw new \InvalidArgumentException('non-nullable result cannot be null');
         }
-        $this->container['data'] = $data;
+        $this->container['result'] = $result;
 
         return $this;
     }
 
     /**
-     * Gets data_requests
+     * Gets errors
      *
-     * @return \DocSpring\Model\CreateSubmissionDataRequestData[]|null
+     * @return string[]|null
      */
-    public function getDataRequests()
+    public function getErrors()
     {
-        return $this->container['data_requests'];
+        return $this->container['errors'];
     }
 
     /**
-     * Sets data_requests
+     * Sets errors
      *
-     * @param \DocSpring\Model\CreateSubmissionDataRequestData[]|null $data_requests data_requests
+     * @param string[]|null $errors errors
      *
      * @return self
      */
-    public function setDataRequests($data_requests)
+    public function setErrors($errors)
     {
-        if (is_null($data_requests)) {
-            throw new \InvalidArgumentException('non-nullable data_requests cannot be null');
+        if (is_null($errors)) {
+            throw new \InvalidArgumentException('non-nullable errors cannot be null');
         }
-        $this->container['data_requests'] = $data_requests;
-
-        return $this;
-    }
-
-    /**
-     * Gets editable
-     *
-     * @return bool|null
-     */
-    public function getEditable()
-    {
-        return $this->container['editable'];
-    }
-
-    /**
-     * Sets editable
-     *
-     * @param bool|null $editable editable
-     *
-     * @return self
-     */
-    public function setEditable($editable)
-    {
-        if (is_null($editable)) {
-            throw new \InvalidArgumentException('non-nullable editable cannot be null');
-        }
-        $this->container['editable'] = $editable;
-
-        return $this;
-    }
-
-    /**
-     * Gets expires_in
-     *
-     * @return int|null
-     */
-    public function getExpiresIn()
-    {
-        return $this->container['expires_in'];
-    }
-
-    /**
-     * Sets expires_in
-     *
-     * @param int|null $expires_in expires_in
-     *
-     * @return self
-     */
-    public function setExpiresIn($expires_in)
-    {
-        if (is_null($expires_in)) {
-            throw new \InvalidArgumentException('non-nullable expires_in cannot be null');
-        }
-        $this->container['expires_in'] = $expires_in;
-
-        return $this;
-    }
-
-    /**
-     * Gets field_overrides
-     *
-     * @return object|null
-     */
-    public function getFieldOverrides()
-    {
-        return $this->container['field_overrides'];
-    }
-
-    /**
-     * Sets field_overrides
-     *
-     * @param object|null $field_overrides field_overrides
-     *
-     * @return self
-     */
-    public function setFieldOverrides($field_overrides)
-    {
-        if (is_null($field_overrides)) {
-            throw new \InvalidArgumentException('non-nullable field_overrides cannot be null');
-        }
-        $this->container['field_overrides'] = $field_overrides;
-
-        return $this;
-    }
-
-    /**
-     * Gets metadata
-     *
-     * @return object|null
-     */
-    public function getMetadata()
-    {
-        return $this->container['metadata'];
-    }
-
-    /**
-     * Sets metadata
-     *
-     * @param object|null $metadata metadata
-     *
-     * @return self
-     */
-    public function setMetadata($metadata)
-    {
-        if (is_null($metadata)) {
-            throw new \InvalidArgumentException('non-nullable metadata cannot be null');
-        }
-        $this->container['metadata'] = $metadata;
-
-        return $this;
-    }
-
-    /**
-     * Gets password
-     *
-     * @return string|null
-     */
-    public function getPassword()
-    {
-        return $this->container['password'];
-    }
-
-    /**
-     * Sets password
-     *
-     * @param string|null $password password
-     *
-     * @return self
-     */
-    public function setPassword($password)
-    {
-        if (is_null($password)) {
-            throw new \InvalidArgumentException('non-nullable password cannot be null');
-        }
-        $this->container['password'] = $password;
-
-        return $this;
-    }
-
-    /**
-     * Gets test
-     *
-     * @return bool|null
-     */
-    public function getTest()
-    {
-        return $this->container['test'];
-    }
-
-    /**
-     * Sets test
-     *
-     * @param bool|null $test test
-     *
-     * @return self
-     */
-    public function setTest($test)
-    {
-        if (is_null($test)) {
-            throw new \InvalidArgumentException('non-nullable test cannot be null');
-        }
-        $this->container['test'] = $test;
-
-        return $this;
-    }
-
-    /**
-     * Gets version
-     *
-     * @return string|null
-     */
-    public function getVersion()
-    {
-        return $this->container['version'];
-    }
-
-    /**
-     * Sets version
-     *
-     * @param string|null $version version
-     *
-     * @return self
-     */
-    public function setVersion($version)
-    {
-        if (is_null($version)) {
-            throw new \InvalidArgumentException('non-nullable version cannot be null');
-        }
-        $this->container['version'] = $version;
+        $this->container['errors'] = $errors;
 
         return $this;
     }

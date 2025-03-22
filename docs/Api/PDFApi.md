@@ -25,7 +25,7 @@ All URIs are relative to https://sync.api.docspring.com/api/v1, except if the op
 | [**generatePreview()**](PDFApi.md#generatePreview) | **POST** /submissions/{submission_id}/generate_preview | Generated a preview PDF for partially completed data requests |
 | [**getCombinedSubmission()**](PDFApi.md#getCombinedSubmission) | **GET** /combined_submissions/{combined_submission_id} | Check the status of a combined submission (merged PDFs) |
 | [**getDataRequest()**](PDFApi.md#getDataRequest) | **GET** /data_requests/{data_request_id} | Look up a submission data request |
-| [**getFullTemplate()**](PDFApi.md#getFullTemplate) | **GET** /templates/{template_id}?full&#x3D;true | Fetch the full template attributes |
+| [**getFullTemplate()**](PDFApi.md#getFullTemplate) | **GET** /templates/{template_id}?full&#x3D;true | Fetch the full attributes for a PDF template |
 | [**getPresignUrl()**](PDFApi.md#getPresignUrl) | **GET** /uploads/presign | Get a presigned URL so that you can upload a file to our AWS S3 bucket |
 | [**getSubmission()**](PDFApi.md#getSubmission) | **GET** /submissions/{submission_id} | Check the status of a PDF |
 | [**getSubmissionBatch()**](PDFApi.md#getSubmissionBatch) | **GET** /submissions/batches/{submission_batch_id} | Check the status of a submission batch job |
@@ -38,7 +38,9 @@ All URIs are relative to https://sync.api.docspring.com/api/v1, except if the op
 | [**listTemplates()**](PDFApi.md#listTemplates) | **GET** /templates | Get a list of all templates |
 | [**moveFolderToFolder()**](PDFApi.md#moveFolderToFolder) | **POST** /folders/{folder_id}/move | Move a folder |
 | [**moveTemplateToFolder()**](PDFApi.md#moveTemplateToFolder) | **POST** /templates/{template_id}/move | Move Template to folder |
+| [**publishTemplateVersion()**](PDFApi.md#publishTemplateVersion) | **POST** /templates/{template_id}/publish_version | Publish a template version |
 | [**renameFolder()**](PDFApi.md#renameFolder) | **POST** /folders/{folder_id}/rename | Rename a folder |
+| [**restoreTemplateVersion()**](PDFApi.md#restoreTemplateVersion) | **POST** /templates/{template_id}/restore_version | Restore a template version |
 | [**testAuthentication()**](PDFApi.md#testAuthentication) | **GET** /authentication | Test Authentication |
 | [**updateDataRequest()**](PDFApi.md#updateDataRequest) | **PUT** /data_requests/{data_request_id} | Update a submission data request |
 | [**updateTemplate()**](PDFApi.md#updateTemplate) | **PUT** /templates/{template_id} | Update a Template |
@@ -847,7 +849,7 @@ try {
 ## `deleteTemplate()`
 
 ```php
-deleteTemplate($template_id): \DocSpring\Model\SuccessMultipleErrorsResponse
+deleteTemplate($template_id, $version): \DocSpring\Model\TemplateDeleteResponse
 ```
 
 Delete a template
@@ -872,9 +874,10 @@ $apiInstance = new DocSpring\Api\PDFApi(
     $config
 );
 $template_id = tpl_1234567890abcdef01; // string
+$version = 0.1.0; // string
 
 try {
-    $result = $apiInstance->deleteTemplate($template_id);
+    $result = $apiInstance->deleteTemplate($template_id, $version);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling PDFApi->deleteTemplate: ', $e->getMessage(), PHP_EOL;
@@ -886,10 +889,11 @@ try {
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
 | **template_id** | **string**|  | |
+| **version** | **string**|  | [optional] |
 
 ### Return type
 
-[**\DocSpring\Model\SuccessMultipleErrorsResponse**](../Model/SuccessMultipleErrorsResponse.md)
+[**\DocSpring\Model\TemplateDeleteResponse**](../Model/TemplateDeleteResponse.md)
 
 ### Authorization
 
@@ -1338,7 +1342,7 @@ try {
 getFullTemplate($template_id): \DocSpring\Model\Template
 ```
 
-Fetch the full template attributes
+Fetch the full attributes for a PDF template
 
 ### Example
 
@@ -2147,6 +2151,68 @@ try {
 [[Back to Model list]](../../README.md#models)
 [[Back to README]](../../README.md)
 
+## `publishTemplateVersion()`
+
+```php
+publishTemplateVersion($template_id, $data): \DocSpring\Model\TemplatePublishVersionResponse
+```
+
+Publish a template version
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+// Configure HTTP basic authorization: api_token_basic
+$config = DocSpring\Configuration::getDefaultConfiguration()
+              ->setUsername('YOUR_USERNAME')
+              ->setPassword('YOUR_PASSWORD');
+
+
+$apiInstance = new DocSpring\Api\PDFApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$template_id = tpl_1234567890abcdef01; // string
+$data = new \DocSpring\Model\PublishVersionData(); // \DocSpring\Model\PublishVersionData
+
+try {
+    $result = $apiInstance->publishTemplateVersion($template_id, $data);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling PDFApi->publishTemplateVersion: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **template_id** | **string**|  | |
+| **data** | [**\DocSpring\Model\PublishVersionData**](../Model/PublishVersionData.md)|  | |
+
+### Return type
+
+[**\DocSpring\Model\TemplatePublishVersionResponse**](../Model/TemplatePublishVersionResponse.md)
+
+### Authorization
+
+[api_token_basic](../../README.md#api_token_basic)
+
+### HTTP request headers
+
+- **Content-Type**: `application/json`
+- **Accept**: `application/json`
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
 ## `renameFolder()`
 
 ```php
@@ -2195,6 +2261,68 @@ try {
 ### Return type
 
 [**\DocSpring\Model\Folder**](../Model/Folder.md)
+
+### Authorization
+
+[api_token_basic](../../README.md#api_token_basic)
+
+### HTTP request headers
+
+- **Content-Type**: `application/json`
+- **Accept**: `application/json`
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
+## `restoreTemplateVersion()`
+
+```php
+restoreTemplateVersion($template_id, $data): \DocSpring\Model\SuccessErrorResponse
+```
+
+Restore a template version
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+// Configure HTTP basic authorization: api_token_basic
+$config = DocSpring\Configuration::getDefaultConfiguration()
+              ->setUsername('YOUR_USERNAME')
+              ->setPassword('YOUR_PASSWORD');
+
+
+$apiInstance = new DocSpring\Api\PDFApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$template_id = tpl_1234567890abcdef01; // string
+$data = new \DocSpring\Model\RestoreVersionData(); // \DocSpring\Model\RestoreVersionData
+
+try {
+    $result = $apiInstance->restoreTemplateVersion($template_id, $data);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling PDFApi->restoreTemplateVersion: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **template_id** | **string**|  | |
+| **data** | [**\DocSpring\Model\RestoreVersionData**](../Model/RestoreVersionData.md)|  | |
+
+### Return type
+
+[**\DocSpring\Model\SuccessErrorResponse**](../Model/SuccessErrorResponse.md)
 
 ### Authorization
 

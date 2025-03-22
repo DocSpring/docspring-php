@@ -69,6 +69,8 @@ class Submission implements ModelInterface, ArrayAccess, \JsonSerializable
         'processed_at' => 'string',
         'state' => 'string',
         'template_id' => 'string',
+        'template_type' => 'string',
+        'template_version' => 'string',
         'test' => 'bool',
         'truncated_text' => 'object',
         'pdf_hash' => 'string',
@@ -103,6 +105,8 @@ class Submission implements ModelInterface, ArrayAccess, \JsonSerializable
         'processed_at' => null,
         'state' => null,
         'template_id' => null,
+        'template_type' => null,
+        'template_version' => null,
         'test' => null,
         'truncated_text' => null,
         'pdf_hash' => null,
@@ -135,6 +139,8 @@ class Submission implements ModelInterface, ArrayAccess, \JsonSerializable
         'processed_at' => true,
         'state' => false,
         'template_id' => true,
+        'template_type' => false,
+        'template_version' => true,
         'test' => false,
         'truncated_text' => true,
         'pdf_hash' => true,
@@ -247,6 +253,8 @@ class Submission implements ModelInterface, ArrayAccess, \JsonSerializable
         'processed_at' => 'processed_at',
         'state' => 'state',
         'template_id' => 'template_id',
+        'template_type' => 'template_type',
+        'template_version' => 'template_version',
         'test' => 'test',
         'truncated_text' => 'truncated_text',
         'pdf_hash' => 'pdf_hash',
@@ -279,6 +287,8 @@ class Submission implements ModelInterface, ArrayAccess, \JsonSerializable
         'processed_at' => 'setProcessedAt',
         'state' => 'setState',
         'template_id' => 'setTemplateId',
+        'template_type' => 'setTemplateType',
+        'template_version' => 'setTemplateVersion',
         'test' => 'setTest',
         'truncated_text' => 'setTruncatedText',
         'pdf_hash' => 'setPdfHash',
@@ -311,6 +321,8 @@ class Submission implements ModelInterface, ArrayAccess, \JsonSerializable
         'processed_at' => 'getProcessedAt',
         'state' => 'getState',
         'template_id' => 'getTemplateId',
+        'template_type' => 'getTemplateType',
+        'template_version' => 'getTemplateVersion',
         'test' => 'getTest',
         'truncated_text' => 'getTruncatedText',
         'pdf_hash' => 'getPdfHash',
@@ -377,6 +389,8 @@ class Submission implements ModelInterface, ArrayAccess, \JsonSerializable
     public const STATE_ACCOUNT_SUSPENDED = 'account_suspended';
     public const STATE_LICENSE_REVOKED = 'license_revoked';
     public const STATE_ACCIDENTAL = 'accidental';
+    public const TEMPLATE_TYPE_PDF = 'pdf';
+    public const TEMPLATE_TYPE_HTML = 'html';
     public const SOURCE_API = 'api';
     public const SOURCE_WEB = 'web';
     public const SOURCE_REPROCESS = 'reprocess';
@@ -401,6 +415,19 @@ class Submission implements ModelInterface, ArrayAccess, \JsonSerializable
             self::STATE_ACCOUNT_SUSPENDED,
             self::STATE_LICENSE_REVOKED,
             self::STATE_ACCIDENTAL,
+        ];
+    }
+
+    /**
+     * Gets allowable values of the enum
+     *
+     * @return string[]
+     */
+    public function getTemplateTypeAllowableValues()
+    {
+        return [
+            self::TEMPLATE_TYPE_PDF,
+            self::TEMPLATE_TYPE_HTML,
         ];
     }
 
@@ -446,6 +473,8 @@ class Submission implements ModelInterface, ArrayAccess, \JsonSerializable
         $this->setIfExists('processed_at', $data ?? [], null);
         $this->setIfExists('state', $data ?? [], null);
         $this->setIfExists('template_id', $data ?? [], null);
+        $this->setIfExists('template_type', $data ?? [], null);
+        $this->setIfExists('template_version', $data ?? [], null);
         $this->setIfExists('test', $data ?? [], null);
         $this->setIfExists('truncated_text', $data ?? [], null);
         $this->setIfExists('pdf_hash', $data ?? [], null);
@@ -531,6 +560,21 @@ class Submission implements ModelInterface, ArrayAccess, \JsonSerializable
 
         if ($this->container['template_id'] === null) {
             $invalidProperties[] = "'template_id' can't be null";
+        }
+        if ($this->container['template_type'] === null) {
+            $invalidProperties[] = "'template_type' can't be null";
+        }
+        $allowedValues = $this->getTemplateTypeAllowableValues();
+        if (!is_null($this->container['template_type']) && !in_array($this->container['template_type'], $allowedValues, true)) {
+            $invalidProperties[] = sprintf(
+                "invalid value '%s' for 'template_type', must be one of '%s'",
+                $this->container['template_type'],
+                implode("', '", $allowedValues)
+            );
+        }
+
+        if ($this->container['template_version'] === null) {
+            $invalidProperties[] = "'template_version' can't be null";
         }
         if ($this->container['test'] === null) {
             $invalidProperties[] = "'test' can't be null";
@@ -978,6 +1022,77 @@ class Submission implements ModelInterface, ArrayAccess, \JsonSerializable
             }
         }
         $this->container['template_id'] = $template_id;
+
+        return $this;
+    }
+
+    /**
+     * Gets template_type
+     *
+     * @return string
+     */
+    public function getTemplateType()
+    {
+        return $this->container['template_type'];
+    }
+
+    /**
+     * Sets template_type
+     *
+     * @param string $template_type template_type
+     *
+     * @return self
+     */
+    public function setTemplateType($template_type)
+    {
+        if (is_null($template_type)) {
+            throw new \InvalidArgumentException('non-nullable template_type cannot be null');
+        }
+        $allowedValues = $this->getTemplateTypeAllowableValues();
+        if (!in_array($template_type, $allowedValues, true)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value '%s' for 'template_type', must be one of '%s'",
+                    $template_type,
+                    implode("', '", $allowedValues)
+                )
+            );
+        }
+        $this->container['template_type'] = $template_type;
+
+        return $this;
+    }
+
+    /**
+     * Gets template_version
+     *
+     * @return string
+     */
+    public function getTemplateVersion()
+    {
+        return $this->container['template_version'];
+    }
+
+    /**
+     * Sets template_version
+     *
+     * @param string $template_version template_version
+     *
+     * @return self
+     */
+    public function setTemplateVersion($template_version)
+    {
+        if (is_null($template_version)) {
+            array_push($this->openAPINullablesSetToNull, 'template_version');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('template_version', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['template_version'] = $template_version;
 
         return $this;
     }

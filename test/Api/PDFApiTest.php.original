@@ -326,7 +326,7 @@ class PDFApiTest extends TestCase
     /**
      * Test case for getFullTemplate
      *
-     * Fetch the full template attributes.
+     * Fetch the full attributes for a PDF template.
      *
      */
     public function testGetFullTemplate()
@@ -480,12 +480,36 @@ class PDFApiTest extends TestCase
     }
 
     /**
+     * Test case for publishTemplateVersion
+     *
+     * Publish a template version.
+     *
+     */
+    public function testPublishTemplateVersion()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
      * Test case for renameFolder
      *
      * Rename a folder.
      *
      */
     public function testRenameFolder()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * Test case for restoreTemplateVersion
+     *
+     * Restore a template version.
+     *
+     */
+    public function testRestoreTemplateVersion()
     {
         // TODO: implement
         self::markTestIncomplete('Not implemented');

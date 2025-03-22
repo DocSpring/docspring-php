@@ -386,6 +386,24 @@ class TemplatePreviewTest extends TestCase
     }
 
     /**
+     * Test attribute "version_published_at"
+     */
+    public function testPropertyVersionPublishedAt()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * Test attribute "version"
+     */
+    public function testPropertyVersion()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
      * Test attribute "webhook_url"
      */
     public function testPropertyWebhookUrl()
@@ -398,6 +416,42 @@ class TemplatePreviewTest extends TestCase
      * Test attribute "demo"
      */
     public function testPropertyDemo()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * Test attribute "latest_version"
+     */
+    public function testPropertyLatestVersion()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * Test attribute "last_changed_at"
+     */
+    public function testPropertyLastChangedAt()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * Test attribute "last_changed_by_type"
+     */
+    public function testPropertyLastChangedByType()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * Test attribute "last_changed_by_id"
+     */
+    public function testPropertyLastChangedById()
     {
         // TODO: implement
         self::markTestIncomplete('Not implemented');

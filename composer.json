@@ -1,6 +1,6 @@
 {
     "name": "docspring/docspring",
-    "version": "2.0.1",
+    "version": "2.1.0",
     "description": "DocSpring provides an API that helps you fill out and sign PDF templates.",
     "keywords": [
         "openapitools",
