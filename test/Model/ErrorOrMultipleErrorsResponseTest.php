@@ -1,6 +1,6 @@
 <?php
 /**
- * CreateSubmissionDataRequestEventRequestTest
+ * ErrorOrMultipleErrorsResponseTest
  *
  * PHP version 8.1
  *
@@ -31,15 +31,15 @@ namespace DocSpring\Test\Model;
 use PHPUnit\Framework\TestCase;
 
 /**
- * CreateSubmissionDataRequestEventRequestTest Class Doc Comment
+ * ErrorOrMultipleErrorsResponseTest Class Doc Comment
  *
  * @category    Class
- * @description CreateSubmissionDataRequestEventRequest
+ * @description ErrorOrMultipleErrorsResponse
  * @package     DocSpring
  * @author      OpenAPI Generator team
  * @link        https://openapi-generator.tech
  */
-class CreateSubmissionDataRequestEventRequestTest extends TestCase
+class ErrorOrMultipleErrorsResponseTest extends TestCase
 {
 
     /**
@@ -71,45 +71,36 @@ class CreateSubmissionDataRequestEventRequestTest extends TestCase
     }
 
     /**
-     * Test "CreateSubmissionDataRequestEventRequest"
+     * Test "ErrorOrMultipleErrorsResponse"
      */
-    public function testCreateSubmissionDataRequestEventRequest()
+    public function testErrorOrMultipleErrorsResponse()
     {
         // TODO: implement
         self::markTestIncomplete('Not implemented');
     }
 
     /**
-     * Test attribute "event_type"
+     * Test attribute "status"
      */
-    public function testPropertyEventType()
+    public function testPropertyStatus()
     {
         // TODO: implement
         self::markTestIncomplete('Not implemented');
     }
 
     /**
-     * Test attribute "message_recipient"
+     * Test attribute "error"
      */
-    public function testPropertyMessageRecipient()
+    public function testPropertyError()
     {
         // TODO: implement
         self::markTestIncomplete('Not implemented');
     }
 
     /**
-     * Test attribute "message_type"
+     * Test attribute "errors"
      */
-    public function testPropertyMessageType()
-    {
-        // TODO: implement
-        self::markTestIncomplete('Not implemented');
-    }
-
-    /**
-     * Test attribute "occurred_at"
-     */
-    public function testPropertyOccurredAt()
+    public function testPropertyErrors()
     {
         // TODO: implement
         self::markTestIncomplete('Not implemented');

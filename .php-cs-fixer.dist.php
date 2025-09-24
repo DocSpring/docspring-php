@@ -13,6 +13,7 @@ $finder = PhpCsFixer\Finder::create()
 
 $config = new PhpCsFixer\Config();
 return $config->setRules([
+        'no_extra_blank_lines' => true,
         '@PSR12' => true,
         'phpdoc_order' => true,
         'array_syntax' => [ 'syntax' => 'short' ],

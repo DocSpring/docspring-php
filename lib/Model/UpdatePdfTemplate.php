@@ -1,6 +1,6 @@
 <?php
 /**
- * CreateCustomFileData
+ * UpdatePdfTemplate
  *
  * PHP version 8.1
  *
@@ -32,7 +32,7 @@ use \ArrayAccess;
 use \DocSpring\ObjectSerializer;
 
 /**
- * CreateCustomFileData Class Doc Comment
+ * UpdatePdfTemplate Class Doc Comment
  *
  * @category Class
  * @package  DocSpring
@@ -40,7 +40,7 @@ use \DocSpring\ObjectSerializer;
  * @link     https://openapi-generator.tech
  * @implements \ArrayAccess<string, mixed>
  */
-class CreateCustomFileData implements ModelInterface, ArrayAccess, \JsonSerializable
+class UpdatePdfTemplate implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
@@ -49,7 +49,7 @@ class CreateCustomFileData implements ModelInterface, ArrayAccess, \JsonSerializ
       *
       * @var string
       */
-    protected static $openAPIModelName = 'create_custom_file_data';
+    protected static $openAPIModelName = 'update_pdf_template';
 
     /**
       * Array of property to type mappings. Used for (de)serialization
@@ -57,7 +57,7 @@ class CreateCustomFileData implements ModelInterface, ArrayAccess, \JsonSerializ
       * @var string[]
       */
     protected static $openAPITypes = [
-        'cache_id' => 'string'
+        'template' => 'object'
     ];
 
     /**
@@ -68,7 +68,7 @@ class CreateCustomFileData implements ModelInterface, ArrayAccess, \JsonSerializ
       * @psalm-var array<string, string|null>
       */
     protected static $openAPIFormats = [
-        'cache_id' => null
+        'template' => null
     ];
 
     /**
@@ -77,7 +77,7 @@ class CreateCustomFileData implements ModelInterface, ArrayAccess, \JsonSerializ
       * @var boolean[]
       */
     protected static array $openAPINullables = [
-        'cache_id' => false
+        'template' => false
     ];
 
     /**
@@ -166,7 +166,7 @@ class CreateCustomFileData implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var string[]
      */
     protected static $attributeMap = [
-        'cache_id' => 'cache_id'
+        'template' => 'template'
     ];
 
     /**
@@ -175,7 +175,7 @@ class CreateCustomFileData implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var string[]
      */
     protected static $setters = [
-        'cache_id' => 'setCacheId'
+        'template' => 'setTemplate'
     ];
 
     /**
@@ -184,7 +184,7 @@ class CreateCustomFileData implements ModelInterface, ArrayAccess, \JsonSerializ
      * @var string[]
      */
     protected static $getters = [
-        'cache_id' => 'getCacheId'
+        'template' => 'getTemplate'
     ];
 
     /**
@@ -244,7 +244,7 @@ class CreateCustomFileData implements ModelInterface, ArrayAccess, \JsonSerializ
      */
     public function __construct(?array $data = null)
     {
-        $this->setIfExists('cache_id', $data ?? [], null);
+        $this->setIfExists('template', $data ?? [], null);
     }
 
     /**
@@ -274,13 +274,9 @@ class CreateCustomFileData implements ModelInterface, ArrayAccess, \JsonSerializ
     {
         $invalidProperties = [];
 
-        if ($this->container['cache_id'] === null) {
-            $invalidProperties[] = "'cache_id' can't be null";
+        if ($this->container['template'] === null) {
+            $invalidProperties[] = "'template' can't be null";
         }
-        if ((mb_strlen($this->container['cache_id']) < 1)) {
-            $invalidProperties[] = "invalid value for 'cache_id', the character length must be bigger than or equal to 1.";
-        }
-
         return $invalidProperties;
     }
 
@@ -297,33 +293,28 @@ class CreateCustomFileData implements ModelInterface, ArrayAccess, \JsonSerializ
 
 
     /**
-     * Gets cache_id
+     * Gets template
      *
-     * @return string
+     * @return object
      */
-    public function getCacheId()
+    public function getTemplate()
     {
-        return $this->container['cache_id'];
+        return $this->container['template'];
     }
 
     /**
-     * Sets cache_id
+     * Sets template
      *
-     * @param string $cache_id cache_id
+     * @param object $template template
      *
      * @return self
      */
-    public function setCacheId($cache_id)
+    public function setTemplate($template)
     {
-        if (is_null($cache_id)) {
-            throw new \InvalidArgumentException('non-nullable cache_id cannot be null');
+        if (is_null($template)) {
+            throw new \InvalidArgumentException('non-nullable template cannot be null');
         }
-
-        if ((mb_strlen($cache_id) < 1)) {
-            throw new \InvalidArgumentException('invalid length for $cache_id when calling CreateCustomFileData., must be bigger than or equal to 1.');
-        }
-
-        $this->container['cache_id'] = $cache_id;
+        $this->container['template'] = $template;
 
         return $this;
     }
