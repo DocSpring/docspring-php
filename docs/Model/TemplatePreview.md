@@ -15,6 +15,9 @@ Name | Type | Description | Notes
 **document_url** | **string** |  |
 **editable_submissions** | **bool** |  |
 **embed_domains** | **string** |  |
+**embed_edit_allow_settings** | **bool** |  |
+**embed_edit_allow_versioning** | **bool** |  |
+**embed_edit_allow_document_replacement** | **bool** |  |
 **encrypt_pdfs_password** | **string** |  |
 **encrypt_pdfs** | **bool** |  |
 **expiration_interval** | **string** |  |
@@ -41,10 +44,14 @@ Name | Type | Description | Notes
 **version_published_at** | **string** |  |
 **version** | **string** |  |
 **webhook_url** | **string** |  |
+**embed_edit_token** | **string** |  | [optional]
 **demo** | **bool** |  |
 **latest_version** | **string** |  |
 **last_changed_at** | **string** |  |
 **last_changed_by_type** | **string** |  |
 **last_changed_by_id** | **string** |  |
+**last_changed_by_external_name** | **string** |  |
+**last_changed_by_external_email** | **string** |  |
+**last_changed_by_external_id** | **string** |  |
 
 [[Back to Model list]](../../README.md#models) [[Back to API list]](../../README.md#endpoints) [[Back to README]](../../README.md)

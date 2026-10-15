@@ -58,7 +58,8 @@ class CopyTemplateOptions implements ModelInterface, ArrayAccess, \JsonSerializa
       */
     protected static $openAPITypes = [
         'name' => 'string',
-        'parent_folder_id' => 'string'
+        'parent_folder_id' => 'string',
+        'version' => 'string'
     ];
 
     /**
@@ -70,7 +71,8 @@ class CopyTemplateOptions implements ModelInterface, ArrayAccess, \JsonSerializa
       */
     protected static $openAPIFormats = [
         'name' => null,
-        'parent_folder_id' => null
+        'parent_folder_id' => null,
+        'version' => null
     ];
 
     /**
@@ -80,7 +82,8 @@ class CopyTemplateOptions implements ModelInterface, ArrayAccess, \JsonSerializa
       */
     protected static array $openAPINullables = [
         'name' => false,
-        'parent_folder_id' => false
+        'parent_folder_id' => false,
+        'version' => false
     ];
 
     /**
@@ -170,7 +173,8 @@ class CopyTemplateOptions implements ModelInterface, ArrayAccess, \JsonSerializa
      */
     protected static $attributeMap = [
         'name' => 'name',
-        'parent_folder_id' => 'parent_folder_id'
+        'parent_folder_id' => 'parent_folder_id',
+        'version' => 'version'
     ];
 
     /**
@@ -180,7 +184,8 @@ class CopyTemplateOptions implements ModelInterface, ArrayAccess, \JsonSerializa
      */
     protected static $setters = [
         'name' => 'setName',
-        'parent_folder_id' => 'setParentFolderId'
+        'parent_folder_id' => 'setParentFolderId',
+        'version' => 'setVersion'
     ];
 
     /**
@@ -190,7 +195,8 @@ class CopyTemplateOptions implements ModelInterface, ArrayAccess, \JsonSerializa
      */
     protected static $getters = [
         'name' => 'getName',
-        'parent_folder_id' => 'getParentFolderId'
+        'parent_folder_id' => 'getParentFolderId',
+        'version' => 'getVersion'
     ];
 
     /**
@@ -252,6 +258,7 @@ class CopyTemplateOptions implements ModelInterface, ArrayAccess, \JsonSerializa
     {
         $this->setIfExists('name', $data ?? [], null);
         $this->setIfExists('parent_folder_id', $data ?? [], null);
+        $this->setIfExists('version', $data ?? [], null);
     }
 
     /**
@@ -281,9 +288,6 @@ class CopyTemplateOptions implements ModelInterface, ArrayAccess, \JsonSerializa
     {
         $invalidProperties = [];
 
-        if ($this->container['parent_folder_id'] === null) {
-            $invalidProperties[] = "'parent_folder_id' can't be null";
-        }
         return $invalidProperties;
     }
 
@@ -329,7 +333,7 @@ class CopyTemplateOptions implements ModelInterface, ArrayAccess, \JsonSerializa
     /**
      * Gets parent_folder_id
      *
-     * @return string
+     * @return string|null
      */
     public function getParentFolderId()
     {
@@ -339,7 +343,7 @@ class CopyTemplateOptions implements ModelInterface, ArrayAccess, \JsonSerializa
     /**
      * Sets parent_folder_id
      *
-     * @param string $parent_folder_id parent_folder_id
+     * @param string|null $parent_folder_id parent_folder_id
      *
      * @return self
      */
@@ -349,6 +353,33 @@ class CopyTemplateOptions implements ModelInterface, ArrayAccess, \JsonSerializa
             throw new \InvalidArgumentException('non-nullable parent_folder_id cannot be null');
         }
         $this->container['parent_folder_id'] = $parent_folder_id;
+
+        return $this;
+    }
+
+    /**
+     * Gets version
+     *
+     * @return string|null
+     */
+    public function getVersion()
+    {
+        return $this->container['version'];
+    }
+
+    /**
+     * Sets version
+     *
+     * @param string|null $version version
+     *
+     * @return self
+     */
+    public function setVersion($version)
+    {
+        if (is_null($version)) {
+            throw new \InvalidArgumentException('non-nullable version cannot be null');
+        }
+        $this->container['version'] = $version;
 
         return $this;
     }

@@ -1,6 +1,6 @@
 {
     "name": "docspring/docspring",
-    "version": "3.0.0",
+    "version": "3.1.0",
     "description": "Use DocSpring's API to programmatically fill out PDF forms, convert HTML to PDFs, merge PDFs, or request legally binding e-signatures.",
     "keywords": [
         "openapitools",
@@ -12,7 +12,7 @@
         "api"
     ],
     "homepage": "https://openapi-generator.tech",
-    "license": "unlicense",
+    "license": "MIT",
     "authors": [
         {
             "name": "OpenAPI",

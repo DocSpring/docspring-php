@@ -7,6 +7,7 @@ Name | Type | Description | Notes
 **batch_id** | **string** |  |
 **data_requests** | [**\DocSpring\Model\SubmissionDataRequest[]**](SubmissionDataRequest.md) |  |
 **editable** | **bool** |  |
+**error_message** | **string** |  |
 **expired** | **bool** |  |
 **expires_at** | **string** |  |
 **id** | **string** |  |
@@ -27,8 +28,8 @@ Name | Type | Description | Notes
 **preview_generated_at** | **string** |  |
 **audit_trail_download_url** | **string** |  |
 **actions** | [**\DocSpring\Model\SubmissionAction[]**](SubmissionAction.md) |  |
-**source** | **string** |  |
-**referrer** | **string** |  |
-**data** | **object** |  |
+**source** | **string** |  | [optional]
+**referrer** | **string** |  | [optional]
+**data** | **object** |  | [optional]
 
 [[Back to Model list]](../../README.md#models) [[Back to API list]](../../README.md#endpoints) [[Back to README]](../../README.md)

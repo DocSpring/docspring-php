@@ -98,6 +98,15 @@ class JsonSchemaTest extends TestCase
     }
 
     /**
+     * Test attribute "schema_id"
+     */
+    public function testPropertySchemaId()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
      * Test attribute "title"
      */
     public function testPropertyTitle()
@@ -155,6 +164,24 @@ class JsonSchemaTest extends TestCase
      * Test attribute "required"
      */
     public function testPropertyRequired()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * Test attribute "dependencies"
+     */
+    public function testPropertyDependencies()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * Test attribute "all_of"
+     */
+    public function testPropertyAllOf()
     {
         // TODO: implement
         self::markTestIncomplete('Not implemented');

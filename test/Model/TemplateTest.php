@@ -179,6 +179,33 @@ class TemplateTest extends TestCase
     }
 
     /**
+     * Test attribute "embed_edit_allow_settings"
+     */
+    public function testPropertyEmbedEditAllowSettings()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * Test attribute "embed_edit_allow_versioning"
+     */
+    public function testPropertyEmbedEditAllowVersioning()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * Test attribute "embed_edit_allow_document_replacement"
+     */
+    public function testPropertyEmbedEditAllowDocumentReplacement()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
      * Test attribute "encrypt_pdfs_password"
      */
     public function testPropertyEncryptPdfsPassword()
@@ -413,6 +440,15 @@ class TemplateTest extends TestCase
     }
 
     /**
+     * Test attribute "embed_edit_token"
+     */
+    public function testPropertyEmbedEditToken()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
      * Test attribute "demo"
      */
     public function testPropertyDemo()
@@ -458,9 +494,45 @@ class TemplateTest extends TestCase
     }
 
     /**
+     * Test attribute "last_changed_by_external_name"
+     */
+    public function testPropertyLastChangedByExternalName()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * Test attribute "last_changed_by_external_email"
+     */
+    public function testPropertyLastChangedByExternalEmail()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * Test attribute "last_changed_by_external_id"
+     */
+    public function testPropertyLastChangedByExternalId()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
      * Test attribute "defaults"
      */
     public function testPropertyDefaults()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * Test attribute "field_dependencies"
+     */
+    public function testPropertyFieldDependencies()
     {
         // TODO: implement
         self::markTestIncomplete('Not implemented');
@@ -542,6 +614,15 @@ class TemplateTest extends TestCase
      * Test attribute "shared_field_data"
      */
     public function testPropertySharedFieldData()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * Test attribute "template_schema_version"
+     */
+    public function testPropertyTemplateSchemaVersion()
     {
         // TODO: implement
         self::markTestIncomplete('Not implemented');

@@ -60,6 +60,7 @@ class Submission implements ModelInterface, ArrayAccess, \JsonSerializable
         'batch_id' => 'string',
         'data_requests' => '\DocSpring\Model\SubmissionDataRequest[]',
         'editable' => 'bool',
+        'error_message' => 'string',
         'expired' => 'bool',
         'expires_at' => 'string',
         'id' => 'string',
@@ -96,6 +97,7 @@ class Submission implements ModelInterface, ArrayAccess, \JsonSerializable
         'batch_id' => null,
         'data_requests' => null,
         'editable' => null,
+        'error_message' => null,
         'expired' => null,
         'expires_at' => null,
         'id' => null,
@@ -130,6 +132,7 @@ class Submission implements ModelInterface, ArrayAccess, \JsonSerializable
         'batch_id' => true,
         'data_requests' => false,
         'editable' => true,
+        'error_message' => true,
         'expired' => false,
         'expires_at' => true,
         'id' => true,
@@ -244,6 +247,7 @@ class Submission implements ModelInterface, ArrayAccess, \JsonSerializable
         'batch_id' => 'batch_id',
         'data_requests' => 'data_requests',
         'editable' => 'editable',
+        'error_message' => 'error_message',
         'expired' => 'expired',
         'expires_at' => 'expires_at',
         'id' => 'id',
@@ -278,6 +282,7 @@ class Submission implements ModelInterface, ArrayAccess, \JsonSerializable
         'batch_id' => 'setBatchId',
         'data_requests' => 'setDataRequests',
         'editable' => 'setEditable',
+        'error_message' => 'setErrorMessage',
         'expired' => 'setExpired',
         'expires_at' => 'setExpiresAt',
         'id' => 'setId',
@@ -312,6 +317,7 @@ class Submission implements ModelInterface, ArrayAccess, \JsonSerializable
         'batch_id' => 'getBatchId',
         'data_requests' => 'getDataRequests',
         'editable' => 'getEditable',
+        'error_message' => 'getErrorMessage',
         'expired' => 'getExpired',
         'expires_at' => 'getExpiresAt',
         'id' => 'getId',
@@ -389,6 +395,7 @@ class Submission implements ModelInterface, ArrayAccess, \JsonSerializable
     public const STATE_ACCOUNT_SUSPENDED = 'account_suspended';
     public const STATE_LICENSE_REVOKED = 'license_revoked';
     public const STATE_ACCIDENTAL = 'accidental';
+    public const STATE_DECLINED = 'declined';
     public const TEMPLATE_TYPE_PDF = 'pdf';
     public const TEMPLATE_TYPE_HTML = 'html';
     public const SOURCE_API = 'api';
@@ -415,6 +422,7 @@ class Submission implements ModelInterface, ArrayAccess, \JsonSerializable
             self::STATE_ACCOUNT_SUSPENDED,
             self::STATE_LICENSE_REVOKED,
             self::STATE_ACCIDENTAL,
+            self::STATE_DECLINED,
         ];
     }
 
@@ -464,6 +472,7 @@ class Submission implements ModelInterface, ArrayAccess, \JsonSerializable
         $this->setIfExists('batch_id', $data ?? [], null);
         $this->setIfExists('data_requests', $data ?? [], null);
         $this->setIfExists('editable', $data ?? [], null);
+        $this->setIfExists('error_message', $data ?? [], null);
         $this->setIfExists('expired', $data ?? [], null);
         $this->setIfExists('expires_at', $data ?? [], null);
         $this->setIfExists('id', $data ?? [], null);
@@ -524,6 +533,9 @@ class Submission implements ModelInterface, ArrayAccess, \JsonSerializable
         }
         if ($this->container['editable'] === null) {
             $invalidProperties[] = "'editable' can't be null";
+        }
+        if ($this->container['error_message'] === null) {
+            $invalidProperties[] = "'error_message' can't be null";
         }
         if ($this->container['expired'] === null) {
             $invalidProperties[] = "'expired' can't be null";
@@ -603,9 +615,6 @@ class Submission implements ModelInterface, ArrayAccess, \JsonSerializable
         if ($this->container['actions'] === null) {
             $invalidProperties[] = "'actions' can't be null";
         }
-        if ($this->container['source'] === null) {
-            $invalidProperties[] = "'source' can't be null";
-        }
         $allowedValues = $this->getSourceAllowableValues();
         if (!is_null($this->container['source']) && !in_array($this->container['source'], $allowedValues, true)) {
             $invalidProperties[] = sprintf(
@@ -615,12 +624,6 @@ class Submission implements ModelInterface, ArrayAccess, \JsonSerializable
             );
         }
 
-        if ($this->container['referrer'] === null) {
-            $invalidProperties[] = "'referrer' can't be null";
-        }
-        if ($this->container['data'] === null) {
-            $invalidProperties[] = "'data' can't be null";
-        }
         return $invalidProperties;
     }
 
@@ -727,6 +730,40 @@ class Submission implements ModelInterface, ArrayAccess, \JsonSerializable
             }
         }
         $this->container['editable'] = $editable;
+
+        return $this;
+    }
+
+    /**
+     * Gets error_message
+     *
+     * @return string
+     */
+    public function getErrorMessage()
+    {
+        return $this->container['error_message'];
+    }
+
+    /**
+     * Sets error_message
+     *
+     * @param string $error_message error_message
+     *
+     * @return self
+     */
+    public function setErrorMessage($error_message)
+    {
+        if (is_null($error_message)) {
+            array_push($this->openAPINullablesSetToNull, 'error_message');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('error_message', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['error_message'] = $error_message;
 
         return $this;
     }
@@ -1392,7 +1429,7 @@ class Submission implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Gets source
      *
-     * @return string
+     * @return string|null
      */
     public function getSource()
     {
@@ -1402,7 +1439,7 @@ class Submission implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets source
      *
-     * @param string $source source
+     * @param string|null $source source
      *
      * @return self
      */
@@ -1429,7 +1466,7 @@ class Submission implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Gets referrer
      *
-     * @return string
+     * @return string|null
      */
     public function getReferrer()
     {
@@ -1439,7 +1476,7 @@ class Submission implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets referrer
      *
-     * @param string $referrer referrer
+     * @param string|null $referrer referrer
      *
      * @return self
      */
@@ -1463,7 +1500,7 @@ class Submission implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Gets data
      *
-     * @return object
+     * @return object|null
      */
     public function getData()
     {
@@ -1473,7 +1510,7 @@ class Submission implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets data
      *
-     * @param object $data data
+     * @param object|null $data data
      *
      * @return self
      */

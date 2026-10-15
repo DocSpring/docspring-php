@@ -59,13 +59,16 @@ class JsonSchema implements ModelInterface, ArrayAccess, \JsonSerializable
     protected static $openAPITypes = [
         'schema' => 'string',
         'id' => 'string',
+        'schema_id' => 'string',
         'title' => 'string',
         'description' => 'string',
         'definitions' => 'object',
         'type' => 'string',
         'properties' => 'object',
         'additional_properties' => 'bool',
-        'required' => 'string[]'
+        'required' => 'string[]',
+        'dependencies' => 'object',
+        'all_of' => 'object[]'
     ];
 
     /**
@@ -78,13 +81,16 @@ class JsonSchema implements ModelInterface, ArrayAccess, \JsonSerializable
     protected static $openAPIFormats = [
         'schema' => 'uri',
         'id' => 'uri-reference',
+        'schema_id' => 'uri-reference',
         'title' => null,
         'description' => null,
         'definitions' => null,
         'type' => null,
         'properties' => null,
         'additional_properties' => null,
-        'required' => null
+        'required' => null,
+        'dependencies' => null,
+        'all_of' => null
     ];
 
     /**
@@ -95,13 +101,16 @@ class JsonSchema implements ModelInterface, ArrayAccess, \JsonSerializable
     protected static array $openAPINullables = [
         'schema' => false,
         'id' => false,
+        'schema_id' => false,
         'title' => false,
         'description' => false,
         'definitions' => false,
         'type' => false,
         'properties' => false,
         'additional_properties' => false,
-        'required' => false
+        'required' => false,
+        'dependencies' => false,
+        'all_of' => false
     ];
 
     /**
@@ -192,13 +201,16 @@ class JsonSchema implements ModelInterface, ArrayAccess, \JsonSerializable
     protected static $attributeMap = [
         'schema' => '$schema',
         'id' => 'id',
+        'schema_id' => '$id',
         'title' => 'title',
         'description' => 'description',
         'definitions' => 'definitions',
         'type' => 'type',
         'properties' => 'properties',
         'additional_properties' => 'additionalProperties',
-        'required' => 'required'
+        'required' => 'required',
+        'dependencies' => 'dependencies',
+        'all_of' => 'allOf'
     ];
 
     /**
@@ -209,13 +221,16 @@ class JsonSchema implements ModelInterface, ArrayAccess, \JsonSerializable
     protected static $setters = [
         'schema' => 'setSchema',
         'id' => 'setId',
+        'schema_id' => 'setSchemaId',
         'title' => 'setTitle',
         'description' => 'setDescription',
         'definitions' => 'setDefinitions',
         'type' => 'setType',
         'properties' => 'setProperties',
         'additional_properties' => 'setAdditionalProperties',
-        'required' => 'setRequired'
+        'required' => 'setRequired',
+        'dependencies' => 'setDependencies',
+        'all_of' => 'setAllOf'
     ];
 
     /**
@@ -226,13 +241,16 @@ class JsonSchema implements ModelInterface, ArrayAccess, \JsonSerializable
     protected static $getters = [
         'schema' => 'getSchema',
         'id' => 'getId',
+        'schema_id' => 'getSchemaId',
         'title' => 'getTitle',
         'description' => 'getDescription',
         'definitions' => 'getDefinitions',
         'type' => 'getType',
         'properties' => 'getProperties',
         'additional_properties' => 'getAdditionalProperties',
-        'required' => 'getRequired'
+        'required' => 'getRequired',
+        'dependencies' => 'getDependencies',
+        'all_of' => 'getAllOf'
     ];
 
     /**
@@ -294,6 +312,7 @@ class JsonSchema implements ModelInterface, ArrayAccess, \JsonSerializable
     {
         $this->setIfExists('schema', $data ?? [], null);
         $this->setIfExists('id', $data ?? [], null);
+        $this->setIfExists('schema_id', $data ?? [], null);
         $this->setIfExists('title', $data ?? [], null);
         $this->setIfExists('description', $data ?? [], null);
         $this->setIfExists('definitions', $data ?? [], null);
@@ -301,6 +320,8 @@ class JsonSchema implements ModelInterface, ArrayAccess, \JsonSerializable
         $this->setIfExists('properties', $data ?? [], null);
         $this->setIfExists('additional_properties', $data ?? [], null);
         $this->setIfExists('required', $data ?? [], null);
+        $this->setIfExists('dependencies', $data ?? [], null);
+        $this->setIfExists('all_of', $data ?? [], null);
     }
 
     /**
@@ -395,6 +416,33 @@ class JsonSchema implements ModelInterface, ArrayAccess, \JsonSerializable
             throw new \InvalidArgumentException('non-nullable id cannot be null');
         }
         $this->container['id'] = $id;
+
+        return $this;
+    }
+
+    /**
+     * Gets schema_id
+     *
+     * @return string|null
+     */
+    public function getSchemaId()
+    {
+        return $this->container['schema_id'];
+    }
+
+    /**
+     * Sets schema_id
+     *
+     * @param string|null $schema_id schema_id
+     *
+     * @return self
+     */
+    public function setSchemaId($schema_id)
+    {
+        if (is_null($schema_id)) {
+            throw new \InvalidArgumentException('non-nullable schema_id cannot be null');
+        }
+        $this->container['schema_id'] = $schema_id;
 
         return $this;
     }
@@ -584,6 +632,60 @@ class JsonSchema implements ModelInterface, ArrayAccess, \JsonSerializable
             throw new \InvalidArgumentException('non-nullable required cannot be null');
         }
         $this->container['required'] = $required;
+
+        return $this;
+    }
+
+    /**
+     * Gets dependencies
+     *
+     * @return object|null
+     */
+    public function getDependencies()
+    {
+        return $this->container['dependencies'];
+    }
+
+    /**
+     * Sets dependencies
+     *
+     * @param object|null $dependencies dependencies
+     *
+     * @return self
+     */
+    public function setDependencies($dependencies)
+    {
+        if (is_null($dependencies)) {
+            throw new \InvalidArgumentException('non-nullable dependencies cannot be null');
+        }
+        $this->container['dependencies'] = $dependencies;
+
+        return $this;
+    }
+
+    /**
+     * Gets all_of
+     *
+     * @return object[]|null
+     */
+    public function getAllOf()
+    {
+        return $this->container['all_of'];
+    }
+
+    /**
+     * Sets all_of
+     *
+     * @param object[]|null $all_of all_of
+     *
+     * @return self
+     */
+    public function setAllOf($all_of)
+    {
+        if (is_null($all_of)) {
+            throw new \InvalidArgumentException('non-nullable all_of cannot be null');
+        }
+        $this->container['all_of'] = $all_of;
 
         return $this;
     }

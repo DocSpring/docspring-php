@@ -67,6 +67,7 @@ class SubmissionDataRequest implements ModelInterface, ArrayAccess, \JsonSeriali
         'state' => 'string',
         'viewed_at' => 'string',
         'completed_at' => 'string',
+        'declined_at' => 'string',
         'data' => 'object',
         'auth_type' => 'string',
         'auth_second_factor_type' => 'string',
@@ -98,6 +99,7 @@ class SubmissionDataRequest implements ModelInterface, ArrayAccess, \JsonSeriali
         'state' => null,
         'viewed_at' => null,
         'completed_at' => null,
+        'declined_at' => null,
         'data' => null,
         'auth_type' => null,
         'auth_second_factor_type' => null,
@@ -127,6 +129,7 @@ class SubmissionDataRequest implements ModelInterface, ArrayAccess, \JsonSeriali
         'state' => false,
         'viewed_at' => true,
         'completed_at' => true,
+        'declined_at' => true,
         'data' => true,
         'auth_type' => false,
         'auth_second_factor_type' => false,
@@ -236,6 +239,7 @@ class SubmissionDataRequest implements ModelInterface, ArrayAccess, \JsonSeriali
         'state' => 'state',
         'viewed_at' => 'viewed_at',
         'completed_at' => 'completed_at',
+        'declined_at' => 'declined_at',
         'data' => 'data',
         'auth_type' => 'auth_type',
         'auth_second_factor_type' => 'auth_second_factor_type',
@@ -265,6 +269,7 @@ class SubmissionDataRequest implements ModelInterface, ArrayAccess, \JsonSeriali
         'state' => 'setState',
         'viewed_at' => 'setViewedAt',
         'completed_at' => 'setCompletedAt',
+        'declined_at' => 'setDeclinedAt',
         'data' => 'setData',
         'auth_type' => 'setAuthType',
         'auth_second_factor_type' => 'setAuthSecondFactorType',
@@ -294,6 +299,7 @@ class SubmissionDataRequest implements ModelInterface, ArrayAccess, \JsonSeriali
         'state' => 'getState',
         'viewed_at' => 'getViewedAt',
         'completed_at' => 'getCompletedAt',
+        'declined_at' => 'getDeclinedAt',
         'data' => 'getData',
         'auth_type' => 'getAuthType',
         'auth_second_factor_type' => 'getAuthSecondFactorType',
@@ -350,6 +356,7 @@ class SubmissionDataRequest implements ModelInterface, ArrayAccess, \JsonSeriali
 
     public const STATE_PENDING = 'pending';
     public const STATE_COMPLETED = 'completed';
+    public const STATE_DECLINED = 'declined';
     public const AUTH_TYPE_NONE = 'none';
     public const AUTH_TYPE_PASSWORD = 'password';
     public const AUTH_TYPE_OAUTH = 'oauth';
@@ -374,6 +381,7 @@ class SubmissionDataRequest implements ModelInterface, ArrayAccess, \JsonSeriali
         return [
             self::STATE_PENDING,
             self::STATE_COMPLETED,
+            self::STATE_DECLINED,
         ];
     }
 
@@ -437,6 +445,7 @@ class SubmissionDataRequest implements ModelInterface, ArrayAccess, \JsonSeriali
         $this->setIfExists('state', $data ?? [], null);
         $this->setIfExists('viewed_at', $data ?? [], null);
         $this->setIfExists('completed_at', $data ?? [], null);
+        $this->setIfExists('declined_at', $data ?? [], null);
         $this->setIfExists('data', $data ?? [], null);
         $this->setIfExists('auth_type', $data ?? [], null);
         $this->setIfExists('auth_second_factor_type', $data ?? [], null);
@@ -515,6 +524,9 @@ class SubmissionDataRequest implements ModelInterface, ArrayAccess, \JsonSeriali
         }
         if ($this->container['completed_at'] === null) {
             $invalidProperties[] = "'completed_at' can't be null";
+        }
+        if ($this->container['declined_at'] === null) {
+            $invalidProperties[] = "'declined_at' can't be null";
         }
         if ($this->container['data'] === null) {
             $invalidProperties[] = "'data' can't be null";
@@ -914,6 +926,40 @@ class SubmissionDataRequest implements ModelInterface, ArrayAccess, \JsonSeriali
             }
         }
         $this->container['completed_at'] = $completed_at;
+
+        return $this;
+    }
+
+    /**
+     * Gets declined_at
+     *
+     * @return string
+     */
+    public function getDeclinedAt()
+    {
+        return $this->container['declined_at'];
+    }
+
+    /**
+     * Sets declined_at
+     *
+     * @param string $declined_at declined_at
+     *
+     * @return self
+     */
+    public function setDeclinedAt($declined_at)
+    {
+        if (is_null($declined_at)) {
+            array_push($this->openAPINullablesSetToNull, 'declined_at');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('declined_at', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['declined_at'] = $declined_at;
 
         return $this;
     }

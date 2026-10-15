@@ -528,7 +528,14 @@ class ObjectSerializer
 
                 if (isset($data->{$instance::attributeMap()[$property]})) {
                     $propertyValue = $data->{$instance::attributeMap()[$property]};
-                    $instance->$propertySetter(self::deserialize($propertyValue, $type, null));
+                    $propertyValue = self::deserialize($propertyValue, $type, null);
+                    // Responses can include enum values added after this client was released, so enum values
+                    // skip the setter, which only accepts the values this client knows about
+                    if (method_exists($instance, $instance::getters()[$property] . 'AllowableValues')) {
+                        $instance[$property] = $propertyValue;
+                    } else {
+                        $instance->$propertySetter($propertyValue);
+                    }
                 }
             }
             return $instance;

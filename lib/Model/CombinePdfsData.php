@@ -340,7 +340,7 @@ class CombinePdfsData implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets delete_custom_files
      *
-     * @param bool|null $delete_custom_files delete_custom_files
+     * @param bool|null $delete_custom_files Delete the custom files in source_pdfs once the combined PDF has been processed (they're kept if it fails). Other combined submissions can't use them after that. A test API token can't delete custom files.
      *
      * @return self
      */
@@ -475,7 +475,7 @@ class CombinePdfsData implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets test
      *
-     * @param bool|null $test test
+     * @param bool|null $test Deprecated, and has no effect. A combined PDF is a test or live document because of its source PDFs.
      *
      * @return self
      */

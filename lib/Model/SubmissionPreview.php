@@ -60,6 +60,7 @@ class SubmissionPreview implements ModelInterface, ArrayAccess, \JsonSerializabl
         'batch_id' => 'string',
         'data_requests' => '\DocSpring\Model\SubmissionDataRequest[]',
         'editable' => 'bool',
+        'error_message' => 'string',
         'expired' => 'bool',
         'expires_at' => 'string',
         'id' => 'string',
@@ -93,6 +94,7 @@ class SubmissionPreview implements ModelInterface, ArrayAccess, \JsonSerializabl
         'batch_id' => null,
         'data_requests' => null,
         'editable' => null,
+        'error_message' => null,
         'expired' => null,
         'expires_at' => null,
         'id' => null,
@@ -124,6 +126,7 @@ class SubmissionPreview implements ModelInterface, ArrayAccess, \JsonSerializabl
         'batch_id' => true,
         'data_requests' => false,
         'editable' => true,
+        'error_message' => true,
         'expired' => false,
         'expires_at' => true,
         'id' => true,
@@ -235,6 +238,7 @@ class SubmissionPreview implements ModelInterface, ArrayAccess, \JsonSerializabl
         'batch_id' => 'batch_id',
         'data_requests' => 'data_requests',
         'editable' => 'editable',
+        'error_message' => 'error_message',
         'expired' => 'expired',
         'expires_at' => 'expires_at',
         'id' => 'id',
@@ -266,6 +270,7 @@ class SubmissionPreview implements ModelInterface, ArrayAccess, \JsonSerializabl
         'batch_id' => 'setBatchId',
         'data_requests' => 'setDataRequests',
         'editable' => 'setEditable',
+        'error_message' => 'setErrorMessage',
         'expired' => 'setExpired',
         'expires_at' => 'setExpiresAt',
         'id' => 'setId',
@@ -297,6 +302,7 @@ class SubmissionPreview implements ModelInterface, ArrayAccess, \JsonSerializabl
         'batch_id' => 'getBatchId',
         'data_requests' => 'getDataRequests',
         'editable' => 'getEditable',
+        'error_message' => 'getErrorMessage',
         'expired' => 'getExpired',
         'expires_at' => 'getExpiresAt',
         'id' => 'getId',
@@ -371,6 +377,7 @@ class SubmissionPreview implements ModelInterface, ArrayAccess, \JsonSerializabl
     public const STATE_ACCOUNT_SUSPENDED = 'account_suspended';
     public const STATE_LICENSE_REVOKED = 'license_revoked';
     public const STATE_ACCIDENTAL = 'accidental';
+    public const STATE_DECLINED = 'declined';
     public const TEMPLATE_TYPE_PDF = 'pdf';
     public const TEMPLATE_TYPE_HTML = 'html';
 
@@ -393,6 +400,7 @@ class SubmissionPreview implements ModelInterface, ArrayAccess, \JsonSerializabl
             self::STATE_ACCOUNT_SUSPENDED,
             self::STATE_LICENSE_REVOKED,
             self::STATE_ACCIDENTAL,
+            self::STATE_DECLINED,
         ];
     }
 
@@ -427,6 +435,7 @@ class SubmissionPreview implements ModelInterface, ArrayAccess, \JsonSerializabl
         $this->setIfExists('batch_id', $data ?? [], null);
         $this->setIfExists('data_requests', $data ?? [], null);
         $this->setIfExists('editable', $data ?? [], null);
+        $this->setIfExists('error_message', $data ?? [], null);
         $this->setIfExists('expired', $data ?? [], null);
         $this->setIfExists('expires_at', $data ?? [], null);
         $this->setIfExists('id', $data ?? [], null);
@@ -484,6 +493,9 @@ class SubmissionPreview implements ModelInterface, ArrayAccess, \JsonSerializabl
         }
         if ($this->container['editable'] === null) {
             $invalidProperties[] = "'editable' can't be null";
+        }
+        if ($this->container['error_message'] === null) {
+            $invalidProperties[] = "'error_message' can't be null";
         }
         if ($this->container['expired'] === null) {
             $invalidProperties[] = "'expired' can't be null";
@@ -669,6 +681,40 @@ class SubmissionPreview implements ModelInterface, ArrayAccess, \JsonSerializabl
             }
         }
         $this->container['editable'] = $editable;
+
+        return $this;
+    }
+
+    /**
+     * Gets error_message
+     *
+     * @return string
+     */
+    public function getErrorMessage()
+    {
+        return $this->container['error_message'];
+    }
+
+    /**
+     * Sets error_message
+     *
+     * @param string $error_message error_message
+     *
+     * @return self
+     */
+    public function setErrorMessage($error_message)
+    {
+        if (is_null($error_message)) {
+            array_push($this->openAPINullablesSetToNull, 'error_message');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('error_message', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['error_message'] = $error_message;
 
         return $this;
     }

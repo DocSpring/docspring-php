@@ -7,6 +7,7 @@ Name | Type | Description | Notes
 **batch_id** | **string** |  |
 **data_requests** | [**\DocSpring\Model\SubmissionDataRequest[]**](SubmissionDataRequest.md) |  |
 **editable** | **bool** |  |
+**error_message** | **string** |  |
 **expired** | **bool** |  |
 **expires_at** | **string** |  |
 **id** | **string** |  |

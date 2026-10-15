@@ -107,6 +107,15 @@ class SubmissionTest extends TestCase
     }
 
     /**
+     * Test attribute "error_message"
+     */
+    public function testPropertyErrorMessage()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
      * Test attribute "expired"
      */
     public function testPropertyExpired()

@@ -62,7 +62,8 @@ class SubmissionAction implements ModelInterface, ArrayAccess, \JsonSerializable
         'state' => 'string',
         'action_type' => 'string',
         'action_category' => 'string',
-        'result_data' => 'object'
+        'result_data' => 'object',
+        'error_message' => 'string'
     ];
 
     /**
@@ -78,7 +79,8 @@ class SubmissionAction implements ModelInterface, ArrayAccess, \JsonSerializable
         'state' => null,
         'action_type' => null,
         'action_category' => null,
-        'result_data' => null
+        'result_data' => null,
+        'error_message' => null
     ];
 
     /**
@@ -92,7 +94,8 @@ class SubmissionAction implements ModelInterface, ArrayAccess, \JsonSerializable
         'state' => false,
         'action_type' => false,
         'action_category' => false,
-        'result_data' => false
+        'result_data' => false,
+        'error_message' => true
     ];
 
     /**
@@ -186,7 +189,8 @@ class SubmissionAction implements ModelInterface, ArrayAccess, \JsonSerializable
         'state' => 'state',
         'action_type' => 'action_type',
         'action_category' => 'action_category',
-        'result_data' => 'result_data'
+        'result_data' => 'result_data',
+        'error_message' => 'error_message'
     ];
 
     /**
@@ -200,7 +204,8 @@ class SubmissionAction implements ModelInterface, ArrayAccess, \JsonSerializable
         'state' => 'setState',
         'action_type' => 'setActionType',
         'action_category' => 'setActionCategory',
-        'result_data' => 'setResultData'
+        'result_data' => 'setResultData',
+        'error_message' => 'setErrorMessage'
     ];
 
     /**
@@ -214,7 +219,8 @@ class SubmissionAction implements ModelInterface, ArrayAccess, \JsonSerializable
         'state' => 'getState',
         'action_type' => 'getActionType',
         'action_category' => 'getActionCategory',
-        'result_data' => 'getResultData'
+        'result_data' => 'getResultData',
+        'error_message' => 'getErrorMessage'
     ];
 
     /**
@@ -333,6 +339,7 @@ class SubmissionAction implements ModelInterface, ArrayAccess, \JsonSerializable
         $this->setIfExists('action_type', $data ?? [], null);
         $this->setIfExists('action_category', $data ?? [], null);
         $this->setIfExists('result_data', $data ?? [], null);
+        $this->setIfExists('error_message', $data ?? [], null);
     }
 
     /**
@@ -406,6 +413,9 @@ class SubmissionAction implements ModelInterface, ArrayAccess, \JsonSerializable
 
         if ($this->container['result_data'] === null) {
             $invalidProperties[] = "'result_data' can't be null";
+        }
+        if ($this->container['error_message'] === null) {
+            $invalidProperties[] = "'error_message' can't be null";
         }
         return $invalidProperties;
     }
@@ -624,6 +634,40 @@ class SubmissionAction implements ModelInterface, ArrayAccess, \JsonSerializable
             throw new \InvalidArgumentException('non-nullable result_data cannot be null');
         }
         $this->container['result_data'] = $result_data;
+
+        return $this;
+    }
+
+    /**
+     * Gets error_message
+     *
+     * @return string
+     */
+    public function getErrorMessage()
+    {
+        return $this->container['error_message'];
+    }
+
+    /**
+     * Sets error_message
+     *
+     * @param string $error_message error_message
+     *
+     * @return self
+     */
+    public function setErrorMessage($error_message)
+    {
+        if (is_null($error_message)) {
+            array_push($this->openAPINullablesSetToNull, 'error_message');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('error_message', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['error_message'] = $error_message;
 
         return $this;
     }

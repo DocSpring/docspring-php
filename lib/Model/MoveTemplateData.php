@@ -57,7 +57,8 @@ class MoveTemplateData implements ModelInterface, ArrayAccess, \JsonSerializable
       * @var string[]
       */
     protected static $openAPITypes = [
-        'parent_folder_id' => 'string'
+        'parent_folder_id' => 'string',
+        'version' => 'string'
     ];
 
     /**
@@ -68,7 +69,8 @@ class MoveTemplateData implements ModelInterface, ArrayAccess, \JsonSerializable
       * @psalm-var array<string, string|null>
       */
     protected static $openAPIFormats = [
-        'parent_folder_id' => null
+        'parent_folder_id' => null,
+        'version' => null
     ];
 
     /**
@@ -77,7 +79,8 @@ class MoveTemplateData implements ModelInterface, ArrayAccess, \JsonSerializable
       * @var boolean[]
       */
     protected static array $openAPINullables = [
-        'parent_folder_id' => false
+        'parent_folder_id' => true,
+        'version' => false
     ];
 
     /**
@@ -166,7 +169,8 @@ class MoveTemplateData implements ModelInterface, ArrayAccess, \JsonSerializable
      * @var string[]
      */
     protected static $attributeMap = [
-        'parent_folder_id' => 'parent_folder_id'
+        'parent_folder_id' => 'parent_folder_id',
+        'version' => 'version'
     ];
 
     /**
@@ -175,7 +179,8 @@ class MoveTemplateData implements ModelInterface, ArrayAccess, \JsonSerializable
      * @var string[]
      */
     protected static $setters = [
-        'parent_folder_id' => 'setParentFolderId'
+        'parent_folder_id' => 'setParentFolderId',
+        'version' => 'setVersion'
     ];
 
     /**
@@ -184,7 +189,8 @@ class MoveTemplateData implements ModelInterface, ArrayAccess, \JsonSerializable
      * @var string[]
      */
     protected static $getters = [
-        'parent_folder_id' => 'getParentFolderId'
+        'parent_folder_id' => 'getParentFolderId',
+        'version' => 'getVersion'
     ];
 
     /**
@@ -245,6 +251,7 @@ class MoveTemplateData implements ModelInterface, ArrayAccess, \JsonSerializable
     public function __construct(?array $data = null)
     {
         $this->setIfExists('parent_folder_id', $data ?? [], null);
+        $this->setIfExists('version', $data ?? [], null);
     }
 
     /**
@@ -312,9 +319,43 @@ class MoveTemplateData implements ModelInterface, ArrayAccess, \JsonSerializable
     public function setParentFolderId($parent_folder_id)
     {
         if (is_null($parent_folder_id)) {
-            throw new \InvalidArgumentException('non-nullable parent_folder_id cannot be null');
+            array_push($this->openAPINullablesSetToNull, 'parent_folder_id');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('parent_folder_id', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
         }
         $this->container['parent_folder_id'] = $parent_folder_id;
+
+        return $this;
+    }
+
+    /**
+     * Gets version
+     *
+     * @return string|null
+     */
+    public function getVersion()
+    {
+        return $this->container['version'];
+    }
+
+    /**
+     * Sets version
+     *
+     * @param string|null $version version
+     *
+     * @return self
+     */
+    public function setVersion($version)
+    {
+        if (is_null($version)) {
+            throw new \InvalidArgumentException('non-nullable version cannot be null');
+        }
+        $this->container['version'] = $version;
 
         return $this;
     }

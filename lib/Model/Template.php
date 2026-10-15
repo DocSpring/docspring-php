@@ -68,6 +68,9 @@ class Template implements ModelInterface, ArrayAccess, \JsonSerializable
         'document_url' => 'string',
         'editable_submissions' => 'bool',
         'embed_domains' => 'string',
+        'embed_edit_allow_settings' => 'bool',
+        'embed_edit_allow_versioning' => 'bool',
+        'embed_edit_allow_document_replacement' => 'bool',
         'encrypt_pdfs_password' => 'string',
         'encrypt_pdfs' => 'bool',
         'expiration_interval' => 'string',
@@ -94,12 +97,17 @@ class Template implements ModelInterface, ArrayAccess, \JsonSerializable
         'version_published_at' => 'string',
         'version' => 'string',
         'webhook_url' => 'string',
+        'embed_edit_token' => 'string',
         'demo' => 'bool',
         'latest_version' => 'string',
         'last_changed_at' => 'string',
         'last_changed_by_type' => 'string',
         'last_changed_by_id' => 'string',
+        'last_changed_by_external_name' => 'string',
+        'last_changed_by_external_email' => 'string',
+        'last_changed_by_external_id' => 'string',
         'defaults' => 'object',
+        'field_dependencies' => 'object[]',
         'field_order' => 'float[][]',
         'fields' => 'object',
         'footer_html' => 'string',
@@ -109,6 +117,7 @@ class Template implements ModelInterface, ArrayAccess, \JsonSerializable
         'predefined_fields' => 'object[]',
         'scss' => 'string',
         'shared_field_data' => 'object',
+        'template_schema_version' => 'int',
         'versions' => 'object[]'
     ];
 
@@ -131,6 +140,9 @@ class Template implements ModelInterface, ArrayAccess, \JsonSerializable
         'document_url' => null,
         'editable_submissions' => null,
         'embed_domains' => null,
+        'embed_edit_allow_settings' => null,
+        'embed_edit_allow_versioning' => null,
+        'embed_edit_allow_document_replacement' => null,
         'encrypt_pdfs_password' => null,
         'encrypt_pdfs' => null,
         'expiration_interval' => null,
@@ -157,12 +169,17 @@ class Template implements ModelInterface, ArrayAccess, \JsonSerializable
         'version_published_at' => null,
         'version' => null,
         'webhook_url' => null,
+        'embed_edit_token' => null,
         'demo' => null,
         'latest_version' => null,
         'last_changed_at' => null,
         'last_changed_by_type' => null,
         'last_changed_by_id' => null,
+        'last_changed_by_external_name' => null,
+        'last_changed_by_external_email' => null,
+        'last_changed_by_external_id' => null,
         'defaults' => null,
+        'field_dependencies' => null,
         'field_order' => null,
         'fields' => null,
         'footer_html' => null,
@@ -172,6 +189,7 @@ class Template implements ModelInterface, ArrayAccess, \JsonSerializable
         'predefined_fields' => null,
         'scss' => null,
         'shared_field_data' => null,
+        'template_schema_version' => null,
         'versions' => null
     ];
 
@@ -192,6 +210,9 @@ class Template implements ModelInterface, ArrayAccess, \JsonSerializable
         'document_url' => true,
         'editable_submissions' => false,
         'embed_domains' => true,
+        'embed_edit_allow_settings' => false,
+        'embed_edit_allow_versioning' => false,
+        'embed_edit_allow_document_replacement' => false,
         'encrypt_pdfs_password' => true,
         'encrypt_pdfs' => false,
         'expiration_interval' => false,
@@ -207,7 +228,7 @@ class Template implements ModelInterface, ArrayAccess, \JsonSerializable
         'page_count' => false,
         'page_dimensions' => true,
         'parent_folder_id' => true,
-        'path' => true,
+        'path' => false,
         'permanent_document_url' => true,
         'public_submissions' => false,
         'public_web_form' => false,
@@ -218,12 +239,17 @@ class Template implements ModelInterface, ArrayAccess, \JsonSerializable
         'version_published_at' => true,
         'version' => true,
         'webhook_url' => true,
+        'embed_edit_token' => true,
         'demo' => false,
         'latest_version' => true,
         'last_changed_at' => true,
         'last_changed_by_type' => true,
         'last_changed_by_id' => true,
+        'last_changed_by_external_name' => true,
+        'last_changed_by_external_email' => true,
+        'last_changed_by_external_id' => true,
         'defaults' => false,
+        'field_dependencies' => false,
         'field_order' => false,
         'fields' => false,
         'footer_html' => true,
@@ -233,6 +259,7 @@ class Template implements ModelInterface, ArrayAccess, \JsonSerializable
         'predefined_fields' => false,
         'scss' => true,
         'shared_field_data' => false,
+        'template_schema_version' => false,
         'versions' => false
     ];
 
@@ -333,6 +360,9 @@ class Template implements ModelInterface, ArrayAccess, \JsonSerializable
         'document_url' => 'document_url',
         'editable_submissions' => 'editable_submissions',
         'embed_domains' => 'embed_domains',
+        'embed_edit_allow_settings' => 'embed_edit_allow_settings',
+        'embed_edit_allow_versioning' => 'embed_edit_allow_versioning',
+        'embed_edit_allow_document_replacement' => 'embed_edit_allow_document_replacement',
         'encrypt_pdfs_password' => 'encrypt_pdfs_password',
         'encrypt_pdfs' => 'encrypt_pdfs',
         'expiration_interval' => 'expiration_interval',
@@ -359,12 +389,17 @@ class Template implements ModelInterface, ArrayAccess, \JsonSerializable
         'version_published_at' => 'version_published_at',
         'version' => 'version',
         'webhook_url' => 'webhook_url',
+        'embed_edit_token' => 'embed_edit_token',
         'demo' => 'demo',
         'latest_version' => 'latest_version',
         'last_changed_at' => 'last_changed_at',
         'last_changed_by_type' => 'last_changed_by_type',
         'last_changed_by_id' => 'last_changed_by_id',
+        'last_changed_by_external_name' => 'last_changed_by_external_name',
+        'last_changed_by_external_email' => 'last_changed_by_external_email',
+        'last_changed_by_external_id' => 'last_changed_by_external_id',
         'defaults' => 'defaults',
+        'field_dependencies' => 'field_dependencies',
         'field_order' => 'field_order',
         'fields' => 'fields',
         'footer_html' => 'footer_html',
@@ -374,6 +409,7 @@ class Template implements ModelInterface, ArrayAccess, \JsonSerializable
         'predefined_fields' => 'predefined_fields',
         'scss' => 'scss',
         'shared_field_data' => 'shared_field_data',
+        'template_schema_version' => 'template_schema_version',
         'versions' => 'versions'
     ];
 
@@ -394,6 +430,9 @@ class Template implements ModelInterface, ArrayAccess, \JsonSerializable
         'document_url' => 'setDocumentUrl',
         'editable_submissions' => 'setEditableSubmissions',
         'embed_domains' => 'setEmbedDomains',
+        'embed_edit_allow_settings' => 'setEmbedEditAllowSettings',
+        'embed_edit_allow_versioning' => 'setEmbedEditAllowVersioning',
+        'embed_edit_allow_document_replacement' => 'setEmbedEditAllowDocumentReplacement',
         'encrypt_pdfs_password' => 'setEncryptPdfsPassword',
         'encrypt_pdfs' => 'setEncryptPdfs',
         'expiration_interval' => 'setExpirationInterval',
@@ -420,12 +459,17 @@ class Template implements ModelInterface, ArrayAccess, \JsonSerializable
         'version_published_at' => 'setVersionPublishedAt',
         'version' => 'setVersion',
         'webhook_url' => 'setWebhookUrl',
+        'embed_edit_token' => 'setEmbedEditToken',
         'demo' => 'setDemo',
         'latest_version' => 'setLatestVersion',
         'last_changed_at' => 'setLastChangedAt',
         'last_changed_by_type' => 'setLastChangedByType',
         'last_changed_by_id' => 'setLastChangedById',
+        'last_changed_by_external_name' => 'setLastChangedByExternalName',
+        'last_changed_by_external_email' => 'setLastChangedByExternalEmail',
+        'last_changed_by_external_id' => 'setLastChangedByExternalId',
         'defaults' => 'setDefaults',
+        'field_dependencies' => 'setFieldDependencies',
         'field_order' => 'setFieldOrder',
         'fields' => 'setFields',
         'footer_html' => 'setFooterHtml',
@@ -435,6 +479,7 @@ class Template implements ModelInterface, ArrayAccess, \JsonSerializable
         'predefined_fields' => 'setPredefinedFields',
         'scss' => 'setScss',
         'shared_field_data' => 'setSharedFieldData',
+        'template_schema_version' => 'setTemplateSchemaVersion',
         'versions' => 'setVersions'
     ];
 
@@ -455,6 +500,9 @@ class Template implements ModelInterface, ArrayAccess, \JsonSerializable
         'document_url' => 'getDocumentUrl',
         'editable_submissions' => 'getEditableSubmissions',
         'embed_domains' => 'getEmbedDomains',
+        'embed_edit_allow_settings' => 'getEmbedEditAllowSettings',
+        'embed_edit_allow_versioning' => 'getEmbedEditAllowVersioning',
+        'embed_edit_allow_document_replacement' => 'getEmbedEditAllowDocumentReplacement',
         'encrypt_pdfs_password' => 'getEncryptPdfsPassword',
         'encrypt_pdfs' => 'getEncryptPdfs',
         'expiration_interval' => 'getExpirationInterval',
@@ -481,12 +529,17 @@ class Template implements ModelInterface, ArrayAccess, \JsonSerializable
         'version_published_at' => 'getVersionPublishedAt',
         'version' => 'getVersion',
         'webhook_url' => 'getWebhookUrl',
+        'embed_edit_token' => 'getEmbedEditToken',
         'demo' => 'getDemo',
         'latest_version' => 'getLatestVersion',
         'last_changed_at' => 'getLastChangedAt',
         'last_changed_by_type' => 'getLastChangedByType',
         'last_changed_by_id' => 'getLastChangedById',
+        'last_changed_by_external_name' => 'getLastChangedByExternalName',
+        'last_changed_by_external_email' => 'getLastChangedByExternalEmail',
+        'last_changed_by_external_id' => 'getLastChangedByExternalId',
         'defaults' => 'getDefaults',
+        'field_dependencies' => 'getFieldDependencies',
         'field_order' => 'getFieldOrder',
         'fields' => 'getFields',
         'footer_html' => 'getFooterHtml',
@@ -496,6 +549,7 @@ class Template implements ModelInterface, ArrayAccess, \JsonSerializable
         'predefined_fields' => 'getPredefinedFields',
         'scss' => 'getScss',
         'shared_field_data' => 'getSharedFieldData',
+        'template_schema_version' => 'getTemplateSchemaVersion',
         'versions' => 'getVersions'
     ];
 
@@ -549,6 +603,7 @@ class Template implements ModelInterface, ArrayAccess, \JsonSerializable
     public const TEMPLATE_TYPE_HTML = 'html';
     public const LAST_CHANGED_BY_TYPE_USER = 'user';
     public const LAST_CHANGED_BY_TYPE_API = 'api';
+    public const LAST_CHANGED_BY_TYPE_EXTERNAL_USER = 'external_user';
 
     /**
      * Gets allowable values of the enum
@@ -589,6 +644,7 @@ class Template implements ModelInterface, ArrayAccess, \JsonSerializable
         return [
             self::LAST_CHANGED_BY_TYPE_USER,
             self::LAST_CHANGED_BY_TYPE_API,
+            self::LAST_CHANGED_BY_TYPE_EXTERNAL_USER,
         ];
     }
 
@@ -618,6 +674,9 @@ class Template implements ModelInterface, ArrayAccess, \JsonSerializable
         $this->setIfExists('document_url', $data ?? [], null);
         $this->setIfExists('editable_submissions', $data ?? [], null);
         $this->setIfExists('embed_domains', $data ?? [], null);
+        $this->setIfExists('embed_edit_allow_settings', $data ?? [], null);
+        $this->setIfExists('embed_edit_allow_versioning', $data ?? [], null);
+        $this->setIfExists('embed_edit_allow_document_replacement', $data ?? [], null);
         $this->setIfExists('encrypt_pdfs_password', $data ?? [], null);
         $this->setIfExists('encrypt_pdfs', $data ?? [], null);
         $this->setIfExists('expiration_interval', $data ?? [], null);
@@ -644,12 +703,17 @@ class Template implements ModelInterface, ArrayAccess, \JsonSerializable
         $this->setIfExists('version_published_at', $data ?? [], null);
         $this->setIfExists('version', $data ?? [], null);
         $this->setIfExists('webhook_url', $data ?? [], null);
+        $this->setIfExists('embed_edit_token', $data ?? [], null);
         $this->setIfExists('demo', $data ?? [], null);
         $this->setIfExists('latest_version', $data ?? [], null);
         $this->setIfExists('last_changed_at', $data ?? [], null);
         $this->setIfExists('last_changed_by_type', $data ?? [], null);
         $this->setIfExists('last_changed_by_id', $data ?? [], null);
+        $this->setIfExists('last_changed_by_external_name', $data ?? [], null);
+        $this->setIfExists('last_changed_by_external_email', $data ?? [], null);
+        $this->setIfExists('last_changed_by_external_id', $data ?? [], null);
         $this->setIfExists('defaults', $data ?? [], null);
+        $this->setIfExists('field_dependencies', $data ?? [], null);
         $this->setIfExists('field_order', $data ?? [], null);
         $this->setIfExists('fields', $data ?? [], null);
         $this->setIfExists('footer_html', $data ?? [], null);
@@ -659,6 +723,7 @@ class Template implements ModelInterface, ArrayAccess, \JsonSerializable
         $this->setIfExists('predefined_fields', $data ?? [], null);
         $this->setIfExists('scss', $data ?? [], null);
         $this->setIfExists('shared_field_data', $data ?? [], null);
+        $this->setIfExists('template_schema_version', $data ?? [], null);
         $this->setIfExists('versions', $data ?? [], null);
     }
 
@@ -730,6 +795,15 @@ class Template implements ModelInterface, ArrayAccess, \JsonSerializable
         }
         if ($this->container['embed_domains'] === null) {
             $invalidProperties[] = "'embed_domains' can't be null";
+        }
+        if ($this->container['embed_edit_allow_settings'] === null) {
+            $invalidProperties[] = "'embed_edit_allow_settings' can't be null";
+        }
+        if ($this->container['embed_edit_allow_versioning'] === null) {
+            $invalidProperties[] = "'embed_edit_allow_versioning' can't be null";
+        }
+        if ($this->container['embed_edit_allow_document_replacement'] === null) {
+            $invalidProperties[] = "'embed_edit_allow_document_replacement' can't be null";
         }
         if ($this->container['encrypt_pdfs_password'] === null) {
             $invalidProperties[] = "'encrypt_pdfs_password' can't be null";
@@ -842,8 +916,20 @@ class Template implements ModelInterface, ArrayAccess, \JsonSerializable
         if ($this->container['last_changed_by_id'] === null) {
             $invalidProperties[] = "'last_changed_by_id' can't be null";
         }
+        if ($this->container['last_changed_by_external_name'] === null) {
+            $invalidProperties[] = "'last_changed_by_external_name' can't be null";
+        }
+        if ($this->container['last_changed_by_external_email'] === null) {
+            $invalidProperties[] = "'last_changed_by_external_email' can't be null";
+        }
+        if ($this->container['last_changed_by_external_id'] === null) {
+            $invalidProperties[] = "'last_changed_by_external_id' can't be null";
+        }
         if ($this->container['defaults'] === null) {
             $invalidProperties[] = "'defaults' can't be null";
+        }
+        if ($this->container['field_dependencies'] === null) {
+            $invalidProperties[] = "'field_dependencies' can't be null";
         }
         if ($this->container['field_order'] === null) {
             $invalidProperties[] = "'field_order' can't be null";
@@ -871,6 +957,9 @@ class Template implements ModelInterface, ArrayAccess, \JsonSerializable
         }
         if ($this->container['shared_field_data'] === null) {
             $invalidProperties[] = "'shared_field_data' can't be null";
+        }
+        if ($this->container['template_schema_version'] === null) {
+            $invalidProperties[] = "'template_schema_version' can't be null";
         }
         if ($this->container['versions'] === null) {
             $invalidProperties[] = "'versions' can't be null";
@@ -1228,6 +1317,87 @@ class Template implements ModelInterface, ArrayAccess, \JsonSerializable
             }
         }
         $this->container['embed_domains'] = $embed_domains;
+
+        return $this;
+    }
+
+    /**
+     * Gets embed_edit_allow_settings
+     *
+     * @return bool
+     */
+    public function getEmbedEditAllowSettings()
+    {
+        return $this->container['embed_edit_allow_settings'];
+    }
+
+    /**
+     * Sets embed_edit_allow_settings
+     *
+     * @param bool $embed_edit_allow_settings embed_edit_allow_settings
+     *
+     * @return self
+     */
+    public function setEmbedEditAllowSettings($embed_edit_allow_settings)
+    {
+        if (is_null($embed_edit_allow_settings)) {
+            throw new \InvalidArgumentException('non-nullable embed_edit_allow_settings cannot be null');
+        }
+        $this->container['embed_edit_allow_settings'] = $embed_edit_allow_settings;
+
+        return $this;
+    }
+
+    /**
+     * Gets embed_edit_allow_versioning
+     *
+     * @return bool
+     */
+    public function getEmbedEditAllowVersioning()
+    {
+        return $this->container['embed_edit_allow_versioning'];
+    }
+
+    /**
+     * Sets embed_edit_allow_versioning
+     *
+     * @param bool $embed_edit_allow_versioning embed_edit_allow_versioning
+     *
+     * @return self
+     */
+    public function setEmbedEditAllowVersioning($embed_edit_allow_versioning)
+    {
+        if (is_null($embed_edit_allow_versioning)) {
+            throw new \InvalidArgumentException('non-nullable embed_edit_allow_versioning cannot be null');
+        }
+        $this->container['embed_edit_allow_versioning'] = $embed_edit_allow_versioning;
+
+        return $this;
+    }
+
+    /**
+     * Gets embed_edit_allow_document_replacement
+     *
+     * @return bool
+     */
+    public function getEmbedEditAllowDocumentReplacement()
+    {
+        return $this->container['embed_edit_allow_document_replacement'];
+    }
+
+    /**
+     * Sets embed_edit_allow_document_replacement
+     *
+     * @param bool $embed_edit_allow_document_replacement embed_edit_allow_document_replacement
+     *
+     * @return self
+     */
+    public function setEmbedEditAllowDocumentReplacement($embed_edit_allow_document_replacement)
+    {
+        if (is_null($embed_edit_allow_document_replacement)) {
+            throw new \InvalidArgumentException('non-nullable embed_edit_allow_document_replacement cannot be null');
+        }
+        $this->container['embed_edit_allow_document_replacement'] = $embed_edit_allow_document_replacement;
 
         return $this;
     }
@@ -1706,14 +1876,7 @@ class Template implements ModelInterface, ArrayAccess, \JsonSerializable
     public function setPath($path)
     {
         if (is_null($path)) {
-            array_push($this->openAPINullablesSetToNull, 'path');
-        } else {
-            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('path', $nullablesSetToNull);
-            if ($index !== FALSE) {
-                unset($nullablesSetToNull[$index]);
-                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
-            }
+            throw new \InvalidArgumentException('non-nullable path cannot be null');
         }
         $this->container['path'] = $path;
 
@@ -2050,6 +2213,40 @@ class Template implements ModelInterface, ArrayAccess, \JsonSerializable
     }
 
     /**
+     * Gets embed_edit_token
+     *
+     * @return string|null
+     */
+    public function getEmbedEditToken()
+    {
+        return $this->container['embed_edit_token'];
+    }
+
+    /**
+     * Sets embed_edit_token
+     *
+     * @param string|null $embed_edit_token embed_edit_token
+     *
+     * @return self
+     */
+    public function setEmbedEditToken($embed_edit_token)
+    {
+        if (is_null($embed_edit_token)) {
+            array_push($this->openAPINullablesSetToNull, 'embed_edit_token');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('embed_edit_token', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['embed_edit_token'] = $embed_edit_token;
+
+        return $this;
+    }
+
+    /**
      * Gets demo
      *
      * @return bool
@@ -2223,6 +2420,108 @@ class Template implements ModelInterface, ArrayAccess, \JsonSerializable
     }
 
     /**
+     * Gets last_changed_by_external_name
+     *
+     * @return string
+     */
+    public function getLastChangedByExternalName()
+    {
+        return $this->container['last_changed_by_external_name'];
+    }
+
+    /**
+     * Sets last_changed_by_external_name
+     *
+     * @param string $last_changed_by_external_name last_changed_by_external_name
+     *
+     * @return self
+     */
+    public function setLastChangedByExternalName($last_changed_by_external_name)
+    {
+        if (is_null($last_changed_by_external_name)) {
+            array_push($this->openAPINullablesSetToNull, 'last_changed_by_external_name');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('last_changed_by_external_name', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['last_changed_by_external_name'] = $last_changed_by_external_name;
+
+        return $this;
+    }
+
+    /**
+     * Gets last_changed_by_external_email
+     *
+     * @return string
+     */
+    public function getLastChangedByExternalEmail()
+    {
+        return $this->container['last_changed_by_external_email'];
+    }
+
+    /**
+     * Sets last_changed_by_external_email
+     *
+     * @param string $last_changed_by_external_email last_changed_by_external_email
+     *
+     * @return self
+     */
+    public function setLastChangedByExternalEmail($last_changed_by_external_email)
+    {
+        if (is_null($last_changed_by_external_email)) {
+            array_push($this->openAPINullablesSetToNull, 'last_changed_by_external_email');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('last_changed_by_external_email', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['last_changed_by_external_email'] = $last_changed_by_external_email;
+
+        return $this;
+    }
+
+    /**
+     * Gets last_changed_by_external_id
+     *
+     * @return string
+     */
+    public function getLastChangedByExternalId()
+    {
+        return $this->container['last_changed_by_external_id'];
+    }
+
+    /**
+     * Sets last_changed_by_external_id
+     *
+     * @param string $last_changed_by_external_id last_changed_by_external_id
+     *
+     * @return self
+     */
+    public function setLastChangedByExternalId($last_changed_by_external_id)
+    {
+        if (is_null($last_changed_by_external_id)) {
+            array_push($this->openAPINullablesSetToNull, 'last_changed_by_external_id');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('last_changed_by_external_id', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['last_changed_by_external_id'] = $last_changed_by_external_id;
+
+        return $this;
+    }
+
+    /**
      * Gets defaults
      *
      * @return object
@@ -2245,6 +2544,33 @@ class Template implements ModelInterface, ArrayAccess, \JsonSerializable
             throw new \InvalidArgumentException('non-nullable defaults cannot be null');
         }
         $this->container['defaults'] = $defaults;
+
+        return $this;
+    }
+
+    /**
+     * Gets field_dependencies
+     *
+     * @return object[]
+     */
+    public function getFieldDependencies()
+    {
+        return $this->container['field_dependencies'];
+    }
+
+    /**
+     * Sets field_dependencies
+     *
+     * @param object[] $field_dependencies field_dependencies
+     *
+     * @return self
+     */
+    public function setFieldDependencies($field_dependencies)
+    {
+        if (is_null($field_dependencies)) {
+            throw new \InvalidArgumentException('non-nullable field_dependencies cannot be null');
+        }
+        $this->container['field_dependencies'] = $field_dependencies;
 
         return $this;
     }
@@ -2516,6 +2842,33 @@ class Template implements ModelInterface, ArrayAccess, \JsonSerializable
             throw new \InvalidArgumentException('non-nullable shared_field_data cannot be null');
         }
         $this->container['shared_field_data'] = $shared_field_data;
+
+        return $this;
+    }
+
+    /**
+     * Gets template_schema_version
+     *
+     * @return int
+     */
+    public function getTemplateSchemaVersion()
+    {
+        return $this->container['template_schema_version'];
+    }
+
+    /**
+     * Sets template_schema_version
+     *
+     * @param int $template_schema_version template_schema_version
+     *
+     * @return self
+     */
+    public function setTemplateSchemaVersion($template_schema_version)
+    {
+        if (is_null($template_schema_version)) {
+            throw new \InvalidArgumentException('non-nullable template_schema_version cannot be null');
+        }
+        $this->container['template_schema_version'] = $template_schema_version;
 
         return $this;
     }

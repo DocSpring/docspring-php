@@ -14,6 +14,7 @@ Name | Type | Description | Notes
 **state** | **string** |  |
 **viewed_at** | **string** |  |
 **completed_at** | **string** |  |
+**declined_at** | **string** |  |
 **data** | **object** |  |
 **auth_type** | **string** |  |
 **auth_second_factor_type** | **string** |  |

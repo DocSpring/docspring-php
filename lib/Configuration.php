@@ -100,7 +100,7 @@ class Configuration
      *
      * @var string
      */
-    protected $userAgent = 'docspring-php-3.0.0';
+    protected $userAgent = 'docspring-php-3.1.0';
 
     /**
      * Debug switch (default set to false)
@@ -142,7 +142,7 @@ class Configuration
 
         $this->setBooleanFormatForQueryString(self::BOOLEAN_FORMAT_STRING);
         // Resolve host from environment variables DOCSPRING_HOST / DOCSPRING_REGION
-        $envHost = getenv('DOCSPRING_HOST') ?: '';
+        $envHost = trim(getenv('DOCSPRING_HOST') ?: '');
         if ($envHost === '' && ($region = getenv('DOCSPRING_REGION'))) {
             $r = strtoupper(trim($region));
             if ($r === 'US') { $envHost = 'sync.api.docspring.com'; }
@@ -153,12 +153,12 @@ class Configuration
             if (!preg_match('/^https?:\/\//i', $envHost)) {
                 $envHost = 'https://' . $envHost;
             }
-            if (!preg_match('#/api/v1/?$#i', $envHost)) {
-                $envHost = rtrim($envHost, '/') . '/api/v1';
+            $envHost = rtrim($envHost, '/');
+            if (!preg_match('#/api/v1$#i', $envHost)) {
+                $envHost .= '/api/v1';
             }
             $this->host = $envHost;
         }
-
 
         $this->tempFolderPath = sys_get_temp_dir();
     }
@@ -465,7 +465,7 @@ class Configuration
         $report .= '    OS: ' . php_uname() . PHP_EOL;
         $report .= '    PHP Version: ' . PHP_VERSION . PHP_EOL;
         $report .= '    The version of the OpenAPI document: v1' . PHP_EOL;
-        $report .= '    SDK Package Version: 3.0.0' . PHP_EOL;
+        $report .= '    SDK Package Version: 3.1.0' . PHP_EOL;
         $report .= '    Temp Folder Path: ' . self::getDefaultConfiguration()->getTempFolderPath() . PHP_EOL;
 
         return $report;

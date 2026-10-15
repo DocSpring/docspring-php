@@ -15,8 +15,10 @@ All URIs are relative to https://sync.api.docspring.com/api/v1, except if the op
 | [**createHtmlTemplate()**](Client.md#createHtmlTemplate) | **POST** /templates?endpoint_variant&#x3D;create_html_template | Create a new HTML template |
 | [**createPdfTemplate()**](Client.md#createPdfTemplate) | **POST** /templates | Create a new PDF template with a form POST file upload |
 | [**createPdfTemplateFromUpload()**](Client.md#createPdfTemplateFromUpload) | **POST** /templates?endpoint_variant&#x3D;create_template_from_cached_upload | Create a new PDF template from a cached S3 file upload |
+| [**createWebhook()**](Client.md#createWebhook) | **POST** /webhooks | Create a webhook |
 | [**deleteFolder()**](Client.md#deleteFolder) | **DELETE** /folders/{folder_id} | Delete a folder |
 | [**deleteTemplate()**](Client.md#deleteTemplate) | **DELETE** /templates/{template_id} | Delete a template |
+| [**deleteWebhook()**](Client.md#deleteWebhook) | **DELETE** /webhooks/{webhook_id} | Delete a webhook |
 | [**expireCombinedSubmission()**](Client.md#expireCombinedSubmission) | **DELETE** /combined_submissions/{combined_submission_id} | Expire a combined submission |
 | [**expireSubmission()**](Client.md#expireSubmission) | **DELETE** /submissions/{submission_id} | Expire a PDF submission |
 | [**generatePdf()**](Client.md#generatePdf) | **POST** /templates/{template_id}/submissions | Generate a PDF |
@@ -28,12 +30,15 @@ All URIs are relative to https://sync.api.docspring.com/api/v1, except if the op
 | [**getSubmission()**](Client.md#getSubmission) | **GET** /submissions/{submission_id} | Check the status of a PDF |
 | [**getSubmissionBatch()**](Client.md#getSubmissionBatch) | **GET** /submissions/batches/{submission_batch_id} | Check the status of a submission batch job |
 | [**getTemplate()**](Client.md#getTemplate) | **GET** /templates/{template_id} | Check the status of an uploaded template |
+| [**getTemplateModelCode()**](Client.md#getTemplateModelCode) | **GET** /templates/{template_id}/model_code | Generate typed model code for a template |
 | [**getTemplateSchema()**](Client.md#getTemplateSchema) | **GET** /templates/{template_id}/schema | Fetch the JSON schema for a template |
+| [**getWebhook()**](Client.md#getWebhook) | **GET** /webhooks/{webhook_id} | Get a webhook |
 | [**listCombinedSubmissions()**](Client.md#listCombinedSubmissions) | **GET** /combined_submissions | Get a list of all combined submissions |
 | [**listFolders()**](Client.md#listFolders) | **GET** /folders/ | Get a list of all folders |
 | [**listSubmissions()**](Client.md#listSubmissions) | **GET** /submissions | List all submissions |
 | [**listTemplateSubmissions()**](Client.md#listTemplateSubmissions) | **GET** /templates/{template_id}/submissions | List all submissions for a given template |
 | [**listTemplates()**](Client.md#listTemplates) | **GET** /templates | Get a list of all templates |
+| [**listWebhooks()**](Client.md#listWebhooks) | **GET** /webhooks | Get a list of all webhooks |
 | [**moveFolderToFolder()**](Client.md#moveFolderToFolder) | **POST** /folders/{folder_id}/move | Move a folder |
 | [**moveTemplateToFolder()**](Client.md#moveTemplateToFolder) | **POST** /templates/{template_id}/move | Move Template to folder |
 | [**publishTemplateVersion()**](Client.md#publishTemplateVersion) | **POST** /templates/{template_id}/publish_version | Publish a template version |
@@ -44,6 +49,7 @@ All URIs are relative to https://sync.api.docspring.com/api/v1, except if the op
 | [**updateTemplate()**](Client.md#updateTemplate) | **PUT** /templates/{template_id} | Update a Template |
 | [**updateTemplateDocument()**](Client.md#updateTemplateDocument) | **PUT** /templates/{template_id}?endpoint_variant&#x3D;update_template_pdf_with_form_post | Update a template&#39;s document with a form POST file upload |
 | [**updateTemplateDocumentFromUpload()**](Client.md#updateTemplateDocumentFromUpload) | **PUT** /templates/{template_id}?endpoint_variant&#x3D;update_template_pdf_with_cached_upload | Update a template&#39;s document with a cached S3 file upload |
+| [**updateWebhook()**](Client.md#updateWebhook) | **PUT** /webhooks/{webhook_id} | Update a webhook |
 
 
 ## `addFieldsToTemplate()`
@@ -118,7 +124,7 @@ batchGeneratePdfs($data, $wait): \DocSpring\Model\BatchGeneratePdfs201Response
 
 Generate multiple PDFs
 
-Generates up to 50 PDFs in a single request. Each submission can use a different template and data. Supports both synchronous (wait for all PDFs) and asynchronous processing. More efficient than individual requests when creating multiple PDFs.  See also: - [Batch and Combine PDFs](https://docspring.com/docs/api-guide/generate-pdfs/batch-generate-pdfs/) - Generate and merge PDFs in one request
+Generates up to 50 PDFs in a single request. Each submission can use a different template and data. Supports both synchronous (wait for all PDFs) and asynchronous processing. More efficient than individual requests when creating multiple PDFs.  See also: - [Batch Generate PDFs](https://docspring.com/docs/api-guide/generate-pdfs/batch-generate-pdfs/) - Request format, responses, and limits
 
 ### Example
 
@@ -434,7 +440,7 @@ createDataRequestToken($data_request_id, $type): \DocSpring\Model\CreateSubmissi
 
 Create a new data request token for form authentication
 
-Creates an authentication token for accessing a data request form. Tokens can be created for API access (1 hour expiration) or email links (30 day expiration). Returns a token and a pre-authenticated URL for the data request form.  See also: - [Embedded Data Requests Guide](https://docspring.com/docs/guides/embedded-forms/embedded-data-requests/)
+Creates an authentication token for accessing a data request form. Returns a token and a pre-authenticated URL for the data request form. The token remains valid until the data request is completed.  See also: - [Embedded Data Requests Guide](https://docspring.com/docs/guides/embedded-forms/embedded-data-requests/)
 
 ### Example
 
@@ -746,6 +752,68 @@ try {
 [[Back to Model list]](../../README.md#models)
 [[Back to README]](../../README.md)
 
+## `createWebhook()`
+
+```php
+createWebhook($data): \DocSpring\Model\Webhook
+```
+
+Create a webhook
+
+Creates a webhook that delivers a POST request to your endpoint whenever a subscribed event occurs. Optionally scope the webhook to specific API tokens, templates, or folders.
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+// Configure HTTP basic authorization: api_token_basic
+$config = DocSpring\Configuration::getDefaultConfiguration()
+              ->setUsername('YOUR_USERNAME')
+              ->setPassword('YOUR_PASSWORD');
+
+
+$apiInstance = new DocSpring\Api\Client(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$data = new \DocSpring\Model\CreateWebhookData(); // \DocSpring\Model\CreateWebhookData
+
+try {
+    $result = $apiInstance->createWebhook($data);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling Client->createWebhook: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **data** | [**\DocSpring\Model\CreateWebhookData**](../Model/CreateWebhookData.md)|  | |
+
+### Return type
+
+[**\DocSpring\Model\Webhook**](../Model/Webhook.md)
+
+### Authorization
+
+[api_token_basic](../../README.md#api_token_basic)
+
+### HTTP request headers
+
+- **Content-Type**: `application/json`
+- **Accept**: `application/json`
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
 ## `deleteFolder()`
 
 ```php
@@ -858,6 +926,68 @@ try {
 ### Return type
 
 [**\DocSpring\Model\TemplateDeleteResponse**](../Model/TemplateDeleteResponse.md)
+
+### Authorization
+
+[api_token_basic](../../README.md#api_token_basic)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/json`
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
+## `deleteWebhook()`
+
+```php
+deleteWebhook($webhook_id): \DocSpring\Model\Webhook
+```
+
+Delete a webhook
+
+Permanently deletes a webhook so it stops receiving events, and returns the deleted webhook.
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+// Configure HTTP basic authorization: api_token_basic
+$config = DocSpring\Configuration::getDefaultConfiguration()
+              ->setUsername('YOUR_USERNAME')
+              ->setPassword('YOUR_PASSWORD');
+
+
+$apiInstance = new DocSpring\Api\Client(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$webhook_id = whk_1234567890abcdef01; // string
+
+try {
+    $result = $apiInstance->deleteWebhook($webhook_id);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling Client->deleteWebhook: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **webhook_id** | **string**|  | |
+
+### Return type
+
+[**\DocSpring\Model\Webhook**](../Model/Webhook.md)
 
 ### Authorization
 
@@ -1004,7 +1134,7 @@ generatePdf($template_id, $submission, $wait): \DocSpring\Model\CreateSubmission
 
 Generate a PDF
 
-Creates a PDF submission by filling in a template with data. Supports both synchronous (default) and asynchronous processing. Set `wait: false` to return immediately.  See also: - [Customize the PDF Title and Filename](https://docspring.com/docs/api-guide/generate-pdfs/customize-pdf-title-and-filename/) - Set custom metadata - [Handling Truncated Text](https://docspring.com/docs/api-guide/generate-pdfs/handle-truncated-text/) - Handle text that doesn't fit in fields
+Creates a PDF submission by filling in a template with data. Supports both synchronous (default) and asynchronous processing. Add the `wait=false` query parameter to return immediately.  See also: - [Customize the PDF Title and Filename](https://docspring.com/docs/api-guide/generate-pdfs/customize-pdf-title-and-filename/) - Set custom metadata - [Handling Truncated Text](https://docspring.com/docs/api-guide/generate-pdfs/handle-truncated-text/) - Handle text that doesn't fit in fields
 
 ### Example
 
@@ -1559,6 +1689,70 @@ try {
 [[Back to Model list]](../../README.md#models)
 [[Back to README]](../../README.md)
 
+## `getTemplateModelCode()`
+
+```php
+getTemplateModelCode($template_id, $lang): \DocSpring\Model\TemplateModelCodeResponse
+```
+
+Generate typed model code for a template
+
+Generates typed model code for a template's submission data from its JSON schema, in TypeScript, JavaScript, Ruby, Python, PHP, Java, C#, Elixir or Go. Build your submission data with the generated types so your app catches mistakes before it calls the API.  `root_type_name` is the type that describes the whole submission data object, qualified with its namespace or package where there is one. Java returns every class in `code`, each under a `// ClassName.java` comment: split them into one file per class.  A template with no named fields returns 422, since there are no types to generate.  See also: - [Generate Model Code](https://docspring.com/docs/template-editor/generate-model-code/) - Use the generated types
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+// Configure HTTP basic authorization: api_token_basic
+$config = DocSpring\Configuration::getDefaultConfiguration()
+              ->setUsername('YOUR_USERNAME')
+              ->setPassword('YOUR_PASSWORD');
+
+
+$apiInstance = new DocSpring\Api\Client(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$template_id = tpl_1234567890abcdef01; // string
+$lang = typescript; // string | The language to generate code for
+
+try {
+    $result = $apiInstance->getTemplateModelCode($template_id, $lang);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling Client->getTemplateModelCode: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **template_id** | **string**|  | |
+| **lang** | **string**| The language to generate code for | |
+
+### Return type
+
+[**\DocSpring\Model\TemplateModelCodeResponse**](../Model/TemplateModelCodeResponse.md)
+
+### Authorization
+
+[api_token_basic](../../README.md#api_token_basic)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/json`
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
 ## `getTemplateSchema()`
 
 ```php
@@ -1607,6 +1801,68 @@ try {
 ### Return type
 
 [**\DocSpring\Model\JsonSchema**](../Model/JsonSchema.md)
+
+### Authorization
+
+[api_token_basic](../../README.md#api_token_basic)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/json`
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
+## `getWebhook()`
+
+```php
+getWebhook($webhook_id): \DocSpring\Model\Webhook
+```
+
+Get a webhook
+
+Retrieves a single webhook by its ID.
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+// Configure HTTP basic authorization: api_token_basic
+$config = DocSpring\Configuration::getDefaultConfiguration()
+              ->setUsername('YOUR_USERNAME')
+              ->setPassword('YOUR_PASSWORD');
+
+
+$apiInstance = new DocSpring\Api\Client(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$webhook_id = whk_1234567890abcdef01; // string
+
+try {
+    $result = $apiInstance->getWebhook($webhook_id);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling Client->getWebhook: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **webhook_id** | **string**|  | |
+
+### Return type
+
+[**\DocSpring\Model\Webhook**](../Model/Webhook.md)
 
 ### Authorization
 
@@ -1947,6 +2203,80 @@ try {
 ### Return type
 
 [**\DocSpring\Model\TemplatePreview[]**](../Model/TemplatePreview.md)
+
+### Authorization
+
+[api_token_basic](../../README.md#api_token_basic)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/json`
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
+## `listWebhooks()`
+
+```php
+listWebhooks($page, $per_page, $event_type, $mode, $template_id, $folder_id, $api_token_id): \DocSpring\Model\Webhook[]
+```
+
+Get a list of all webhooks
+
+Returns a list of the webhooks configured for your account. Supports pagination and filtering by event type, mode, and the API token, template, or folder a webhook is scoped to.
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+// Configure HTTP basic authorization: api_token_basic
+$config = DocSpring\Configuration::getDefaultConfiguration()
+              ->setUsername('YOUR_USERNAME')
+              ->setPassword('YOUR_PASSWORD');
+
+
+$apiInstance = new DocSpring\Api\Client(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$page = 56; // int | Default: 1
+$per_page = 56; // int | Default: 50
+$event_type = submission.processed; // string | Filter by a subscribed event type
+$mode = live; // string | Filter by mode (test or live)
+$template_id = tpl_1234567890abcdef01; // string | Filter by a scoped template ID
+$folder_id = 'folder_id_example'; // string | Filter by a scoped folder ID
+$api_token_id = 'api_token_id_example'; // string | Filter by a scoped API token ID
+
+try {
+    $result = $apiInstance->listWebhooks($page, $per_page, $event_type, $mode, $template_id, $folder_id, $api_token_id);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling Client->listWebhooks: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **page** | **int**| Default: 1 | [optional] |
+| **per_page** | **int**| Default: 50 | [optional] |
+| **event_type** | **string**| Filter by a subscribed event type | [optional] |
+| **mode** | **string**| Filter by mode (test or live) | [optional] |
+| **template_id** | **string**| Filter by a scoped template ID | [optional] |
+| **folder_id** | **string**| Filter by a scoped folder ID | [optional] |
+| **api_token_id** | **string**| Filter by a scoped API token ID | [optional] |
+
+### Return type
+
+[**\DocSpring\Model\Webhook[]**](../Model/Webhook.md)
 
 ### Authorization
 
@@ -2412,7 +2742,7 @@ updateTemplate($template_id, $data): \DocSpring\Model\SuccessMultipleErrorsRespo
 
 Update a Template
 
-Updates template content and properties. For HTML templates, you can modify the HTML, SCSS, headers, footers, name, and description. Changes are applied to your draft template and do not affect published template versions.
+Updates template content and properties. For HTML templates, you can modify the HTML, SCSS, headers, footers, name, and description. Changes are applied to your draft template and do not affect published template versions. The exception is `parent_folder_id`: moving the template to another folder moves its published versions too.
 
 ### Example
 
@@ -2584,6 +2914,70 @@ try {
 ### Return type
 
 [**\DocSpring\Model\SuccessMultipleErrorsResponse**](../Model/SuccessMultipleErrorsResponse.md)
+
+### Authorization
+
+[api_token_basic](../../README.md#api_token_basic)
+
+### HTTP request headers
+
+- **Content-Type**: `application/json`
+- **Accept**: `application/json`
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
+## `updateWebhook()`
+
+```php
+updateWebhook($webhook_id, $data): \DocSpring\Model\Webhook
+```
+
+Update a webhook
+
+Updates the configuration of an existing webhook.
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+// Configure HTTP basic authorization: api_token_basic
+$config = DocSpring\Configuration::getDefaultConfiguration()
+              ->setUsername('YOUR_USERNAME')
+              ->setPassword('YOUR_PASSWORD');
+
+
+$apiInstance = new DocSpring\Api\Client(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$webhook_id = whk_1234567890abcdef01; // string
+$data = new \DocSpring\Model\UpdateWebhookData(); // \DocSpring\Model\UpdateWebhookData
+
+try {
+    $result = $apiInstance->updateWebhook($webhook_id, $data);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling Client->updateWebhook: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **webhook_id** | **string**|  | |
+| **data** | [**\DocSpring\Model\UpdateWebhookData**](../Model/UpdateWebhookData.md)|  | |
+
+### Return type
+
+[**\DocSpring\Model\Webhook**](../Model/Webhook.md)
 
 ### Authorization
 

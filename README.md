@@ -89,8 +89,10 @@ Class | Method | HTTP request | Description
 *Client* | [**createHtmlTemplate**](docs/Api/Client.md#createhtmltemplate) | **POST** /templates?endpoint_variant&#x3D;create_html_template | Create a new HTML template
 *Client* | [**createPdfTemplate**](docs/Api/Client.md#createpdftemplate) | **POST** /templates | Create a new PDF template with a form POST file upload
 *Client* | [**createPdfTemplateFromUpload**](docs/Api/Client.md#createpdftemplatefromupload) | **POST** /templates?endpoint_variant&#x3D;create_template_from_cached_upload | Create a new PDF template from a cached S3 file upload
+*Client* | [**createWebhook**](docs/Api/Client.md#createwebhook) | **POST** /webhooks | Create a webhook
 *Client* | [**deleteFolder**](docs/Api/Client.md#deletefolder) | **DELETE** /folders/{folder_id} | Delete a folder
 *Client* | [**deleteTemplate**](docs/Api/Client.md#deletetemplate) | **DELETE** /templates/{template_id} | Delete a template
+*Client* | [**deleteWebhook**](docs/Api/Client.md#deletewebhook) | **DELETE** /webhooks/{webhook_id} | Delete a webhook
 *Client* | [**expireCombinedSubmission**](docs/Api/Client.md#expirecombinedsubmission) | **DELETE** /combined_submissions/{combined_submission_id} | Expire a combined submission
 *Client* | [**expireSubmission**](docs/Api/Client.md#expiresubmission) | **DELETE** /submissions/{submission_id} | Expire a PDF submission
 *Client* | [**generatePdf**](docs/Api/Client.md#generatepdf) | **POST** /templates/{template_id}/submissions | Generate a PDF
@@ -102,12 +104,15 @@ Class | Method | HTTP request | Description
 *Client* | [**getSubmission**](docs/Api/Client.md#getsubmission) | **GET** /submissions/{submission_id} | Check the status of a PDF
 *Client* | [**getSubmissionBatch**](docs/Api/Client.md#getsubmissionbatch) | **GET** /submissions/batches/{submission_batch_id} | Check the status of a submission batch job
 *Client* | [**getTemplate**](docs/Api/Client.md#gettemplate) | **GET** /templates/{template_id} | Check the status of an uploaded template
+*Client* | [**getTemplateModelCode**](docs/Api/Client.md#gettemplatemodelcode) | **GET** /templates/{template_id}/model_code | Generate typed model code for a template
 *Client* | [**getTemplateSchema**](docs/Api/Client.md#gettemplateschema) | **GET** /templates/{template_id}/schema | Fetch the JSON schema for a template
+*Client* | [**getWebhook**](docs/Api/Client.md#getwebhook) | **GET** /webhooks/{webhook_id} | Get a webhook
 *Client* | [**listCombinedSubmissions**](docs/Api/Client.md#listcombinedsubmissions) | **GET** /combined_submissions | Get a list of all combined submissions
 *Client* | [**listFolders**](docs/Api/Client.md#listfolders) | **GET** /folders/ | Get a list of all folders
 *Client* | [**listSubmissions**](docs/Api/Client.md#listsubmissions) | **GET** /submissions | List all submissions
 *Client* | [**listTemplateSubmissions**](docs/Api/Client.md#listtemplatesubmissions) | **GET** /templates/{template_id}/submissions | List all submissions for a given template
 *Client* | [**listTemplates**](docs/Api/Client.md#listtemplates) | **GET** /templates | Get a list of all templates
+*Client* | [**listWebhooks**](docs/Api/Client.md#listwebhooks) | **GET** /webhooks | Get a list of all webhooks
 *Client* | [**moveFolderToFolder**](docs/Api/Client.md#movefoldertofolder) | **POST** /folders/{folder_id}/move | Move a folder
 *Client* | [**moveTemplateToFolder**](docs/Api/Client.md#movetemplatetofolder) | **POST** /templates/{template_id}/move | Move Template to folder
 *Client* | [**publishTemplateVersion**](docs/Api/Client.md#publishtemplateversion) | **POST** /templates/{template_id}/publish_version | Publish a template version
@@ -118,6 +123,7 @@ Class | Method | HTTP request | Description
 *Client* | [**updateTemplate**](docs/Api/Client.md#updatetemplate) | **PUT** /templates/{template_id} | Update a Template
 *Client* | [**updateTemplateDocument**](docs/Api/Client.md#updatetemplatedocument) | **PUT** /templates/{template_id}?endpoint_variant&#x3D;update_template_pdf_with_form_post | Update a template&#39;s document with a form POST file upload
 *Client* | [**updateTemplateDocumentFromUpload**](docs/Api/Client.md#updatetemplatedocumentfromupload) | **PUT** /templates/{template_id}?endpoint_variant&#x3D;update_template_pdf_with_cached_upload | Update a template&#39;s document with a cached S3 file upload
+*Client* | [**updateWebhook**](docs/Api/Client.md#updatewebhook) | **PUT** /webhooks/{webhook_id} | Update a webhook
 
 ## Models
 
@@ -140,6 +146,7 @@ Class | Method | HTTP request | Description
 - [CreateSubmissionDataRequestResponse](docs/Model/CreateSubmissionDataRequestResponse.md)
 - [CreateSubmissionDataRequestTokenResponse](docs/Model/CreateSubmissionDataRequestTokenResponse.md)
 - [CreateSubmissionResponse](docs/Model/CreateSubmissionResponse.md)
+- [CreateWebhookData](docs/Model/CreateWebhookData.md)
 - [CustomFile](docs/Model/CustomFile.md)
 - [ErrorOrMultipleErrorsResponse](docs/Model/ErrorOrMultipleErrorsResponse.md)
 - [ErrorResponse](docs/Model/ErrorResponse.md)
@@ -168,12 +175,15 @@ Class | Method | HTTP request | Description
 - [Template](docs/Model/Template.md)
 - [TemplateAddFieldsResponse](docs/Model/TemplateAddFieldsResponse.md)
 - [TemplateDeleteResponse](docs/Model/TemplateDeleteResponse.md)
+- [TemplateModelCodeResponse](docs/Model/TemplateModelCodeResponse.md)
 - [TemplatePreview](docs/Model/TemplatePreview.md)
 - [TemplatePublishVersionResponse](docs/Model/TemplatePublishVersionResponse.md)
 - [UpdateHtmlTemplate](docs/Model/UpdateHtmlTemplate.md)
 - [UpdatePdfTemplate](docs/Model/UpdatePdfTemplate.md)
 - [UpdateSubmissionDataRequestData](docs/Model/UpdateSubmissionDataRequestData.md)
+- [UpdateWebhookData](docs/Model/UpdateWebhookData.md)
 - [UploadPresignResponse](docs/Model/UploadPresignResponse.md)
+- [Webhook](docs/Model/Webhook.md)
 
 ## Authorization
 
@@ -200,6 +210,6 @@ vendor/bin/phpunit
 This PHP package is automatically generated by the [OpenAPI Generator](https://openapi-generator.tech) project:
 
 - API version: `v1`
-    - Package version: `3.0.0`
+    - Package version: `3.1.0`
     - Generator version: `7.16.0-DOCSPRING`
 - Build package: `org.openapitools.codegen.languages.PhpClientCodegen`

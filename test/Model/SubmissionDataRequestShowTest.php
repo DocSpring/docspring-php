@@ -170,6 +170,15 @@ class SubmissionDataRequestShowTest extends TestCase
     }
 
     /**
+     * Test attribute "declined_at"
+     */
+    public function testPropertyDeclinedAt()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
      * Test attribute "data"
      */
     public function testPropertyData()

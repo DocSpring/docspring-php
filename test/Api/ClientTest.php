@@ -204,6 +204,18 @@ class ClientTest extends TestCase
     }
 
     /**
+     * Test case for createWebhook
+     *
+     * Create a webhook.
+     *
+     */
+    public function testCreateWebhook()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
      * Test case for deleteFolder
      *
      * Delete a folder.
@@ -222,6 +234,18 @@ class ClientTest extends TestCase
      *
      */
     public function testDeleteTemplate()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * Test case for deleteWebhook
+     *
+     * Delete a webhook.
+     *
+     */
+    public function testDeleteWebhook()
     {
         // TODO: implement
         self::markTestIncomplete('Not implemented');
@@ -360,12 +384,36 @@ class ClientTest extends TestCase
     }
 
     /**
+     * Test case for getTemplateModelCode
+     *
+     * Generate typed model code for a template.
+     *
+     */
+    public function testGetTemplateModelCode()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
      * Test case for getTemplateSchema
      *
      * Fetch the JSON schema for a template.
      *
      */
     public function testGetTemplateSchema()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * Test case for getWebhook
+     *
+     * Get a webhook.
+     *
+     */
+    public function testGetWebhook()
     {
         // TODO: implement
         self::markTestIncomplete('Not implemented');
@@ -426,6 +474,18 @@ class ClientTest extends TestCase
      *
      */
     public function testListTemplates()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * Test case for listWebhooks
+     *
+     * Get a list of all webhooks.
+     *
+     */
+    public function testListWebhooks()
     {
         // TODO: implement
         self::markTestIncomplete('Not implemented');
@@ -546,6 +606,18 @@ class ClientTest extends TestCase
      *
      */
     public function testUpdateTemplateDocumentFromUpload()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * Test case for updateWebhook
+     *
+     * Update a webhook.
+     *
+     */
+    public function testUpdateWebhook()
     {
         // TODO: implement
         self::markTestIncomplete('Not implemented');

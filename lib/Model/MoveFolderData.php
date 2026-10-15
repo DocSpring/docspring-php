@@ -77,7 +77,7 @@ class MoveFolderData implements ModelInterface, ArrayAccess, \JsonSerializable
       * @var boolean[]
       */
     protected static array $openAPINullables = [
-        'parent_folder_id' => false
+        'parent_folder_id' => true
     ];
 
     /**
@@ -309,7 +309,14 @@ class MoveFolderData implements ModelInterface, ArrayAccess, \JsonSerializable
     public function setParentFolderId($parent_folder_id)
     {
         if (is_null($parent_folder_id)) {
-            throw new \InvalidArgumentException('non-nullable parent_folder_id cannot be null');
+            array_push($this->openAPINullablesSetToNull, 'parent_folder_id');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('parent_folder_id', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
         }
         $this->container['parent_folder_id'] = $parent_folder_id;
 

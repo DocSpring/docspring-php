@@ -107,10 +107,16 @@ class Client
         'createPdfTemplateFromUpload' => [
             'application/json',
         ],
+        'createWebhook' => [
+            'application/json',
+        ],
         'deleteFolder' => [
             'application/json',
         ],
         'deleteTemplate' => [
+            'application/json',
+        ],
+        'deleteWebhook' => [
             'application/json',
         ],
         'expireCombinedSubmission' => [
@@ -146,7 +152,13 @@ class Client
         'getTemplate' => [
             'application/json',
         ],
+        'getTemplateModelCode' => [
+            'application/json',
+        ],
         'getTemplateSchema' => [
+            'application/json',
+        ],
+        'getWebhook' => [
             'application/json',
         ],
         'listCombinedSubmissions' => [
@@ -162,6 +174,9 @@ class Client
             'application/json',
         ],
         'listTemplates' => [
+            'application/json',
+        ],
+        'listWebhooks' => [
             'application/json',
         ],
         'moveFolderToFolder' => [
@@ -192,6 +207,9 @@ class Client
             'multipart/form-data',
         ],
         'updateTemplateDocumentFromUpload' => [
+            'application/json',
+        ],
+        'updateWebhook' => [
             'application/json',
         ],
     ];
@@ -899,7 +917,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \DocSpring\Model\CreateCombinedSubmissionResponse|\DocSpring\Model\MultipleErrorsResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
+     * @return \DocSpring\Model\CreateCombinedSubmissionResponse|\DocSpring\Model\MultipleErrorsResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
      */
     public function combinePdfs($data, string $contentType = self::contentTypes['combinePdfs'][0])
     {
@@ -917,7 +935,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \DocSpring\Model\CreateCombinedSubmissionResponse|\DocSpring\Model\MultipleErrorsResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \DocSpring\Model\CreateCombinedSubmissionResponse|\DocSpring\Model\MultipleErrorsResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
     public function combinePdfsWithHttpInfo($data, string $contentType = self::contentTypes['combinePdfs'][0])
     {
@@ -956,6 +974,12 @@ class Client
                 case 422:
                     return $this->handleResponseWithDataType(
                         '\DocSpring\Model\MultipleErrorsResponse',
+                        $request,
+                        $response,
+                    );
+                case 403:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
                         $request,
                         $response,
                     );
@@ -1007,6 +1031,14 @@ class Client
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\DocSpring\Model\MultipleErrorsResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 403:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -3629,6 +3661,305 @@ $httpBody = new \GuzzleHttp\Psr7\MultipartStream($multipartContents);
     }
 
     /**
+     * Operation createWebhook
+     *
+     * Create a webhook
+     *
+     * @param  \DocSpring\Model\CreateWebhookData $data data (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createWebhook'] to see the possible values for this operation
+     *
+     * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \InvalidArgumentException
+     * @return \DocSpring\Model\Webhook|\DocSpring\Model\MultipleErrorsResponse|\DocSpring\Model\ErrorResponse
+     */
+    public function createWebhook($data, string $contentType = self::contentTypes['createWebhook'][0])
+    {
+        list($response) = $this->createWebhookWithHttpInfo($data, $contentType);
+        return $response;
+    }
+
+    /**
+     * Operation createWebhookWithHttpInfo
+     *
+     * Create a webhook
+     *
+     * @param  \DocSpring\Model\CreateWebhookData $data (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createWebhook'] to see the possible values for this operation
+     *
+     * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \InvalidArgumentException
+     * @return array of \DocSpring\Model\Webhook|\DocSpring\Model\MultipleErrorsResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function createWebhookWithHttpInfo($data, string $contentType = self::contentTypes['createWebhook'][0])
+    {
+        $request = $this->createWebhookRequest($data, $contentType);
+
+        try {
+            $options = $this->createHttpClientOption();
+            try {
+                $response = $this->client->send($request, $options);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null,
+                    $e->getResponse() ? (string) $e->getResponse()->getBody() : null
+                );
+            } catch (ConnectException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    null,
+                    null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+
+            switch($statusCode) {
+                case 201:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\Webhook',
+                        $request,
+                        $response,
+                    );
+                case 422:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\MultipleErrorsResponse',
+                        $request,
+                        $response,
+                    );
+                case 401:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+            }
+
+            
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        (string) $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    (string) $response->getBody()
+                );
+            }
+
+            return $this->handleResponseWithDataType(
+                '\DocSpring\Model\Webhook',
+                $request,
+                $response,
+            );
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 201:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\Webhook',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 422:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\MultipleErrorsResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+            }
+        
+
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation createWebhookAsync
+     *
+     * Create a webhook
+     *
+     * @param  \DocSpring\Model\CreateWebhookData $data (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createWebhook'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function createWebhookAsync($data, string $contentType = self::contentTypes['createWebhook'][0])
+    {
+        return $this->createWebhookAsyncWithHttpInfo($data, $contentType)
+            ->then(
+                function ($response) {
+                    return $response[0];
+                }
+            );
+    }
+
+    /**
+     * Operation createWebhookAsyncWithHttpInfo
+     *
+     * Create a webhook
+     *
+     * @param  \DocSpring\Model\CreateWebhookData $data (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createWebhook'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function createWebhookAsyncWithHttpInfo($data, string $contentType = self::contentTypes['createWebhook'][0])
+    {
+        $returnType = '\DocSpring\Model\Webhook';
+        $request = $this->createWebhookRequest($data, $contentType);
+
+        return $this->client
+            ->sendAsync($request, $this->createHttpClientOption())
+            ->then(
+                function ($response) use ($returnType) {
+                    if ($returnType === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ($returnType !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                },
+                function ($exception) {
+                    $response = $exception->getResponse();
+                    $statusCode = $response->getStatusCode();
+                    throw new ApiException(
+                        sprintf(
+                            '[%d] Error connecting to the API (%s)',
+                            $statusCode,
+                            $exception->getRequest()->getUri()
+                        ),
+                        $statusCode,
+                        $response->getHeaders(),
+                        (string) $response->getBody()
+                    );
+                }
+            );
+    }
+
+    /**
+     * Create request for operation 'createWebhook'
+     *
+     * @param  \DocSpring\Model\CreateWebhookData $data (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createWebhook'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    public function createWebhookRequest($data, string $contentType = self::contentTypes['createWebhook'][0])
+    {
+
+        // verify the required parameter 'data' is set
+        if ($data === null || (is_array($data) && count($data) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $data when calling createWebhook'
+            );
+        }
+
+
+        $resourcePath = '/webhooks';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = '';
+        $multipart = false;
+
+
+
+
+
+        $headers = $this->headerSelector->selectHeaders(
+            ['application/json', ],
+            $contentType,
+            $multipart
+        );
+
+        // for model (json/xml)
+        if (isset($data)) {
+            if (stripos($headers['Content-Type'], 'application/json') !== false) {
+                # if Content-Type contains "application/json", json_encode the body
+                $httpBody = \GuzzleHttp\Utils::jsonEncode(ObjectSerializer::sanitizeForSerialization($data));
+            } else {
+                $httpBody = $data;
+            }
+        } elseif (count($formParams) > 0) {
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
+                    foreach ($formParamValueItems as $formParamValueItem) {
+                        $multipartContents[] = [
+                            'name' => $formParamName,
+                            'contents' => $formParamValueItem
+                        ];
+                    }
+                }
+                // for HTTP post (form)
+                $httpBody = new MultipartStream($multipartContents);
+
+            } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
+                # if Content-Type contains "application/json", json_encode the form parameters
+                $httpBody = \GuzzleHttp\Utils::jsonEncode($formParams);
+            } else {
+                // for HTTP post (form)
+                $httpBody = ObjectSerializer::buildQuery($formParams);
+            }
+        }
+
+        // this endpoint requires HTTP basic authentication
+        if (!empty($this->config->getUsername()) || !(empty($this->config->getPassword()))) {
+            $headers['Authorization'] = 'Basic ' . base64_encode($this->config->getUsername() . ":" . $this->config->getPassword());
+        }
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        $operationHost = $this->config->getHost();
+        $query = ObjectSerializer::buildQuery($queryParams);
+        return new Request(
+            'POST',
+            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
+            $headers,
+            $httpBody
+        );
+    }
+
+    /**
      * Operation deleteFolder
      *
      * Delete a folder
@@ -4195,6 +4526,306 @@ $httpBody = new \GuzzleHttp\Psr7\MultipartStream($multipartContents);
             $resourcePath = str_replace(
                 '{' . 'template_id' . '}',
                 ObjectSerializer::toPathValue($template_id),
+                $resourcePath
+            );
+        }
+
+
+        $headers = $this->headerSelector->selectHeaders(
+            ['application/json', ],
+            $contentType,
+            $multipart
+        );
+
+        // for model (json/xml)
+        if (count($formParams) > 0) {
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
+                    foreach ($formParamValueItems as $formParamValueItem) {
+                        $multipartContents[] = [
+                            'name' => $formParamName,
+                            'contents' => $formParamValueItem
+                        ];
+                    }
+                }
+                // for HTTP post (form)
+                $httpBody = new MultipartStream($multipartContents);
+
+            } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
+                # if Content-Type contains "application/json", json_encode the form parameters
+                $httpBody = \GuzzleHttp\Utils::jsonEncode($formParams);
+            } else {
+                // for HTTP post (form)
+                $httpBody = ObjectSerializer::buildQuery($formParams);
+            }
+        }
+
+        // this endpoint requires HTTP basic authentication
+        if (!empty($this->config->getUsername()) || !(empty($this->config->getPassword()))) {
+            $headers['Authorization'] = 'Basic ' . base64_encode($this->config->getUsername() . ":" . $this->config->getPassword());
+        }
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        $operationHost = $this->config->getHost();
+        $query = ObjectSerializer::buildQuery($queryParams);
+        return new Request(
+            'DELETE',
+            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
+            $headers,
+            $httpBody
+        );
+    }
+
+    /**
+     * Operation deleteWebhook
+     *
+     * Delete a webhook
+     *
+     * @param  string $webhook_id webhook_id (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['deleteWebhook'] to see the possible values for this operation
+     *
+     * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \InvalidArgumentException
+     * @return \DocSpring\Model\Webhook|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
+     */
+    public function deleteWebhook($webhook_id, string $contentType = self::contentTypes['deleteWebhook'][0])
+    {
+        list($response) = $this->deleteWebhookWithHttpInfo($webhook_id, $contentType);
+        return $response;
+    }
+
+    /**
+     * Operation deleteWebhookWithHttpInfo
+     *
+     * Delete a webhook
+     *
+     * @param  string $webhook_id (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['deleteWebhook'] to see the possible values for this operation
+     *
+     * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \InvalidArgumentException
+     * @return array of \DocSpring\Model\Webhook|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function deleteWebhookWithHttpInfo($webhook_id, string $contentType = self::contentTypes['deleteWebhook'][0])
+    {
+        $request = $this->deleteWebhookRequest($webhook_id, $contentType);
+
+        try {
+            $options = $this->createHttpClientOption();
+            try {
+                $response = $this->client->send($request, $options);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null,
+                    $e->getResponse() ? (string) $e->getResponse()->getBody() : null
+                );
+            } catch (ConnectException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    null,
+                    null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+
+            switch($statusCode) {
+                case 200:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\Webhook',
+                        $request,
+                        $response,
+                    );
+                case 404:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 401:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+            }
+
+            
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        (string) $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    (string) $response->getBody()
+                );
+            }
+
+            return $this->handleResponseWithDataType(
+                '\DocSpring\Model\Webhook',
+                $request,
+                $response,
+            );
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\Webhook',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 404:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+            }
+        
+
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation deleteWebhookAsync
+     *
+     * Delete a webhook
+     *
+     * @param  string $webhook_id (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['deleteWebhook'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function deleteWebhookAsync($webhook_id, string $contentType = self::contentTypes['deleteWebhook'][0])
+    {
+        return $this->deleteWebhookAsyncWithHttpInfo($webhook_id, $contentType)
+            ->then(
+                function ($response) {
+                    return $response[0];
+                }
+            );
+    }
+
+    /**
+     * Operation deleteWebhookAsyncWithHttpInfo
+     *
+     * Delete a webhook
+     *
+     * @param  string $webhook_id (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['deleteWebhook'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function deleteWebhookAsyncWithHttpInfo($webhook_id, string $contentType = self::contentTypes['deleteWebhook'][0])
+    {
+        $returnType = '\DocSpring\Model\Webhook';
+        $request = $this->deleteWebhookRequest($webhook_id, $contentType);
+
+        return $this->client
+            ->sendAsync($request, $this->createHttpClientOption())
+            ->then(
+                function ($response) use ($returnType) {
+                    if ($returnType === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ($returnType !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                },
+                function ($exception) {
+                    $response = $exception->getResponse();
+                    $statusCode = $response->getStatusCode();
+                    throw new ApiException(
+                        sprintf(
+                            '[%d] Error connecting to the API (%s)',
+                            $statusCode,
+                            $exception->getRequest()->getUri()
+                        ),
+                        $statusCode,
+                        $response->getHeaders(),
+                        (string) $response->getBody()
+                    );
+                }
+            );
+    }
+
+    /**
+     * Create request for operation 'deleteWebhook'
+     *
+     * @param  string $webhook_id (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['deleteWebhook'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    public function deleteWebhookRequest($webhook_id, string $contentType = self::contentTypes['deleteWebhook'][0])
+    {
+
+        // verify the required parameter 'webhook_id' is set
+        if ($webhook_id === null || (is_array($webhook_id) && count($webhook_id) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $webhook_id when calling deleteWebhook'
+            );
+        }
+
+
+        $resourcePath = '/webhooks/{webhook_id}';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = '';
+        $multipart = false;
+
+
+
+        // path params
+        if ($webhook_id !== null) {
+            $resourcePath = str_replace(
+                '{' . 'webhook_id' . '}',
+                ObjectSerializer::toPathValue($webhook_id),
                 $resourcePath
             );
         }
@@ -7616,6 +8247,341 @@ $httpBody = new \GuzzleHttp\Psr7\MultipartStream($multipartContents);
     }
 
     /**
+     * Operation getTemplateModelCode
+     *
+     * Generate typed model code for a template
+     *
+     * @param  string $template_id template_id (required)
+     * @param  string $lang The language to generate code for (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getTemplateModelCode'] to see the possible values for this operation
+     *
+     * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \InvalidArgumentException
+     * @return \DocSpring\Model\TemplateModelCodeResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
+     */
+    public function getTemplateModelCode($template_id, $lang, string $contentType = self::contentTypes['getTemplateModelCode'][0])
+    {
+        list($response) = $this->getTemplateModelCodeWithHttpInfo($template_id, $lang, $contentType);
+        return $response;
+    }
+
+    /**
+     * Operation getTemplateModelCodeWithHttpInfo
+     *
+     * Generate typed model code for a template
+     *
+     * @param  string $template_id (required)
+     * @param  string $lang The language to generate code for (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getTemplateModelCode'] to see the possible values for this operation
+     *
+     * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \InvalidArgumentException
+     * @return array of \DocSpring\Model\TemplateModelCodeResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function getTemplateModelCodeWithHttpInfo($template_id, $lang, string $contentType = self::contentTypes['getTemplateModelCode'][0])
+    {
+        $request = $this->getTemplateModelCodeRequest($template_id, $lang, $contentType);
+
+        try {
+            $options = $this->createHttpClientOption();
+            try {
+                $response = $this->client->send($request, $options);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null,
+                    $e->getResponse() ? (string) $e->getResponse()->getBody() : null
+                );
+            } catch (ConnectException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    null,
+                    null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+
+            switch($statusCode) {
+                case 200:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\TemplateModelCodeResponse',
+                        $request,
+                        $response,
+                    );
+                case 404:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 422:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 401:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+            }
+
+            
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        (string) $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    (string) $response->getBody()
+                );
+            }
+
+            return $this->handleResponseWithDataType(
+                '\DocSpring\Model\TemplateModelCodeResponse',
+                $request,
+                $response,
+            );
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\TemplateModelCodeResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 404:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 422:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+            }
+        
+
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation getTemplateModelCodeAsync
+     *
+     * Generate typed model code for a template
+     *
+     * @param  string $template_id (required)
+     * @param  string $lang The language to generate code for (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getTemplateModelCode'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getTemplateModelCodeAsync($template_id, $lang, string $contentType = self::contentTypes['getTemplateModelCode'][0])
+    {
+        return $this->getTemplateModelCodeAsyncWithHttpInfo($template_id, $lang, $contentType)
+            ->then(
+                function ($response) {
+                    return $response[0];
+                }
+            );
+    }
+
+    /**
+     * Operation getTemplateModelCodeAsyncWithHttpInfo
+     *
+     * Generate typed model code for a template
+     *
+     * @param  string $template_id (required)
+     * @param  string $lang The language to generate code for (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getTemplateModelCode'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getTemplateModelCodeAsyncWithHttpInfo($template_id, $lang, string $contentType = self::contentTypes['getTemplateModelCode'][0])
+    {
+        $returnType = '\DocSpring\Model\TemplateModelCodeResponse';
+        $request = $this->getTemplateModelCodeRequest($template_id, $lang, $contentType);
+
+        return $this->client
+            ->sendAsync($request, $this->createHttpClientOption())
+            ->then(
+                function ($response) use ($returnType) {
+                    if ($returnType === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ($returnType !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                },
+                function ($exception) {
+                    $response = $exception->getResponse();
+                    $statusCode = $response->getStatusCode();
+                    throw new ApiException(
+                        sprintf(
+                            '[%d] Error connecting to the API (%s)',
+                            $statusCode,
+                            $exception->getRequest()->getUri()
+                        ),
+                        $statusCode,
+                        $response->getHeaders(),
+                        (string) $response->getBody()
+                    );
+                }
+            );
+    }
+
+    /**
+     * Create request for operation 'getTemplateModelCode'
+     *
+     * @param  string $template_id (required)
+     * @param  string $lang The language to generate code for (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getTemplateModelCode'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    public function getTemplateModelCodeRequest($template_id, $lang, string $contentType = self::contentTypes['getTemplateModelCode'][0])
+    {
+
+        // verify the required parameter 'template_id' is set
+        if ($template_id === null || (is_array($template_id) && count($template_id) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $template_id when calling getTemplateModelCode'
+            );
+        }
+
+        // verify the required parameter 'lang' is set
+        if ($lang === null || (is_array($lang) && count($lang) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $lang when calling getTemplateModelCode'
+            );
+        }
+
+
+        $resourcePath = '/templates/{template_id}/model_code';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = '';
+        $multipart = false;
+
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $lang,
+            'lang', // param base name
+            'string', // openApiType
+            '', // style
+            false, // explode
+            true // required
+        ) ?? []);
+
+
+        // path params
+        if ($template_id !== null) {
+            $resourcePath = str_replace(
+                '{' . 'template_id' . '}',
+                ObjectSerializer::toPathValue($template_id),
+                $resourcePath
+            );
+        }
+
+
+        $headers = $this->headerSelector->selectHeaders(
+            ['application/json', ],
+            $contentType,
+            $multipart
+        );
+
+        // for model (json/xml)
+        if (count($formParams) > 0) {
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
+                    foreach ($formParamValueItems as $formParamValueItem) {
+                        $multipartContents[] = [
+                            'name' => $formParamName,
+                            'contents' => $formParamValueItem
+                        ];
+                    }
+                }
+                // for HTTP post (form)
+                $httpBody = new MultipartStream($multipartContents);
+
+            } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
+                # if Content-Type contains "application/json", json_encode the form parameters
+                $httpBody = \GuzzleHttp\Utils::jsonEncode($formParams);
+            } else {
+                // for HTTP post (form)
+                $httpBody = ObjectSerializer::buildQuery($formParams);
+            }
+        }
+
+        // this endpoint requires HTTP basic authentication
+        if (!empty($this->config->getUsername()) || !(empty($this->config->getPassword()))) {
+            $headers['Authorization'] = 'Basic ' . base64_encode($this->config->getUsername() . ":" . $this->config->getPassword());
+        }
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        $operationHost = $this->config->getHost();
+        $query = ObjectSerializer::buildQuery($queryParams);
+        return new Request(
+            'GET',
+            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
+            $headers,
+            $httpBody
+        );
+    }
+
+    /**
      * Operation getTemplateSchema
      *
      * Fetch the JSON schema for a template
@@ -7853,6 +8819,306 @@ $httpBody = new \GuzzleHttp\Psr7\MultipartStream($multipartContents);
             $resourcePath = str_replace(
                 '{' . 'template_id' . '}',
                 ObjectSerializer::toPathValue($template_id),
+                $resourcePath
+            );
+        }
+
+
+        $headers = $this->headerSelector->selectHeaders(
+            ['application/json', ],
+            $contentType,
+            $multipart
+        );
+
+        // for model (json/xml)
+        if (count($formParams) > 0) {
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
+                    foreach ($formParamValueItems as $formParamValueItem) {
+                        $multipartContents[] = [
+                            'name' => $formParamName,
+                            'contents' => $formParamValueItem
+                        ];
+                    }
+                }
+                // for HTTP post (form)
+                $httpBody = new MultipartStream($multipartContents);
+
+            } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
+                # if Content-Type contains "application/json", json_encode the form parameters
+                $httpBody = \GuzzleHttp\Utils::jsonEncode($formParams);
+            } else {
+                // for HTTP post (form)
+                $httpBody = ObjectSerializer::buildQuery($formParams);
+            }
+        }
+
+        // this endpoint requires HTTP basic authentication
+        if (!empty($this->config->getUsername()) || !(empty($this->config->getPassword()))) {
+            $headers['Authorization'] = 'Basic ' . base64_encode($this->config->getUsername() . ":" . $this->config->getPassword());
+        }
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        $operationHost = $this->config->getHost();
+        $query = ObjectSerializer::buildQuery($queryParams);
+        return new Request(
+            'GET',
+            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
+            $headers,
+            $httpBody
+        );
+    }
+
+    /**
+     * Operation getWebhook
+     *
+     * Get a webhook
+     *
+     * @param  string $webhook_id webhook_id (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getWebhook'] to see the possible values for this operation
+     *
+     * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \InvalidArgumentException
+     * @return \DocSpring\Model\Webhook|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
+     */
+    public function getWebhook($webhook_id, string $contentType = self::contentTypes['getWebhook'][0])
+    {
+        list($response) = $this->getWebhookWithHttpInfo($webhook_id, $contentType);
+        return $response;
+    }
+
+    /**
+     * Operation getWebhookWithHttpInfo
+     *
+     * Get a webhook
+     *
+     * @param  string $webhook_id (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getWebhook'] to see the possible values for this operation
+     *
+     * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \InvalidArgumentException
+     * @return array of \DocSpring\Model\Webhook|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function getWebhookWithHttpInfo($webhook_id, string $contentType = self::contentTypes['getWebhook'][0])
+    {
+        $request = $this->getWebhookRequest($webhook_id, $contentType);
+
+        try {
+            $options = $this->createHttpClientOption();
+            try {
+                $response = $this->client->send($request, $options);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null,
+                    $e->getResponse() ? (string) $e->getResponse()->getBody() : null
+                );
+            } catch (ConnectException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    null,
+                    null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+
+            switch($statusCode) {
+                case 200:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\Webhook',
+                        $request,
+                        $response,
+                    );
+                case 404:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 401:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+            }
+
+            
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        (string) $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    (string) $response->getBody()
+                );
+            }
+
+            return $this->handleResponseWithDataType(
+                '\DocSpring\Model\Webhook',
+                $request,
+                $response,
+            );
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\Webhook',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 404:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+            }
+        
+
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation getWebhookAsync
+     *
+     * Get a webhook
+     *
+     * @param  string $webhook_id (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getWebhook'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getWebhookAsync($webhook_id, string $contentType = self::contentTypes['getWebhook'][0])
+    {
+        return $this->getWebhookAsyncWithHttpInfo($webhook_id, $contentType)
+            ->then(
+                function ($response) {
+                    return $response[0];
+                }
+            );
+    }
+
+    /**
+     * Operation getWebhookAsyncWithHttpInfo
+     *
+     * Get a webhook
+     *
+     * @param  string $webhook_id (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getWebhook'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getWebhookAsyncWithHttpInfo($webhook_id, string $contentType = self::contentTypes['getWebhook'][0])
+    {
+        $returnType = '\DocSpring\Model\Webhook';
+        $request = $this->getWebhookRequest($webhook_id, $contentType);
+
+        return $this->client
+            ->sendAsync($request, $this->createHttpClientOption())
+            ->then(
+                function ($response) use ($returnType) {
+                    if ($returnType === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ($returnType !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                },
+                function ($exception) {
+                    $response = $exception->getResponse();
+                    $statusCode = $response->getStatusCode();
+                    throw new ApiException(
+                        sprintf(
+                            '[%d] Error connecting to the API (%s)',
+                            $statusCode,
+                            $exception->getRequest()->getUri()
+                        ),
+                        $statusCode,
+                        $response->getHeaders(),
+                        (string) $response->getBody()
+                    );
+                }
+            );
+    }
+
+    /**
+     * Create request for operation 'getWebhook'
+     *
+     * @param  string $webhook_id (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getWebhook'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    public function getWebhookRequest($webhook_id, string $contentType = self::contentTypes['getWebhook'][0])
+    {
+
+        // verify the required parameter 'webhook_id' is set
+        if ($webhook_id === null || (is_array($webhook_id) && count($webhook_id) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $webhook_id when calling getWebhook'
+            );
+        }
+
+
+        $resourcePath = '/webhooks/{webhook_id}';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = '';
+        $multipart = false;
+
+
+
+        // path params
+        if ($webhook_id !== null) {
+            $resourcePath = str_replace(
+                '{' . 'webhook_id' . '}',
+                ObjectSerializer::toPathValue($webhook_id),
                 $resourcePath
             );
         }
@@ -9531,6 +10797,386 @@ $httpBody = new \GuzzleHttp\Psr7\MultipartStream($multipartContents);
             $per_page,
             'per_page', // param base name
             'integer', // openApiType
+            '', // style
+            false, // explode
+            false // required
+        ) ?? []);
+
+
+
+
+        $headers = $this->headerSelector->selectHeaders(
+            ['application/json', ],
+            $contentType,
+            $multipart
+        );
+
+        // for model (json/xml)
+        if (count($formParams) > 0) {
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
+                    foreach ($formParamValueItems as $formParamValueItem) {
+                        $multipartContents[] = [
+                            'name' => $formParamName,
+                            'contents' => $formParamValueItem
+                        ];
+                    }
+                }
+                // for HTTP post (form)
+                $httpBody = new MultipartStream($multipartContents);
+
+            } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
+                # if Content-Type contains "application/json", json_encode the form parameters
+                $httpBody = \GuzzleHttp\Utils::jsonEncode($formParams);
+            } else {
+                // for HTTP post (form)
+                $httpBody = ObjectSerializer::buildQuery($formParams);
+            }
+        }
+
+        // this endpoint requires HTTP basic authentication
+        if (!empty($this->config->getUsername()) || !(empty($this->config->getPassword()))) {
+            $headers['Authorization'] = 'Basic ' . base64_encode($this->config->getUsername() . ":" . $this->config->getPassword());
+        }
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        $operationHost = $this->config->getHost();
+        $query = ObjectSerializer::buildQuery($queryParams);
+        return new Request(
+            'GET',
+            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
+            $headers,
+            $httpBody
+        );
+    }
+
+    /**
+     * Operation listWebhooks
+     *
+     * Get a list of all webhooks
+     *
+     * @param  int|null $page Default: 1 (optional)
+     * @param  int|null $per_page Default: 50 (optional)
+     * @param  string|null $event_type Filter by a subscribed event type (optional)
+     * @param  string|null $mode Filter by mode (test or live) (optional)
+     * @param  string|null $template_id Filter by a scoped template ID (optional)
+     * @param  string|null $folder_id Filter by a scoped folder ID (optional)
+     * @param  string|null $api_token_id Filter by a scoped API token ID (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['listWebhooks'] to see the possible values for this operation
+     *
+     * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \InvalidArgumentException
+     * @return \DocSpring\Model\Webhook[]|\DocSpring\Model\ErrorResponse
+     */
+    public function listWebhooks($page = null, $per_page = null, $event_type = null, $mode = null, $template_id = null, $folder_id = null, $api_token_id = null, string $contentType = self::contentTypes['listWebhooks'][0])
+    {
+        list($response) = $this->listWebhooksWithHttpInfo($page, $per_page, $event_type, $mode, $template_id, $folder_id, $api_token_id, $contentType);
+        return $response;
+    }
+
+    /**
+     * Operation listWebhooksWithHttpInfo
+     *
+     * Get a list of all webhooks
+     *
+     * @param  int|null $page Default: 1 (optional)
+     * @param  int|null $per_page Default: 50 (optional)
+     * @param  string|null $event_type Filter by a subscribed event type (optional)
+     * @param  string|null $mode Filter by mode (test or live) (optional)
+     * @param  string|null $template_id Filter by a scoped template ID (optional)
+     * @param  string|null $folder_id Filter by a scoped folder ID (optional)
+     * @param  string|null $api_token_id Filter by a scoped API token ID (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['listWebhooks'] to see the possible values for this operation
+     *
+     * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \InvalidArgumentException
+     * @return array of \DocSpring\Model\Webhook[]|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function listWebhooksWithHttpInfo($page = null, $per_page = null, $event_type = null, $mode = null, $template_id = null, $folder_id = null, $api_token_id = null, string $contentType = self::contentTypes['listWebhooks'][0])
+    {
+        $request = $this->listWebhooksRequest($page, $per_page, $event_type, $mode, $template_id, $folder_id, $api_token_id, $contentType);
+
+        try {
+            $options = $this->createHttpClientOption();
+            try {
+                $response = $this->client->send($request, $options);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null,
+                    $e->getResponse() ? (string) $e->getResponse()->getBody() : null
+                );
+            } catch (ConnectException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    null,
+                    null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+
+            switch($statusCode) {
+                case 200:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\Webhook[]',
+                        $request,
+                        $response,
+                    );
+                case 401:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+            }
+
+            
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        (string) $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    (string) $response->getBody()
+                );
+            }
+
+            return $this->handleResponseWithDataType(
+                '\DocSpring\Model\Webhook[]',
+                $request,
+                $response,
+            );
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\Webhook[]',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+            }
+        
+
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation listWebhooksAsync
+     *
+     * Get a list of all webhooks
+     *
+     * @param  int|null $page Default: 1 (optional)
+     * @param  int|null $per_page Default: 50 (optional)
+     * @param  string|null $event_type Filter by a subscribed event type (optional)
+     * @param  string|null $mode Filter by mode (test or live) (optional)
+     * @param  string|null $template_id Filter by a scoped template ID (optional)
+     * @param  string|null $folder_id Filter by a scoped folder ID (optional)
+     * @param  string|null $api_token_id Filter by a scoped API token ID (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['listWebhooks'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function listWebhooksAsync($page = null, $per_page = null, $event_type = null, $mode = null, $template_id = null, $folder_id = null, $api_token_id = null, string $contentType = self::contentTypes['listWebhooks'][0])
+    {
+        return $this->listWebhooksAsyncWithHttpInfo($page, $per_page, $event_type, $mode, $template_id, $folder_id, $api_token_id, $contentType)
+            ->then(
+                function ($response) {
+                    return $response[0];
+                }
+            );
+    }
+
+    /**
+     * Operation listWebhooksAsyncWithHttpInfo
+     *
+     * Get a list of all webhooks
+     *
+     * @param  int|null $page Default: 1 (optional)
+     * @param  int|null $per_page Default: 50 (optional)
+     * @param  string|null $event_type Filter by a subscribed event type (optional)
+     * @param  string|null $mode Filter by mode (test or live) (optional)
+     * @param  string|null $template_id Filter by a scoped template ID (optional)
+     * @param  string|null $folder_id Filter by a scoped folder ID (optional)
+     * @param  string|null $api_token_id Filter by a scoped API token ID (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['listWebhooks'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function listWebhooksAsyncWithHttpInfo($page = null, $per_page = null, $event_type = null, $mode = null, $template_id = null, $folder_id = null, $api_token_id = null, string $contentType = self::contentTypes['listWebhooks'][0])
+    {
+        $returnType = '\DocSpring\Model\Webhook[]';
+        $request = $this->listWebhooksRequest($page, $per_page, $event_type, $mode, $template_id, $folder_id, $api_token_id, $contentType);
+
+        return $this->client
+            ->sendAsync($request, $this->createHttpClientOption())
+            ->then(
+                function ($response) use ($returnType) {
+                    if ($returnType === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ($returnType !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                },
+                function ($exception) {
+                    $response = $exception->getResponse();
+                    $statusCode = $response->getStatusCode();
+                    throw new ApiException(
+                        sprintf(
+                            '[%d] Error connecting to the API (%s)',
+                            $statusCode,
+                            $exception->getRequest()->getUri()
+                        ),
+                        $statusCode,
+                        $response->getHeaders(),
+                        (string) $response->getBody()
+                    );
+                }
+            );
+    }
+
+    /**
+     * Create request for operation 'listWebhooks'
+     *
+     * @param  int|null $page Default: 1 (optional)
+     * @param  int|null $per_page Default: 50 (optional)
+     * @param  string|null $event_type Filter by a subscribed event type (optional)
+     * @param  string|null $mode Filter by mode (test or live) (optional)
+     * @param  string|null $template_id Filter by a scoped template ID (optional)
+     * @param  string|null $folder_id Filter by a scoped folder ID (optional)
+     * @param  string|null $api_token_id Filter by a scoped API token ID (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['listWebhooks'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    public function listWebhooksRequest($page = null, $per_page = null, $event_type = null, $mode = null, $template_id = null, $folder_id = null, $api_token_id = null, string $contentType = self::contentTypes['listWebhooks'][0])
+    {
+
+        if ($page !== null && $page < 1) {
+            throw new \InvalidArgumentException('invalid value for "$page" when calling Client.listWebhooks, must be bigger than or equal to 1.');
+        }
+        
+        if ($per_page !== null && $per_page > 100) {
+            throw new \InvalidArgumentException('invalid value for "$per_page" when calling Client.listWebhooks, must be smaller than or equal to 100.');
+        }
+        if ($per_page !== null && $per_page < 1) {
+            throw new \InvalidArgumentException('invalid value for "$per_page" when calling Client.listWebhooks, must be bigger than or equal to 1.');
+        }
+        
+
+
+
+
+
+
+        $resourcePath = '/webhooks';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = '';
+        $multipart = false;
+
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $page,
+            'page', // param base name
+            'integer', // openApiType
+            '', // style
+            false, // explode
+            false // required
+        ) ?? []);
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $per_page,
+            'per_page', // param base name
+            'integer', // openApiType
+            '', // style
+            false, // explode
+            false // required
+        ) ?? []);
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $event_type,
+            'event_type', // param base name
+            'string', // openApiType
+            '', // style
+            false, // explode
+            false // required
+        ) ?? []);
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $mode,
+            'mode', // param base name
+            'string', // openApiType
+            '', // style
+            false, // explode
+            false // required
+        ) ?? []);
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $template_id,
+            'template_id', // param base name
+            'string', // openApiType
+            '', // style
+            false, // explode
+            false // required
+        ) ?? []);
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $folder_id,
+            'folder_id', // param base name
+            'string', // openApiType
+            '', // style
+            false, // explode
+            false // required
+        ) ?? []);
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $api_token_id,
+            'api_token_id', // param base name
+            'string', // openApiType
             '', // style
             false, // explode
             false // required
@@ -11829,7 +13475,7 @@ $httpBody = new \GuzzleHttp\Psr7\MultipartStream($multipartContents);
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \DocSpring\Model\SuccessMultipleErrorsResponse
+     * @return \DocSpring\Model\SuccessMultipleErrorsResponse|\DocSpring\Model\ErrorResponse
      */
     public function updateTemplate($template_id, $data, string $contentType = self::contentTypes['updateTemplate'][0])
     {
@@ -11848,7 +13494,7 @@ $httpBody = new \GuzzleHttp\Psr7\MultipartStream($multipartContents);
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \DocSpring\Model\SuccessMultipleErrorsResponse, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \DocSpring\Model\SuccessMultipleErrorsResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
     public function updateTemplateWithHttpInfo($template_id, $data, string $contentType = self::contentTypes['updateTemplate'][0])
     {
@@ -11884,6 +13530,12 @@ $httpBody = new \GuzzleHttp\Psr7\MultipartStream($multipartContents);
                         $request,
                         $response,
                     );
+                case 404:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
             }
 
             
@@ -11912,6 +13564,14 @@ $httpBody = new \GuzzleHttp\Psr7\MultipartStream($multipartContents);
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\DocSpring\Model\SuccessMultipleErrorsResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 404:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -12655,6 +14315,325 @@ $httpBody = new \GuzzleHttp\Psr7\MultipartStream($multipartContents);
             $resourcePath = str_replace(
                 '{' . 'template_id' . '}',
                 ObjectSerializer::toPathValue($template_id),
+                $resourcePath
+            );
+        }
+
+
+        $headers = $this->headerSelector->selectHeaders(
+            ['application/json', ],
+            $contentType,
+            $multipart
+        );
+
+        // for model (json/xml)
+        if (isset($data)) {
+            if (stripos($headers['Content-Type'], 'application/json') !== false) {
+                # if Content-Type contains "application/json", json_encode the body
+                $httpBody = \GuzzleHttp\Utils::jsonEncode(ObjectSerializer::sanitizeForSerialization($data));
+            } else {
+                $httpBody = $data;
+            }
+        } elseif (count($formParams) > 0) {
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
+                    foreach ($formParamValueItems as $formParamValueItem) {
+                        $multipartContents[] = [
+                            'name' => $formParamName,
+                            'contents' => $formParamValueItem
+                        ];
+                    }
+                }
+                // for HTTP post (form)
+                $httpBody = new MultipartStream($multipartContents);
+
+            } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
+                # if Content-Type contains "application/json", json_encode the form parameters
+                $httpBody = \GuzzleHttp\Utils::jsonEncode($formParams);
+            } else {
+                // for HTTP post (form)
+                $httpBody = ObjectSerializer::buildQuery($formParams);
+            }
+        }
+
+        // this endpoint requires HTTP basic authentication
+        if (!empty($this->config->getUsername()) || !(empty($this->config->getPassword()))) {
+            $headers['Authorization'] = 'Basic ' . base64_encode($this->config->getUsername() . ":" . $this->config->getPassword());
+        }
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        $operationHost = $this->config->getHost();
+        $query = ObjectSerializer::buildQuery($queryParams);
+        return new Request(
+            'PUT',
+            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
+            $headers,
+            $httpBody
+        );
+    }
+
+    /**
+     * Operation updateWebhook
+     *
+     * Update a webhook
+     *
+     * @param  string $webhook_id webhook_id (required)
+     * @param  \DocSpring\Model\UpdateWebhookData $data data (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['updateWebhook'] to see the possible values for this operation
+     *
+     * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \InvalidArgumentException
+     * @return \DocSpring\Model\Webhook|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
+     */
+    public function updateWebhook($webhook_id, $data, string $contentType = self::contentTypes['updateWebhook'][0])
+    {
+        list($response) = $this->updateWebhookWithHttpInfo($webhook_id, $data, $contentType);
+        return $response;
+    }
+
+    /**
+     * Operation updateWebhookWithHttpInfo
+     *
+     * Update a webhook
+     *
+     * @param  string $webhook_id (required)
+     * @param  \DocSpring\Model\UpdateWebhookData $data (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['updateWebhook'] to see the possible values for this operation
+     *
+     * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \InvalidArgumentException
+     * @return array of \DocSpring\Model\Webhook|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function updateWebhookWithHttpInfo($webhook_id, $data, string $contentType = self::contentTypes['updateWebhook'][0])
+    {
+        $request = $this->updateWebhookRequest($webhook_id, $data, $contentType);
+
+        try {
+            $options = $this->createHttpClientOption();
+            try {
+                $response = $this->client->send($request, $options);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null,
+                    $e->getResponse() ? (string) $e->getResponse()->getBody() : null
+                );
+            } catch (ConnectException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    null,
+                    null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+
+            switch($statusCode) {
+                case 200:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\Webhook',
+                        $request,
+                        $response,
+                    );
+                case 404:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 401:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+            }
+
+            
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        (string) $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    (string) $response->getBody()
+                );
+            }
+
+            return $this->handleResponseWithDataType(
+                '\DocSpring\Model\Webhook',
+                $request,
+                $response,
+            );
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\Webhook',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 404:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+            }
+        
+
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation updateWebhookAsync
+     *
+     * Update a webhook
+     *
+     * @param  string $webhook_id (required)
+     * @param  \DocSpring\Model\UpdateWebhookData $data (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['updateWebhook'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function updateWebhookAsync($webhook_id, $data, string $contentType = self::contentTypes['updateWebhook'][0])
+    {
+        return $this->updateWebhookAsyncWithHttpInfo($webhook_id, $data, $contentType)
+            ->then(
+                function ($response) {
+                    return $response[0];
+                }
+            );
+    }
+
+    /**
+     * Operation updateWebhookAsyncWithHttpInfo
+     *
+     * Update a webhook
+     *
+     * @param  string $webhook_id (required)
+     * @param  \DocSpring\Model\UpdateWebhookData $data (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['updateWebhook'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function updateWebhookAsyncWithHttpInfo($webhook_id, $data, string $contentType = self::contentTypes['updateWebhook'][0])
+    {
+        $returnType = '\DocSpring\Model\Webhook';
+        $request = $this->updateWebhookRequest($webhook_id, $data, $contentType);
+
+        return $this->client
+            ->sendAsync($request, $this->createHttpClientOption())
+            ->then(
+                function ($response) use ($returnType) {
+                    if ($returnType === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ($returnType !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                },
+                function ($exception) {
+                    $response = $exception->getResponse();
+                    $statusCode = $response->getStatusCode();
+                    throw new ApiException(
+                        sprintf(
+                            '[%d] Error connecting to the API (%s)',
+                            $statusCode,
+                            $exception->getRequest()->getUri()
+                        ),
+                        $statusCode,
+                        $response->getHeaders(),
+                        (string) $response->getBody()
+                    );
+                }
+            );
+    }
+
+    /**
+     * Create request for operation 'updateWebhook'
+     *
+     * @param  string $webhook_id (required)
+     * @param  \DocSpring\Model\UpdateWebhookData $data (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['updateWebhook'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    public function updateWebhookRequest($webhook_id, $data, string $contentType = self::contentTypes['updateWebhook'][0])
+    {
+
+        // verify the required parameter 'webhook_id' is set
+        if ($webhook_id === null || (is_array($webhook_id) && count($webhook_id) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $webhook_id when calling updateWebhook'
+            );
+        }
+
+        // verify the required parameter 'data' is set
+        if ($data === null || (is_array($data) && count($data) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $data when calling updateWebhook'
+            );
+        }
+
+
+        $resourcePath = '/webhooks/{webhook_id}';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = '';
+        $multipart = false;
+
+
+
+        // path params
+        if ($webhook_id !== null) {
+            $resourcePath = str_replace(
+                '{' . 'webhook_id' . '}',
+                ObjectSerializer::toPathValue($webhook_id),
                 $resourcePath
             );
         }
