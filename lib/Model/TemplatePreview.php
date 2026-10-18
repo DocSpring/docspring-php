@@ -86,6 +86,7 @@ class TemplatePreview implements ModelInterface, ArrayAccess, \JsonSerializable
         'page_count' => 'int',
         'page_dimensions' => 'float[][]',
         'parent_folder_id' => 'string',
+        'parse_dates_using_template_date_format' => 'bool',
         'path' => 'string',
         'permanent_document_url' => 'string',
         'public_submissions' => 'bool',
@@ -145,6 +146,7 @@ class TemplatePreview implements ModelInterface, ArrayAccess, \JsonSerializable
         'page_count' => null,
         'page_dimensions' => null,
         'parent_folder_id' => null,
+        'parse_dates_using_template_date_format' => null,
         'path' => null,
         'permanent_document_url' => null,
         'public_submissions' => null,
@@ -202,6 +204,7 @@ class TemplatePreview implements ModelInterface, ArrayAccess, \JsonSerializable
         'page_count' => false,
         'page_dimensions' => true,
         'parent_folder_id' => true,
+        'parse_dates_using_template_date_format' => false,
         'path' => false,
         'permanent_document_url' => true,
         'public_submissions' => false,
@@ -339,6 +342,7 @@ class TemplatePreview implements ModelInterface, ArrayAccess, \JsonSerializable
         'page_count' => 'page_count',
         'page_dimensions' => 'page_dimensions',
         'parent_folder_id' => 'parent_folder_id',
+        'parse_dates_using_template_date_format' => 'parse_dates_using_template_date_format',
         'path' => 'path',
         'permanent_document_url' => 'permanent_document_url',
         'public_submissions' => 'public_submissions',
@@ -396,6 +400,7 @@ class TemplatePreview implements ModelInterface, ArrayAccess, \JsonSerializable
         'page_count' => 'setPageCount',
         'page_dimensions' => 'setPageDimensions',
         'parent_folder_id' => 'setParentFolderId',
+        'parse_dates_using_template_date_format' => 'setParseDatesUsingTemplateDateFormat',
         'path' => 'setPath',
         'permanent_document_url' => 'setPermanentDocumentUrl',
         'public_submissions' => 'setPublicSubmissions',
@@ -453,6 +458,7 @@ class TemplatePreview implements ModelInterface, ArrayAccess, \JsonSerializable
         'page_count' => 'getPageCount',
         'page_dimensions' => 'getPageDimensions',
         'parent_folder_id' => 'getParentFolderId',
+        'parse_dates_using_template_date_format' => 'getParseDatesUsingTemplateDateFormat',
         'path' => 'getPath',
         'permanent_document_url' => 'getPermanentDocumentUrl',
         'public_submissions' => 'getPublicSubmissions',
@@ -614,6 +620,7 @@ class TemplatePreview implements ModelInterface, ArrayAccess, \JsonSerializable
         $this->setIfExists('page_count', $data ?? [], null);
         $this->setIfExists('page_dimensions', $data ?? [], null);
         $this->setIfExists('parent_folder_id', $data ?? [], null);
+        $this->setIfExists('parse_dates_using_template_date_format', $data ?? [], null);
         $this->setIfExists('path', $data ?? [], null);
         $this->setIfExists('permanent_document_url', $data ?? [], null);
         $this->setIfExists('public_submissions', $data ?? [], null);
@@ -758,6 +765,9 @@ class TemplatePreview implements ModelInterface, ArrayAccess, \JsonSerializable
         }
         if ($this->container['parent_folder_id'] === null) {
             $invalidProperties[] = "'parent_folder_id' can't be null";
+        }
+        if ($this->container['parse_dates_using_template_date_format'] === null) {
+            $invalidProperties[] = "'parse_dates_using_template_date_format' can't be null";
         }
         if ($this->container['path'] === null) {
             $invalidProperties[] = "'path' can't be null";
@@ -1722,6 +1732,33 @@ class TemplatePreview implements ModelInterface, ArrayAccess, \JsonSerializable
             }
         }
         $this->container['parent_folder_id'] = $parent_folder_id;
+
+        return $this;
+    }
+
+    /**
+     * Gets parse_dates_using_template_date_format
+     *
+     * @return bool
+     */
+    public function getParseDatesUsingTemplateDateFormat()
+    {
+        return $this->container['parse_dates_using_template_date_format'];
+    }
+
+    /**
+     * Sets parse_dates_using_template_date_format
+     *
+     * @param bool $parse_dates_using_template_date_format parse_dates_using_template_date_format
+     *
+     * @return self
+     */
+    public function setParseDatesUsingTemplateDateFormat($parse_dates_using_template_date_format)
+    {
+        if (is_null($parse_dates_using_template_date_format)) {
+            throw new \InvalidArgumentException('non-nullable parse_dates_using_template_date_format cannot be null');
+        }
+        $this->container['parse_dates_using_template_date_format'] = $parse_dates_using_template_date_format;
 
         return $this;
     }

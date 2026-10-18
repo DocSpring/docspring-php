@@ -33,6 +33,7 @@ Name | Type | Description | Notes
 **page_count** | **int** |  |
 **page_dimensions** | **float[][]** |  |
 **parent_folder_id** | **string** |  |
+**parse_dates_using_template_date_format** | **bool** |  |
 **path** | **string** |  |
 **permanent_document_url** | **string** |  |
 **public_submissions** | **bool** |  |

@@ -1,215 +1,184 @@
-# DocSpring
+# DocSpring PHP SDK
 
-Use DocSpring's API to programmatically fill out PDF forms, convert HTML to PDFs, merge PDFs, or request legally binding e-signatures.
+The official PHP client for the [DocSpring API](https://docspring.com/docs/api/). DocSpring fills PDF
+templates with your data, generates PDFs from HTML templates, combines PDFs and collects e-signatures.
 
+[Documentation](https://docspring.com/docs/) · [API reference](https://docspring.com/docs/api/) ·
+[Packagist](https://packagist.org/packages/docspring/docspring) · [Changelog](https://github.com/DocSpring/docspring-php/blob/main/CHANGELOG.md)
 
-## Installation & Usage
+Version 3.2.0. Requires PHP ^8.1.
 
-### Requirements
+## Install and configure
 
-PHP 8.1 and later.
+Install via Composer:
 
-### Composer
+```bash
+composer require docspring/docspring
+```
 
-To install the bindings via [Composer](https://getcomposer.org/), add the following to `composer.json`:
+Or add to your composer.json:
 
 ```json
 {
-  "repositories": [
-    {
-      "type": "vcs",
-      "url": "https://github.com/docspring/docspring.git"
-    }
-  ],
   "require": {
-    "docspring/docspring": "*@dev"
+    "docspring/docspring": "*"
   }
 }
 ```
 
-Then run `composer install`
-
-### Manual Installation
-
-Download the files and include `autoload.php`:
-
-```php
-<?php
-require_once('/path/to/DocSpring/vendor/autoload.php');
-```
-
-## Getting Started
-
-Please follow the [installation procedure](#installation--usage) and then run the following:
-
-```php
-<?php
-require_once(__DIR__ . '/vendor/autoload.php');
-
-
-
-// Configure HTTP basic authorization: api_token_basic
-$config = DocSpring\Configuration::getDefaultConfiguration()
-              ->setUsername('YOUR_USERNAME')
-              ->setPassword('YOUR_PASSWORD');
-
-
-$apiInstance = new DocSpring\Api\Client(
-    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
-    // This is optional, `GuzzleHttp\Client` will be used as default.
-    new GuzzleHttp\Client(),
-    $config
-);
-$template_id = tpl_1234567890abcdef02; // string
-$data = new \DocSpring\Model\AddFieldsData(); // \DocSpring\Model\AddFieldsData
-
-try {
-    $result = $apiInstance->addFieldsToTemplate($template_id, $data);
-    print_r($result);
-} catch (Exception $e) {
-    echo 'Exception when calling Client->addFieldsToTemplate: ', $e->getMessage(), PHP_EOL;
-}
-
-```
-
-## API Endpoints
-
-All URIs are relative to *https://sync.api.docspring.com/api/v1*
-
-Class | Method | HTTP request | Description
------------- | ------------- | ------------- | -------------
-*Client* | [**addFieldsToTemplate**](docs/Api/Client.md#addfieldstotemplate) | **PUT** /templates/{template_id}/add_fields | Add new fields to a Template
-*Client* | [**batchGeneratePdfs**](docs/Api/Client.md#batchgeneratepdfs) | **POST** /submissions/batches | Generate multiple PDFs
-*Client* | [**combinePdfs**](docs/Api/Client.md#combinepdfs) | **POST** /combined_submissions | Merge submission PDFs, template PDFs, or custom files
-*Client* | [**copyTemplate**](docs/Api/Client.md#copytemplate) | **POST** /templates/{template_id}/copy | Copy a template
-*Client* | [**createCustomFileFromUpload**](docs/Api/Client.md#createcustomfilefromupload) | **POST** /custom_files | Create a new custom file from a cached S3 upload
-*Client* | [**createDataRequestEvent**](docs/Api/Client.md#createdatarequestevent) | **POST** /data_requests/{data_request_id}/events | Create a new event for emailing a signee a request for signature
-*Client* | [**createDataRequestToken**](docs/Api/Client.md#createdatarequesttoken) | **POST** /data_requests/{data_request_id}/tokens | Create a new data request token for form authentication
-*Client* | [**createFolder**](docs/Api/Client.md#createfolder) | **POST** /folders/ | Create a folder
-*Client* | [**createHtmlTemplate**](docs/Api/Client.md#createhtmltemplate) | **POST** /templates?endpoint_variant&#x3D;create_html_template | Create a new HTML template
-*Client* | [**createPdfTemplate**](docs/Api/Client.md#createpdftemplate) | **POST** /templates | Create a new PDF template with a form POST file upload
-*Client* | [**createPdfTemplateFromUpload**](docs/Api/Client.md#createpdftemplatefromupload) | **POST** /templates?endpoint_variant&#x3D;create_template_from_cached_upload | Create a new PDF template from a cached S3 file upload
-*Client* | [**createWebhook**](docs/Api/Client.md#createwebhook) | **POST** /webhooks | Create a webhook
-*Client* | [**deleteFolder**](docs/Api/Client.md#deletefolder) | **DELETE** /folders/{folder_id} | Delete a folder
-*Client* | [**deleteTemplate**](docs/Api/Client.md#deletetemplate) | **DELETE** /templates/{template_id} | Delete a template
-*Client* | [**deleteWebhook**](docs/Api/Client.md#deletewebhook) | **DELETE** /webhooks/{webhook_id} | Delete a webhook
-*Client* | [**expireCombinedSubmission**](docs/Api/Client.md#expirecombinedsubmission) | **DELETE** /combined_submissions/{combined_submission_id} | Expire a combined submission
-*Client* | [**expireSubmission**](docs/Api/Client.md#expiresubmission) | **DELETE** /submissions/{submission_id} | Expire a PDF submission
-*Client* | [**generatePdf**](docs/Api/Client.md#generatepdf) | **POST** /templates/{template_id}/submissions | Generate a PDF
-*Client* | [**generatePreview**](docs/Api/Client.md#generatepreview) | **POST** /submissions/{submission_id}/generate_preview | Generate a preview PDF for partially completed data requests
-*Client* | [**getCombinedSubmission**](docs/Api/Client.md#getcombinedsubmission) | **GET** /combined_submissions/{combined_submission_id} | Check the status of a combined submission (merged PDFs)
-*Client* | [**getDataRequest**](docs/Api/Client.md#getdatarequest) | **GET** /data_requests/{data_request_id} | Look up a submission data request
-*Client* | [**getFullTemplate**](docs/Api/Client.md#getfulltemplate) | **GET** /templates/{template_id}?full&#x3D;true | Fetch the full attributes for a PDF template
-*Client* | [**getPresignUrl**](docs/Api/Client.md#getpresignurl) | **GET** /uploads/presign | Get a presigned S3 URL for direct file upload
-*Client* | [**getSubmission**](docs/Api/Client.md#getsubmission) | **GET** /submissions/{submission_id} | Check the status of a PDF
-*Client* | [**getSubmissionBatch**](docs/Api/Client.md#getsubmissionbatch) | **GET** /submissions/batches/{submission_batch_id} | Check the status of a submission batch job
-*Client* | [**getTemplate**](docs/Api/Client.md#gettemplate) | **GET** /templates/{template_id} | Check the status of an uploaded template
-*Client* | [**getTemplateModelCode**](docs/Api/Client.md#gettemplatemodelcode) | **GET** /templates/{template_id}/model_code | Generate typed model code for a template
-*Client* | [**getTemplateSchema**](docs/Api/Client.md#gettemplateschema) | **GET** /templates/{template_id}/schema | Fetch the JSON schema for a template
-*Client* | [**getWebhook**](docs/Api/Client.md#getwebhook) | **GET** /webhooks/{webhook_id} | Get a webhook
-*Client* | [**listCombinedSubmissions**](docs/Api/Client.md#listcombinedsubmissions) | **GET** /combined_submissions | Get a list of all combined submissions
-*Client* | [**listFolders**](docs/Api/Client.md#listfolders) | **GET** /folders/ | Get a list of all folders
-*Client* | [**listSubmissions**](docs/Api/Client.md#listsubmissions) | **GET** /submissions | List all submissions
-*Client* | [**listTemplateSubmissions**](docs/Api/Client.md#listtemplatesubmissions) | **GET** /templates/{template_id}/submissions | List all submissions for a given template
-*Client* | [**listTemplates**](docs/Api/Client.md#listtemplates) | **GET** /templates | Get a list of all templates
-*Client* | [**listWebhooks**](docs/Api/Client.md#listwebhooks) | **GET** /webhooks | Get a list of all webhooks
-*Client* | [**moveFolderToFolder**](docs/Api/Client.md#movefoldertofolder) | **POST** /folders/{folder_id}/move | Move a folder
-*Client* | [**moveTemplateToFolder**](docs/Api/Client.md#movetemplatetofolder) | **POST** /templates/{template_id}/move | Move Template to folder
-*Client* | [**publishTemplateVersion**](docs/Api/Client.md#publishtemplateversion) | **POST** /templates/{template_id}/publish_version | Publish a template version
-*Client* | [**renameFolder**](docs/Api/Client.md#renamefolder) | **POST** /folders/{folder_id}/rename | Rename a folder
-*Client* | [**restoreTemplateVersion**](docs/Api/Client.md#restoretemplateversion) | **POST** /templates/{template_id}/restore_version | Restore a template version
-*Client* | [**testAuthentication**](docs/Api/Client.md#testauthentication) | **GET** /authentication | Test authentication
-*Client* | [**updateDataRequest**](docs/Api/Client.md#updatedatarequest) | **PUT** /data_requests/{data_request_id} | Update a submission data request
-*Client* | [**updateTemplate**](docs/Api/Client.md#updatetemplate) | **PUT** /templates/{template_id} | Update a Template
-*Client* | [**updateTemplateDocument**](docs/Api/Client.md#updatetemplatedocument) | **PUT** /templates/{template_id}?endpoint_variant&#x3D;update_template_pdf_with_form_post | Update a template&#39;s document with a form POST file upload
-*Client* | [**updateTemplateDocumentFromUpload**](docs/Api/Client.md#updatetemplatedocumentfromupload) | **PUT** /templates/{template_id}?endpoint_variant&#x3D;update_template_pdf_with_cached_upload | Update a template&#39;s document with a cached S3 file upload
-*Client* | [**updateWebhook**](docs/Api/Client.md#updatewebhook) | **PUT** /webhooks/{webhook_id} | Update a webhook
-
-## Models
-
-- [AddFieldsData](docs/Model/AddFieldsData.md)
-- [BatchGeneratePdfs201Response](docs/Model/BatchGeneratePdfs201Response.md)
-- [CombinePdfsData](docs/Model/CombinePdfsData.md)
-- [CombinedSubmission](docs/Model/CombinedSubmission.md)
-- [CombinedSubmissionAction](docs/Model/CombinedSubmissionAction.md)
-- [CopyTemplateOptions](docs/Model/CopyTemplateOptions.md)
-- [CreateCombinedSubmissionResponse](docs/Model/CreateCombinedSubmissionResponse.md)
-- [CreateCustomFileData](docs/Model/CreateCustomFileData.md)
-- [CreateCustomFileResponse](docs/Model/CreateCustomFileResponse.md)
-- [CreateFolderData](docs/Model/CreateFolderData.md)
-- [CreateHtmlTemplate](docs/Model/CreateHtmlTemplate.md)
-- [CreatePdfSubmissionData](docs/Model/CreatePdfSubmissionData.md)
-- [CreatePdfTemplate](docs/Model/CreatePdfTemplate.md)
-- [CreateSubmissionDataRequestData](docs/Model/CreateSubmissionDataRequestData.md)
-- [CreateSubmissionDataRequestEventRequest](docs/Model/CreateSubmissionDataRequestEventRequest.md)
-- [CreateSubmissionDataRequestEventResponse](docs/Model/CreateSubmissionDataRequestEventResponse.md)
-- [CreateSubmissionDataRequestResponse](docs/Model/CreateSubmissionDataRequestResponse.md)
-- [CreateSubmissionDataRequestTokenResponse](docs/Model/CreateSubmissionDataRequestTokenResponse.md)
-- [CreateSubmissionResponse](docs/Model/CreateSubmissionResponse.md)
-- [CreateWebhookData](docs/Model/CreateWebhookData.md)
-- [CustomFile](docs/Model/CustomFile.md)
-- [ErrorOrMultipleErrorsResponse](docs/Model/ErrorOrMultipleErrorsResponse.md)
-- [ErrorResponse](docs/Model/ErrorResponse.md)
-- [Folder](docs/Model/Folder.md)
-- [JsonSchema](docs/Model/JsonSchema.md)
-- [ListSubmissionsResponse](docs/Model/ListSubmissionsResponse.md)
-- [MoveFolderData](docs/Model/MoveFolderData.md)
-- [MoveTemplateData](docs/Model/MoveTemplateData.md)
-- [MultipleErrorsResponse](docs/Model/MultipleErrorsResponse.md)
-- [PublishVersionData](docs/Model/PublishVersionData.md)
-- [RenameFolderData](docs/Model/RenameFolderData.md)
-- [RestoreVersionData](docs/Model/RestoreVersionData.md)
-- [Submission](docs/Model/Submission.md)
-- [Submission422Response](docs/Model/Submission422Response.md)
-- [SubmissionAction](docs/Model/SubmissionAction.md)
-- [SubmissionBatch](docs/Model/SubmissionBatch.md)
-- [SubmissionBatchData](docs/Model/SubmissionBatchData.md)
-- [SubmissionBatchWithSubmissions](docs/Model/SubmissionBatchWithSubmissions.md)
-- [SubmissionDataRequest](docs/Model/SubmissionDataRequest.md)
-- [SubmissionDataRequestEvent](docs/Model/SubmissionDataRequestEvent.md)
-- [SubmissionDataRequestShow](docs/Model/SubmissionDataRequestShow.md)
-- [SubmissionDataRequestToken](docs/Model/SubmissionDataRequestToken.md)
-- [SubmissionPreview](docs/Model/SubmissionPreview.md)
-- [SuccessErrorResponse](docs/Model/SuccessErrorResponse.md)
-- [SuccessMultipleErrorsResponse](docs/Model/SuccessMultipleErrorsResponse.md)
-- [Template](docs/Model/Template.md)
-- [TemplateAddFieldsResponse](docs/Model/TemplateAddFieldsResponse.md)
-- [TemplateDeleteResponse](docs/Model/TemplateDeleteResponse.md)
-- [TemplateModelCodeResponse](docs/Model/TemplateModelCodeResponse.md)
-- [TemplatePreview](docs/Model/TemplatePreview.md)
-- [TemplatePublishVersionResponse](docs/Model/TemplatePublishVersionResponse.md)
-- [UpdateHtmlTemplate](docs/Model/UpdateHtmlTemplate.md)
-- [UpdatePdfTemplate](docs/Model/UpdatePdfTemplate.md)
-- [UpdateSubmissionDataRequestData](docs/Model/UpdateSubmissionDataRequestData.md)
-- [UpdateWebhookData](docs/Model/UpdateWebhookData.md)
-- [UploadPresignResponse](docs/Model/UploadPresignResponse.md)
-- [Webhook](docs/Model/Webhook.md)
-
-## Authorization
-
-Authentication schemes defined for the API:
-### api_token_basic
-
-- **Type**: HTTP basic authentication
-
-## Tests
-
-To run the tests, use:
+Then run:
 
 ```bash
 composer install
-vendor/bin/phpunit
 ```
 
-## Author
+Configure authentication via environment variables:
 
+```bash
+export DOCSPRING_TOKEN_ID="API_TOKEN_ID"
+export DOCSPRING_TOKEN_SECRET="API_TOKEN_SECRET"
+```
 
+You can also configure the region or host. The host takes priority over the region:
 
-## About this package
+```bash
+export DOCSPRING_REGION="US" # US or EU (defaults to US)
+export DOCSPRING_HOST="docspring.yourcompany.com" # For on-premise deployments
+```
 
-This PHP package is automatically generated by the [OpenAPI Generator](https://openapi-generator.tech) project:
+Initialize the client:
 
-- API version: `v1`
-    - Package version: `3.1.0`
-    - Generator version: `7.16.0-DOCSPRING`
-- Build package: `org.openapitools.codegen.languages.PhpClientCodegen`
+```php
+require 'vendor/autoload.php';
+
+$config = DocSpring\Configuration::getDefaultConfiguration();
+$api = new DocSpring\Api\Client(null, $config);
+```
+
+Or provide credentials directly:
+
+```php
+require 'vendor/autoload.php';
+
+$config = DocSpring\Configuration::getDefaultConfiguration();
+$config->setUsername('API_TOKEN_ID');
+$config->setPassword('API_TOKEN_SECRET');
+$api = new DocSpring\Api\Client(null, $config);
+```
+
+## Generate a PDF
+
+Fill a template with data (use your template's ID in place of `tpl_1234567890abcdef01`):
+
+```php
+$templateId = 'tpl_1234567890abcdef01';
+$submission = [
+  'data' => [ 'first_name' => 'John', 'last_name' => 'Smith', 'phone_number' => '+11234567890' ],
+  'metadata' => [ 'foo' => 123, 'bar' => 'baz' ]
+];
+
+$result = $api->generatePdf(
+    $templateId,
+    $submission
+);
+
+echo json_encode($result, JSON_PRETTY_PRINT) . "\n";
+```
+
+By default the call waits for the PDF, for up to 95 seconds, and the submission in the response has its
+`download_url`. Set `wait` to false to get a pending submission straight away.
+[Sync vs. async processing](https://docspring.com/docs/api-guide/synchronous-requests/) covers the time limit, status
+checks and webhooks.
+
+## Methods
+
+[docs/Api/Client.md](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md) has each method's parameters and return type, and
+[docs/Model/](https://github.com/DocSpring/docspring-php/tree/main/docs/Model) has the models. The [API reference](https://docspring.com/docs/api/) has
+PHP code for every method.
+
+| Method | Description |
+| ------ | ----------- |
+| [`addFieldsToTemplate`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#addfieldstotemplate) | Add new fields to a Template |
+| [`batchGeneratePdfs`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#batchgeneratepdfs) | Generate multiple PDFs |
+| [`combinePdfs`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#combinepdfs) | Merge submission PDFs, template PDFs, or custom files |
+| [`copyTemplate`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#copytemplate) | Copy a template |
+| [`createCustomFileFromUpload`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#createcustomfilefromupload) | Create a new custom file from a cached S3 upload |
+| [`createDataRequestEvent`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#createdatarequestevent) | Create a new event for emailing a signee a request for signature |
+| [`createDataRequestToken`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#createdatarequesttoken) | Create a new data request token for form authentication |
+| [`createFolder`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#createfolder) | Create a folder |
+| [`createHtmlTemplate`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#createhtmltemplate) | Create a new HTML template |
+| [`createPdfTemplate`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#createpdftemplate) | Create a new PDF template with a form POST file upload |
+| [`createPdfTemplateFromUpload`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#createpdftemplatefromupload) | Create a new PDF template from a cached S3 file upload |
+| [`createWebhook`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#createwebhook) | Create a webhook |
+| [`deleteFolder`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#deletefolder) | Delete a folder |
+| [`deleteTemplate`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#deletetemplate) | Delete a template |
+| [`deleteWebhook`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#deletewebhook) | Delete a webhook |
+| [`expireCombinedSubmission`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#expirecombinedsubmission) | Expire a combined submission |
+| [`expireSubmission`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#expiresubmission) | Expire a PDF submission |
+| [`generatePdf`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#generatepdf) | Generate a PDF |
+| [`generatePreview`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#generatepreview) | Generate a preview PDF for partially completed data requests |
+| [`getCombinedSubmission`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#getcombinedsubmission) | Check the status of a combined submission (merged PDFs) |
+| [`getDataRequest`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#getdatarequest) | Look up a submission data request |
+| [`getFullTemplate`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#getfulltemplate) | Fetch the full attributes for a PDF template |
+| [`getPresignUrl`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#getpresignurl) | Get a presigned S3 URL for direct file upload |
+| [`getSubmission`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#getsubmission) | Check the status of a PDF |
+| [`getSubmissionBatch`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#getsubmissionbatch) | Check the status of a submission batch job |
+| [`getTemplate`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#gettemplate) | Check the status of an uploaded template |
+| [`getTemplateModelCode`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#gettemplatemodelcode) | Generate typed model code for a template |
+| [`getTemplateSchema`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#gettemplateschema) | Fetch the JSON schema for a template |
+| [`getWebhook`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#getwebhook) | Get a webhook |
+| [`listCombinedSubmissions`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#listcombinedsubmissions) | Get a list of all combined submissions |
+| [`listFolders`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#listfolders) | Get a list of all folders |
+| [`listSubmissions`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#listsubmissions) | List all submissions |
+| [`listTemplates`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#listtemplates) | Get a list of all templates |
+| [`listTemplateSubmissions`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#listtemplatesubmissions) | List all submissions for a given template |
+| [`listWebhooks`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#listwebhooks) | Get a list of all webhooks |
+| [`moveFolderToFolder`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#movefoldertofolder) | Move a folder |
+| [`moveTemplateToFolder`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#movetemplatetofolder) | Move Template to folder |
+| [`publishTemplateVersion`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#publishtemplateversion) | Publish a template version |
+| [`renameFolder`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#renamefolder) | Rename a folder |
+| [`restoreTemplateVersion`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#restoretemplateversion) | Restore a template version |
+| [`testAuthentication`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#testauthentication) | Test authentication |
+| [`updateDataRequest`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#updatedatarequest) | Update a submission data request |
+| [`updateTemplate`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#updatetemplate) | Update a Template |
+| [`updateTemplateDocument`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#updatetemplatedocument) | Update a template's document with a form POST file upload |
+| [`updateTemplateDocumentFromUpload`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#updatetemplatedocumentfromupload) | Update a template's document with a cached S3 file upload |
+| [`updateWebhook`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#updatewebhook) | Update a webhook |
+
+## Errors
+
+Methods throw `DocSpring\ApiException` for an error response, with the HTTP status in `getCode()` and the body in `getResponseBody()`.
+
+## API changes
+
+DocSpring adds fields and enum values to API v1 without releasing a new API version. Changes that would break
+existing code, such as removing or renaming a field, go in a new API version
+([API changes](https://docspring.com/docs/api-guide/openapi-schema/#api-changes)). So this SDK keeps working with
+responses that are newer than it is:
+
+- The model leaves out a response field added to the API after this release.
+- An enum value added to the API after this release comes back as a string, so handle values you don't recognize.
+
+Upgrade the SDK to read new fields and enum values. The [changelog](https://github.com/DocSpring/docspring-php/blob/main/CHANGELOG.md) lists
+what each release adds.
+
+## About this SDK
+
+This SDK is generated from DocSpring's [OpenAPI spec](https://docspring.com/api-docs/v1/openapi.json) with
+[DocSpring's fork of OpenAPI Generator](https://github.com/DocSpring/openapi-generator/tree/docspring/all_patches) 7.16.0.
+The fork changes the PHP generator:
+
+- Responses with an enum value added to the API after this release don't throw `InvalidArgumentException`. Setting a property yourself still checks its value.
+
+On top of the generated code, we add:
+
+- A client constructor that reads your credentials, region and host from the environment.
+- Fixes for the file uploads in `createPdfTemplate` and `updateTemplateDocument`.
+
+Because the code is generated, we can't merge pull requests that change it. Please
+[open an issue](https://github.com/DocSpring/docspring-php/issues) or email [support@docspring.com](mailto:support@docspring.com) instead, and
+we'll fix it in the generator. [AGENTS.md](https://github.com/DocSpring/docspring-php/blob/main/AGENTS.md) is a short guide for AI coding agents.
+
+## License
+
+MIT. See [LICENSE](https://github.com/DocSpring/docspring-php/blob/main/LICENSE).
