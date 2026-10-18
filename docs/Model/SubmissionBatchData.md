@@ -8,6 +8,6 @@ Name | Type | Description | Notes
 **submissions** | **object[]** |  |
 **template_id** | **string** |  | [optional]
 **template_version** | **string** |  | [optional]
-**test** | **bool** |  | [optional]
+**test** | **bool** | Generate a watermarked test PDF. Test PDFs are free; live PDFs (the default) use credits. | [optional]
 
 [[Back to Model list]](../../README.md#models) [[Back to API list]](../../README.md#endpoints) [[Back to README]](../../README.md)

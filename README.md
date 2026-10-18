@@ -6,7 +6,7 @@ templates with your data, generates PDFs from HTML templates, combines PDFs and 
 [Documentation](https://docspring.com/docs/) · [API reference](https://docspring.com/docs/api/) ·
 [Packagist](https://packagist.org/packages/docspring/docspring) · [Changelog](https://github.com/DocSpring/docspring-php/blob/main/CHANGELOG.md)
 
-Version 3.2.0. Requires PHP ^8.1.
+Version 3.3.0. Requires PHP ^8.1.
 
 ## Install and configure
 

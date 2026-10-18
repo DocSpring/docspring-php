@@ -28,6 +28,7 @@ docs/Model/CustomFile.md
 docs/Model/ErrorOrMultipleErrorsResponse.md
 docs/Model/ErrorResponse.md
 docs/Model/Folder.md
+docs/Model/ForbiddenErrorResponse.md
 docs/Model/JsonSchema.md
 docs/Model/ListSubmissionsResponse.md
 docs/Model/MoveFolderData.md
@@ -91,6 +92,7 @@ lib/Model/CustomFile.php
 lib/Model/ErrorOrMultipleErrorsResponse.php
 lib/Model/ErrorResponse.php
 lib/Model/Folder.php
+lib/Model/ForbiddenErrorResponse.php
 lib/Model/JsonSchema.php
 lib/Model/ListSubmissionsResponse.php
 lib/Model/ModelInterface.php
@@ -152,6 +154,7 @@ test/Model/CustomFileTest.php
 test/Model/ErrorOrMultipleErrorsResponseTest.php
 test/Model/ErrorResponseTest.php
 test/Model/FolderTest.php
+test/Model/ForbiddenErrorResponseTest.php
 test/Model/JsonSchemaTest.php
 test/Model/ListSubmissionsResponseTest.php
 test/Model/MoveFolderDataTest.php
