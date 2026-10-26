@@ -332,6 +332,24 @@ class CreateTemplateRequestTest extends TestCase
     }
 
     /**
+     * Test attribute "predefined_fields"
+     */
+    public function testPropertyPredefinedFields()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * Test attribute "predefined_fields_sample_data"
+     */
+    public function testPropertyPredefinedFieldsSampleData()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
      * Test attribute "html"
      */
     public function testPropertyHtml()
@@ -380,6 +398,24 @@ class CreateTemplateRequestTest extends TestCase
      * Test attribute "cache_id"
      */
     public function testPropertyCacheId()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * Test attribute "document_url"
+     */
+    public function testPropertyDocumentUrl()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * Test attribute "document_base64"
+     */
+    public function testPropertyDocumentBase64()
     {
         // TODO: implement
         self::markTestIncomplete('Not implemented');

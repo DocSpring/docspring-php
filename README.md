@@ -9,7 +9,7 @@ templates with your data, generates PDFs from HTML templates, combines PDFs and 
 The code in this repository is generated from DocSpring's OpenAPI spec ([About this SDK](#about-this-sdk)). Issues and
 pull requests are welcome.
 
-Version 4.0.0. Requires PHP ^8.1.
+Version 4.1.0. Requires PHP ^8.1.
 
 ## Install and configure
 
@@ -102,6 +102,7 @@ PHP code for every method.
 
 | Method | Description |
 | ------ | ----------- |
+| [`addTemplateFields`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#addtemplatefields) | Add fields to a template |
 | [`copyTemplate`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#copytemplate) | Copy a template |
 | [`createCombinedPdf`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#createcombinedpdf) | Combine PDFs |
 | [`createCustomFileFromUpload`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#createcustomfilefromupload) | Create a custom file from an upload |
@@ -118,6 +119,7 @@ PHP code for every method.
 | [`deleteWebhook`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#deletewebhook) | Delete a webhook |
 | [`expireCombinedPdf`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#expirecombinedpdf) | Expire a combined PDF |
 | [`expireSubmission`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#expiresubmission) | Expire a submission |
+| [`generateSubmissionFiles`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#generatesubmissionfiles) | Generate more files |
 | [`generateSubmissionPreview`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#generatesubmissionpreview) | Generate a preview PDF |
 | [`getCombinedPdf`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#getcombinedpdf) | Get a combined PDF |
 | [`getCustomFile`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#getcustomfile) | Get a custom file |
@@ -127,28 +129,35 @@ PHP code for every method.
 | [`getSubmission`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#getsubmission) | Get a submission |
 | [`getSubmissionBatch`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#getsubmissionbatch) | Get a batch |
 | [`getTemplate`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#gettemplate) | Get a template |
+| [`getTemplateDiff`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#gettemplatediff) | Compare a version of a template with the one before it |
 | [`getTemplateModelCode`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#gettemplatemodelcode) | Generate typed code for a template's submission data |
+| [`getTemplatePageImages`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#gettemplatepageimages) | Get images of a template's pages |
 | [`getTemplateSchema`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#gettemplateschema) | Get the JSON Schema of a template's submission data |
 | [`getWebhook`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#getwebhook) | Get a webhook |
 | [`listCombinedPdfs`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#listcombinedpdfs) | List combined PDFs |
 | [`listCustomFiles`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#listcustomfiles) | List custom files |
 | [`listFolders`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#listfolders) | List folders |
 | [`listSubmissions`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#listsubmissions) | List submissions |
+| [`listTemplateFields`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#listtemplatefields) | List a template's fields |
 | [`listTemplates`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#listtemplates) | List templates |
 | [`listTemplateSubmissions`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#listtemplatesubmissions) | List a template's submissions |
 | [`listWebhooks`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#listwebhooks) | List webhooks |
 | [`moveFolder`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#movefolder) | Move a folder |
 | [`moveTemplate`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#movetemplate) | Move a template to a folder |
 | [`publishTemplateVersion`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#publishtemplateversion) | Publish a template version |
+| [`removeTemplateFields`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#removetemplatefields) | Remove fields from a template |
 | [`renameFolder`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#renamefolder) | Rename a folder |
+| [`reorderTemplateFields`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#reordertemplatefields) | Reorder a template's fields |
 | [`restoreTemplateVersion`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#restoretemplateversion) | Restore a template version |
 | [`testAuthentication`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#testauthentication) | Test authentication |
 | [`updateSignatureRequest`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#updatesignaturerequest) | Update a signature request |
 | [`updateTemplate`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#updatetemplate) | Update a template |
 | [`updateTemplateDocument`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#updatetemplatedocument) | Replace a template's PDF |
+| [`updateTemplateFields`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#updatetemplatefields) | Update a template's fields |
 | [`updateWebhook`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#updatewebhook) | Update a webhook |
 | [`uploadTemplate`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#uploadtemplate) | Create a PDF template from an uploaded PDF |
 | [`uploadTemplateDocument`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#uploadtemplatedocument) | Replace a template's PDF with an uploaded PDF |
+| [`validateSubmission`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#validatesubmission) | Check a submission without creating it |
 
 ## Errors
 

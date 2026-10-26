@@ -416,7 +416,7 @@ class TemplateDocument implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets filename
      *
-     * @param string|null $filename The PDF's file name.
+     * @param string|null $filename The PDF's file name. Null until a `document_url` has been downloaded.
      *
      * @return self
      */
@@ -484,7 +484,7 @@ class TemplateDocument implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets state
      *
-     * @param \DocSpring\Model\TemplateDocumentState $state `pending` while DocSpring processes the PDF, then `processed`. `password_required`, `malformed_pdf` and `unknown_error` mean the PDF couldn't be processed, and `error_message` says why: upload it again or upload another one.
+     * @param \DocSpring\Model\TemplateDocumentState $state `pending` while DocSpring processes the PDF, then `processed`. `password_required`, `malformed_pdf` and `unknown_error` mean the PDF couldn't be processed, and `error_message` says why: upload it again or upload another one. `downloading` while DocSpring downloads a `document_url`, then as for an upload. `download_failed` means it couldn't be downloaded, and `error_message` says why. A template keeps its PDF while a new one is downloaded, and when it couldn't be.
      *
      * @return self
      */
@@ -511,7 +511,7 @@ class TemplateDocument implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets error_message
      *
-     * @param string|null $error_message Why the PDF couldn't be processed, and how to fix it. Null unless `state` is an error.
+     * @param string|null $error_message Why the PDF couldn't be processed or downloaded, and how to fix it. Null unless `state` is an error.
      *
      * @return self
      */

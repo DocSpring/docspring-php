@@ -62,6 +62,7 @@ class CreateSubmissionBatchRequest implements ModelInterface, ArrayAccess, \Json
         'template_id' => 'string',
         'template_version' => 'string',
         'test' => 'bool',
+        'output_formats' => '\DocSpring\Model\OutputFormat[]',
         'submissions' => '\DocSpring\Model\SubmissionInput[]'
     ];
 
@@ -77,6 +78,7 @@ class CreateSubmissionBatchRequest implements ModelInterface, ArrayAccess, \Json
         'template_id' => null,
         'template_version' => null,
         'test' => null,
+        'output_formats' => null,
         'submissions' => null
     ];
 
@@ -90,6 +92,7 @@ class CreateSubmissionBatchRequest implements ModelInterface, ArrayAccess, \Json
         'template_id' => false,
         'template_version' => false,
         'test' => false,
+        'output_formats' => false,
         'submissions' => false
     ];
 
@@ -183,6 +186,7 @@ class CreateSubmissionBatchRequest implements ModelInterface, ArrayAccess, \Json
         'template_id' => 'template_id',
         'template_version' => 'template_version',
         'test' => 'test',
+        'output_formats' => 'output_formats',
         'submissions' => 'submissions'
     ];
 
@@ -196,6 +200,7 @@ class CreateSubmissionBatchRequest implements ModelInterface, ArrayAccess, \Json
         'template_id' => 'setTemplateId',
         'template_version' => 'setTemplateVersion',
         'test' => 'setTest',
+        'output_formats' => 'setOutputFormats',
         'submissions' => 'setSubmissions'
     ];
 
@@ -209,6 +214,7 @@ class CreateSubmissionBatchRequest implements ModelInterface, ArrayAccess, \Json
         'template_id' => 'getTemplateId',
         'template_version' => 'getTemplateVersion',
         'test' => 'getTest',
+        'output_formats' => 'getOutputFormats',
         'submissions' => 'getSubmissions'
     ];
 
@@ -273,6 +279,7 @@ class CreateSubmissionBatchRequest implements ModelInterface, ArrayAccess, \Json
         $this->setIfExists('template_id', $data ?? [], null);
         $this->setIfExists('template_version', $data ?? [], null);
         $this->setIfExists('test', $data ?? [], null);
+        $this->setIfExists('output_formats', $data ?? [], null);
         $this->setIfExists('submissions', $data ?? [], null);
     }
 
@@ -425,6 +432,34 @@ class CreateSubmissionBatchRequest implements ModelInterface, ArrayAccess, \Json
             throw new \InvalidArgumentException('non-nullable test cannot be null');
         }
         $this->container['test'] = $test;
+
+        return $this;
+    }
+
+    /**
+     * Gets output_formats
+     *
+     * @return \DocSpring\Model\OutputFormat[]|null
+     */
+    public function getOutputFormats()
+    {
+        return $this->container['output_formats'];
+    }
+
+    /**
+     * Sets output_formats
+     *
+     * @param \DocSpring\Model\OutputFormat[]|null $output_formats The default `output_formats` for each submission that doesn't set its own.
+     *
+     * @return self
+     */
+    public function setOutputFormats($output_formats)
+    {
+        if (is_null($output_formats)) {
+            throw new \InvalidArgumentException('non-nullable output_formats cannot be null');
+        }
+
+        $this->container['output_formats'] = $output_formats;
 
         return $this;
     }

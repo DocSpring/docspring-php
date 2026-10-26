@@ -340,7 +340,7 @@ class TemplateFieldDependency implements ModelInterface, ArrayAccess, \JsonSeria
     /**
      * Sets action
      *
-     * @param \DocSpring\Model\TemplateFieldDependencyAction $action What the rule does to its targets when its conditions are met.
+     * @param \DocSpring\Model\TemplateFieldDependencyAction $action What the rule does to the fields it applies to when its conditions are met.
      *
      * @return self
      */

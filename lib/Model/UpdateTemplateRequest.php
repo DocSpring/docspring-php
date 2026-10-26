@@ -85,6 +85,9 @@ class UpdateTemplateRequest implements ModelInterface, ArrayAccess, \JsonSeriali
         'slack_webhook_url' => 'string',
         'defaults' => '\DocSpring\Model\TemplateDefaultsInput',
         'field_dependencies' => '\DocSpring\Model\TemplateFieldDependencyInput[]',
+        'field_groups' => '\DocSpring\Model\FieldGroupInput[]',
+        'predefined_fields' => '\DocSpring\Model\PredefinedFieldInput[]',
+        'predefined_fields_sample_data' => 'array<string,mixed>',
         'html' => 'string',
         'scss' => 'string',
         'header_html' => 'string',
@@ -127,6 +130,9 @@ class UpdateTemplateRequest implements ModelInterface, ArrayAccess, \JsonSeriali
         'slack_webhook_url' => null,
         'defaults' => null,
         'field_dependencies' => null,
+        'field_groups' => null,
+        'predefined_fields' => null,
+        'predefined_fields_sample_data' => null,
         'html' => null,
         'scss' => null,
         'header_html' => null,
@@ -167,6 +173,9 @@ class UpdateTemplateRequest implements ModelInterface, ArrayAccess, \JsonSeriali
         'slack_webhook_url' => true,
         'defaults' => false,
         'field_dependencies' => false,
+        'field_groups' => false,
+        'predefined_fields' => false,
+        'predefined_fields_sample_data' => true,
         'html' => true,
         'scss' => true,
         'header_html' => true,
@@ -287,6 +296,9 @@ class UpdateTemplateRequest implements ModelInterface, ArrayAccess, \JsonSeriali
         'slack_webhook_url' => 'slack_webhook_url',
         'defaults' => 'defaults',
         'field_dependencies' => 'field_dependencies',
+        'field_groups' => 'field_groups',
+        'predefined_fields' => 'predefined_fields',
+        'predefined_fields_sample_data' => 'predefined_fields_sample_data',
         'html' => 'html',
         'scss' => 'scss',
         'header_html' => 'header_html',
@@ -327,6 +339,9 @@ class UpdateTemplateRequest implements ModelInterface, ArrayAccess, \JsonSeriali
         'slack_webhook_url' => 'setSlackWebhookUrl',
         'defaults' => 'setDefaults',
         'field_dependencies' => 'setFieldDependencies',
+        'field_groups' => 'setFieldGroups',
+        'predefined_fields' => 'setPredefinedFields',
+        'predefined_fields_sample_data' => 'setPredefinedFieldsSampleData',
         'html' => 'setHtml',
         'scss' => 'setScss',
         'header_html' => 'setHeaderHtml',
@@ -367,6 +382,9 @@ class UpdateTemplateRequest implements ModelInterface, ArrayAccess, \JsonSeriali
         'slack_webhook_url' => 'getSlackWebhookUrl',
         'defaults' => 'getDefaults',
         'field_dependencies' => 'getFieldDependencies',
+        'field_groups' => 'getFieldGroups',
+        'predefined_fields' => 'getPredefinedFields',
+        'predefined_fields_sample_data' => 'getPredefinedFieldsSampleData',
         'html' => 'getHtml',
         'scss' => 'getScss',
         'header_html' => 'getHeaderHtml',
@@ -458,6 +476,9 @@ class UpdateTemplateRequest implements ModelInterface, ArrayAccess, \JsonSeriali
         $this->setIfExists('slack_webhook_url', $data ?? [], null);
         $this->setIfExists('defaults', $data ?? [], null);
         $this->setIfExists('field_dependencies', $data ?? [], null);
+        $this->setIfExists('field_groups', $data ?? [], null);
+        $this->setIfExists('predefined_fields', $data ?? [], null);
+        $this->setIfExists('predefined_fields_sample_data', $data ?? [], null);
         $this->setIfExists('html', $data ?? [], null);
         $this->setIfExists('scss', $data ?? [], null);
         $this->setIfExists('header_html', $data ?? [], null);
@@ -1267,6 +1288,94 @@ class UpdateTemplateRequest implements ModelInterface, ArrayAccess, \JsonSeriali
             throw new \InvalidArgumentException('non-nullable field_dependencies cannot be null');
         }
         $this->container['field_dependencies'] = $field_dependencies;
+
+        return $this;
+    }
+
+    /**
+     * Gets field_groups
+     *
+     * @return \DocSpring\Model\FieldGroupInput[]|null
+     */
+    public function getFieldGroups()
+    {
+        return $this->container['field_groups'];
+    }
+
+    /**
+     * Sets field_groups
+     *
+     * @param \DocSpring\Model\FieldGroupInput[]|null $field_groups Changes to the settings of the template's field groups, each with the `name` of the group it changes. Settings left out keep their values, and groups left out are unchanged.
+     *
+     * @return self
+     */
+    public function setFieldGroups($field_groups)
+    {
+        if (is_null($field_groups)) {
+            throw new \InvalidArgumentException('non-nullable field_groups cannot be null');
+        }
+        $this->container['field_groups'] = $field_groups;
+
+        return $this;
+    }
+
+    /**
+     * Gets predefined_fields
+     *
+     * @return \DocSpring\Model\PredefinedFieldInput[]|null
+     */
+    public function getPredefinedFields()
+    {
+        return $this->container['predefined_fields'];
+    }
+
+    /**
+     * Sets predefined_fields
+     *
+     * @param \DocSpring\Model\PredefinedFieldInput[]|null $predefined_fields The field names that people using the embedded template editor choose from, each with the data type and settings a field gets when it's given that name. Setting it replaces the whole list; an empty list turns them off.
+     *
+     * @return self
+     */
+    public function setPredefinedFields($predefined_fields)
+    {
+        if (is_null($predefined_fields)) {
+            throw new \InvalidArgumentException('non-nullable predefined_fields cannot be null');
+        }
+        $this->container['predefined_fields'] = $predefined_fields;
+
+        return $this;
+    }
+
+    /**
+     * Gets predefined_fields_sample_data
+     *
+     * @return array<string,mixed>|null
+     */
+    public function getPredefinedFieldsSampleData()
+    {
+        return $this->container['predefined_fields_sample_data'];
+    }
+
+    /**
+     * Sets predefined_fields_sample_data
+     *
+     * @param array<string,mixed>|null $predefined_fields_sample_data Sample submission data that sets `predefined_fields`: each value becomes a predefined field, with a type that fits it (`string`, `number`, `boolean`, `date`, `email` or `url`) and `required_in_template` true. Nested objects and arrays become names with `/`, such as `customer/email`. Without `predefined_fields` in the same request, it replaces them; with them, it adds to them and sets the types of the ones it has values for.
+     *
+     * @return self
+     */
+    public function setPredefinedFieldsSampleData($predefined_fields_sample_data)
+    {
+        if (is_null($predefined_fields_sample_data)) {
+            array_push($this->openAPINullablesSetToNull, 'predefined_fields_sample_data');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('predefined_fields_sample_data', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['predefined_fields_sample_data'] = $predefined_fields_sample_data;
 
         return $this;
     }

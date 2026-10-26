@@ -86,12 +86,16 @@ class CreateTemplateRequest implements ModelInterface, ArrayAccess, \JsonSeriali
         'slack_webhook_url' => 'string',
         'defaults' => '\DocSpring\Model\TemplateDefaultsInput',
         'field_dependencies' => '\DocSpring\Model\TemplateFieldDependencyInput[]',
+        'predefined_fields' => '\DocSpring\Model\PredefinedFieldInput[]',
+        'predefined_fields_sample_data' => 'array<string,mixed>',
         'html' => 'string',
         'scss' => 'string',
         'header_html' => 'string',
         'footer_html' => 'string',
         'html_engine_options' => '\DocSpring\Model\HtmlEngineOptionsInput',
         'cache_id' => 'string',
+        'document_url' => 'string',
+        'document_base64' => 'string',
         'filename' => 'string',
         'detect_fields' => 'bool',
         'field_source' => '\DocSpring\Model\FieldSetupSource',
@@ -135,12 +139,16 @@ class CreateTemplateRequest implements ModelInterface, ArrayAccess, \JsonSeriali
         'slack_webhook_url' => null,
         'defaults' => null,
         'field_dependencies' => null,
+        'predefined_fields' => null,
+        'predefined_fields_sample_data' => null,
         'html' => null,
         'scss' => null,
         'header_html' => null,
         'footer_html' => null,
         'html_engine_options' => null,
         'cache_id' => null,
+        'document_url' => null,
+        'document_base64' => null,
         'filename' => null,
         'detect_fields' => null,
         'field_source' => null,
@@ -182,12 +190,16 @@ class CreateTemplateRequest implements ModelInterface, ArrayAccess, \JsonSeriali
         'slack_webhook_url' => true,
         'defaults' => false,
         'field_dependencies' => false,
+        'predefined_fields' => false,
+        'predefined_fields_sample_data' => true,
         'html' => true,
         'scss' => true,
         'header_html' => true,
         'footer_html' => true,
         'html_engine_options' => true,
         'cache_id' => false,
+        'document_url' => false,
+        'document_base64' => false,
         'filename' => false,
         'detect_fields' => false,
         'field_source' => false,
@@ -309,12 +321,16 @@ class CreateTemplateRequest implements ModelInterface, ArrayAccess, \JsonSeriali
         'slack_webhook_url' => 'slack_webhook_url',
         'defaults' => 'defaults',
         'field_dependencies' => 'field_dependencies',
+        'predefined_fields' => 'predefined_fields',
+        'predefined_fields_sample_data' => 'predefined_fields_sample_data',
         'html' => 'html',
         'scss' => 'scss',
         'header_html' => 'header_html',
         'footer_html' => 'footer_html',
         'html_engine_options' => 'html_engine_options',
         'cache_id' => 'cache_id',
+        'document_url' => 'document_url',
+        'document_base64' => 'document_base64',
         'filename' => 'filename',
         'detect_fields' => 'detect_fields',
         'field_source' => 'field_source',
@@ -356,12 +372,16 @@ class CreateTemplateRequest implements ModelInterface, ArrayAccess, \JsonSeriali
         'slack_webhook_url' => 'setSlackWebhookUrl',
         'defaults' => 'setDefaults',
         'field_dependencies' => 'setFieldDependencies',
+        'predefined_fields' => 'setPredefinedFields',
+        'predefined_fields_sample_data' => 'setPredefinedFieldsSampleData',
         'html' => 'setHtml',
         'scss' => 'setScss',
         'header_html' => 'setHeaderHtml',
         'footer_html' => 'setFooterHtml',
         'html_engine_options' => 'setHtmlEngineOptions',
         'cache_id' => 'setCacheId',
+        'document_url' => 'setDocumentUrl',
+        'document_base64' => 'setDocumentBase64',
         'filename' => 'setFilename',
         'detect_fields' => 'setDetectFields',
         'field_source' => 'setFieldSource',
@@ -403,12 +423,16 @@ class CreateTemplateRequest implements ModelInterface, ArrayAccess, \JsonSeriali
         'slack_webhook_url' => 'getSlackWebhookUrl',
         'defaults' => 'getDefaults',
         'field_dependencies' => 'getFieldDependencies',
+        'predefined_fields' => 'getPredefinedFields',
+        'predefined_fields_sample_data' => 'getPredefinedFieldsSampleData',
         'html' => 'getHtml',
         'scss' => 'getScss',
         'header_html' => 'getHeaderHtml',
         'footer_html' => 'getFooterHtml',
         'html_engine_options' => 'getHtmlEngineOptions',
         'cache_id' => 'getCacheId',
+        'document_url' => 'getDocumentUrl',
+        'document_base64' => 'getDocumentBase64',
         'filename' => 'getFilename',
         'detect_fields' => 'getDetectFields',
         'field_source' => 'getFieldSource',
@@ -501,12 +525,16 @@ class CreateTemplateRequest implements ModelInterface, ArrayAccess, \JsonSeriali
         $this->setIfExists('slack_webhook_url', $data ?? [], null);
         $this->setIfExists('defaults', $data ?? [], null);
         $this->setIfExists('field_dependencies', $data ?? [], null);
+        $this->setIfExists('predefined_fields', $data ?? [], null);
+        $this->setIfExists('predefined_fields_sample_data', $data ?? [], null);
         $this->setIfExists('html', $data ?? [], null);
         $this->setIfExists('scss', $data ?? [], null);
         $this->setIfExists('header_html', $data ?? [], null);
         $this->setIfExists('footer_html', $data ?? [], null);
         $this->setIfExists('html_engine_options', $data ?? [], null);
         $this->setIfExists('cache_id', $data ?? [], null);
+        $this->setIfExists('document_url', $data ?? [], null);
+        $this->setIfExists('document_base64', $data ?? [], null);
         $this->setIfExists('filename', $data ?? [], null);
         $this->setIfExists('detect_fields', $data ?? [], null);
         $this->setIfExists('field_source', $data ?? [], null);
@@ -1351,6 +1379,67 @@ class CreateTemplateRequest implements ModelInterface, ArrayAccess, \JsonSeriali
     }
 
     /**
+     * Gets predefined_fields
+     *
+     * @return \DocSpring\Model\PredefinedFieldInput[]|null
+     */
+    public function getPredefinedFields()
+    {
+        return $this->container['predefined_fields'];
+    }
+
+    /**
+     * Sets predefined_fields
+     *
+     * @param \DocSpring\Model\PredefinedFieldInput[]|null $predefined_fields The field names that people using the embedded template editor choose from, each with the data type and settings a field gets when it's given that name. Setting it replaces the whole list; an empty list turns them off.
+     *
+     * @return self
+     */
+    public function setPredefinedFields($predefined_fields)
+    {
+        if (is_null($predefined_fields)) {
+            throw new \InvalidArgumentException('non-nullable predefined_fields cannot be null');
+        }
+        $this->container['predefined_fields'] = $predefined_fields;
+
+        return $this;
+    }
+
+    /**
+     * Gets predefined_fields_sample_data
+     *
+     * @return array<string,mixed>|null
+     */
+    public function getPredefinedFieldsSampleData()
+    {
+        return $this->container['predefined_fields_sample_data'];
+    }
+
+    /**
+     * Sets predefined_fields_sample_data
+     *
+     * @param array<string,mixed>|null $predefined_fields_sample_data Sample submission data that sets `predefined_fields`: each value becomes a predefined field, with a type that fits it (`string`, `number`, `boolean`, `date`, `email` or `url`) and `required_in_template` true. Nested objects and arrays become names with `/`, such as `customer/email`. Without `predefined_fields` in the same request, it replaces them; with them, it adds to them and sets the types of the ones it has values for.
+     *
+     * @return self
+     */
+    public function setPredefinedFieldsSampleData($predefined_fields_sample_data)
+    {
+        if (is_null($predefined_fields_sample_data)) {
+            array_push($this->openAPINullablesSetToNull, 'predefined_fields_sample_data');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('predefined_fields_sample_data', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['predefined_fields_sample_data'] = $predefined_fields_sample_data;
+
+        return $this;
+    }
+
+    /**
      * Gets html
      *
      * @return string|null
@@ -1533,7 +1622,7 @@ class CreateTemplateRequest implements ModelInterface, ArrayAccess, \JsonSeriali
     /**
      * Sets cache_id
      *
-     * @param string|null $cache_id A PDF template's document: the `fields.key` of a file you uploaded with the presigned upload (GET /uploads/presign). Required for a PDF template. To upload the PDF with the request, use POST /templates/upload.
+     * @param string|null $cache_id A PDF template's document: the `fields.key` of a file you uploaded with the presigned upload (GET /uploads/presign). A PDF template needs one of `cache_id`, `document_url` and `document_base64`. To upload the PDF with the request, use POST /templates/upload.
      *
      * @return self
      */
@@ -1543,6 +1632,60 @@ class CreateTemplateRequest implements ModelInterface, ArrayAccess, \JsonSeriali
             throw new \InvalidArgumentException('non-nullable cache_id cannot be null');
         }
         $this->container['cache_id'] = $cache_id;
+
+        return $this;
+    }
+
+    /**
+     * Gets document_url
+     *
+     * @return string|null
+     */
+    public function getDocumentUrl()
+    {
+        return $this->container['document_url'];
+    }
+
+    /**
+     * Sets document_url
+     *
+     * @param string|null $document_url An https:// link to the template's PDF (up to 100 MB), instead of `cache_id`. DocSpring downloads it after responding, following redirects to other https:// links: the template's `document.state` is `downloading` until then (sync.api hosts wait for it). If it can't be downloaded, the state is `download_failed` and `document.error_message` says why.
+     *
+     * @return self
+     */
+    public function setDocumentUrl($document_url)
+    {
+        if (is_null($document_url)) {
+            throw new \InvalidArgumentException('non-nullable document_url cannot be null');
+        }
+        $this->container['document_url'] = $document_url;
+
+        return $this;
+    }
+
+    /**
+     * Gets document_base64
+     *
+     * @return string|null
+     */
+    public function getDocumentBase64()
+    {
+        return $this->container['document_base64'];
+    }
+
+    /**
+     * Sets document_base64
+     *
+     * @param string|null $document_base64 The template's PDF, encoded as base64 (a `data:` URI works too), instead of `cache_id`. Up to 7 MB before it's encoded: send a larger file with `cache_id` or `document_url`.
+     *
+     * @return self
+     */
+    public function setDocumentBase64($document_base64)
+    {
+        if (is_null($document_base64)) {
+            throw new \InvalidArgumentException('non-nullable document_base64 cannot be null');
+        }
+        $this->container['document_base64'] = $document_base64;
 
         return $this;
     }
@@ -1560,7 +1703,7 @@ class CreateTemplateRequest implements ModelInterface, ArrayAccess, \JsonSeriali
     /**
      * Sets filename
      *
-     * @param string|null $filename The PDF's file name, for a `cache_id` (presigned uploads don't send one).
+     * @param string|null $filename The PDF's file name, for a `cache_id` (presigned uploads don't send one) or `document_base64`. A `document_url`'s is the last part of its path unless you set it.
      *
      * @return self
      */

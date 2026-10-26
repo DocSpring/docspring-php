@@ -75,6 +75,7 @@ class Submission implements ModelInterface, ArrayAccess, \JsonSerializable
         'signature_requests' => '\DocSpring\Model\SignatureRequest[]',
         'actions' => '\DocSpring\Model\SubmissionAction[]',
         'truncated_text' => 'array<string,string[]>',
+        'output_formats' => '\DocSpring\Model\OutputFormat[]',
         'files' => '\DocSpring\Model\SubmissionFiles',
         'preview_generated_at' => '\DateTime',
         'expired' => 'bool',
@@ -109,6 +110,7 @@ class Submission implements ModelInterface, ArrayAccess, \JsonSerializable
         'signature_requests' => null,
         'actions' => null,
         'truncated_text' => null,
+        'output_formats' => null,
         'files' => null,
         'preview_generated_at' => 'date-time',
         'expired' => null,
@@ -141,6 +143,7 @@ class Submission implements ModelInterface, ArrayAccess, \JsonSerializable
         'signature_requests' => false,
         'actions' => false,
         'truncated_text' => true,
+        'output_formats' => false,
         'files' => false,
         'preview_generated_at' => true,
         'expired' => false,
@@ -253,6 +256,7 @@ class Submission implements ModelInterface, ArrayAccess, \JsonSerializable
         'signature_requests' => 'signature_requests',
         'actions' => 'actions',
         'truncated_text' => 'truncated_text',
+        'output_formats' => 'output_formats',
         'files' => 'files',
         'preview_generated_at' => 'preview_generated_at',
         'expired' => 'expired',
@@ -285,6 +289,7 @@ class Submission implements ModelInterface, ArrayAccess, \JsonSerializable
         'signature_requests' => 'setSignatureRequests',
         'actions' => 'setActions',
         'truncated_text' => 'setTruncatedText',
+        'output_formats' => 'setOutputFormats',
         'files' => 'setFiles',
         'preview_generated_at' => 'setPreviewGeneratedAt',
         'expired' => 'setExpired',
@@ -317,6 +322,7 @@ class Submission implements ModelInterface, ArrayAccess, \JsonSerializable
         'signature_requests' => 'getSignatureRequests',
         'actions' => 'getActions',
         'truncated_text' => 'getTruncatedText',
+        'output_formats' => 'getOutputFormats',
         'files' => 'getFiles',
         'preview_generated_at' => 'getPreviewGeneratedAt',
         'expired' => 'getExpired',
@@ -400,6 +406,7 @@ class Submission implements ModelInterface, ArrayAccess, \JsonSerializable
         $this->setIfExists('signature_requests', $data ?? [], null);
         $this->setIfExists('actions', $data ?? [], null);
         $this->setIfExists('truncated_text', $data ?? [], null);
+        $this->setIfExists('output_formats', $data ?? [], null);
         $this->setIfExists('files', $data ?? [], null);
         $this->setIfExists('preview_generated_at', $data ?? [], null);
         $this->setIfExists('expired', $data ?? [], null);
@@ -486,6 +493,9 @@ class Submission implements ModelInterface, ArrayAccess, \JsonSerializable
         }
         if ($this->container['truncated_text'] === null && !$this->isNullableSetToNull('truncated_text')) {
             $invalidProperties[] = "'truncated_text' is required";
+        }
+        if ($this->container['output_formats'] === null) {
+            $invalidProperties[] = "'output_formats' can't be null";
         }
         if ($this->container['files'] === null) {
             $invalidProperties[] = "'files' can't be null";
@@ -1025,6 +1035,33 @@ class Submission implements ModelInterface, ArrayAccess, \JsonSerializable
     }
 
     /**
+     * Gets output_formats
+     *
+     * @return \DocSpring\Model\OutputFormat[]
+     */
+    public function getOutputFormats()
+    {
+        return $this->container['output_formats'];
+    }
+
+    /**
+     * Sets output_formats
+     *
+     * @param \DocSpring\Model\OutputFormat[] $output_formats What the submission makes: `pdf`, and `png` (an image of each page of the PDF, up to 100 pages) when you ask for it. Default `["pdf"]`. POST /submissions/{submission_id}/generate_files adds `png` to a processed submission.
+     *
+     * @return self
+     */
+    public function setOutputFormats($output_formats)
+    {
+        if (is_null($output_formats)) {
+            throw new \InvalidArgumentException('non-nullable output_formats cannot be null');
+        }
+        $this->container['output_formats'] = $output_formats;
+
+        return $this;
+    }
+
+    /**
      * Gets files
      *
      * @return \DocSpring\Model\SubmissionFiles
@@ -1037,7 +1074,7 @@ class Submission implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets files
      *
-     * @param \DocSpring\Model\SubmissionFiles $files The generated files: `pdf` once the submission has been processed, `audit_trail` once its signature requests are completed, and `preview` once a preview PDF has been generated. Empty once the submission has expired.
+     * @param \DocSpring\Model\SubmissionFiles $files The generated files: `pdf` once the submission has been processed, `png` (the images of the PDF's pages, when `output_formats` has it: `files.png.pages[0]` is page 1), `audit_trail` once its signature requests are completed, and `preview` once a preview PDF has been generated. Empty once the submission has expired.
      *
      * @return self
      */

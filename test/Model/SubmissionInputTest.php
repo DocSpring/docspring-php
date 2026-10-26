@@ -125,6 +125,15 @@ class SubmissionInputTest extends TestCase
     }
 
     /**
+     * Test attribute "output_formats"
+     */
+    public function testPropertyOutputFormats()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
      * Test attribute "expires_in"
      */
     public function testPropertyExpiresIn()

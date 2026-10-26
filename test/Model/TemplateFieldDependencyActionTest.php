@@ -34,7 +34,7 @@ use PHPUnit\Framework\TestCase;
  * TemplateFieldDependencyActionTest Class Doc Comment
  *
  * @category    Class
- * @description What a conditional logic rule does to its target fields.
+ * @description What a conditional logic rule does to the fields it applies to.
  * @package     DocSpring
  * @author      OpenAPI Generator team
  * @link        https://openapi-generator.tech

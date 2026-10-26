@@ -35,7 +35,7 @@ use \DocSpring\ObjectSerializer;
  * UpdateTemplateDocumentRequest Class Doc Comment
  *
  * @category Class
- * @description The new PDF.
+ * @description The new PDF, as one of `cache_id`, `document_url` and `document_base64`.
  * @package  DocSpring
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -59,6 +59,8 @@ class UpdateTemplateDocumentRequest implements ModelInterface, ArrayAccess, \Jso
      */
     protected static $openAPITypes = [
         'cache_id' => 'string',
+        'document_url' => 'string',
+        'document_base64' => 'string',
         'filename' => 'string',
         'reimport_fields' => 'bool'
     ];
@@ -72,6 +74,8 @@ class UpdateTemplateDocumentRequest implements ModelInterface, ArrayAccess, \Jso
      */
     protected static $openAPIFormats = [
         'cache_id' => null,
+        'document_url' => null,
+        'document_base64' => null,
         'filename' => null,
         'reimport_fields' => null
     ];
@@ -83,6 +87,8 @@ class UpdateTemplateDocumentRequest implements ModelInterface, ArrayAccess, \Jso
      */
     protected static array $openAPINullables = [
         'cache_id' => false,
+        'document_url' => false,
+        'document_base64' => false,
         'filename' => false,
         'reimport_fields' => false
     ];
@@ -174,6 +180,8 @@ class UpdateTemplateDocumentRequest implements ModelInterface, ArrayAccess, \Jso
      */
     protected static $attributeMap = [
         'cache_id' => 'cache_id',
+        'document_url' => 'document_url',
+        'document_base64' => 'document_base64',
         'filename' => 'filename',
         'reimport_fields' => 'reimport_fields'
     ];
@@ -185,6 +193,8 @@ class UpdateTemplateDocumentRequest implements ModelInterface, ArrayAccess, \Jso
      */
     protected static $setters = [
         'cache_id' => 'setCacheId',
+        'document_url' => 'setDocumentUrl',
+        'document_base64' => 'setDocumentBase64',
         'filename' => 'setFilename',
         'reimport_fields' => 'setReimportFields'
     ];
@@ -196,6 +206,8 @@ class UpdateTemplateDocumentRequest implements ModelInterface, ArrayAccess, \Jso
      */
     protected static $getters = [
         'cache_id' => 'getCacheId',
+        'document_url' => 'getDocumentUrl',
+        'document_base64' => 'getDocumentBase64',
         'filename' => 'getFilename',
         'reimport_fields' => 'getReimportFields'
     ];
@@ -258,6 +270,8 @@ class UpdateTemplateDocumentRequest implements ModelInterface, ArrayAccess, \Jso
     public function __construct(?array $data = null)
     {
         $this->setIfExists('cache_id', $data ?? [], null);
+        $this->setIfExists('document_url', $data ?? [], null);
+        $this->setIfExists('document_base64', $data ?? [], null);
         $this->setIfExists('filename', $data ?? [], null);
         $this->setIfExists('reimport_fields', $data ?? [], null);
     }
@@ -289,9 +303,6 @@ class UpdateTemplateDocumentRequest implements ModelInterface, ArrayAccess, \Jso
     {
         $invalidProperties = [];
 
-        if ($this->container['cache_id'] === null) {
-            $invalidProperties[] = "'cache_id' can't be null";
-        }
         return $invalidProperties;
     }
 
@@ -310,7 +321,7 @@ class UpdateTemplateDocumentRequest implements ModelInterface, ArrayAccess, \Jso
     /**
      * Gets cache_id
      *
-     * @return string
+     * @return string|null
      */
     public function getCacheId()
     {
@@ -320,7 +331,7 @@ class UpdateTemplateDocumentRequest implements ModelInterface, ArrayAccess, \Jso
     /**
      * Sets cache_id
      *
-     * @param string $cache_id The `fields.key` of the new PDF, uploaded with the presigned upload (GET /uploads/presign).
+     * @param string|null $cache_id The `fields.key` of the new PDF, uploaded with the presigned upload (GET /uploads/presign).
      *
      * @return self
      */
@@ -330,6 +341,60 @@ class UpdateTemplateDocumentRequest implements ModelInterface, ArrayAccess, \Jso
             throw new \InvalidArgumentException('non-nullable cache_id cannot be null');
         }
         $this->container['cache_id'] = $cache_id;
+
+        return $this;
+    }
+
+    /**
+     * Gets document_url
+     *
+     * @return string|null
+     */
+    public function getDocumentUrl()
+    {
+        return $this->container['document_url'];
+    }
+
+    /**
+     * Sets document_url
+     *
+     * @param string|null $document_url An https:// link to the template's PDF (up to 100 MB), instead of `cache_id`. DocSpring downloads it after responding, following redirects to other https:// links: the template's `document.state` is `downloading` until then (sync.api hosts wait for it). If it can't be downloaded, the state is `download_failed` and `document.error_message` says why.
+     *
+     * @return self
+     */
+    public function setDocumentUrl($document_url)
+    {
+        if (is_null($document_url)) {
+            throw new \InvalidArgumentException('non-nullable document_url cannot be null');
+        }
+        $this->container['document_url'] = $document_url;
+
+        return $this;
+    }
+
+    /**
+     * Gets document_base64
+     *
+     * @return string|null
+     */
+    public function getDocumentBase64()
+    {
+        return $this->container['document_base64'];
+    }
+
+    /**
+     * Sets document_base64
+     *
+     * @param string|null $document_base64 The template's PDF, encoded as base64 (a `data:` URI works too), instead of `cache_id`. Up to 7 MB before it's encoded: send a larger file with `cache_id` or `document_url`.
+     *
+     * @return self
+     */
+    public function setDocumentBase64($document_base64)
+    {
+        if (is_null($document_base64)) {
+            throw new \InvalidArgumentException('non-nullable document_base64 cannot be null');
+        }
+        $this->container['document_base64'] = $document_base64;
 
         return $this;
     }
@@ -347,7 +412,7 @@ class UpdateTemplateDocumentRequest implements ModelInterface, ArrayAccess, \Jso
     /**
      * Sets filename
      *
-     * @param string|null $filename The PDF's file name, for a `cache_id` (presigned uploads don't send one).
+     * @param string|null $filename The PDF's file name, for a `cache_id` (presigned uploads don't send one) or `document_base64`. A `document_url`'s is the last part of its path unless you set it.
      *
      * @return self
      */

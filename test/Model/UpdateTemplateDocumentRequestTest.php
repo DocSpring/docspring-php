@@ -34,7 +34,7 @@ use PHPUnit\Framework\TestCase;
  * UpdateTemplateDocumentRequestTest Class Doc Comment
  *
  * @category    Class
- * @description The new PDF.
+ * @description The new PDF, as one of `cache_id`, `document_url` and `document_base64`.
  * @package     DocSpring
  * @author      OpenAPI Generator team
  * @link        https://openapi-generator.tech
@@ -83,6 +83,24 @@ class UpdateTemplateDocumentRequestTest extends TestCase
      * Test attribute "cache_id"
      */
     public function testPropertyCacheId()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * Test attribute "document_url"
+     */
+    public function testPropertyDocumentUrl()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * Test attribute "document_base64"
+     */
+    public function testPropertyDocumentBase64()
     {
         // TODO: implement
         self::markTestIncomplete('Not implemented');

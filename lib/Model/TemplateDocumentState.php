@@ -53,6 +53,10 @@ class TemplateDocumentState
 
     public const UNKNOWN_ERROR = 'unknown_error';
 
+    public const DOWNLOADING = 'downloading';
+
+    public const DOWNLOAD_FAILED = 'download_failed';
+
     /**
      * Gets allowable values of the enum
      * @return string[]
@@ -64,7 +68,9 @@ class TemplateDocumentState
             self::PROCESSED,
             self::PASSWORD_REQUIRED,
             self::MALFORMED_PDF,
-            self::UNKNOWN_ERROR
+            self::UNKNOWN_ERROR,
+            self::DOWNLOADING,
+            self::DOWNLOAD_FAILED
         ];
     }
 }

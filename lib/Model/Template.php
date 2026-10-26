@@ -97,6 +97,9 @@ class Template implements ModelInterface, ArrayAccess, \JsonSerializable
         'updated_at' => '\DateTime',
         'defaults' => '\DocSpring\Model\TemplateDefaults',
         'field_dependencies' => '\DocSpring\Model\TemplateFieldDependency[]',
+        'field_groups' => '\DocSpring\Model\FieldGroup[]',
+        'predefined_fields' => '\DocSpring\Model\PredefinedField[]',
+        'predefined_fields_sample_data' => 'array<string,mixed>',
         'html' => 'string',
         'scss' => 'string',
         'header_html' => 'string',
@@ -153,6 +156,9 @@ class Template implements ModelInterface, ArrayAccess, \JsonSerializable
         'updated_at' => 'date-time',
         'defaults' => null,
         'field_dependencies' => null,
+        'field_groups' => null,
+        'predefined_fields' => null,
+        'predefined_fields_sample_data' => null,
         'html' => null,
         'scss' => null,
         'header_html' => null,
@@ -207,6 +213,9 @@ class Template implements ModelInterface, ArrayAccess, \JsonSerializable
         'updated_at' => false,
         'defaults' => false,
         'field_dependencies' => false,
+        'field_groups' => false,
+        'predefined_fields' => false,
+        'predefined_fields_sample_data' => true,
         'html' => true,
         'scss' => true,
         'header_html' => true,
@@ -341,6 +350,9 @@ class Template implements ModelInterface, ArrayAccess, \JsonSerializable
         'updated_at' => 'updated_at',
         'defaults' => 'defaults',
         'field_dependencies' => 'field_dependencies',
+        'field_groups' => 'field_groups',
+        'predefined_fields' => 'predefined_fields',
+        'predefined_fields_sample_data' => 'predefined_fields_sample_data',
         'html' => 'html',
         'scss' => 'scss',
         'header_html' => 'header_html',
@@ -395,6 +407,9 @@ class Template implements ModelInterface, ArrayAccess, \JsonSerializable
         'updated_at' => 'setUpdatedAt',
         'defaults' => 'setDefaults',
         'field_dependencies' => 'setFieldDependencies',
+        'field_groups' => 'setFieldGroups',
+        'predefined_fields' => 'setPredefinedFields',
+        'predefined_fields_sample_data' => 'setPredefinedFieldsSampleData',
         'html' => 'setHtml',
         'scss' => 'setScss',
         'header_html' => 'setHeaderHtml',
@@ -449,6 +464,9 @@ class Template implements ModelInterface, ArrayAccess, \JsonSerializable
         'updated_at' => 'getUpdatedAt',
         'defaults' => 'getDefaults',
         'field_dependencies' => 'getFieldDependencies',
+        'field_groups' => 'getFieldGroups',
+        'predefined_fields' => 'getPredefinedFields',
+        'predefined_fields_sample_data' => 'getPredefinedFieldsSampleData',
         'html' => 'getHtml',
         'scss' => 'getScss',
         'header_html' => 'getHeaderHtml',
@@ -554,6 +572,9 @@ class Template implements ModelInterface, ArrayAccess, \JsonSerializable
         $this->setIfExists('updated_at', $data ?? [], null);
         $this->setIfExists('defaults', $data ?? [], null);
         $this->setIfExists('field_dependencies', $data ?? [], null);
+        $this->setIfExists('field_groups', $data ?? [], null);
+        $this->setIfExists('predefined_fields', $data ?? [], null);
+        $this->setIfExists('predefined_fields_sample_data', $data ?? [], null);
         $this->setIfExists('html', $data ?? [], null);
         $this->setIfExists('scss', $data ?? [], null);
         $this->setIfExists('header_html', $data ?? [], null);
@@ -706,6 +727,15 @@ class Template implements ModelInterface, ArrayAccess, \JsonSerializable
         }
         if ($this->container['field_dependencies'] === null) {
             $invalidProperties[] = "'field_dependencies' can't be null";
+        }
+        if ($this->container['field_groups'] === null) {
+            $invalidProperties[] = "'field_groups' can't be null";
+        }
+        if ($this->container['predefined_fields'] === null) {
+            $invalidProperties[] = "'predefined_fields' can't be null";
+        }
+        if ($this->container['predefined_fields_sample_data'] === null && !$this->isNullableSetToNull('predefined_fields_sample_data')) {
+            $invalidProperties[] = "'predefined_fields_sample_data' is required";
         }
         if ($this->container['html'] === null && !$this->isNullableSetToNull('html')) {
             $invalidProperties[] = "'html' is required";
@@ -1869,6 +1899,94 @@ class Template implements ModelInterface, ArrayAccess, \JsonSerializable
             throw new \InvalidArgumentException('non-nullable field_dependencies cannot be null');
         }
         $this->container['field_dependencies'] = $field_dependencies;
+
+        return $this;
+    }
+
+    /**
+     * Gets field_groups
+     *
+     * @return \DocSpring\Model\FieldGroup[]
+     */
+    public function getFieldGroups()
+    {
+        return $this->container['field_groups'];
+    }
+
+    /**
+     * Sets field_groups
+     *
+     * @param \DocSpring\Model\FieldGroup[] $field_groups The groups of the template's fields, with their settings. A field's name puts it in groups: `address/city` is in the group `address`, and `items/0/price` is in the list `items` and its items' group `items/~`.
+     *
+     * @return self
+     */
+    public function setFieldGroups($field_groups)
+    {
+        if (is_null($field_groups)) {
+            throw new \InvalidArgumentException('non-nullable field_groups cannot be null');
+        }
+        $this->container['field_groups'] = $field_groups;
+
+        return $this;
+    }
+
+    /**
+     * Gets predefined_fields
+     *
+     * @return \DocSpring\Model\PredefinedField[]
+     */
+    public function getPredefinedFields()
+    {
+        return $this->container['predefined_fields'];
+    }
+
+    /**
+     * Sets predefined_fields
+     *
+     * @param \DocSpring\Model\PredefinedField[] $predefined_fields The field names that people using the embedded template editor choose from, each with the data type and settings a field gets when it's given that name. Setting it replaces the whole list; an empty list turns them off.
+     *
+     * @return self
+     */
+    public function setPredefinedFields($predefined_fields)
+    {
+        if (is_null($predefined_fields)) {
+            throw new \InvalidArgumentException('non-nullable predefined_fields cannot be null');
+        }
+        $this->container['predefined_fields'] = $predefined_fields;
+
+        return $this;
+    }
+
+    /**
+     * Gets predefined_fields_sample_data
+     *
+     * @return array<string,mixed>|null
+     */
+    public function getPredefinedFieldsSampleData()
+    {
+        return $this->container['predefined_fields_sample_data'];
+    }
+
+    /**
+     * Sets predefined_fields_sample_data
+     *
+     * @param array<string,mixed>|null $predefined_fields_sample_data Sample submission data that sets `predefined_fields`: each value becomes a predefined field, with a type that fits it (`string`, `number`, `boolean`, `date`, `email` or `url`) and `required_in_template` true. Nested objects and arrays become names with `/`, such as `customer/email`. Without `predefined_fields` in the same request, it replaces them; with them, it adds to them and sets the types of the ones it has values for.
+     *
+     * @return self
+     */
+    public function setPredefinedFieldsSampleData($predefined_fields_sample_data)
+    {
+        if (is_null($predefined_fields_sample_data)) {
+            array_push($this->openAPINullablesSetToNull, 'predefined_fields_sample_data');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('predefined_fields_sample_data', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['predefined_fields_sample_data'] = $predefined_fields_sample_data;
 
         return $this;
     }

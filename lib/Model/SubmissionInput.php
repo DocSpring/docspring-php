@@ -63,6 +63,7 @@ class SubmissionInput implements ModelInterface, ArrayAccess, \JsonSerializable
         'data' => 'array<string,mixed>',
         'metadata' => 'array<string,mixed>',
         'password' => 'string',
+        'output_formats' => '\DocSpring\Model\OutputFormat[]',
         'expires_in' => 'int',
         'field_overrides' => 'array<string,\DocSpring\Model\FieldOverride>',
         'html' => 'string',
@@ -84,6 +85,7 @@ class SubmissionInput implements ModelInterface, ArrayAccess, \JsonSerializable
         'data' => null,
         'metadata' => null,
         'password' => null,
+        'output_formats' => null,
         'expires_in' => null,
         'field_overrides' => null,
         'html' => null,
@@ -103,6 +105,7 @@ class SubmissionInput implements ModelInterface, ArrayAccess, \JsonSerializable
         'data' => false,
         'metadata' => false,
         'password' => false,
+        'output_formats' => false,
         'expires_in' => false,
         'field_overrides' => false,
         'html' => false,
@@ -202,6 +205,7 @@ class SubmissionInput implements ModelInterface, ArrayAccess, \JsonSerializable
         'data' => 'data',
         'metadata' => 'metadata',
         'password' => 'password',
+        'output_formats' => 'output_formats',
         'expires_in' => 'expires_in',
         'field_overrides' => 'field_overrides',
         'html' => 'html',
@@ -221,6 +225,7 @@ class SubmissionInput implements ModelInterface, ArrayAccess, \JsonSerializable
         'data' => 'setData',
         'metadata' => 'setMetadata',
         'password' => 'setPassword',
+        'output_formats' => 'setOutputFormats',
         'expires_in' => 'setExpiresIn',
         'field_overrides' => 'setFieldOverrides',
         'html' => 'setHtml',
@@ -240,6 +245,7 @@ class SubmissionInput implements ModelInterface, ArrayAccess, \JsonSerializable
         'data' => 'getData',
         'metadata' => 'getMetadata',
         'password' => 'getPassword',
+        'output_formats' => 'getOutputFormats',
         'expires_in' => 'getExpiresIn',
         'field_overrides' => 'getFieldOverrides',
         'html' => 'getHtml',
@@ -310,6 +316,7 @@ class SubmissionInput implements ModelInterface, ArrayAccess, \JsonSerializable
         $this->setIfExists('data', $data ?? [], null);
         $this->setIfExists('metadata', $data ?? [], null);
         $this->setIfExists('password', $data ?? [], null);
+        $this->setIfExists('output_formats', $data ?? [], null);
         $this->setIfExists('expires_in', $data ?? [], null);
         $this->setIfExists('field_overrides', $data ?? [], null);
         $this->setIfExists('html', $data ?? [], null);
@@ -491,6 +498,34 @@ class SubmissionInput implements ModelInterface, ArrayAccess, \JsonSerializable
             throw new \InvalidArgumentException('non-nullable password cannot be null');
         }
         $this->container['password'] = $password;
+
+        return $this;
+    }
+
+    /**
+     * Gets output_formats
+     *
+     * @return \DocSpring\Model\OutputFormat[]|null
+     */
+    public function getOutputFormats()
+    {
+        return $this->container['output_formats'];
+    }
+
+    /**
+     * Sets output_formats
+     *
+     * @param \DocSpring\Model\OutputFormat[]|null $output_formats What the submission makes: `pdf`, and `png` (an image of each page of the PDF, up to 100 pages) when you ask for it. Default `["pdf"]`. POST /submissions/{submission_id}/generate_files adds `png` to a processed submission.
+     *
+     * @return self
+     */
+    public function setOutputFormats($output_formats)
+    {
+        if (is_null($output_formats)) {
+            throw new \InvalidArgumentException('non-nullable output_formats cannot be null');
+        }
+
+        $this->container['output_formats'] = $output_formats;
 
         return $this;
     }

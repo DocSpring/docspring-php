@@ -72,6 +72,18 @@ class ClientTest extends TestCase
     }
 
     /**
+     * Test case for addTemplateFields
+     *
+     * Add fields to a template.
+     *
+     */
+    public function testAddTemplateFields()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
      * Test case for copyTemplate
      *
      * Copy a template.
@@ -264,6 +276,18 @@ class ClientTest extends TestCase
     }
 
     /**
+     * Test case for generateSubmissionFiles
+     *
+     * Generate more files.
+     *
+     */
+    public function testGenerateSubmissionFiles()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
      * Test case for generateSubmissionPreview
      *
      * Generate a preview PDF.
@@ -372,12 +396,36 @@ class ClientTest extends TestCase
     }
 
     /**
+     * Test case for getTemplateDiff
+     *
+     * Compare a version of a template with the one before it.
+     *
+     */
+    public function testGetTemplateDiff()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
      * Test case for getTemplateModelCode
      *
      * Generate typed code for a template's submission data.
      *
      */
     public function testGetTemplateModelCode()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * Test case for getTemplatePageImages
+     *
+     * Get images of a template's pages.
+     *
+     */
+    public function testGetTemplatePageImages()
     {
         // TODO: implement
         self::markTestIncomplete('Not implemented');
@@ -456,6 +504,18 @@ class ClientTest extends TestCase
     }
 
     /**
+     * Test case for listTemplateFields
+     *
+     * List a template's fields.
+     *
+     */
+    public function testListTemplateFields()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
      * Test case for listTemplateSubmissions
      *
      * List a template's submissions.
@@ -528,12 +588,36 @@ class ClientTest extends TestCase
     }
 
     /**
+     * Test case for removeTemplateFields
+     *
+     * Remove fields from a template.
+     *
+     */
+    public function testRemoveTemplateFields()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
      * Test case for renameFolder
      *
      * Rename a folder.
      *
      */
     public function testRenameFolder()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * Test case for reorderTemplateFields
+     *
+     * Reorder a template's fields.
+     *
+     */
+    public function testReorderTemplateFields()
     {
         // TODO: implement
         self::markTestIncomplete('Not implemented');
@@ -600,6 +684,18 @@ class ClientTest extends TestCase
     }
 
     /**
+     * Test case for updateTemplateFields
+     *
+     * Update a template's fields.
+     *
+     */
+    public function testUpdateTemplateFields()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
      * Test case for updateWebhook
      *
      * Update a webhook.
@@ -630,6 +726,18 @@ class ClientTest extends TestCase
      *
      */
     public function testUploadTemplateDocument()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * Test case for validateSubmission
+     *
+     * Check a submission without creating it.
+     *
+     */
+    public function testValidateSubmission()
     {
         // TODO: implement
         self::markTestIncomplete('Not implemented');

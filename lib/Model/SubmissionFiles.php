@@ -60,7 +60,8 @@ class SubmissionFiles implements ModelInterface, ArrayAccess, \JsonSerializable
     protected static $openAPITypes = [
         'pdf' => '\DocSpring\Model\GeneratedFile',
         'audit_trail' => '\DocSpring\Model\GeneratedFile',
-        'preview' => '\DocSpring\Model\GeneratedFile'
+        'preview' => '\DocSpring\Model\GeneratedFile',
+        'png' => '\DocSpring\Model\PageImages'
     ];
 
     /**
@@ -73,7 +74,8 @@ class SubmissionFiles implements ModelInterface, ArrayAccess, \JsonSerializable
     protected static $openAPIFormats = [
         'pdf' => null,
         'audit_trail' => null,
-        'preview' => null
+        'preview' => null,
+        'png' => null
     ];
 
     /**
@@ -84,7 +86,8 @@ class SubmissionFiles implements ModelInterface, ArrayAccess, \JsonSerializable
     protected static array $openAPINullables = [
         'pdf' => false,
         'audit_trail' => false,
-        'preview' => false
+        'preview' => false,
+        'png' => false
     ];
 
     /**
@@ -175,7 +178,8 @@ class SubmissionFiles implements ModelInterface, ArrayAccess, \JsonSerializable
     protected static $attributeMap = [
         'pdf' => 'pdf',
         'audit_trail' => 'audit_trail',
-        'preview' => 'preview'
+        'preview' => 'preview',
+        'png' => 'png'
     ];
 
     /**
@@ -186,7 +190,8 @@ class SubmissionFiles implements ModelInterface, ArrayAccess, \JsonSerializable
     protected static $setters = [
         'pdf' => 'setPdf',
         'audit_trail' => 'setAuditTrail',
-        'preview' => 'setPreview'
+        'preview' => 'setPreview',
+        'png' => 'setPng'
     ];
 
     /**
@@ -197,7 +202,8 @@ class SubmissionFiles implements ModelInterface, ArrayAccess, \JsonSerializable
     protected static $getters = [
         'pdf' => 'getPdf',
         'audit_trail' => 'getAuditTrail',
-        'preview' => 'getPreview'
+        'preview' => 'getPreview',
+        'png' => 'getPng'
     ];
 
     /**
@@ -260,6 +266,7 @@ class SubmissionFiles implements ModelInterface, ArrayAccess, \JsonSerializable
         $this->setIfExists('pdf', $data ?? [], null);
         $this->setIfExists('audit_trail', $data ?? [], null);
         $this->setIfExists('preview', $data ?? [], null);
+        $this->setIfExists('png', $data ?? [], null);
     }
 
     /**
@@ -381,6 +388,33 @@ class SubmissionFiles implements ModelInterface, ArrayAccess, \JsonSerializable
             throw new \InvalidArgumentException('non-nullable preview cannot be null');
         }
         $this->container['preview'] = $preview;
+
+        return $this;
+    }
+
+    /**
+     * Gets png
+     *
+     * @return \DocSpring\Model\PageImages|null
+     */
+    public function getPng()
+    {
+        return $this->container['png'];
+    }
+
+    /**
+     * Sets png
+     *
+     * @param \DocSpring\Model\PageImages|null $png png
+     *
+     * @return self
+     */
+    public function setPng($png)
+    {
+        if (is_null($png)) {
+            throw new \InvalidArgumentException('non-nullable png cannot be null');
+        }
+        $this->container['png'] = $png;
 
         return $this;
     }

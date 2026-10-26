@@ -116,6 +116,15 @@ class CreateSubmissionBatchRequestTest extends TestCase
     }
 
     /**
+     * Test attribute "output_formats"
+     */
+    public function testPropertyOutputFormats()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
      * Test attribute "submissions"
      */
     public function testPropertySubmissions()

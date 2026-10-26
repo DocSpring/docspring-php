@@ -105,4 +105,13 @@ class SubmissionFilesTest extends TestCase
         // TODO: implement
         self::markTestIncomplete('Not implemented');
     }
+
+    /**
+     * Test attribute "png"
+     */
+    public function testPropertyPng()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
 }
