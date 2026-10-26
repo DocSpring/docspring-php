@@ -1,256 +1,69 @@
 # DocSpring\Client
 
-All URIs are relative to https://sync.api.docspring.com/api/v1, except if the operation defines another base path.
+
+
+All URIs are relative to https://sync.api.docspring.com/api/v2, except if the operation defines another base path.
 
 | Method | HTTP request | Description |
 | ------------- | ------------- | ------------- |
-| [**addFieldsToTemplate()**](Client.md#addFieldsToTemplate) | **PUT** /templates/{template_id}/add_fields | Add new fields to a Template |
-| [**batchGeneratePdfs()**](Client.md#batchGeneratePdfs) | **POST** /submissions/batches | Generate multiple PDFs |
-| [**combinePdfs()**](Client.md#combinePdfs) | **POST** /combined_submissions | Merge submission PDFs, template PDFs, or custom files |
 | [**copyTemplate()**](Client.md#copyTemplate) | **POST** /templates/{template_id}/copy | Copy a template |
-| [**createCustomFileFromUpload()**](Client.md#createCustomFileFromUpload) | **POST** /custom_files | Create a new custom file from a cached S3 upload |
-| [**createDataRequestEvent()**](Client.md#createDataRequestEvent) | **POST** /data_requests/{data_request_id}/events | Create a new event for emailing a signee a request for signature |
-| [**createDataRequestToken()**](Client.md#createDataRequestToken) | **POST** /data_requests/{data_request_id}/tokens | Create a new data request token for form authentication |
-| [**createFolder()**](Client.md#createFolder) | **POST** /folders/ | Create a folder |
-| [**createHtmlTemplate()**](Client.md#createHtmlTemplate) | **POST** /templates?endpoint_variant&#x3D;create_html_template | Create a new HTML template |
-| [**createPdfTemplate()**](Client.md#createPdfTemplate) | **POST** /templates | Create a new PDF template with a form POST file upload |
-| [**createPdfTemplateFromUpload()**](Client.md#createPdfTemplateFromUpload) | **POST** /templates?endpoint_variant&#x3D;create_template_from_cached_upload | Create a new PDF template from a cached S3 file upload |
+| [**createCombinedPdf()**](Client.md#createCombinedPdf) | **POST** /combined_pdfs | Combine PDFs |
+| [**createCustomFileFromUpload()**](Client.md#createCustomFileFromUpload) | **POST** /custom_files | Create a custom file from an upload |
+| [**createFolder()**](Client.md#createFolder) | **POST** /folders | Create a folder |
+| [**createSignatureRequestEvent()**](Client.md#createSignatureRequestEvent) | **POST** /signature_requests/{signature_request_id}/events | Record a signature request event |
+| [**createSignatureRequestToken()**](Client.md#createSignatureRequestToken) | **POST** /signature_requests/{signature_request_id}/tokens | Create a signature request token |
+| [**createSubmission()**](Client.md#createSubmission) | **POST** /templates/{template_id}/submissions | Generate a PDF |
+| [**createSubmissionBatch()**](Client.md#createSubmissionBatch) | **POST** /submissions/batches | Generate PDFs in a batch |
+| [**createTemplate()**](Client.md#createTemplate) | **POST** /templates | Create a template |
 | [**createWebhook()**](Client.md#createWebhook) | **POST** /webhooks | Create a webhook |
+| [**deleteCustomFile()**](Client.md#deleteCustomFile) | **DELETE** /custom_files/{custom_file_id} | Delete a custom file |
 | [**deleteFolder()**](Client.md#deleteFolder) | **DELETE** /folders/{folder_id} | Delete a folder |
 | [**deleteTemplate()**](Client.md#deleteTemplate) | **DELETE** /templates/{template_id} | Delete a template |
 | [**deleteWebhook()**](Client.md#deleteWebhook) | **DELETE** /webhooks/{webhook_id} | Delete a webhook |
-| [**expireCombinedSubmission()**](Client.md#expireCombinedSubmission) | **DELETE** /combined_submissions/{combined_submission_id} | Expire a combined submission |
-| [**expireSubmission()**](Client.md#expireSubmission) | **DELETE** /submissions/{submission_id} | Expire a PDF submission |
-| [**generatePdf()**](Client.md#generatePdf) | **POST** /templates/{template_id}/submissions | Generate a PDF |
-| [**generatePreview()**](Client.md#generatePreview) | **POST** /submissions/{submission_id}/generate_preview | Generate a preview PDF for partially completed data requests |
-| [**getCombinedSubmission()**](Client.md#getCombinedSubmission) | **GET** /combined_submissions/{combined_submission_id} | Check the status of a combined submission (merged PDFs) |
-| [**getDataRequest()**](Client.md#getDataRequest) | **GET** /data_requests/{data_request_id} | Look up a submission data request |
-| [**getFullTemplate()**](Client.md#getFullTemplate) | **GET** /templates/{template_id}?full&#x3D;true | Fetch the full attributes for a PDF template |
-| [**getPresignUrl()**](Client.md#getPresignUrl) | **GET** /uploads/presign | Get a presigned S3 URL for direct file upload |
-| [**getSubmission()**](Client.md#getSubmission) | **GET** /submissions/{submission_id} | Check the status of a PDF |
-| [**getSubmissionBatch()**](Client.md#getSubmissionBatch) | **GET** /submissions/batches/{submission_batch_id} | Check the status of a submission batch job |
-| [**getTemplate()**](Client.md#getTemplate) | **GET** /templates/{template_id} | Check the status of an uploaded template |
-| [**getTemplateModelCode()**](Client.md#getTemplateModelCode) | **GET** /templates/{template_id}/model_code | Generate typed model code for a template |
-| [**getTemplateSchema()**](Client.md#getTemplateSchema) | **GET** /templates/{template_id}/schema | Fetch the JSON schema for a template |
+| [**expireCombinedPdf()**](Client.md#expireCombinedPdf) | **DELETE** /combined_pdfs/{combined_pdf_id} | Expire a combined PDF |
+| [**expireSubmission()**](Client.md#expireSubmission) | **DELETE** /submissions/{submission_id} | Expire a submission |
+| [**generateSubmissionPreview()**](Client.md#generateSubmissionPreview) | **POST** /submissions/{submission_id}/generate_preview | Generate a preview PDF |
+| [**getCombinedPdf()**](Client.md#getCombinedPdf) | **GET** /combined_pdfs/{combined_pdf_id} | Get a combined PDF |
+| [**getCustomFile()**](Client.md#getCustomFile) | **GET** /custom_files/{custom_file_id} | Get a custom file |
+| [**getFolder()**](Client.md#getFolder) | **GET** /folders/{folder_id} | Get a folder |
+| [**getPresignUrl()**](Client.md#getPresignUrl) | **GET** /uploads/presign | Get a presigned URL to upload a file |
+| [**getSignatureRequest()**](Client.md#getSignatureRequest) | **GET** /signature_requests/{signature_request_id} | Get a signature request |
+| [**getSubmission()**](Client.md#getSubmission) | **GET** /submissions/{submission_id} | Get a submission |
+| [**getSubmissionBatch()**](Client.md#getSubmissionBatch) | **GET** /submissions/batches/{submission_batch_id} | Get a batch |
+| [**getTemplate()**](Client.md#getTemplate) | **GET** /templates/{template_id} | Get a template |
+| [**getTemplateModelCode()**](Client.md#getTemplateModelCode) | **GET** /templates/{template_id}/model_code | Generate typed code for a template's submission data |
+| [**getTemplateSchema()**](Client.md#getTemplateSchema) | **GET** /templates/{template_id}/schema | Get the JSON Schema of a template's submission data |
 | [**getWebhook()**](Client.md#getWebhook) | **GET** /webhooks/{webhook_id} | Get a webhook |
-| [**listCombinedSubmissions()**](Client.md#listCombinedSubmissions) | **GET** /combined_submissions | Get a list of all combined submissions |
-| [**listFolders()**](Client.md#listFolders) | **GET** /folders/ | Get a list of all folders |
-| [**listSubmissions()**](Client.md#listSubmissions) | **GET** /submissions | List all submissions |
-| [**listTemplateSubmissions()**](Client.md#listTemplateSubmissions) | **GET** /templates/{template_id}/submissions | List all submissions for a given template |
-| [**listTemplates()**](Client.md#listTemplates) | **GET** /templates | Get a list of all templates |
-| [**listWebhooks()**](Client.md#listWebhooks) | **GET** /webhooks | Get a list of all webhooks |
-| [**moveFolderToFolder()**](Client.md#moveFolderToFolder) | **POST** /folders/{folder_id}/move | Move a folder |
-| [**moveTemplateToFolder()**](Client.md#moveTemplateToFolder) | **POST** /templates/{template_id}/move | Move Template to folder |
+| [**listCombinedPdfs()**](Client.md#listCombinedPdfs) | **GET** /combined_pdfs | List combined PDFs |
+| [**listCustomFiles()**](Client.md#listCustomFiles) | **GET** /custom_files | List custom files |
+| [**listFolders()**](Client.md#listFolders) | **GET** /folders | List folders |
+| [**listSubmissions()**](Client.md#listSubmissions) | **GET** /submissions | List submissions |
+| [**listTemplateSubmissions()**](Client.md#listTemplateSubmissions) | **GET** /templates/{template_id}/submissions | List a template's submissions |
+| [**listTemplates()**](Client.md#listTemplates) | **GET** /templates | List templates |
+| [**listWebhooks()**](Client.md#listWebhooks) | **GET** /webhooks | List webhooks |
+| [**moveFolder()**](Client.md#moveFolder) | **POST** /folders/{folder_id}/move | Move a folder |
+| [**moveTemplate()**](Client.md#moveTemplate) | **POST** /templates/{template_id}/move | Move a template to a folder |
 | [**publishTemplateVersion()**](Client.md#publishTemplateVersion) | **POST** /templates/{template_id}/publish_version | Publish a template version |
 | [**renameFolder()**](Client.md#renameFolder) | **POST** /folders/{folder_id}/rename | Rename a folder |
 | [**restoreTemplateVersion()**](Client.md#restoreTemplateVersion) | **POST** /templates/{template_id}/restore_version | Restore a template version |
 | [**testAuthentication()**](Client.md#testAuthentication) | **GET** /authentication | Test authentication |
-| [**updateDataRequest()**](Client.md#updateDataRequest) | **PUT** /data_requests/{data_request_id} | Update a submission data request |
-| [**updateTemplate()**](Client.md#updateTemplate) | **PUT** /templates/{template_id} | Update a Template |
-| [**updateTemplateDocument()**](Client.md#updateTemplateDocument) | **PUT** /templates/{template_id}?endpoint_variant&#x3D;update_template_pdf_with_form_post | Update a template&#39;s document with a form POST file upload |
-| [**updateTemplateDocumentFromUpload()**](Client.md#updateTemplateDocumentFromUpload) | **PUT** /templates/{template_id}?endpoint_variant&#x3D;update_template_pdf_with_cached_upload | Update a template&#39;s document with a cached S3 file upload |
+| [**updateSignatureRequest()**](Client.md#updateSignatureRequest) | **PUT** /signature_requests/{signature_request_id} | Update a signature request |
+| [**updateTemplate()**](Client.md#updateTemplate) | **PUT** /templates/{template_id} | Update a template |
+| [**updateTemplateDocument()**](Client.md#updateTemplateDocument) | **PUT** /templates/{template_id}/document | Replace a template's PDF |
 | [**updateWebhook()**](Client.md#updateWebhook) | **PUT** /webhooks/{webhook_id} | Update a webhook |
+| [**uploadTemplate()**](Client.md#uploadTemplate) | **POST** /templates/upload | Create a PDF template from an uploaded PDF |
+| [**uploadTemplateDocument()**](Client.md#uploadTemplateDocument) | **PUT** /templates/{template_id}/document/upload | Replace a template's PDF with an uploaded PDF |
 
-
-## `addFieldsToTemplate()`
-
-```php
-addFieldsToTemplate($template_id, $data): \DocSpring\Model\TemplateAddFieldsResponse
-```
-
-Add new fields to a Template
-
-Adds fields to a PDF template. Configure field types, positions, defaults, and formatting options.
-
-### Example
-
-```php
-<?php
-require_once(__DIR__ . '/vendor/autoload.php');
-
-
-// Configure HTTP basic authorization: api_token_basic
-$config = DocSpring\Configuration::getDefaultConfiguration()
-              ->setUsername('YOUR_USERNAME')
-              ->setPassword('YOUR_PASSWORD');
-
-
-$apiInstance = new DocSpring\Api\Client(
-    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
-    // This is optional, `GuzzleHttp\Client` will be used as default.
-    new GuzzleHttp\Client(),
-    $config
-);
-$template_id = tpl_1234567890abcdef02; // string
-$data = new \DocSpring\Model\AddFieldsData(); // \DocSpring\Model\AddFieldsData
-
-try {
-    $result = $apiInstance->addFieldsToTemplate($template_id, $data);
-    print_r($result);
-} catch (Exception $e) {
-    echo 'Exception when calling Client->addFieldsToTemplate: ', $e->getMessage(), PHP_EOL;
-}
-```
-
-### Parameters
-
-| Name | Type | Description  | Notes |
-| ------------- | ------------- | ------------- | ------------- |
-| **template_id** | **string**|  | |
-| **data** | [**\DocSpring\Model\AddFieldsData**](../Model/AddFieldsData.md)|  | |
-
-### Return type
-
-[**\DocSpring\Model\TemplateAddFieldsResponse**](../Model/TemplateAddFieldsResponse.md)
-
-### Authorization
-
-[api_token_basic](../../README.md#api_token_basic)
-
-### HTTP request headers
-
-- **Content-Type**: `application/json`
-- **Accept**: `application/json`
-
-[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
-[[Back to Model list]](../../README.md#models)
-[[Back to README]](../../README.md)
-
-## `batchGeneratePdfs()`
-
-```php
-batchGeneratePdfs($data, $wait): \DocSpring\Model\BatchGeneratePdfs201Response
-```
-
-Generate multiple PDFs
-
-Generates up to 50 PDFs in a single request. Each submission can use a different template and data. Supports both synchronous (wait for all PDFs) and asynchronous processing. More efficient than individual requests when creating multiple PDFs.  Live PDFs use credits. If any live submission is waiting for credits, the API returns 402 and the others are still processed: check each submission's `state`. See [Credits & Rate Limits](https://docspring.com/docs/api-guide/credits-and-rate-limits/).  See also: - [Batch Generate PDFs](https://docspring.com/docs/api-guide/generate-pdfs/batch-generate-pdfs/) - Request format, responses, and limits
-
-### Example
-
-```php
-<?php
-require_once(__DIR__ . '/vendor/autoload.php');
-
-
-// Configure HTTP basic authorization: api_token_basic
-$config = DocSpring\Configuration::getDefaultConfiguration()
-              ->setUsername('YOUR_USERNAME')
-              ->setPassword('YOUR_PASSWORD');
-
-
-$apiInstance = new DocSpring\Api\Client(
-    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
-    // This is optional, `GuzzleHttp\Client` will be used as default.
-    new GuzzleHttp\Client(),
-    $config
-);
-$data = new \DocSpring\Model\SubmissionBatchData(); // \DocSpring\Model\SubmissionBatchData
-$wait = true; // bool | Wait for submission batch to be processed before returning. Set to false to return immediately. Default: true (on sync.* subdomain)
-
-try {
-    $result = $apiInstance->batchGeneratePdfs($data, $wait);
-    print_r($result);
-} catch (Exception $e) {
-    echo 'Exception when calling Client->batchGeneratePdfs: ', $e->getMessage(), PHP_EOL;
-}
-```
-
-### Parameters
-
-| Name | Type | Description  | Notes |
-| ------------- | ------------- | ------------- | ------------- |
-| **data** | [**\DocSpring\Model\SubmissionBatchData**](../Model/SubmissionBatchData.md)|  | |
-| **wait** | **bool**| Wait for submission batch to be processed before returning. Set to false to return immediately. Default: true (on sync.* subdomain) | [optional] [default to true] |
-
-### Return type
-
-[**\DocSpring\Model\BatchGeneratePdfs201Response**](../Model/BatchGeneratePdfs201Response.md)
-
-### Authorization
-
-[api_token_basic](../../README.md#api_token_basic)
-
-### HTTP request headers
-
-- **Content-Type**: `application/json`
-- **Accept**: `application/json`
-
-[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
-[[Back to Model list]](../../README.md#models)
-[[Back to README]](../../README.md)
-
-## `combinePdfs()`
-
-```php
-combinePdfs($data): \DocSpring\Model\CreateCombinedSubmissionResponse
-```
-
-Merge submission PDFs, template PDFs, or custom files
-
-Combines multiple PDFs from various sources into a single PDF file. Supports merging submission PDFs, template PDFs, custom files, other merged PDFs, and PDFs from URLs. Merges the PDFs in the order provided.  Combining uses credits (4 per source PDF, plus 4 per unit of the combined PDF), even with a test API token or watermarked source PDFs. If your balance can't cover it, the API returns 402 and the combined submission waits in the `insufficient_credits` state until you add credits. See [Credits & Rate Limits](https://docspring.com/docs/api-guide/credits-and-rate-limits/).
-
-### Example
-
-```php
-<?php
-require_once(__DIR__ . '/vendor/autoload.php');
-
-
-// Configure HTTP basic authorization: api_token_basic
-$config = DocSpring\Configuration::getDefaultConfiguration()
-              ->setUsername('YOUR_USERNAME')
-              ->setPassword('YOUR_PASSWORD');
-
-
-$apiInstance = new DocSpring\Api\Client(
-    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
-    // This is optional, `GuzzleHttp\Client` will be used as default.
-    new GuzzleHttp\Client(),
-    $config
-);
-$data = new \DocSpring\Model\CombinePdfsData(); // \DocSpring\Model\CombinePdfsData
-
-try {
-    $result = $apiInstance->combinePdfs($data);
-    print_r($result);
-} catch (Exception $e) {
-    echo 'Exception when calling Client->combinePdfs: ', $e->getMessage(), PHP_EOL;
-}
-```
-
-### Parameters
-
-| Name | Type | Description  | Notes |
-| ------------- | ------------- | ------------- | ------------- |
-| **data** | [**\DocSpring\Model\CombinePdfsData**](../Model/CombinePdfsData.md)|  | |
-
-### Return type
-
-[**\DocSpring\Model\CreateCombinedSubmissionResponse**](../Model/CreateCombinedSubmissionResponse.md)
-
-### Authorization
-
-[api_token_basic](../../README.md#api_token_basic)
-
-### HTTP request headers
-
-- **Content-Type**: `application/json`
-- **Accept**: `application/json`
-
-[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
-[[Back to Model list]](../../README.md#models)
-[[Back to README]](../../README.md)
 
 ## `copyTemplate()`
 
 ```php
-copyTemplate($template_id, $options): \DocSpring\Model\TemplatePreview
+copyTemplate($template_id, $body): \DocSpring\Model\Template
 ```
 
 Copy a template
 
-Creates a copy of an existing template with all its fields and configuration. Optionally specify a new name and target folder. The copied template starts as a new draft that can be modified independently of the original.
+Copies a template (its draft, or a published version) into a new template.
 
 ### Example
 
@@ -271,11 +84,11 @@ $apiInstance = new DocSpring\Api\Client(
     new GuzzleHttp\Client(),
     $config
 );
-$template_id = tpl_1234567890abcdef01; // string
-$options = new \DocSpring\Model\CopyTemplateOptions(); // \DocSpring\Model\CopyTemplateOptions
+$template_id = tpl_1234567890abcdef01; // string | The template's ID.
+$body = {"parent_folder_id":"fld_1234567890abcdef01"}; // \DocSpring\Model\CopyTemplateRequest | Settings for the copy.
 
 try {
-    $result = $apiInstance->copyTemplate($template_id, $options);
+    $result = $apiInstance->copyTemplate($template_id, $body);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling Client->copyTemplate: ', $e->getMessage(), PHP_EOL;
@@ -286,12 +99,76 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **template_id** | **string**|  | |
-| **options** | [**\DocSpring\Model\CopyTemplateOptions**](../Model/CopyTemplateOptions.md)|  | [optional] |
+| **template_id** | **string**| The template's ID. | |
+| **body** | [**\DocSpring\Model\CopyTemplateRequest**](../Model/CopyTemplateRequest.md)| Settings for the copy. | [optional] |
 
 ### Return type
 
-[**\DocSpring\Model\TemplatePreview**](../Model/TemplatePreview.md)
+[**\DocSpring\Model\Template**](../Model/Template.md)
+
+### Authorization
+
+[api_token_basic](../../README.md#api_token_basic)
+
+### HTTP request headers
+
+- **Content-Type**: `application/json`
+- **Accept**: `application/json`
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
+## `createCombinedPdf()`
+
+```php
+createCombinedPdf($body, $wait): \DocSpring\Model\CombinedPdf
+```
+
+Combine PDFs
+
+Merges PDFs into one: submissions, other combined PDFs, templates, custom files (POST /custom_files) and PDFs from URLs, in the order of `source_pdfs`. The PDF is generated in the background: on sync.api hosts the request waits for it (unless you pass `wait=false`), otherwise poll GET /combined_pdfs/{combined_pdf_id} until `state` isn't `pending`.  A template source merges the template's processed PDF by default: the PDF submissions are filled in on, decrypted and with its form fields removed. Pass `processed: false` to merge the PDF as it was uploaded.
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+// Configure HTTP basic authorization: api_token_basic
+$config = DocSpring\Configuration::getDefaultConfiguration()
+              ->setUsername('YOUR_USERNAME')
+              ->setPassword('YOUR_PASSWORD');
+
+
+$apiInstance = new DocSpring\Api\Client(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$body = {"source_pdfs":[{"type":"submission","id":"sub_1234567890abcdef01"},{"type":"template","id":"tpl_1234567890abcdef01"},{"type":"url","url":"https://example.com/terms.pdf"}],"metadata":{"user_id":42},"password":"secret","expires_in":3600}; // \DocSpring\Model\CreateCombinedPdfRequest | The PDFs to merge, and the combined PDF's settings.
+$wait = True; // bool | Wait until the PDF has been generated before responding. Default true on sync.api hosts.
+
+try {
+    $result = $apiInstance->createCombinedPdf($body, $wait);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling Client->createCombinedPdf: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **body** | [**\DocSpring\Model\CreateCombinedPdfRequest**](../Model/CreateCombinedPdfRequest.md)| The PDFs to merge, and the combined PDF's settings. | |
+| **wait** | **bool**| Wait until the PDF has been generated before responding. Default true on sync.api hosts. | [optional] |
+
+### Return type
+
+[**\DocSpring\Model\CombinedPdf**](../Model/CombinedPdf.md)
 
 ### Authorization
 
@@ -309,12 +186,12 @@ try {
 ## `createCustomFileFromUpload()`
 
 ```php
-createCustomFileFromUpload($data): \DocSpring\Model\CreateCustomFileResponse
+createCustomFileFromUpload($body): \DocSpring\Model\CustomFile
 ```
 
-Create a new custom file from a cached S3 upload
+Create a custom file from an upload
 
-The Custom Files API endpoint allows you to upload PDFs to DocSpring and then merge them with other PDFs. First upload your file using the presigned URL endpoint, then use the returned cache_id to create the custom file.
+Creates a custom file from a PDF you uploaded, so you can merge it with other PDFs. Upload the file with the presigned upload (GET /uploads/presign) first, then pass its `fields.key` as `cache_id`.
 
 ### Example
 
@@ -335,10 +212,10 @@ $apiInstance = new DocSpring\Api\Client(
     new GuzzleHttp\Client(),
     $config
 );
-$data = new \DocSpring\Model\CreateCustomFileData(); // \DocSpring\Model\CreateCustomFileData
+$body = {"cache_id":"cfi_1234567890abcdef01.pdf"}; // \DocSpring\Model\CreateCustomFileFromUploadRequest | The uploaded file to create the custom file from.
 
 try {
-    $result = $apiInstance->createCustomFileFromUpload($data);
+    $result = $apiInstance->createCustomFileFromUpload($body);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling Client->createCustomFileFromUpload: ', $e->getMessage(), PHP_EOL;
@@ -349,11 +226,11 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **data** | [**\DocSpring\Model\CreateCustomFileData**](../Model/CreateCustomFileData.md)|  | |
+| **body** | [**\DocSpring\Model\CreateCustomFileFromUploadRequest**](../Model/CreateCustomFileFromUploadRequest.md)| The uploaded file to create the custom file from. | |
 
 ### Return type
 
-[**\DocSpring\Model\CreateCustomFileResponse**](../Model/CreateCustomFileResponse.md)
+[**\DocSpring\Model\CustomFile**](../Model/CustomFile.md)
 
 ### Authorization
 
@@ -362,134 +239,6 @@ try {
 ### HTTP request headers
 
 - **Content-Type**: `application/json`
-- **Accept**: `application/json`
-
-[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
-[[Back to Model list]](../../README.md#models)
-[[Back to README]](../../README.md)
-
-## `createDataRequestEvent()`
-
-```php
-createDataRequestEvent($data_request_id, $event): \DocSpring\Model\CreateSubmissionDataRequestEventResponse
-```
-
-Create a new event for emailing a signee a request for signature
-
-Records user notification events for data requests. Use this to create an audit trail showing when and how users were notified about data request forms. Supports email, SMS, and other notification types. Records the notification time for compliance tracking.  See also: - [Embedded Data Requests Guide](https://docspring.com/docs/guides/embedded-forms/embedded-data-requests/) - User notification workflow
-
-### Example
-
-```php
-<?php
-require_once(__DIR__ . '/vendor/autoload.php');
-
-
-// Configure HTTP basic authorization: api_token_basic
-$config = DocSpring\Configuration::getDefaultConfiguration()
-              ->setUsername('YOUR_USERNAME')
-              ->setPassword('YOUR_PASSWORD');
-
-
-$apiInstance = new DocSpring\Api\Client(
-    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
-    // This is optional, `GuzzleHttp\Client` will be used as default.
-    new GuzzleHttp\Client(),
-    $config
-);
-$data_request_id = drq_1234567890abcdef01; // string
-$event = new \DocSpring\Model\CreateSubmissionDataRequestEventRequest(); // \DocSpring\Model\CreateSubmissionDataRequestEventRequest
-
-try {
-    $result = $apiInstance->createDataRequestEvent($data_request_id, $event);
-    print_r($result);
-} catch (Exception $e) {
-    echo 'Exception when calling Client->createDataRequestEvent: ', $e->getMessage(), PHP_EOL;
-}
-```
-
-### Parameters
-
-| Name | Type | Description  | Notes |
-| ------------- | ------------- | ------------- | ------------- |
-| **data_request_id** | **string**|  | |
-| **event** | [**\DocSpring\Model\CreateSubmissionDataRequestEventRequest**](../Model/CreateSubmissionDataRequestEventRequest.md)|  | |
-
-### Return type
-
-[**\DocSpring\Model\CreateSubmissionDataRequestEventResponse**](../Model/CreateSubmissionDataRequestEventResponse.md)
-
-### Authorization
-
-[api_token_basic](../../README.md#api_token_basic)
-
-### HTTP request headers
-
-- **Content-Type**: `application/json`
-- **Accept**: `application/json`
-
-[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
-[[Back to Model list]](../../README.md#models)
-[[Back to README]](../../README.md)
-
-## `createDataRequestToken()`
-
-```php
-createDataRequestToken($data_request_id, $type): \DocSpring\Model\CreateSubmissionDataRequestTokenResponse
-```
-
-Create a new data request token for form authentication
-
-Creates an authentication token for accessing a data request form. Returns a token and a pre-authenticated URL for the data request form. The token remains valid until the data request is completed.  See also: - [Embedded Data Requests Guide](https://docspring.com/docs/guides/embedded-forms/embedded-data-requests/)
-
-### Example
-
-```php
-<?php
-require_once(__DIR__ . '/vendor/autoload.php');
-
-
-// Configure HTTP basic authorization: api_token_basic
-$config = DocSpring\Configuration::getDefaultConfiguration()
-              ->setUsername('YOUR_USERNAME')
-              ->setPassword('YOUR_PASSWORD');
-
-
-$apiInstance = new DocSpring\Api\Client(
-    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
-    // This is optional, `GuzzleHttp\Client` will be used as default.
-    new GuzzleHttp\Client(),
-    $config
-);
-$data_request_id = drq_1234567890abcdef01; // string
-$type = api; // string
-
-try {
-    $result = $apiInstance->createDataRequestToken($data_request_id, $type);
-    print_r($result);
-} catch (Exception $e) {
-    echo 'Exception when calling Client->createDataRequestToken: ', $e->getMessage(), PHP_EOL;
-}
-```
-
-### Parameters
-
-| Name | Type | Description  | Notes |
-| ------------- | ------------- | ------------- | ------------- |
-| **data_request_id** | **string**|  | |
-| **type** | **string**|  | [optional] |
-
-### Return type
-
-[**\DocSpring\Model\CreateSubmissionDataRequestTokenResponse**](../Model/CreateSubmissionDataRequestTokenResponse.md)
-
-### Authorization
-
-[api_token_basic](../../README.md#api_token_basic)
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
 - **Accept**: `application/json`
 
 [[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
@@ -499,12 +248,12 @@ try {
 ## `createFolder()`
 
 ```php
-createFolder($data): \DocSpring\Model\Folder
+createFolder($body): \DocSpring\Model\Folder
 ```
 
 Create a folder
 
-Creates a new folder for organizing templates. Folders can be nested within other folders by providing a `parent_folder_id`. Folder names must be unique within the same parent.
+Creates a folder for organizing templates. Pass `parent_folder_id` to create it inside another folder. Folder names are unique within their parent folder.
 
 ### Example
 
@@ -525,10 +274,10 @@ $apiInstance = new DocSpring\Api\Client(
     new GuzzleHttp\Client(),
     $config
 );
-$data = new \DocSpring\Model\CreateFolderData(); // \DocSpring\Model\CreateFolderData
+$body = {"name":"Folder 3","parent_folder_id":"fld_1234567890abcdef01"}; // \DocSpring\Model\CreateFolderRequest | The folder to create.
 
 try {
-    $result = $apiInstance->createFolder($data);
+    $result = $apiInstance->createFolder($body);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling Client->createFolder: ', $e->getMessage(), PHP_EOL;
@@ -539,7 +288,7 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **data** | [**\DocSpring\Model\CreateFolderData**](../Model/CreateFolderData.md)|  | |
+| **body** | [**\DocSpring\Model\CreateFolderRequest**](../Model/CreateFolderRequest.md)| The folder to create. | |
 
 ### Return type
 
@@ -558,15 +307,15 @@ try {
 [[Back to Model list]](../../README.md#models)
 [[Back to README]](../../README.md)
 
-## `createHtmlTemplate()`
+## `createSignatureRequestEvent()`
 
 ```php
-createHtmlTemplate($data): \DocSpring\Model\TemplatePreview
+createSignatureRequestEvent($signature_request_id, $body): \DocSpring\Model\SignatureRequestEvent
 ```
 
-Create a new HTML template
+Record a signature request event
 
-Creates a new HTML template using HTML, CSS/SCSS, and Liquid templating. Allows complete control over PDF layout and styling. Supports headers, footers, and dynamic content using Liquid syntax for field values, conditions, loops, and filters.
+Records something that happened outside DocSpring in the signature request's audit trail: you sent the request to the person (`send_request`). The audit trail shows it as reported by your account.
 
 ### Example
 
@@ -587,13 +336,14 @@ $apiInstance = new DocSpring\Api\Client(
     new GuzzleHttp\Client(),
     $config
 );
-$data = new \DocSpring\Model\CreateHtmlTemplate(); // \DocSpring\Model\CreateHtmlTemplate
+$signature_request_id = srq_1234567890abcdef01; // string | The signature request's ID.
+$body = {"event_type":"send_request","message_type":"email","message_recipient":"john@example.com","occurred_at":"2018-10-20T08:59:00Z"}; // \DocSpring\Model\CreateSignatureRequestEventRequest | The event to record.
 
 try {
-    $result = $apiInstance->createHtmlTemplate($data);
+    $result = $apiInstance->createSignatureRequestEvent($signature_request_id, $body);
     print_r($result);
 } catch (Exception $e) {
-    echo 'Exception when calling Client->createHtmlTemplate: ', $e->getMessage(), PHP_EOL;
+    echo 'Exception when calling Client->createSignatureRequestEvent: ', $e->getMessage(), PHP_EOL;
 }
 ```
 
@@ -601,11 +351,12 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **data** | [**\DocSpring\Model\CreateHtmlTemplate**](../Model/CreateHtmlTemplate.md)|  | |
+| **signature_request_id** | **string**| The signature request's ID. | |
+| **body** | [**\DocSpring\Model\CreateSignatureRequestEventRequest**](../Model/CreateSignatureRequestEventRequest.md)| The event to record. | |
 
 ### Return type
 
-[**\DocSpring\Model\TemplatePreview**](../Model/TemplatePreview.md)
+[**\DocSpring\Model\SignatureRequestEvent**](../Model/SignatureRequestEvent.md)
 
 ### Authorization
 
@@ -620,15 +371,15 @@ try {
 [[Back to Model list]](../../README.md#models)
 [[Back to README]](../../README.md)
 
-## `createPdfTemplate()`
+## `createSignatureRequestToken()`
 
 ```php
-createPdfTemplate($template_document, $template_name, $wait, $template_description, $template_parent_folder_id): \DocSpring\Model\TemplatePreview
+createSignatureRequestToken($signature_request_id, $body): \DocSpring\Model\SignatureRequestToken
 ```
 
-Create a new PDF template with a form POST file upload
+Create a signature request token
 
-Creates a new PDF template by uploading a PDF file. The uploaded PDF becomes the foundation for your template, and you can then add fillable fields using the template editor. Use the wait parameter to control whether the request waits for document processing to complete.
+Creates a token that opens the signature request without signing in, in a form embedded in your app or from a link you send. The response is the only time the token's secret is returned. The link works for 24 hours, or 7 days for an `email` token, and a signing page that opened in time keeps working for 7 more days. A test API token can't create a token for a live signature request.
 
 ### Example
 
@@ -649,17 +400,14 @@ $apiInstance = new DocSpring\Api\Client(
     new GuzzleHttp\Client(),
     $config
 );
-$template_document = '/path/to/file.txt'; // \SplFileObject
-$template_name = 'template_name_example'; // string
-$wait = true; // bool | Wait for template document to be processed before returning. Set to false to return immediately. Default: true (on sync.* subdomain)
-$template_description = 'template_description_example'; // string
-$template_parent_folder_id = 'template_parent_folder_id_example'; // string
+$signature_request_id = srq_1234567890abcdef01; // string | The signature request's ID.
+$body = {"type":"email"}; // \DocSpring\Model\CreateSignatureRequestTokenRequest | The kind of link to make. Send no body for an `api` token.
 
 try {
-    $result = $apiInstance->createPdfTemplate($template_document, $template_name, $wait, $template_description, $template_parent_folder_id);
+    $result = $apiInstance->createSignatureRequestToken($signature_request_id, $body);
     print_r($result);
 } catch (Exception $e) {
-    echo 'Exception when calling Client->createPdfTemplate: ', $e->getMessage(), PHP_EOL;
+    echo 'Exception when calling Client->createSignatureRequestToken: ', $e->getMessage(), PHP_EOL;
 }
 ```
 
@@ -667,15 +415,12 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **template_document** | **\SplFileObject****\SplFileObject**|  | |
-| **template_name** | **string**|  | |
-| **wait** | **bool**| Wait for template document to be processed before returning. Set to false to return immediately. Default: true (on sync.* subdomain) | [optional] [default to true] |
-| **template_description** | **string**|  | [optional] |
-| **template_parent_folder_id** | **string**|  | [optional] |
+| **signature_request_id** | **string**| The signature request's ID. | |
+| **body** | [**\DocSpring\Model\CreateSignatureRequestTokenRequest**](../Model/CreateSignatureRequestTokenRequest.md)| The kind of link to make. Send no body for an `api` token. | [optional] |
 
 ### Return type
 
-[**\DocSpring\Model\TemplatePreview**](../Model/TemplatePreview.md)
+[**\DocSpring\Model\SignatureRequestToken**](../Model/SignatureRequestToken.md)
 
 ### Authorization
 
@@ -683,22 +428,22 @@ try {
 
 ### HTTP request headers
 
-- **Content-Type**: `multipart/form-data`
+- **Content-Type**: `application/json`
 - **Accept**: `application/json`
 
 [[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
 [[Back to Model list]](../../README.md#models)
 [[Back to README]](../../README.md)
 
-## `createPdfTemplateFromUpload()`
+## `createSubmission()`
 
 ```php
-createPdfTemplateFromUpload($data): \DocSpring\Model\TemplatePreview
+createSubmission($template_id, $body, $version, $wait): \DocSpring\Model\Submission
 ```
 
-Create a new PDF template from a cached S3 file upload
+Generate a PDF
 
-Creates a new PDF template from a file previously uploaded to S3 using a presigned URL. This two-step process allows for more reliable large file uploads by first uploading the file to S3, then creating the template using the cached upload ID.
+Creates a submission: fills in a template with your data and generates a PDF. The PDF is generated in the background: on sync.api hosts the request waits for it (unless you pass `wait=false`), otherwise poll GET /submissions/{submission_id} until `state` isn't `pending`.  Data that doesn't match the template's fields returns a 422 with an `invalid_data` error. The submission is still saved, with its errors, so you can find it in DocSpring: the error's `submission_id` is its ID.
 
 ### Example
 
@@ -719,13 +464,16 @@ $apiInstance = new DocSpring\Api\Client(
     new GuzzleHttp\Client(),
     $config
 );
-$data = new \DocSpring\Model\CreatePdfTemplate(); // \DocSpring\Model\CreatePdfTemplate
+$template_id = tpl_1234567890abcdef01; // string | The template's ID.
+$body = {"data":{"first_name":"John","last_name":"Smith","phone_number":"+11234567890"},"metadata":{"user_id":42},"test":true}; // \DocSpring\Model\CreateSubmissionRequest | The submission's data and settings.
+$version = 'version_example'; // string | The template version to use: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `latest` (the draft when no version has been published).
+$wait = True; // bool | Wait until the PDF has been generated before responding. Default true on sync.api hosts.
 
 try {
-    $result = $apiInstance->createPdfTemplateFromUpload($data);
+    $result = $apiInstance->createSubmission($template_id, $body, $version, $wait);
     print_r($result);
 } catch (Exception $e) {
-    echo 'Exception when calling Client->createPdfTemplateFromUpload: ', $e->getMessage(), PHP_EOL;
+    echo 'Exception when calling Client->createSubmission: ', $e->getMessage(), PHP_EOL;
 }
 ```
 
@@ -733,11 +481,142 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **data** | [**\DocSpring\Model\CreatePdfTemplate**](../Model/CreatePdfTemplate.md)|  | |
+| **template_id** | **string**| The template's ID. | |
+| **body** | [**\DocSpring\Model\CreateSubmissionRequest**](../Model/CreateSubmissionRequest.md)| The submission's data and settings. | |
+| **version** | **string**| The template version to use: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `latest` (the draft when no version has been published). | [optional] |
+| **wait** | **bool**| Wait until the PDF has been generated before responding. Default true on sync.api hosts. | [optional] |
 
 ### Return type
 
-[**\DocSpring\Model\TemplatePreview**](../Model/TemplatePreview.md)
+[**\DocSpring\Model\Submission**](../Model/Submission.md)
+
+### Authorization
+
+[api_token_basic](../../README.md#api_token_basic)
+
+### HTTP request headers
+
+- **Content-Type**: `application/json`
+- **Accept**: `application/json`
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
+## `createSubmissionBatch()`
+
+```php
+createSubmissionBatch($body, $wait): \DocSpring\Model\SubmissionBatch
+```
+
+Generate PDFs in a batch
+
+Creates up to 50 submissions in one request, from one template or several. The PDFs are only generated when every submission is valid. On sync.api hosts the request waits until every PDF has been generated (unless you pass `wait=false`), otherwise poll GET /submissions/batches/{submission_batch_id} until `processed_at` is set.  When any submission is invalid, nothing is generated and the request returns a 422. Submissions whose data doesn't match their template's fields are still saved with their errors (an `invalid_data` error, with each one's `submission_id` in its details), so you can find them in DocSpring. The other submissions aren't saved.
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+// Configure HTTP basic authorization: api_token_basic
+$config = DocSpring\Configuration::getDefaultConfiguration()
+              ->setUsername('YOUR_USERNAME')
+              ->setPassword('YOUR_PASSWORD');
+
+
+$apiInstance = new DocSpring\Api\Client(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$body = {"template_id":"tpl_1234567890abcdef01","metadata":{"job_id":54321},"submissions":[{"data":{"first_name":"John","last_name":"Smith"},"metadata":{"row":1}},{"data":{"first_name":"Jane","last_name":"Doe"},"test":true,"metadata":{"row":2}}]}; // \DocSpring\Model\CreateSubmissionBatchRequest | The submissions to create, and the settings they share.
+$wait = True; // bool | Wait until every PDF in the batch has been generated before responding. Default true on sync.api hosts.
+
+try {
+    $result = $apiInstance->createSubmissionBatch($body, $wait);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling Client->createSubmissionBatch: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **body** | [**\DocSpring\Model\CreateSubmissionBatchRequest**](../Model/CreateSubmissionBatchRequest.md)| The submissions to create, and the settings they share. | |
+| **wait** | **bool**| Wait until every PDF in the batch has been generated before responding. Default true on sync.api hosts. | [optional] |
+
+### Return type
+
+[**\DocSpring\Model\SubmissionBatch**](../Model/SubmissionBatch.md)
+
+### Authorization
+
+[api_token_basic](../../README.md#api_token_basic)
+
+### HTTP request headers
+
+- **Content-Type**: `application/json`
+- **Accept**: `application/json`
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
+## `createTemplate()`
+
+```php
+createTemplate($body, $wait): \DocSpring\Model\Template
+```
+
+Create a template
+
+Creates an HTML template, or a PDF template from a PDF you uploaded with the presigned upload (GET /uploads/presign): pass its `fields.key` as `cache_id`. To send the PDF with the request instead, use POST /templates/upload.  A PDF template is ready to generate PDFs once DocSpring has processed its PDF (`ready` is true). On sync.api hosts the request waits for that unless you pass `wait=false`.
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+// Configure HTTP basic authorization: api_token_basic
+$config = DocSpring\Configuration::getDefaultConfiguration()
+              ->setUsername('YOUR_USERNAME')
+              ->setPassword('YOUR_PASSWORD');
+
+
+$apiInstance = new DocSpring\Api\Client(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$body = {"template_type":"html","name":"Receipt","html":"<h1>Receipt for {{ name }}</h1>","scss":"h1 { font-size: 24px; }","html_engine_options":{"format":"A4","landscape":true},"parent_folder_id":"fld_1234567890abcdef01"}; // \DocSpring\Model\CreateTemplateRequest | The template to create.
+$wait = True; // bool | Wait until the PDF has been processed before responding. Default true on sync.api hosts.
+
+try {
+    $result = $apiInstance->createTemplate($body, $wait);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling Client->createTemplate: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **body** | [**\DocSpring\Model\CreateTemplateRequest**](../Model/CreateTemplateRequest.md)| The template to create. | |
+| **wait** | **bool**| Wait until the PDF has been processed before responding. Default true on sync.api hosts. | [optional] |
+
+### Return type
+
+[**\DocSpring\Model\Template**](../Model/Template.md)
 
 ### Authorization
 
@@ -755,12 +634,12 @@ try {
 ## `createWebhook()`
 
 ```php
-createWebhook($data): \DocSpring\Model\Webhook
+createWebhook($body): \DocSpring\Model\Webhook
 ```
 
 Create a webhook
 
-Creates a webhook that delivers a POST request to your endpoint whenever a subscribed event occurs. Optionally scope the webhook to specific API tokens, templates, or folders.
+Creates a webhook that sends a POST request to your endpoint whenever a subscribed event happens. Scope it to API tokens, templates or folders to receive only their events.
 
 ### Example
 
@@ -781,10 +660,10 @@ $apiInstance = new DocSpring\Api\Client(
     new GuzzleHttp\Client(),
     $config
 );
-$data = new \DocSpring\Model\CreateWebhookData(); // \DocSpring\Model\CreateWebhookData
+$body = {"name":"Test Webhook","url":"https://example.com/webhook","event_types":["submission.processed","signature_request.completed"],"template_ids":["tpl_1234567890abcdef01"],"headers":{"X-Zapier-Subscription":"123"}}; // \DocSpring\Model\CreateWebhookRequest | The webhook to create.
 
 try {
-    $result = $apiInstance->createWebhook($data);
+    $result = $apiInstance->createWebhook($body);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling Client->createWebhook: ', $e->getMessage(), PHP_EOL;
@@ -795,7 +674,7 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **data** | [**\DocSpring\Model\CreateWebhookData**](../Model/CreateWebhookData.md)|  | |
+| **body** | [**\DocSpring\Model\CreateWebhookRequest**](../Model/CreateWebhookRequest.md)| The webhook to create. | |
 
 ### Return type
 
@@ -814,15 +693,15 @@ try {
 [[Back to Model list]](../../README.md#models)
 [[Back to README]](../../README.md)
 
-## `deleteFolder()`
+## `deleteCustomFile()`
 
 ```php
-deleteFolder($folder_id): \DocSpring\Model\Folder
+deleteCustomFile($custom_file_id): \DocSpring\Model\CustomFile
 ```
 
-Delete a folder
+Delete a custom file
 
-Deletes an empty folder. The folder must not contain any templates or subfolders. Move or delete all contents before attempting to delete the folder.
+Deletes a custom file and returns it. Use a live API token: test tokens can't delete custom files.
 
 ### Example
 
@@ -843,7 +722,69 @@ $apiInstance = new DocSpring\Api\Client(
     new GuzzleHttp\Client(),
     $config
 );
-$folder_id = fld_1234567890abcdef01; // string
+$custom_file_id = 'custom_file_id_example'; // string | The custom file's ID.
+
+try {
+    $result = $apiInstance->deleteCustomFile($custom_file_id);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling Client->deleteCustomFile: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **custom_file_id** | **string**| The custom file's ID. | |
+
+### Return type
+
+[**\DocSpring\Model\CustomFile**](../Model/CustomFile.md)
+
+### Authorization
+
+[api_token_basic](../../README.md#api_token_basic)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/json`
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
+## `deleteFolder()`
+
+```php
+deleteFolder($folder_id): \DocSpring\Model\Folder
+```
+
+Delete a folder
+
+Deletes an empty folder and returns it. A folder that still has templates or folders in it can't be deleted.
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+// Configure HTTP basic authorization: api_token_basic
+$config = DocSpring\Configuration::getDefaultConfiguration()
+              ->setUsername('YOUR_USERNAME')
+              ->setPassword('YOUR_PASSWORD');
+
+
+$apiInstance = new DocSpring\Api\Client(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$folder_id = 'folder_id_example'; // string | The folder's ID.
 
 try {
     $result = $apiInstance->deleteFolder($folder_id);
@@ -857,7 +798,7 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **folder_id** | **string**|  | |
+| **folder_id** | **string**| The folder's ID. | |
 
 ### Return type
 
@@ -879,12 +820,12 @@ try {
 ## `deleteTemplate()`
 
 ```php
-deleteTemplate($template_id, $version): \DocSpring\Model\TemplateDeleteResponse
+deleteTemplate($template_id, $version): \DocSpring\Model\Template
 ```
 
 Delete a template
 
-Deletes a template or a specific template version. When no version is specified, deletes the entire template including all versions. When a version is specified, deletes only that version while preserving others. Returns remaining version information.
+Deletes a template's draft and all of its published versions, or one published version (`version`). Returns the template as it was before it was deleted.
 
 ### Example
 
@@ -905,8 +846,8 @@ $apiInstance = new DocSpring\Api\Client(
     new GuzzleHttp\Client(),
     $config
 );
-$template_id = tpl_1234567890abcdef01; // string
-$version = 0.1.0; // string
+$template_id = tpl_1234567890abcdef02; // string | The template's ID.
+$version = 'version_example'; // string | Delete only this published version (`1.2.0`) or the draft (`draft`, when no version has been published). Without it, the draft and every published version are deleted.
 
 try {
     $result = $apiInstance->deleteTemplate($template_id, $version);
@@ -920,12 +861,12 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **template_id** | **string**|  | |
-| **version** | **string**|  | [optional] |
+| **template_id** | **string**| The template's ID. | |
+| **version** | **string**| Delete only this published version (`1.2.0`) or the draft (`draft`, when no version has been published). Without it, the draft and every published version are deleted. | [optional] |
 
 ### Return type
 
-[**\DocSpring\Model\TemplateDeleteResponse**](../Model/TemplateDeleteResponse.md)
+[**\DocSpring\Model\Template**](../Model/Template.md)
 
 ### Authorization
 
@@ -948,7 +889,7 @@ deleteWebhook($webhook_id): \DocSpring\Model\Webhook
 
 Delete a webhook
 
-Permanently deletes a webhook so it stops receiving events, and returns the deleted webhook.
+Deletes a webhook so it stops receiving events, and returns it.
 
 ### Example
 
@@ -969,7 +910,7 @@ $apiInstance = new DocSpring\Api\Client(
     new GuzzleHttp\Client(),
     $config
 );
-$webhook_id = whk_1234567890abcdef01; // string
+$webhook_id = 'webhook_id_example'; // string | The webhook's ID.
 
 try {
     $result = $apiInstance->deleteWebhook($webhook_id);
@@ -983,7 +924,7 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **webhook_id** | **string**|  | |
+| **webhook_id** | **string**| The webhook's ID. | |
 
 ### Return type
 
@@ -1002,15 +943,15 @@ try {
 [[Back to Model list]](../../README.md#models)
 [[Back to README]](../../README.md)
 
-## `expireCombinedSubmission()`
+## `expireCombinedPdf()`
 
 ```php
-expireCombinedSubmission($combined_submission_id): \DocSpring\Model\CombinedSubmission
+expireCombinedPdf($combined_pdf_id): \DocSpring\Model\CombinedPdf
 ```
 
-Expire a combined submission
+Expire a combined PDF
 
-Expiring a combined submission deletes the PDF from our system. This is useful for invalidating sensitive documents.
+Deletes a combined PDF's PDF and returns the expired combined PDF.
 
 ### Example
 
@@ -1031,13 +972,13 @@ $apiInstance = new DocSpring\Api\Client(
     new GuzzleHttp\Client(),
     $config
 );
-$combined_submission_id = com_1234567890abcdef01; // string
+$combined_pdf_id = com_1234567890abcdef05; // string | The combined PDF's ID.
 
 try {
-    $result = $apiInstance->expireCombinedSubmission($combined_submission_id);
+    $result = $apiInstance->expireCombinedPdf($combined_pdf_id);
     print_r($result);
 } catch (Exception $e) {
-    echo 'Exception when calling Client->expireCombinedSubmission: ', $e->getMessage(), PHP_EOL;
+    echo 'Exception when calling Client->expireCombinedPdf: ', $e->getMessage(), PHP_EOL;
 }
 ```
 
@@ -1045,11 +986,11 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **combined_submission_id** | **string**|  | |
+| **combined_pdf_id** | **string**| The combined PDF's ID. | |
 
 ### Return type
 
-[**\DocSpring\Model\CombinedSubmission**](../Model/CombinedSubmission.md)
+[**\DocSpring\Model\CombinedPdf**](../Model/CombinedPdf.md)
 
 ### Authorization
 
@@ -1067,12 +1008,12 @@ try {
 ## `expireSubmission()`
 
 ```php
-expireSubmission($submission_id): \DocSpring\Model\SubmissionPreview
+expireSubmission($submission_id): \DocSpring\Model\Submission
 ```
 
-Expire a PDF submission
+Expire a submission
 
-Expiring a PDF submission deletes the PDF and removes the data from our database. This is useful for invalidating sensitive documents after they've been downloaded. You can also [configure a data retention policy for your submissions](https://docspring.com/docs/template-editor/settings/#expire-submissions) so that they automatically expire.
+Deletes a submission's data and PDF now, and returns the expired submission.
 
 ### Example
 
@@ -1093,7 +1034,7 @@ $apiInstance = new DocSpring\Api\Client(
     new GuzzleHttp\Client(),
     $config
 );
-$submission_id = sub_1234567890abcdef01; // string
+$submission_id = sub_1234567890abcdef01; // string | The submission's ID.
 
 try {
     $result = $apiInstance->expireSubmission($submission_id);
@@ -1107,11 +1048,11 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **submission_id** | **string**|  | |
+| **submission_id** | **string**| The submission's ID. | |
 
 ### Return type
 
-[**\DocSpring\Model\SubmissionPreview**](../Model/SubmissionPreview.md)
+[**\DocSpring\Model\Submission**](../Model/Submission.md)
 
 ### Authorization
 
@@ -1126,15 +1067,15 @@ try {
 [[Back to Model list]](../../README.md#models)
 [[Back to README]](../../README.md)
 
-## `generatePdf()`
+## `generateSubmissionPreview()`
 
 ```php
-generatePdf($template_id, $submission, $wait): \DocSpring\Model\CreateSubmissionResponse
+generateSubmissionPreview($submission_id): \DocSpring\Model\Submission
 ```
 
-Generate a PDF
+Generate a preview PDF
 
-Creates a PDF submission by filling in a template with data. Supports both synchronous (default) and asynchronous processing. Add the `wait=false` query parameter to return immediately.  Live PDFs use credits; test PDFs (`test: true`) are free and watermarked. If your balance can't cover a live PDF, the API returns 402 and the submission waits in the `insufficient_credits` state until you add credits. See [Credits & Rate Limits](https://docspring.com/docs/api-guide/credits-and-rate-limits/).  See also: - [Customize the PDF Title and Filename](https://docspring.com/docs/api-guide/generate-pdfs/customize-pdf-title-and-filename/) - Set custom metadata - [Handling Truncated Text](https://docspring.com/docs/api-guide/generate-pdfs/handle-truncated-text/) - Handle text that doesn't fit in fields
+Generates a preview of a submission's PDF in the background, such as for a submission still waiting for its signature requests. It's in `files.preview` once `preview_generated_at` changes.
 
 ### Example
 
@@ -1155,15 +1096,13 @@ $apiInstance = new DocSpring\Api\Client(
     new GuzzleHttp\Client(),
     $config
 );
-$template_id = tpl_1234567890abcdef01; // string
-$submission = new \DocSpring\Model\CreatePdfSubmissionData(); // \DocSpring\Model\CreatePdfSubmissionData
-$wait = true; // bool | Wait for submission to be processed before returning. Set to false to return immediately. Default: true (on sync.* subdomain)
+$submission_id = sub_1234567890abcdef03; // string | The submission's ID.
 
 try {
-    $result = $apiInstance->generatePdf($template_id, $submission, $wait);
+    $result = $apiInstance->generateSubmissionPreview($submission_id);
     print_r($result);
 } catch (Exception $e) {
-    echo 'Exception when calling Client->generatePdf: ', $e->getMessage(), PHP_EOL;
+    echo 'Exception when calling Client->generateSubmissionPreview: ', $e->getMessage(), PHP_EOL;
 }
 ```
 
@@ -1171,75 +1110,11 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **template_id** | **string**|  | |
-| **submission** | [**\DocSpring\Model\CreatePdfSubmissionData**](../Model/CreatePdfSubmissionData.md)|  | |
-| **wait** | **bool**| Wait for submission to be processed before returning. Set to false to return immediately. Default: true (on sync.* subdomain) | [optional] [default to true] |
+| **submission_id** | **string**| The submission's ID. | |
 
 ### Return type
 
-[**\DocSpring\Model\CreateSubmissionResponse**](../Model/CreateSubmissionResponse.md)
-
-### Authorization
-
-[api_token_basic](../../README.md#api_token_basic)
-
-### HTTP request headers
-
-- **Content-Type**: `application/json`
-- **Accept**: `application/json`
-
-[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
-[[Back to Model list]](../../README.md#models)
-[[Back to README]](../../README.md)
-
-## `generatePreview()`
-
-```php
-generatePreview($submission_id): \DocSpring\Model\SuccessErrorResponse
-```
-
-Generate a preview PDF for partially completed data requests
-
-Generates a preview PDF for a submission with partially completed data requests. Useful for showing users what the final document will look like before all signatures or data have been collected. The preview includes any data collected so far.
-
-### Example
-
-```php
-<?php
-require_once(__DIR__ . '/vendor/autoload.php');
-
-
-// Configure HTTP basic authorization: api_token_basic
-$config = DocSpring\Configuration::getDefaultConfiguration()
-              ->setUsername('YOUR_USERNAME')
-              ->setPassword('YOUR_PASSWORD');
-
-
-$apiInstance = new DocSpring\Api\Client(
-    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
-    // This is optional, `GuzzleHttp\Client` will be used as default.
-    new GuzzleHttp\Client(),
-    $config
-);
-$submission_id = sub_1234567890abcdef01; // string
-
-try {
-    $result = $apiInstance->generatePreview($submission_id);
-    print_r($result);
-} catch (Exception $e) {
-    echo 'Exception when calling Client->generatePreview: ', $e->getMessage(), PHP_EOL;
-}
-```
-
-### Parameters
-
-| Name | Type | Description  | Notes |
-| ------------- | ------------- | ------------- | ------------- |
-| **submission_id** | **string**|  | |
-
-### Return type
-
-[**\DocSpring\Model\SuccessErrorResponse**](../Model/SuccessErrorResponse.md)
+[**\DocSpring\Model\Submission**](../Model/Submission.md)
 
 ### Authorization
 
@@ -1254,15 +1129,15 @@ try {
 [[Back to Model list]](../../README.md#models)
 [[Back to README]](../../README.md)
 
-## `getCombinedSubmission()`
+## `getCombinedPdf()`
 
 ```php
-getCombinedSubmission($combined_submission_id): \DocSpring\Model\CombinedSubmission
+getCombinedPdf($combined_pdf_id): \DocSpring\Model\CombinedPdf
 ```
 
-Check the status of a combined submission (merged PDFs)
+Get a combined PDF
 
-Retrieves the details and status of a combined submission. Returns processing state, download URL (if processed), metadata, and information about any integrated actions (e.g., S3 uploads).  `insufficient_credits` means the combined submission is waiting for credits and is processed once you add them. If it's still waiting after 30 days, it moves to `error`.
+Returns a combined PDF, with a temporary link to download it once it has been generated.
 
 ### Example
 
@@ -1283,13 +1158,13 @@ $apiInstance = new DocSpring\Api\Client(
     new GuzzleHttp\Client(),
     $config
 );
-$combined_submission_id = com_1234567890abcdef01; // string
+$combined_pdf_id = com_1234567890abcdef05; // string | The combined PDF's ID.
 
 try {
-    $result = $apiInstance->getCombinedSubmission($combined_submission_id);
+    $result = $apiInstance->getCombinedPdf($combined_pdf_id);
     print_r($result);
 } catch (Exception $e) {
-    echo 'Exception when calling Client->getCombinedSubmission: ', $e->getMessage(), PHP_EOL;
+    echo 'Exception when calling Client->getCombinedPdf: ', $e->getMessage(), PHP_EOL;
 }
 ```
 
@@ -1297,11 +1172,11 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **combined_submission_id** | **string**|  | |
+| **combined_pdf_id** | **string**| The combined PDF's ID. | |
 
 ### Return type
 
-[**\DocSpring\Model\CombinedSubmission**](../Model/CombinedSubmission.md)
+[**\DocSpring\Model\CombinedPdf**](../Model/CombinedPdf.md)
 
 ### Authorization
 
@@ -1316,15 +1191,15 @@ try {
 [[Back to Model list]](../../README.md#models)
 [[Back to README]](../../README.md)
 
-## `getDataRequest()`
+## `getCustomFile()`
 
 ```php
-getDataRequest($data_request_id): \DocSpring\Model\SubmissionDataRequestShow
+getCustomFile($custom_file_id): \DocSpring\Model\CustomFile
 ```
 
-Look up a submission data request
+Get a custom file
 
-Retrieves the details and status of a data request. Returns information about the request state (pending, viewed, completed), authentication details, and metadata. Includes audit information like IP address, browseruser agent, and timestamps.  See also: - [Embedded Data Requests Guide](https://docspring.com/docs/guides/embedded-forms/embedded-data-requests/) - Complete guide to data request workflow
+Returns a custom file, with a temporary URL to download it.
 
 ### Example
 
@@ -1345,13 +1220,13 @@ $apiInstance = new DocSpring\Api\Client(
     new GuzzleHttp\Client(),
     $config
 );
-$data_request_id = drq_1234567890abcdef01; // string
+$custom_file_id = 'custom_file_id_example'; // string | The custom file's ID.
 
 try {
-    $result = $apiInstance->getDataRequest($data_request_id);
+    $result = $apiInstance->getCustomFile($custom_file_id);
     print_r($result);
 } catch (Exception $e) {
-    echo 'Exception when calling Client->getDataRequest: ', $e->getMessage(), PHP_EOL;
+    echo 'Exception when calling Client->getCustomFile: ', $e->getMessage(), PHP_EOL;
 }
 ```
 
@@ -1359,11 +1234,11 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **data_request_id** | **string**|  | |
+| **custom_file_id** | **string**| The custom file's ID. | |
 
 ### Return type
 
-[**\DocSpring\Model\SubmissionDataRequestShow**](../Model/SubmissionDataRequestShow.md)
+[**\DocSpring\Model\CustomFile**](../Model/CustomFile.md)
 
 ### Authorization
 
@@ -1378,15 +1253,15 @@ try {
 [[Back to Model list]](../../README.md#models)
 [[Back to README]](../../README.md)
 
-## `getFullTemplate()`
+## `getFolder()`
 
 ```php
-getFullTemplate($template_id): \DocSpring\Model\Template
+getFolder($folder_id): \DocSpring\Model\Folder
 ```
 
-Fetch the full attributes for a PDF template
+Get a folder
 
-Retrieves complete template information including fields, defaults, settings, and HTML/SCSS content. Use this to get all template data needed for automated updates or analysis. Returns more detailed information than the basic `getTemplate` endpoint.
+Returns a folder.
 
 ### Example
 
@@ -1407,13 +1282,13 @@ $apiInstance = new DocSpring\Api\Client(
     new GuzzleHttp\Client(),
     $config
 );
-$template_id = tpl_1234567890abcdef01; // string
+$folder_id = 'folder_id_example'; // string | The folder's ID.
 
 try {
-    $result = $apiInstance->getFullTemplate($template_id);
+    $result = $apiInstance->getFolder($folder_id);
     print_r($result);
 } catch (Exception $e) {
-    echo 'Exception when calling Client->getFullTemplate: ', $e->getMessage(), PHP_EOL;
+    echo 'Exception when calling Client->getFolder: ', $e->getMessage(), PHP_EOL;
 }
 ```
 
@@ -1421,11 +1296,11 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **template_id** | **string**|  | |
+| **folder_id** | **string**| The folder's ID. | |
 
 ### Return type
 
-[**\DocSpring\Model\Template**](../Model/Template.md)
+[**\DocSpring\Model\Folder**](../Model/Folder.md)
 
 ### Authorization
 
@@ -1443,12 +1318,12 @@ try {
 ## `getPresignUrl()`
 
 ```php
-getPresignUrl(): \DocSpring\Model\UploadPresignResponse
+getPresignUrl(): \DocSpring\Model\UploadPresign
 ```
 
-Get a presigned S3 URL for direct file upload
+Get a presigned URL to upload a file
 
-Returns a presigned S3 URL for uploading files directly to our S3 bucket. Use this endpoint to upload large files before creating templates or custom files. S3 will respond with a JSON object that you can include in your DocSpring API request.  Uploaded files can be used to: - [Create templates](https://docspring.com/docs/api/#tag/templates/post/templates?endpoint_variant=create_template_from_cached_upload) - [Update templates](https://docspring.com/docs/api/#tag/templates/put/templates/{template_id}?endpoint_variant=update_template_pdf_with_cached_upload) - [Create custom files](https://docspring.com/docs/api/#tag/custom-files/post/custom_files) and then [merge them with other PDFs](https://docspring.com/docs/api/#tag/combine-pdfs/post/combined_submissions)
+Returns a presigned S3 form for uploading a file directly to DocSpring, for files too large to send in a request body. POST the `fields` and the file (as `file`) to `url` as multipart/form-data, then pass `fields.key` as the `cache_id` when you create a custom file.
 
 ### Example
 
@@ -1484,7 +1359,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**\DocSpring\Model\UploadPresignResponse**](../Model/UploadPresignResponse.md)
+[**\DocSpring\Model\UploadPresign**](../Model/UploadPresign.md)
 
 ### Authorization
 
@@ -1499,15 +1374,15 @@ This endpoint does not need any parameter.
 [[Back to Model list]](../../README.md#models)
 [[Back to README]](../../README.md)
 
-## `getSubmission()`
+## `getSignatureRequest()`
 
 ```php
-getSubmission($submission_id, $include_data): \DocSpring\Model\Submission
+getSignatureRequest($signature_request_id): \DocSpring\Model\SignatureRequest
 ```
 
-Check the status of a PDF
+Get a signature request
 
-Retrieves the details and status of a PDF submission. Returns processing state, download URL (if processed), metadata, submission data (optional), and information about any integrated actions. Use this to poll for completion when using asynchronous processing.  `insufficient_credits` means the submission is waiting for credits and is processed once you add them. If it's still waiting after 30 days, it moves to `error`.
+Returns a signature request, with the values the person has entered so far.
 
 ### Example
 
@@ -1528,11 +1403,72 @@ $apiInstance = new DocSpring\Api\Client(
     new GuzzleHttp\Client(),
     $config
 );
-$submission_id = sub_1234567890abcdef01; // string
-$include_data = true; // bool
+$signature_request_id = srq_1234567890abcdef01; // string | The signature request's ID.
 
 try {
-    $result = $apiInstance->getSubmission($submission_id, $include_data);
+    $result = $apiInstance->getSignatureRequest($signature_request_id);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling Client->getSignatureRequest: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **signature_request_id** | **string**| The signature request's ID. | |
+
+### Return type
+
+[**\DocSpring\Model\SignatureRequest**](../Model/SignatureRequest.md)
+
+### Authorization
+
+[api_token_basic](../../README.md#api_token_basic)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/json`
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
+## `getSubmission()`
+
+```php
+getSubmission($submission_id): \DocSpring\Model\Submission
+```
+
+Get a submission
+
+Returns a submission, with its data and links to download its PDF.
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+// Configure HTTP basic authorization: api_token_basic
+$config = DocSpring\Configuration::getDefaultConfiguration()
+              ->setUsername('YOUR_USERNAME')
+              ->setPassword('YOUR_PASSWORD');
+
+
+$apiInstance = new DocSpring\Api\Client(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$submission_id = sub_1234567890abcdef01; // string | The submission's ID.
+
+try {
+    $result = $apiInstance->getSubmission($submission_id);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling Client->getSubmission: ', $e->getMessage(), PHP_EOL;
@@ -1543,8 +1479,7 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **submission_id** | **string**|  | |
-| **include_data** | **bool**|  | [optional] |
+| **submission_id** | **string**| The submission's ID. | |
 
 ### Return type
 
@@ -1566,12 +1501,12 @@ try {
 ## `getSubmissionBatch()`
 
 ```php
-getSubmissionBatch($submission_batch_id, $include_submissions): \DocSpring\Model\SubmissionBatchWithSubmissions
+getSubmissionBatch($submission_batch_id, $include_data): \DocSpring\Model\SubmissionBatch
 ```
 
-Check the status of a submission batch job
+Get a batch
 
-Retrieves the status and results of a batch PDF generation job. Returns processing state, completion statistics, and optionally includes all individual submission details. Use this to poll for completion when using asynchronous batch processing.  Submissions waiting for credits are in the `insufficient_credits` state and count as pending, so the batch stays `pending` until you add credits or they stop waiting after 30 days.
+Returns a batch with its submissions. The batch has finished once `processed_at` is set: its `state` is `processed` when every PDF was generated, or `error` when any submission failed.
 
 ### Example
 
@@ -1592,11 +1527,11 @@ $apiInstance = new DocSpring\Api\Client(
     new GuzzleHttp\Client(),
     $config
 );
-$submission_batch_id = sbb_1234567890abcdef01; // string
-$include_submissions = true; // bool
+$submission_batch_id = sbb_1234567890abcdef05; // string | The batch's ID.
+$include_data = true; // bool | Include each submission's `data` (null without it).
 
 try {
-    $result = $apiInstance->getSubmissionBatch($submission_batch_id, $include_submissions);
+    $result = $apiInstance->getSubmissionBatch($submission_batch_id, $include_data);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling Client->getSubmissionBatch: ', $e->getMessage(), PHP_EOL;
@@ -1607,12 +1542,12 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **submission_batch_id** | **string**|  | |
-| **include_submissions** | **bool**|  | [optional] |
+| **submission_batch_id** | **string**| The batch's ID. | |
+| **include_data** | **bool**| Include each submission's `data` (null without it). | [optional] |
 
 ### Return type
 
-[**\DocSpring\Model\SubmissionBatchWithSubmissions**](../Model/SubmissionBatchWithSubmissions.md)
+[**\DocSpring\Model\SubmissionBatch**](../Model/SubmissionBatch.md)
 
 ### Authorization
 
@@ -1630,12 +1565,12 @@ try {
 ## `getTemplate()`
 
 ```php
-getTemplate($template_id): \DocSpring\Model\TemplatePreview
+getTemplate($template_id, $version): \DocSpring\Model\Template
 ```
 
-Check the status of an uploaded template
+Get a template
 
-Retrieves information about a template including processing status and document URL. Use this to check if template is ready to view in the template editor or generate PDFs.
+Returns a template: its draft, or one of its published versions.
 
 ### Example
 
@@ -1656,10 +1591,11 @@ $apiInstance = new DocSpring\Api\Client(
     new GuzzleHttp\Client(),
     $config
 );
-$template_id = tpl_1234567890abcdef01; // string
+$template_id = tpl_1234567890abcdef01; // string | The template's ID.
+$version = latest; // string | A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `draft`.
 
 try {
-    $result = $apiInstance->getTemplate($template_id);
+    $result = $apiInstance->getTemplate($template_id, $version);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling Client->getTemplate: ', $e->getMessage(), PHP_EOL;
@@ -1670,11 +1606,12 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **template_id** | **string**|  | |
+| **template_id** | **string**| The template's ID. | |
+| **version** | **string**| A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `draft`. | [optional] |
 
 ### Return type
 
-[**\DocSpring\Model\TemplatePreview**](../Model/TemplatePreview.md)
+[**\DocSpring\Model\Template**](../Model/Template.md)
 
 ### Authorization
 
@@ -1692,12 +1629,12 @@ try {
 ## `getTemplateModelCode()`
 
 ```php
-getTemplateModelCode($template_id, $lang): \DocSpring\Model\TemplateModelCodeResponse
+getTemplateModelCode($template_id, $lang, $version): \DocSpring\Model\TemplateModelCode
 ```
 
-Generate typed model code for a template
+Generate typed code for a template's submission data
 
-Generates typed model code for a template's submission data from its JSON schema, in TypeScript, JavaScript, Ruby, Python, PHP, Java, C#, Elixir or Go. Build your submission data with the generated types so your app catches mistakes before it calls the API.  `root_type_name` is the type that describes the whole submission data object, qualified with its namespace or package where there is one. Java returns every class in `code`, each under a `// ClassName.java` comment: split them into one file per class.  A template with no named fields returns 422, since there are no types to generate.  See also: - [Generate Model Code](https://docspring.com/docs/template-editor/generate-model-code/) - Use the generated types
+Generates types for a template's submission data in TypeScript, JavaScript, Ruby, Python, PHP, Java, C#, Elixir or Go, so your app catches mistakes before it calls the API. `root_type_name` is the type of the whole `data` object. Java returns every class in `code`, each under a `// ClassName.java` comment. A template with no named fields returns 422.
 
 ### Example
 
@@ -1718,11 +1655,12 @@ $apiInstance = new DocSpring\Api\Client(
     new GuzzleHttp\Client(),
     $config
 );
-$template_id = tpl_1234567890abcdef01; // string
-$lang = typescript; // string | The language to generate code for
+$template_id = tpl_1234567890abcdef01; // string | The template's ID.
+$lang = typescript; // \DocSpring\Model\ModelCodeLanguage | The language to generate the code in.
+$version = draft; // string | The template version: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `latest` (the draft when no version has been published), the version a submission uses by default.
 
 try {
-    $result = $apiInstance->getTemplateModelCode($template_id, $lang);
+    $result = $apiInstance->getTemplateModelCode($template_id, $lang, $version);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling Client->getTemplateModelCode: ', $e->getMessage(), PHP_EOL;
@@ -1733,12 +1671,13 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **template_id** | **string**|  | |
-| **lang** | **string**| The language to generate code for | |
+| **template_id** | **string**| The template's ID. | |
+| **lang** | [**\DocSpring\Model\ModelCodeLanguage**](../Model/.md)| The language to generate the code in. | |
+| **version** | **string**| The template version: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `latest` (the draft when no version has been published), the version a submission uses by default. | [optional] |
 
 ### Return type
 
-[**\DocSpring\Model\TemplateModelCodeResponse**](../Model/TemplateModelCodeResponse.md)
+[**\DocSpring\Model\TemplateModelCode**](../Model/TemplateModelCode.md)
 
 ### Authorization
 
@@ -1756,12 +1695,12 @@ try {
 ## `getTemplateSchema()`
 
 ```php
-getTemplateSchema($template_id): \DocSpring\Model\JsonSchema
+getTemplateSchema($template_id, $version): array<string,mixed>
 ```
 
-Fetch the JSON schema for a template
+Get the JSON Schema of a template's submission data
 
-Retrieves the JSON Schema definition for a template's fields. Use this to validate data before submitting it for PDF generation, or to build dynamic forms that match the template's field structure and validation requirements.  See also: - [Generate PDFs Guide](https://docspring.com/docs/api-guide/generate-pdfs/generate-pdfs-via-api/) - Use schema to validate submission data
+Returns the JSON Schema that a submission's `data` must match. Use it to check data before you create submissions, or to build a form for the template's fields.
 
 ### Example
 
@@ -1782,10 +1721,11 @@ $apiInstance = new DocSpring\Api\Client(
     new GuzzleHttp\Client(),
     $config
 );
-$template_id = tpl_1234567890abcdef01; // string
+$template_id = tpl_1234567890abcdef01; // string | The template's ID.
+$version = draft; // string | The template version: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `latest` (the draft when no version has been published), the version a submission uses by default.
 
 try {
-    $result = $apiInstance->getTemplateSchema($template_id);
+    $result = $apiInstance->getTemplateSchema($template_id, $version);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling Client->getTemplateSchema: ', $e->getMessage(), PHP_EOL;
@@ -1796,11 +1736,12 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **template_id** | **string**|  | |
+| **template_id** | **string**| The template's ID. | |
+| **version** | **string**| The template version: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `latest` (the draft when no version has been published), the version a submission uses by default. | [optional] |
 
 ### Return type
 
-[**\DocSpring\Model\JsonSchema**](../Model/JsonSchema.md)
+**array<string,mixed>**
 
 ### Authorization
 
@@ -1823,7 +1764,7 @@ getWebhook($webhook_id): \DocSpring\Model\Webhook
 
 Get a webhook
 
-Retrieves a single webhook by its ID.
+Returns a webhook.
 
 ### Example
 
@@ -1844,7 +1785,7 @@ $apiInstance = new DocSpring\Api\Client(
     new GuzzleHttp\Client(),
     $config
 );
-$webhook_id = whk_1234567890abcdef01; // string
+$webhook_id = 'webhook_id_example'; // string | The webhook's ID.
 
 try {
     $result = $apiInstance->getWebhook($webhook_id);
@@ -1858,7 +1799,7 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **webhook_id** | **string**|  | |
+| **webhook_id** | **string**| The webhook's ID. | |
 
 ### Return type
 
@@ -1877,15 +1818,15 @@ try {
 [[Back to Model list]](../../README.md#models)
 [[Back to README]](../../README.md)
 
-## `listCombinedSubmissions()`
+## `listCombinedPdfs()`
 
 ```php
-listCombinedSubmissions($page, $per_page): \DocSpring\Model\CombinedSubmission[]
+listCombinedPdfs($limit, $cursor): \DocSpring\Model\CombinedPdfList
 ```
 
-Get a list of all combined submissions
+List combined PDFs
 
-Returns a paginated list of combined submissions (merged PDFs) for your account. Includes processing status, expiration details, and download URLs for processed PDFs.
+Returns the combined PDFs in your account, newest first, one page at a time.
 
 ### Example
 
@@ -1906,14 +1847,14 @@ $apiInstance = new DocSpring\Api\Client(
     new GuzzleHttp\Client(),
     $config
 );
-$page = 3; // int | Default: 1
-$per_page = 1; // int | Default: 50
+$limit = 50; // int | How many items to return (1-100, default 50).
+$cursor = 'cursor_example'; // string | The previous page's `next_cursor`, to get the next page. It's the ID of that page's last item, so get the next page before you delete or change the items on this one.
 
 try {
-    $result = $apiInstance->listCombinedSubmissions($page, $per_page);
+    $result = $apiInstance->listCombinedPdfs($limit, $cursor);
     print_r($result);
 } catch (Exception $e) {
-    echo 'Exception when calling Client->listCombinedSubmissions: ', $e->getMessage(), PHP_EOL;
+    echo 'Exception when calling Client->listCombinedPdfs: ', $e->getMessage(), PHP_EOL;
 }
 ```
 
@@ -1921,12 +1862,76 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **page** | **int**| Default: 1 | [optional] |
-| **per_page** | **int**| Default: 50 | [optional] |
+| **limit** | **int**| How many items to return (1-100, default 50). | [optional] [default to 50] |
+| **cursor** | **string**| The previous page's `next_cursor`, to get the next page. It's the ID of that page's last item, so get the next page before you delete or change the items on this one. | [optional] |
 
 ### Return type
 
-[**\DocSpring\Model\CombinedSubmission[]**](../Model/CombinedSubmission.md)
+[**\DocSpring\Model\CombinedPdfList**](../Model/CombinedPdfList.md)
+
+### Authorization
+
+[api_token_basic](../../README.md#api_token_basic)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/json`
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
+## `listCustomFiles()`
+
+```php
+listCustomFiles($limit, $cursor): \DocSpring\Model\CustomFileList
+```
+
+List custom files
+
+Returns the custom files in your account, newest first, one page at a time.
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+// Configure HTTP basic authorization: api_token_basic
+$config = DocSpring\Configuration::getDefaultConfiguration()
+              ->setUsername('YOUR_USERNAME')
+              ->setPassword('YOUR_PASSWORD');
+
+
+$apiInstance = new DocSpring\Api\Client(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$limit = 50; // int | How many items to return (1-100, default 50).
+$cursor = 'cursor_example'; // string | The previous page's `next_cursor`, to get the next page. It's the ID of that page's last item, so get the next page before you delete or change the items on this one.
+
+try {
+    $result = $apiInstance->listCustomFiles($limit, $cursor);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling Client->listCustomFiles: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **limit** | **int**| How many items to return (1-100, default 50). | [optional] [default to 50] |
+| **cursor** | **string**| The previous page's `next_cursor`, to get the next page. It's the ID of that page's last item, so get the next page before you delete or change the items on this one. | [optional] |
+
+### Return type
+
+[**\DocSpring\Model\CustomFileList**](../Model/CustomFileList.md)
 
 ### Authorization
 
@@ -1944,12 +1949,12 @@ try {
 ## `listFolders()`
 
 ```php
-listFolders($parent_folder_id): \DocSpring\Model\Folder[]
+listFolders($parent_folder_id, $limit, $cursor): \DocSpring\Model\FolderList
 ```
 
-Get a list of all folders
+List folders
 
-Returns a list of folders in your account. Can be filtered by parent folder ID to retrieve subfolders. Folders help organize templates and maintain a hierarchical structure.
+Returns the folders in your account, newest first, one page at a time. Pass `parent_folder_id` to list the folders in one folder.
 
 ### Example
 
@@ -1970,10 +1975,12 @@ $apiInstance = new DocSpring\Api\Client(
     new GuzzleHttp\Client(),
     $config
 );
-$parent_folder_id = fld_1234567890abcdef02; // string | Filter By Folder Id
+$parent_folder_id = fld_1234567890abcdef02; // string | Only list the folders in this folder. Without it, the list has every folder, at any depth.
+$limit = 2; // int | How many items to return (1-100, default 50).
+$cursor = fld_1234567890abcdef02; // string | The previous page's `next_cursor`, to get the next page. It's the ID of that page's last item, so get the next page before you delete or change the items on this one.
 
 try {
-    $result = $apiInstance->listFolders($parent_folder_id);
+    $result = $apiInstance->listFolders($parent_folder_id, $limit, $cursor);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling Client->listFolders: ', $e->getMessage(), PHP_EOL;
@@ -1984,11 +1991,13 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **parent_folder_id** | **string**| Filter By Folder Id | [optional] |
+| **parent_folder_id** | **string**| Only list the folders in this folder. Without it, the list has every folder, at any depth. | [optional] |
+| **limit** | **int**| How many items to return (1-100, default 50). | [optional] [default to 50] |
+| **cursor** | **string**| The previous page's `next_cursor`, to get the next page. It's the ID of that page's last item, so get the next page before you delete or change the items on this one. | [optional] |
 
 ### Return type
 
-[**\DocSpring\Model\Folder[]**](../Model/Folder.md)
+[**\DocSpring\Model\FolderList**](../Model/FolderList.md)
 
 ### Authorization
 
@@ -2006,12 +2015,12 @@ try {
 ## `listSubmissions()`
 
 ```php
-listSubmissions($cursor, $limit, $created_after, $created_before, $type, $include_data): \DocSpring\Model\ListSubmissionsResponse
+listSubmissions($template_id, $test, $created_after, $created_before, $include_data, $limit, $cursor): \DocSpring\Model\SubmissionList
 ```
 
-List all submissions
+List submissions
 
-Returns a paginated list of all PDF submissions across all templates in your account. Can be filtered by date range and submission type (test/live). Supports cursor-based pagination and optionally includes submission data for each result.
+Returns the submissions in your account, newest first, one page at a time. Lists leave out each submission's `data` unless you pass `include_data=true`.
 
 ### Example
 
@@ -2032,15 +2041,16 @@ $apiInstance = new DocSpring\Api\Client(
     new GuzzleHttp\Client(),
     $config
 );
-$cursor = sub_1234567890abcdef12; // string
-$limit = 3; // int
-$created_after = 2019-01-01T09:00:00-05:00; // string
-$created_before = 2020-01-01T09:00:00.000+0200; // string
-$type = test; // string
-$include_data = true; // bool
+$template_id = tpl_1234567890abcdef01; // string | Only list this template's submissions.
+$test = false; // bool | Only list test submissions (true) or live submissions (false).
+$created_after = 2018-10-20T08:40:00Z; // \DateTime | Only list submissions created after this time (RFC 3339, such as `2025-01-31T09:00:00Z`).
+$created_before = 2018-10-20T09:00:00Z; // \DateTime | Only list submissions created before this time.
+$include_data = true; // bool | Include each submission's `data` (null without it).
+$limit = 50; // int | How many items to return (1-100, default 50).
+$cursor = 'cursor_example'; // string | The previous page's `next_cursor`, to get the next page. It's the ID of that page's last item, so get the next page before you delete or change the items on this one.
 
 try {
-    $result = $apiInstance->listSubmissions($cursor, $limit, $created_after, $created_before, $type, $include_data);
+    $result = $apiInstance->listSubmissions($template_id, $test, $created_after, $created_before, $include_data, $limit, $cursor);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling Client->listSubmissions: ', $e->getMessage(), PHP_EOL;
@@ -2051,16 +2061,17 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **cursor** | **string**|  | [optional] |
-| **limit** | **int**|  | [optional] |
-| **created_after** | **string**|  | [optional] |
-| **created_before** | **string**|  | [optional] |
-| **type** | **string**|  | [optional] |
-| **include_data** | **bool**|  | [optional] |
+| **template_id** | **string**| Only list this template's submissions. | [optional] |
+| **test** | **bool**| Only list test submissions (true) or live submissions (false). | [optional] |
+| **created_after** | **\DateTime**| Only list submissions created after this time (RFC 3339, such as `2025-01-31T09:00:00Z`). | [optional] |
+| **created_before** | **\DateTime**| Only list submissions created before this time. | [optional] |
+| **include_data** | **bool**| Include each submission's `data` (null without it). | [optional] |
+| **limit** | **int**| How many items to return (1-100, default 50). | [optional] [default to 50] |
+| **cursor** | **string**| The previous page's `next_cursor`, to get the next page. It's the ID of that page's last item, so get the next page before you delete or change the items on this one. | [optional] |
 
 ### Return type
 
-[**\DocSpring\Model\ListSubmissionsResponse**](../Model/ListSubmissionsResponse.md)
+[**\DocSpring\Model\SubmissionList**](../Model/SubmissionList.md)
 
 ### Authorization
 
@@ -2078,12 +2089,12 @@ try {
 ## `listTemplateSubmissions()`
 
 ```php
-listTemplateSubmissions($template_id, $cursor, $limit, $created_after, $created_before, $type, $include_data): \DocSpring\Model\ListSubmissionsResponse
+listTemplateSubmissions($template_id, $test, $created_after, $created_before, $include_data, $limit, $cursor): \DocSpring\Model\SubmissionList
 ```
 
-List all submissions for a given template
+List a template's submissions
 
-Returns a paginated list of all submissions for a specific template. Can be filtered by date range, submission type (test/live), and optionally include submission data. Supports cursor-based pagination for efficient retrieval of large result sets.
+Returns a template's submissions (from every version of the template), newest first.
 
 ### Example
 
@@ -2104,16 +2115,16 @@ $apiInstance = new DocSpring\Api\Client(
     new GuzzleHttp\Client(),
     $config
 );
-$template_id = tpl_1234567890abcdef02; // string
-$cursor = 'cursor_example'; // string
-$limit = 56; // int
-$created_after = 'created_after_example'; // string
-$created_before = 'created_before_example'; // string
-$type = 'type_example'; // string
-$include_data = true; // bool
+$template_id = tpl_1234567890abcdef01; // string | The template's ID.
+$test = True; // bool | Only list test submissions (true) or live submissions (false).
+$created_after = new \DateTime('2013-10-20T19:20:30+01:00'); // \DateTime | Only list submissions created after this time (RFC 3339, such as `2025-01-31T09:00:00Z`).
+$created_before = new \DateTime('2013-10-20T19:20:30+01:00'); // \DateTime | Only list submissions created before this time.
+$include_data = True; // bool | Include each submission's `data` (null without it).
+$limit = 50; // int | How many items to return (1-100, default 50).
+$cursor = 'cursor_example'; // string | The previous page's `next_cursor`, to get the next page. It's the ID of that page's last item, so get the next page before you delete or change the items on this one.
 
 try {
-    $result = $apiInstance->listTemplateSubmissions($template_id, $cursor, $limit, $created_after, $created_before, $type, $include_data);
+    $result = $apiInstance->listTemplateSubmissions($template_id, $test, $created_after, $created_before, $include_data, $limit, $cursor);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling Client->listTemplateSubmissions: ', $e->getMessage(), PHP_EOL;
@@ -2124,17 +2135,17 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **template_id** | **string**|  | |
-| **cursor** | **string**|  | [optional] |
-| **limit** | **int**|  | [optional] |
-| **created_after** | **string**|  | [optional] |
-| **created_before** | **string**|  | [optional] |
-| **type** | **string**|  | [optional] |
-| **include_data** | **bool**|  | [optional] |
+| **template_id** | **string**| The template's ID. | |
+| **test** | **bool**| Only list test submissions (true) or live submissions (false). | [optional] |
+| **created_after** | **\DateTime**| Only list submissions created after this time (RFC 3339, such as `2025-01-31T09:00:00Z`). | [optional] |
+| **created_before** | **\DateTime**| Only list submissions created before this time. | [optional] |
+| **include_data** | **bool**| Include each submission's `data` (null without it). | [optional] |
+| **limit** | **int**| How many items to return (1-100, default 50). | [optional] [default to 50] |
+| **cursor** | **string**| The previous page's `next_cursor`, to get the next page. It's the ID of that page's last item, so get the next page before you delete or change the items on this one. | [optional] |
 
 ### Return type
 
-[**\DocSpring\Model\ListSubmissionsResponse**](../Model/ListSubmissionsResponse.md)
+[**\DocSpring\Model\SubmissionList**](../Model/SubmissionList.md)
 
 ### Authorization
 
@@ -2152,12 +2163,12 @@ try {
 ## `listTemplates()`
 
 ```php
-listTemplates($query, $parent_folder_id, $page, $per_page): \DocSpring\Model\TemplatePreview[]
+listTemplates($query, $parent_folder_id, $limit, $cursor): \DocSpring\Model\TemplateSummaryList
 ```
 
-Get a list of all templates
+List templates
 
-Retrieves a list of your templates with search, filtering, and pagination options. Returns basic template information including ID, name, type (PDF or HTML), and folder location. Supports text search by name and filtering by parent folder.
+Returns the templates in your account (their drafts), newest first, one page at a time. Get a template by its ID for its HTML, defaults and published versions.
 
 ### Example
 
@@ -2178,13 +2189,13 @@ $apiInstance = new DocSpring\Api\Client(
     new GuzzleHttp\Client(),
     $config
 );
-$query = 2; // string | Search By Name
-$parent_folder_id = fld_1234567890abcdef01; // string | Filter By Folder Id
-$page = 2; // int | Default: 1
-$per_page = 1; // int | Default: 50
+$query = rental; // string | Only list templates whose name contains this text (ignoring case).
+$parent_folder_id = fld_1234567890abcdef01; // string | Only list the templates in this folder (not in its subfolders).
+$limit = 1; // int | How many items to return (1-100, default 50).
+$cursor = 'cursor_example'; // string | The previous page's `next_cursor`, to get the next page. It's the ID of that page's last item, so get the next page before you delete or change the items on this one.
 
 try {
-    $result = $apiInstance->listTemplates($query, $parent_folder_id, $page, $per_page);
+    $result = $apiInstance->listTemplates($query, $parent_folder_id, $limit, $cursor);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling Client->listTemplates: ', $e->getMessage(), PHP_EOL;
@@ -2195,14 +2206,14 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **query** | **string**| Search By Name | [optional] |
-| **parent_folder_id** | **string**| Filter By Folder Id | [optional] |
-| **page** | **int**| Default: 1 | [optional] |
-| **per_page** | **int**| Default: 50 | [optional] |
+| **query** | **string**| Only list templates whose name contains this text (ignoring case). | [optional] |
+| **parent_folder_id** | **string**| Only list the templates in this folder (not in its subfolders). | [optional] |
+| **limit** | **int**| How many items to return (1-100, default 50). | [optional] [default to 50] |
+| **cursor** | **string**| The previous page's `next_cursor`, to get the next page. It's the ID of that page's last item, so get the next page before you delete or change the items on this one. | [optional] |
 
 ### Return type
 
-[**\DocSpring\Model\TemplatePreview[]**](../Model/TemplatePreview.md)
+[**\DocSpring\Model\TemplateSummaryList**](../Model/TemplateSummaryList.md)
 
 ### Authorization
 
@@ -2220,12 +2231,12 @@ try {
 ## `listWebhooks()`
 
 ```php
-listWebhooks($page, $per_page, $event_type, $mode, $template_id, $folder_id, $api_token_id): \DocSpring\Model\Webhook[]
+listWebhooks($event_type, $mode, $template_id, $folder_id, $api_token_id, $limit, $cursor): \DocSpring\Model\WebhookList
 ```
 
-Get a list of all webhooks
+List webhooks
 
-Returns a list of the webhooks configured for your account. Supports pagination and filtering by event type, mode, and the API token, template, or folder a webhook is scoped to.
+Returns the webhooks in your account, newest first, one page at a time. Filter them by event type, mode, or the API token, template or folder they're scoped to.
 
 ### Example
 
@@ -2246,16 +2257,16 @@ $apiInstance = new DocSpring\Api\Client(
     new GuzzleHttp\Client(),
     $config
 );
-$page = 56; // int | Default: 1
-$per_page = 56; // int | Default: 50
-$event_type = submission.processed; // string | Filter by a subscribed event type
-$mode = live; // string | Filter by mode (test or live)
-$template_id = tpl_1234567890abcdef01; // string | Filter by a scoped template ID
-$folder_id = 'folder_id_example'; // string | Filter by a scoped folder ID
-$api_token_id = 'api_token_id_example'; // string | Filter by a scoped API token ID
+$event_type = submission.processed; // \DocSpring\Model\WebhookEventType | Only list webhooks that subscribe to this event.
+$mode = new \DocSpring\Model\\DocSpring\Model\WebhookMode(); // \DocSpring\Model\WebhookMode | Only list webhooks set to this mode.
+$template_id = tpl_1234567890abcdef01; // string | Only list webhooks scoped to this template.
+$folder_id = 'folder_id_example'; // string | Only list webhooks scoped to this folder.
+$api_token_id = 'api_token_id_example'; // string | Only list webhooks scoped to this API token.
+$limit = 50; // int | How many items to return (1-100, default 50).
+$cursor = 'cursor_example'; // string | The previous page's `next_cursor`, to get the next page. It's the ID of that page's last item, so get the next page before you delete or change the items on this one.
 
 try {
-    $result = $apiInstance->listWebhooks($page, $per_page, $event_type, $mode, $template_id, $folder_id, $api_token_id);
+    $result = $apiInstance->listWebhooks($event_type, $mode, $template_id, $folder_id, $api_token_id, $limit, $cursor);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling Client->listWebhooks: ', $e->getMessage(), PHP_EOL;
@@ -2266,17 +2277,17 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **page** | **int**| Default: 1 | [optional] |
-| **per_page** | **int**| Default: 50 | [optional] |
-| **event_type** | **string**| Filter by a subscribed event type | [optional] |
-| **mode** | **string**| Filter by mode (test or live) | [optional] |
-| **template_id** | **string**| Filter by a scoped template ID | [optional] |
-| **folder_id** | **string**| Filter by a scoped folder ID | [optional] |
-| **api_token_id** | **string**| Filter by a scoped API token ID | [optional] |
+| **event_type** | [**\DocSpring\Model\WebhookEventType**](../Model/.md)| Only list webhooks that subscribe to this event. | [optional] |
+| **mode** | [**\DocSpring\Model\WebhookMode**](../Model/.md)| Only list webhooks set to this mode. | [optional] |
+| **template_id** | **string**| Only list webhooks scoped to this template. | [optional] |
+| **folder_id** | **string**| Only list webhooks scoped to this folder. | [optional] |
+| **api_token_id** | **string**| Only list webhooks scoped to this API token. | [optional] |
+| **limit** | **int**| How many items to return (1-100, default 50). | [optional] [default to 50] |
+| **cursor** | **string**| The previous page's `next_cursor`, to get the next page. It's the ID of that page's last item, so get the next page before you delete or change the items on this one. | [optional] |
 
 ### Return type
 
-[**\DocSpring\Model\Webhook[]**](../Model/Webhook.md)
+[**\DocSpring\Model\WebhookList**](../Model/WebhookList.md)
 
 ### Authorization
 
@@ -2291,15 +2302,15 @@ try {
 [[Back to Model list]](../../README.md#models)
 [[Back to README]](../../README.md)
 
-## `moveFolderToFolder()`
+## `moveFolder()`
 
 ```php
-moveFolderToFolder($folder_id, $data): \DocSpring\Model\Folder
+moveFolder($folder_id, $body): \DocSpring\Model\Folder
 ```
 
 Move a folder
 
-Moves a folder to a new parent folder or to the root level. All templates and subfolders within the folder are moved together. Cannot move a folder into one of its own subfolders.
+Moves a folder into another folder, or to the root with `parent_folder_id: null`. Its templates and folders move with it. A folder can't move into itself or one of its own folders.
 
 ### Example
 
@@ -2320,14 +2331,14 @@ $apiInstance = new DocSpring\Api\Client(
     new GuzzleHttp\Client(),
     $config
 );
-$folder_id = fld_1234567890abcdef01; // string
-$data = new \DocSpring\Model\MoveFolderData(); // \DocSpring\Model\MoveFolderData
+$folder_id = 'folder_id_example'; // string | The folder's ID.
+$body = {"parent_folder_id":"fld_1234567890abcdef02"}; // \DocSpring\Model\MoveFolderRequest | Where to move the folder.
 
 try {
-    $result = $apiInstance->moveFolderToFolder($folder_id, $data);
+    $result = $apiInstance->moveFolder($folder_id, $body);
     print_r($result);
 } catch (Exception $e) {
-    echo 'Exception when calling Client->moveFolderToFolder: ', $e->getMessage(), PHP_EOL;
+    echo 'Exception when calling Client->moveFolder: ', $e->getMessage(), PHP_EOL;
 }
 ```
 
@@ -2335,8 +2346,8 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **folder_id** | **string**|  | |
-| **data** | [**\DocSpring\Model\MoveFolderData**](../Model/MoveFolderData.md)|  | |
+| **folder_id** | **string**| The folder's ID. | |
+| **body** | [**\DocSpring\Model\MoveFolderRequest**](../Model/MoveFolderRequest.md)| Where to move the folder. | |
 
 ### Return type
 
@@ -2355,15 +2366,15 @@ try {
 [[Back to Model list]](../../README.md#models)
 [[Back to README]](../../README.md)
 
-## `moveTemplateToFolder()`
+## `moveTemplate()`
 
 ```php
-moveTemplateToFolder($template_id, $data): \DocSpring\Model\TemplatePreview
+moveTemplate($template_id, $body): \DocSpring\Model\Template
 ```
 
-Move Template to folder
+Move a template to a folder
 
-Moves a template to a different folder or to the root level. Use this to organize templates within your folders. Provide a folder ID to move to a specific folder, or `null` to move to the root level.
+Moves a template and all of its published versions to a folder, or to the root (`null`).
 
 ### Example
 
@@ -2384,14 +2395,14 @@ $apiInstance = new DocSpring\Api\Client(
     new GuzzleHttp\Client(),
     $config
 );
-$template_id = tpl_1234567890abcdef01; // string
-$data = new \DocSpring\Model\MoveTemplateData(); // \DocSpring\Model\MoveTemplateData
+$template_id = tpl_1234567890abcdef01; // string | The template's ID.
+$body = {"parent_folder_id":null}; // \DocSpring\Model\MoveTemplateRequest | Where to move the template.
 
 try {
-    $result = $apiInstance->moveTemplateToFolder($template_id, $data);
+    $result = $apiInstance->moveTemplate($template_id, $body);
     print_r($result);
 } catch (Exception $e) {
-    echo 'Exception when calling Client->moveTemplateToFolder: ', $e->getMessage(), PHP_EOL;
+    echo 'Exception when calling Client->moveTemplate: ', $e->getMessage(), PHP_EOL;
 }
 ```
 
@@ -2399,12 +2410,12 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **template_id** | **string**|  | |
-| **data** | [**\DocSpring\Model\MoveTemplateData**](../Model/MoveTemplateData.md)|  | |
+| **template_id** | **string**| The template's ID. | |
+| **body** | [**\DocSpring\Model\MoveTemplateRequest**](../Model/MoveTemplateRequest.md)| Where to move the template. | |
 
 ### Return type
 
-[**\DocSpring\Model\TemplatePreview**](../Model/TemplatePreview.md)
+[**\DocSpring\Model\Template**](../Model/Template.md)
 
 ### Authorization
 
@@ -2422,12 +2433,12 @@ try {
 ## `publishTemplateVersion()`
 
 ```php
-publishTemplateVersion($template_id, $data): \DocSpring\Model\TemplatePublishVersionResponse
+publishTemplateVersion($template_id, $body): \DocSpring\Model\TemplateVersion
 ```
 
 Publish a template version
 
-Publishes the current draft version of a template and creates a new immutable version with semantic versioning (major.minor.patch).
+Publishes the template's draft as a new version that doesn't change. `version_type` says which part of the latest version number goes up.
 
 ### Example
 
@@ -2448,11 +2459,11 @@ $apiInstance = new DocSpring\Api\Client(
     new GuzzleHttp\Client(),
     $config
 );
-$template_id = tpl_1234567890abcdef01; // string
-$data = new \DocSpring\Model\PublishVersionData(); // \DocSpring\Model\PublishVersionData
+$template_id = tpl_1234567890abcdef01; // string | The template's ID.
+$body = {"version_type":"minor","description":"Added the signature fields"}; // \DocSpring\Model\PublishTemplateVersionRequest | The version to publish.
 
 try {
-    $result = $apiInstance->publishTemplateVersion($template_id, $data);
+    $result = $apiInstance->publishTemplateVersion($template_id, $body);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling Client->publishTemplateVersion: ', $e->getMessage(), PHP_EOL;
@@ -2463,12 +2474,12 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **template_id** | **string**|  | |
-| **data** | [**\DocSpring\Model\PublishVersionData**](../Model/PublishVersionData.md)|  | |
+| **template_id** | **string**| The template's ID. | |
+| **body** | [**\DocSpring\Model\PublishTemplateVersionRequest**](../Model/PublishTemplateVersionRequest.md)| The version to publish. | |
 
 ### Return type
 
-[**\DocSpring\Model\TemplatePublishVersionResponse**](../Model/TemplatePublishVersionResponse.md)
+[**\DocSpring\Model\TemplateVersion**](../Model/TemplateVersion.md)
 
 ### Authorization
 
@@ -2486,12 +2497,12 @@ try {
 ## `renameFolder()`
 
 ```php
-renameFolder($folder_id, $data): \DocSpring\Model\Folder
+renameFolder($folder_id, $body): \DocSpring\Model\Folder
 ```
 
 Rename a folder
 
-Renames an existing folder. The new name must be unique within the same parent folder. This operation only changes the folder name, not its location or contents.
+Renames a folder. The name must be unique within its parent folder.
 
 ### Example
 
@@ -2512,11 +2523,11 @@ $apiInstance = new DocSpring\Api\Client(
     new GuzzleHttp\Client(),
     $config
 );
-$folder_id = fld_1234567890abcdef01; // string
-$data = new \DocSpring\Model\RenameFolderData(); // \DocSpring\Model\RenameFolderData
+$folder_id = 'folder_id_example'; // string | The folder's ID.
+$body = {"name":"Folder 3"}; // \DocSpring\Model\RenameFolderRequest | The folder's new name.
 
 try {
-    $result = $apiInstance->renameFolder($folder_id, $data);
+    $result = $apiInstance->renameFolder($folder_id, $body);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling Client->renameFolder: ', $e->getMessage(), PHP_EOL;
@@ -2527,8 +2538,8 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **folder_id** | **string**|  | |
-| **data** | [**\DocSpring\Model\RenameFolderData**](../Model/RenameFolderData.md)|  | |
+| **folder_id** | **string**| The folder's ID. | |
+| **body** | [**\DocSpring\Model\RenameFolderRequest**](../Model/RenameFolderRequest.md)| The folder's new name. | |
 
 ### Return type
 
@@ -2550,12 +2561,12 @@ try {
 ## `restoreTemplateVersion()`
 
 ```php
-restoreTemplateVersion($template_id, $data): \DocSpring\Model\SuccessErrorResponse
+restoreTemplateVersion($template_id, $body): \DocSpring\Model\Template
 ```
 
 Restore a template version
 
-Restores your template to a previously published version, copying that version's content and configuration to the current draft. Use this to revert changes or recover from an unwanted modification.
+Replaces the template's draft with a copy of one of its published versions.
 
 ### Example
 
@@ -2576,11 +2587,11 @@ $apiInstance = new DocSpring\Api\Client(
     new GuzzleHttp\Client(),
     $config
 );
-$template_id = tpl_1234567890abcdef01; // string
-$data = new \DocSpring\Model\RestoreVersionData(); // \DocSpring\Model\RestoreVersionData
+$template_id = tpl_1234567890abcdef01; // string | The template's ID.
+$body = {"version":"0.1.0"}; // \DocSpring\Model\RestoreTemplateVersionRequest | The version to restore.
 
 try {
-    $result = $apiInstance->restoreTemplateVersion($template_id, $data);
+    $result = $apiInstance->restoreTemplateVersion($template_id, $body);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling Client->restoreTemplateVersion: ', $e->getMessage(), PHP_EOL;
@@ -2591,12 +2602,12 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **template_id** | **string**|  | |
-| **data** | [**\DocSpring\Model\RestoreVersionData**](../Model/RestoreVersionData.md)|  | |
+| **template_id** | **string**| The template's ID. | |
+| **body** | [**\DocSpring\Model\RestoreTemplateVersionRequest**](../Model/RestoreTemplateVersionRequest.md)| The version to restore. | |
 
 ### Return type
 
-[**\DocSpring\Model\SuccessErrorResponse**](../Model/SuccessErrorResponse.md)
+[**\DocSpring\Model\Template**](../Model/Template.md)
 
 ### Authorization
 
@@ -2614,12 +2625,12 @@ try {
 ## `testAuthentication()`
 
 ```php
-testAuthentication(): \DocSpring\Model\SuccessErrorResponse
+testAuthentication(): \DocSpring\Model\AuthenticationCheck
 ```
 
 Test authentication
 
-Checks whether your API token is valid by making an authenticated request. Returns a success response if authentication passes. This endpoint is useful for verifying credentials during setup or troubleshooting issues.
+Checks whether your API token is valid by making an authenticated request. This endpoint is useful for verifying credentials during setup or troubleshooting issues.
 
 ### Example
 
@@ -2655,7 +2666,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**\DocSpring\Model\SuccessErrorResponse**](../Model/SuccessErrorResponse.md)
+[**\DocSpring\Model\AuthenticationCheck**](../Model/AuthenticationCheck.md)
 
 ### Authorization
 
@@ -2670,15 +2681,15 @@ This endpoint does not need any parameter.
 [[Back to Model list]](../../README.md#models)
 [[Back to README]](../../README.md)
 
-## `updateDataRequest()`
+## `updateSignatureRequest()`
 
 ```php
-updateDataRequest($data_request_id, $data): \DocSpring\Model\CreateSubmissionDataRequestResponse
+updateSignatureRequest($signature_request_id, $body): \DocSpring\Model\SignatureRequest
 ```
 
-Update a submission data request
+Update a signature request
 
-Updates authentication details for a data request. Use this when a user logs in to record their authentication method, provider, session information, and hashed identifiers. Updates metadata and tracks authentication state changes for auditing and compliance.
+Changes a pending signature request's metadata, or how your app authenticated the person (for the audit trail). Once the person has opened it, only its metadata can be changed, and a completed or declined signature request can't be changed.
 
 ### Example
 
@@ -2699,14 +2710,14 @@ $apiInstance = new DocSpring\Api\Client(
     new GuzzleHttp\Client(),
     $config
 );
-$data_request_id = drq_1234567890abcdef01; // string
-$data = new \DocSpring\Model\UpdateSubmissionDataRequestData(); // \DocSpring\Model\UpdateSubmissionDataRequestData
+$signature_request_id = srq_1234567890abcdef01; // string | The signature request's ID.
+$body = {"metadata":{"user_id":43},"auth_type":"oauth","auth_provider":"google","auth_session_started_at":"2018-10-20T08:00:00Z","auth_user_id_hash":"8ae0e445664ca53407906db8638d8ba07a2383f656383a4427bed1ab645ca29a"}; // \DocSpring\Model\UpdateSignatureRequestRequest | The settings to change. Properties left out keep their values.
 
 try {
-    $result = $apiInstance->updateDataRequest($data_request_id, $data);
+    $result = $apiInstance->updateSignatureRequest($signature_request_id, $body);
     print_r($result);
 } catch (Exception $e) {
-    echo 'Exception when calling Client->updateDataRequest: ', $e->getMessage(), PHP_EOL;
+    echo 'Exception when calling Client->updateSignatureRequest: ', $e->getMessage(), PHP_EOL;
 }
 ```
 
@@ -2714,12 +2725,12 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **data_request_id** | **string**|  | |
-| **data** | [**\DocSpring\Model\UpdateSubmissionDataRequestData**](../Model/UpdateSubmissionDataRequestData.md)|  | |
+| **signature_request_id** | **string**| The signature request's ID. | |
+| **body** | [**\DocSpring\Model\UpdateSignatureRequestRequest**](../Model/UpdateSignatureRequestRequest.md)| The settings to change. Properties left out keep their values. | |
 
 ### Return type
 
-[**\DocSpring\Model\CreateSubmissionDataRequestResponse**](../Model/CreateSubmissionDataRequestResponse.md)
+[**\DocSpring\Model\SignatureRequest**](../Model/SignatureRequest.md)
 
 ### Authorization
 
@@ -2737,12 +2748,12 @@ try {
 ## `updateTemplate()`
 
 ```php
-updateTemplate($template_id, $data): \DocSpring\Model\SuccessMultipleErrorsResponse
+updateTemplate($template_id, $body): \DocSpring\Model\Template
 ```
 
-Update a Template
+Update a template
 
-Updates template content and properties. For HTML templates, you can modify the HTML, SCSS, headers, footers, name, and description. Changes are applied to your draft template and do not affect published template versions. The exception is `parent_folder_id`: moving the template to another folder moves its published versions too.
+Changes a template's draft. Properties left out keep their values. `defaults` and `html_engine_options` replace the whole object. Setting `parent_folder_id` moves the template and all of its published versions.
 
 ### Example
 
@@ -2763,11 +2774,11 @@ $apiInstance = new DocSpring\Api\Client(
     new GuzzleHttp\Client(),
     $config
 );
-$template_id = tpl_1234567890abcdef03; // string
-$data = new \DocSpring\Model\UpdateHtmlTemplate(); // \DocSpring\Model\UpdateHtmlTemplate
+$template_id = tpl_1234567890abcdef01; // string | The template's ID.
+$body = {"name":"Rental Contract 2025","parent_folder_id":null,"slack_webhook_url":"https://hooks.slack.com/services/T000/B000/XXXX","encrypt_pdfs_password":null,"default_form_mode":"dual","ai_field_naming_language":"form_language","defaults":{"typeface":"Helvetica","font_size":10,"bold":true}}; // \DocSpring\Model\UpdateTemplateRequest | The settings to change. Properties left out keep their values.
 
 try {
-    $result = $apiInstance->updateTemplate($template_id, $data);
+    $result = $apiInstance->updateTemplate($template_id, $body);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling Client->updateTemplate: ', $e->getMessage(), PHP_EOL;
@@ -2778,12 +2789,12 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **template_id** | **string**|  | |
-| **data** | [**\DocSpring\Model\UpdateHtmlTemplate**](../Model/UpdateHtmlTemplate.md)|  | |
+| **template_id** | **string**| The template's ID. | |
+| **body** | [**\DocSpring\Model\UpdateTemplateRequest**](../Model/UpdateTemplateRequest.md)| The settings to change. Properties left out keep their values. | |
 
 ### Return type
 
-[**\DocSpring\Model\SuccessMultipleErrorsResponse**](../Model/SuccessMultipleErrorsResponse.md)
+[**\DocSpring\Model\Template**](../Model/Template.md)
 
 ### Authorization
 
@@ -2801,12 +2812,12 @@ try {
 ## `updateTemplateDocument()`
 
 ```php
-updateTemplateDocument($template_id, $template_document, $template_name): \DocSpring\Model\SuccessMultipleErrorsResponse
+updateTemplateDocument($template_id, $body, $wait): \DocSpring\Model\Template
 ```
 
-Update a template's document with a form POST file upload
+Replace a template's PDF
 
-Upload a new PDF file to update a PDF template's document. This replaces the template's PDF while preserving all of the existing fields. If you upload a PDF with fewer pages than the current document, any fields on the removed pages will be deleted.
+Replaces a PDF template's PDF with one you uploaded with the presigned upload (GET /uploads/presign). The fields stay where they are, unless `reimport_fields` replaces them with the new PDF's fillable fields. To send the PDF with the request instead, use PUT /templates/{template_id}/document/upload.
 
 ### Example
 
@@ -2827,12 +2838,12 @@ $apiInstance = new DocSpring\Api\Client(
     new GuzzleHttp\Client(),
     $config
 );
-$template_id = tpl_1234567890abcdef01; // string
-$template_document = '/path/to/file.txt'; // \SplFileObject
-$template_name = 'template_name_example'; // string
+$template_id = tpl_1234567890abcdef01; // string | The template's ID.
+$body = {"cache_id":"cache/original-0000000000","filename":"fw8ben.pdf","reimport_fields":true}; // \DocSpring\Model\UpdateTemplateDocumentRequest | The new PDF.
+$wait = True; // bool | Wait until the PDF has been processed before responding. Default true on sync.api hosts.
 
 try {
-    $result = $apiInstance->updateTemplateDocument($template_id, $template_document, $template_name);
+    $result = $apiInstance->updateTemplateDocument($template_id, $body, $wait);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling Client->updateTemplateDocument: ', $e->getMessage(), PHP_EOL;
@@ -2843,77 +2854,13 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **template_id** | **string**|  | |
-| **template_document** | **\SplFileObject****\SplFileObject**|  | |
-| **template_name** | **string**|  | [optional] |
+| **template_id** | **string**| The template's ID. | |
+| **body** | [**\DocSpring\Model\UpdateTemplateDocumentRequest**](../Model/UpdateTemplateDocumentRequest.md)| The new PDF. | |
+| **wait** | **bool**| Wait until the PDF has been processed before responding. Default true on sync.api hosts. | [optional] |
 
 ### Return type
 
-[**\DocSpring\Model\SuccessMultipleErrorsResponse**](../Model/SuccessMultipleErrorsResponse.md)
-
-### Authorization
-
-[api_token_basic](../../README.md#api_token_basic)
-
-### HTTP request headers
-
-- **Content-Type**: `multipart/form-data`
-- **Accept**: `application/json`
-
-[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
-[[Back to Model list]](../../README.md#models)
-[[Back to README]](../../README.md)
-
-## `updateTemplateDocumentFromUpload()`
-
-```php
-updateTemplateDocumentFromUpload($template_id, $data): \DocSpring\Model\SuccessMultipleErrorsResponse
-```
-
-Update a template's document with a cached S3 file upload
-
-Updates a PDF template's document using a cached file upload. This is a three-step process: First, request a presigned URL to upload your PDF file to our S3 bucket. Then, use that URL to upload your PDF file. Finally, submit the ID of the uploaded file to replace the template's document.
-
-### Example
-
-```php
-<?php
-require_once(__DIR__ . '/vendor/autoload.php');
-
-
-// Configure HTTP basic authorization: api_token_basic
-$config = DocSpring\Configuration::getDefaultConfiguration()
-              ->setUsername('YOUR_USERNAME')
-              ->setPassword('YOUR_PASSWORD');
-
-
-$apiInstance = new DocSpring\Api\Client(
-    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
-    // This is optional, `GuzzleHttp\Client` will be used as default.
-    new GuzzleHttp\Client(),
-    $config
-);
-$template_id = tpl_1234567890abcdef01; // string
-$data = new \DocSpring\Model\UpdatePdfTemplate(); // \DocSpring\Model\UpdatePdfTemplate
-
-try {
-    $result = $apiInstance->updateTemplateDocumentFromUpload($template_id, $data);
-    print_r($result);
-} catch (Exception $e) {
-    echo 'Exception when calling Client->updateTemplateDocumentFromUpload: ', $e->getMessage(), PHP_EOL;
-}
-```
-
-### Parameters
-
-| Name | Type | Description  | Notes |
-| ------------- | ------------- | ------------- | ------------- |
-| **template_id** | **string**|  | |
-| **data** | [**\DocSpring\Model\UpdatePdfTemplate**](../Model/UpdatePdfTemplate.md)|  | |
-
-### Return type
-
-[**\DocSpring\Model\SuccessMultipleErrorsResponse**](../Model/SuccessMultipleErrorsResponse.md)
+[**\DocSpring\Model\Template**](../Model/Template.md)
 
 ### Authorization
 
@@ -2931,12 +2878,12 @@ try {
 ## `updateWebhook()`
 
 ```php
-updateWebhook($webhook_id, $data): \DocSpring\Model\Webhook
+updateWebhook($webhook_id, $body): \DocSpring\Model\Webhook
 ```
 
 Update a webhook
 
-Updates the configuration of an existing webhook.
+Updates a webhook. Only the properties you send change.
 
 ### Example
 
@@ -2957,11 +2904,11 @@ $apiInstance = new DocSpring\Api\Client(
     new GuzzleHttp\Client(),
     $config
 );
-$webhook_id = whk_1234567890abcdef01; // string
-$data = new \DocSpring\Model\UpdateWebhookData(); // \DocSpring\Model\UpdateWebhookData
+$webhook_id = 'webhook_id_example'; // string | The webhook's ID.
+$body = {"name":"Updated Webhook","enabled":false}; // \DocSpring\Model\UpdateWebhookRequest | The settings to change. Properties left out keep their values.
 
 try {
-    $result = $apiInstance->updateWebhook($webhook_id, $data);
+    $result = $apiInstance->updateWebhook($webhook_id, $body);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling Client->updateWebhook: ', $e->getMessage(), PHP_EOL;
@@ -2972,8 +2919,8 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **webhook_id** | **string**|  | |
-| **data** | [**\DocSpring\Model\UpdateWebhookData**](../Model/UpdateWebhookData.md)|  | |
+| **webhook_id** | **string**| The webhook's ID. | |
+| **body** | [**\DocSpring\Model\UpdateWebhookRequest**](../Model/UpdateWebhookRequest.md)| The settings to change. Properties left out keep their values. | |
 
 ### Return type
 
@@ -2986,6 +2933,154 @@ try {
 ### HTTP request headers
 
 - **Content-Type**: `application/json`
+- **Accept**: `application/json`
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
+## `uploadTemplate()`
+
+```php
+uploadTemplate($document, $wait, $name, $description, $parent_folder_id, $ai_field_naming_language, $detect_fields, $field_source, $field_naming, $field_logic): \DocSpring\Model\Template
+```
+
+Create a PDF template from an uploaded PDF
+
+Creates a PDF template from a PDF sent with the request (`multipart/form-data`). For large files, upload the PDF with the presigned upload (GET /uploads/presign) and create the template with POST /templates.
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+// Configure HTTP basic authorization: api_token_basic
+$config = DocSpring\Configuration::getDefaultConfiguration()
+              ->setUsername('YOUR_USERNAME')
+              ->setPassword('YOUR_PASSWORD');
+
+
+$apiInstance = new DocSpring\Api\Client(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$document = '/path/to/file.txt'; // \SplFileObject | The PDF.
+$wait = True; // bool | Wait until the PDF has been processed before responding. Default true on sync.api hosts.
+$name = 'name_example'; // string | The template's name.
+$description = 'description_example'; // string | The template's description.
+$parent_folder_id = 'parent_folder_id_example'; // string | The folder to put the template in. Left out, it's created at the root.
+$ai_field_naming_language = new \DocSpring\Model\AiFieldNamingLanguage(); // \DocSpring\Model\AiFieldNamingLanguage | The language AI field setup names fields in: `auto` uses the form's language when it's written in the Latin alphabet without accents, and English otherwise; `english` always uses English; `form_language` uses the form's language and script. Default: your account's template settings.
+$detect_fields = True; // bool | Set up the PDF's fields as DocSpring's "Automatically detect fields" upload option does: import or detect the fields, name them with AI, and set up conditional logic. `field_source`, `field_naming` and `field_logic` choose how. Default false. `document.page_processing_statuses` and `document.field_logic_status` show how it's going, and `document.state` becomes `processed` once every page's fields are set up.
+$field_source = new \DocSpring\Model\FieldSetupSource(); // \DocSpring\Model\FieldSetupSource | With `detect_fields`, where the fields come from. `auto` (the default) imports the form fields of a fillable PDF and detects the fields of a PDF without them; `pdf_detection` detects the fields from the page layout, even on a fillable PDF; `pdf_form_fields` only imports the PDF's form fields.
+$field_naming = new \DocSpring\Model\FieldSetupNaming(); // \DocSpring\Model\FieldSetupNaming | With `detect_fields`, how the fields are named. `ai` (the default) names them and sets their types and settings with AI; `preserve` keeps the names of the PDF's form fields, and AI only names the fields it detected. `preserve` needs `field_source` `auto` or `pdf_form_fields`.
+$field_logic = new \DocSpring\Model\FieldSetupLogic(); // \DocSpring\Model\FieldSetupLogic | With `detect_fields`, whether AI reads the whole form once the fields are named and sets up conditional logic and required fields (`ai`) or not (`none`). Default: your account's template settings.
+
+try {
+    $result = $apiInstance->uploadTemplate($document, $wait, $name, $description, $parent_folder_id, $ai_field_naming_language, $detect_fields, $field_source, $field_naming, $field_logic);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling Client->uploadTemplate: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **document** | **\SplFileObject****\SplFileObject**| The PDF. | |
+| **wait** | **bool**| Wait until the PDF has been processed before responding. Default true on sync.api hosts. | [optional] |
+| **name** | **string**| The template's name. | [optional] |
+| **description** | **string**| The template's description. | [optional] |
+| **parent_folder_id** | **string**| The folder to put the template in. Left out, it's created at the root. | [optional] |
+| **ai_field_naming_language** | [**\DocSpring\Model\AiFieldNamingLanguage**](../Model/AiFieldNamingLanguage.md)| The language AI field setup names fields in: `auto` uses the form's language when it's written in the Latin alphabet without accents, and English otherwise; `english` always uses English; `form_language` uses the form's language and script. Default: your account's template settings. | [optional] |
+| **detect_fields** | **bool**| Set up the PDF's fields as DocSpring's "Automatically detect fields" upload option does: import or detect the fields, name them with AI, and set up conditional logic. `field_source`, `field_naming` and `field_logic` choose how. Default false. `document.page_processing_statuses` and `document.field_logic_status` show how it's going, and `document.state` becomes `processed` once every page's fields are set up. | [optional] |
+| **field_source** | [**\DocSpring\Model\FieldSetupSource**](../Model/FieldSetupSource.md)| With `detect_fields`, where the fields come from. `auto` (the default) imports the form fields of a fillable PDF and detects the fields of a PDF without them; `pdf_detection` detects the fields from the page layout, even on a fillable PDF; `pdf_form_fields` only imports the PDF's form fields. | [optional] |
+| **field_naming** | [**\DocSpring\Model\FieldSetupNaming**](../Model/FieldSetupNaming.md)| With `detect_fields`, how the fields are named. `ai` (the default) names them and sets their types and settings with AI; `preserve` keeps the names of the PDF's form fields, and AI only names the fields it detected. `preserve` needs `field_source` `auto` or `pdf_form_fields`. | [optional] |
+| **field_logic** | [**\DocSpring\Model\FieldSetupLogic**](../Model/FieldSetupLogic.md)| With `detect_fields`, whether AI reads the whole form once the fields are named and sets up conditional logic and required fields (`ai`) or not (`none`). Default: your account's template settings. | [optional] |
+
+### Return type
+
+[**\DocSpring\Model\Template**](../Model/Template.md)
+
+### Authorization
+
+[api_token_basic](../../README.md#api_token_basic)
+
+### HTTP request headers
+
+- **Content-Type**: `multipart/form-data`
+- **Accept**: `application/json`
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
+## `uploadTemplateDocument()`
+
+```php
+uploadTemplateDocument($template_id, $document, $wait, $reimport_fields): \DocSpring\Model\Template
+```
+
+Replace a template's PDF with an uploaded PDF
+
+Replaces a PDF template's PDF with one sent with the request (`multipart/form-data`). The fields stay where they are, unless `reimport_fields` replaces them with the new PDF's fillable fields.
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+// Configure HTTP basic authorization: api_token_basic
+$config = DocSpring\Configuration::getDefaultConfiguration()
+              ->setUsername('YOUR_USERNAME')
+              ->setPassword('YOUR_PASSWORD');
+
+
+$apiInstance = new DocSpring\Api\Client(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$template_id = tpl_1234567890abcdef01; // string | The template's ID.
+$document = '/path/to/file.txt'; // \SplFileObject | The new PDF.
+$wait = True; // bool | Wait until the PDF has been processed before responding. Default true on sync.api hosts.
+$reimport_fields = True; // bool | Replace all of the template's fields with the fillable fields in the new PDF, once DocSpring has processed it (`document.field_reimport_state`). As on a first upload, the default typeface, font size, bold and color are taken from the PDF's fields; the template's other settings are kept. If the PDF has no fillable fields, the template keeps its fields. A locked template can't re-import its fields.
+
+try {
+    $result = $apiInstance->uploadTemplateDocument($template_id, $document, $wait, $reimport_fields);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling Client->uploadTemplateDocument: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **template_id** | **string**| The template's ID. | |
+| **document** | **\SplFileObject****\SplFileObject**| The new PDF. | |
+| **wait** | **bool**| Wait until the PDF has been processed before responding. Default true on sync.api hosts. | [optional] |
+| **reimport_fields** | **bool**| Replace all of the template's fields with the fillable fields in the new PDF, once DocSpring has processed it (`document.field_reimport_state`). As on a first upload, the default typeface, font size, bold and color are taken from the PDF's fields; the template's other settings are kept. If the PDF has no fillable fields, the template keeps its fields. A locked template can't re-import its fields. | [optional] |
+
+### Return type
+
+[**\DocSpring\Model\Template**](../Model/Template.md)
+
+### Authorization
+
+[api_token_basic](../../README.md#api_token_basic)
+
+### HTTP request headers
+
+- **Content-Type**: `multipart/form-data`
 - **Accept**: `application/json`
 
 [[Back to top]](#) [[Back to API list]](../../README.md#endpoints)

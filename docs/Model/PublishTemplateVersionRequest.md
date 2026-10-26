@@ -1,0 +1,10 @@
+# PublishTemplateVersionRequest
+
+## Properties
+
+Name | Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+**version_type** | [**\DocSpring\Model\TemplateVersionType**](TemplateVersionType.md) | Which part of the latest version number to increase. |
+**description** | **string** | What changed in the version, shown with it in DocSpring. | [optional]
+
+[[Back to Model list]](../../README.md#models) [[Back to API list]](../../README.md#endpoints) [[Back to README]](../../README.md)
