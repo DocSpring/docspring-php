@@ -16,6 +16,7 @@ All URIs are relative to https://sync.api.docspring.com/api/v2, except if the op
 | [**createSubmission()**](Client.md#createSubmission) | **POST** /templates/{template_id}/submissions | Generate a PDF |
 | [**createSubmissionBatch()**](Client.md#createSubmissionBatch) | **POST** /submissions/batches | Generate PDFs in a batch |
 | [**createTemplate()**](Client.md#createTemplate) | **POST** /templates | Create a template |
+| [**createTemplatePreview()**](Client.md#createTemplatePreview) | **POST** /templates/{template_id}/previews | Preview a template with data |
 | [**createWebhook()**](Client.md#createWebhook) | **POST** /webhooks | Create a webhook |
 | [**deleteCustomFile()**](Client.md#deleteCustomFile) | **DELETE** /custom_files/{custom_file_id} | Delete a custom file |
 | [**deleteFolder()**](Client.md#deleteFolder) | **DELETE** /folders/{folder_id} | Delete a folder |
@@ -36,6 +37,7 @@ All URIs are relative to https://sync.api.docspring.com/api/v2, except if the op
 | [**getTemplateDiff()**](Client.md#getTemplateDiff) | **GET** /templates/{template_id}/diff | Compare a version of a template with the one before it |
 | [**getTemplateModelCode()**](Client.md#getTemplateModelCode) | **GET** /templates/{template_id}/model_code | Generate typed code for a template's submission data |
 | [**getTemplatePageImages()**](Client.md#getTemplatePageImages) | **GET** /templates/{template_id}/page_images | Get images of a template's pages |
+| [**getTemplatePreview()**](Client.md#getTemplatePreview) | **GET** /templates/{template_id}/previews/{preview_id} | Get a template preview |
 | [**getTemplateSchema()**](Client.md#getTemplateSchema) | **GET** /templates/{template_id}/schema | Get the JSON Schema of a template's submission data |
 | [**getWebhook()**](Client.md#getWebhook) | **GET** /webhooks/{webhook_id} | Get a webhook |
 | [**listCombinedPdfs()**](Client.md#listCombinedPdfs) | **GET** /combined_pdfs | List combined PDFs |
@@ -195,7 +197,7 @@ try {
 ## `createCombinedPdf()`
 
 ```php
-createCombinedPdf($body, $wait): \DocSpring\Model\CombinedPdf
+createCombinedPdf($body, $wait, $idempotency_key): \DocSpring\Model\CombinedPdf
 ```
 
 Combine PDFs
@@ -223,9 +225,10 @@ $apiInstance = new DocSpring\Api\Client(
 );
 $body = {"source_pdfs":[{"type":"submission","id":"sub_1234567890abcdef01"},{"type":"template","id":"tpl_1234567890abcdef01"},{"type":"url","url":"https://example.com/terms.pdf"}],"metadata":{"user_id":42},"password":"secret","expires_in":3600}; // \DocSpring\Model\CreateCombinedPdfRequest | The PDFs to merge, and the combined PDF's settings.
 $wait = True; // bool | Wait until the PDF has been generated before responding. Default true on sync.api hosts.
+$idempotency_key = 'idempotency_key_example'; // string | A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of creating another combined PDF. Send a new key with each new combined PDF, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` means the first request is still being processed: send the request again in a few seconds.
 
 try {
-    $result = $apiInstance->createCombinedPdf($body, $wait);
+    $result = $apiInstance->createCombinedPdf($body, $wait, $idempotency_key);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling Client->createCombinedPdf: ', $e->getMessage(), PHP_EOL;
@@ -238,6 +241,7 @@ try {
 | ------------- | ------------- | ------------- | ------------- |
 | **body** | [**\DocSpring\Model\CreateCombinedPdfRequest**](../Model/CreateCombinedPdfRequest.md)| The PDFs to merge, and the combined PDF's settings. | |
 | **wait** | **bool**| Wait until the PDF has been generated before responding. Default true on sync.api hosts. | [optional] |
+| **idempotency_key** | **string**| A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of creating another combined PDF. Send a new key with each new combined PDF, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` means the first request is still being processed: send the request again in a few seconds. | [optional] |
 
 ### Return type
 
@@ -388,7 +392,7 @@ createSignatureRequestEvent($signature_request_id, $body): \DocSpring\Model\Sign
 
 Record a signature request event
 
-Records something that happened outside DocSpring in the signature request's audit trail: you sent the request to the person (`send_request`). The audit trail shows it as reported by your account.
+Records something that happened outside DocSpring in the signature request's audit trail: you sent the request to the person (`send_request`). The audit trail shows it as reported by your account. A finished (completed, declined or expired) signature request's audit trail takes no more events, and a test API token can't record one for a live signature request.
 
 ### Example
 
@@ -511,7 +515,7 @@ try {
 ## `createSubmission()`
 
 ```php
-createSubmission($template_id, $body, $version, $wait): \DocSpring\Model\Submission
+createSubmission($template_id, $body, $version, $wait, $idempotency_key): \DocSpring\Model\Submission
 ```
 
 Generate a PDF
@@ -541,9 +545,10 @@ $template_id = tpl_1234567890abcdef01; // string | The template's ID.
 $body = {"data":{"first_name":"John","last_name":"Smith","phone_number":"+11234567890"},"metadata":{"user_id":42},"test":true}; // \DocSpring\Model\CreateSubmissionRequest | The submission's data and settings.
 $version = 'version_example'; // string | The template version to use: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `latest` (the draft when no version has been published).
 $wait = True; // bool | Wait until the files have been generated before responding. Default true on sync.api hosts.
+$idempotency_key = 'idempotency_key_example'; // string | A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of creating another submission. Send a new key with each new submission, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` means the first request is still being processed: send the request again in a few seconds.
 
 try {
-    $result = $apiInstance->createSubmission($template_id, $body, $version, $wait);
+    $result = $apiInstance->createSubmission($template_id, $body, $version, $wait, $idempotency_key);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling Client->createSubmission: ', $e->getMessage(), PHP_EOL;
@@ -558,6 +563,7 @@ try {
 | **body** | [**\DocSpring\Model\CreateSubmissionRequest**](../Model/CreateSubmissionRequest.md)| The submission's data and settings. | |
 | **version** | **string**| The template version to use: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `latest` (the draft when no version has been published). | [optional] |
 | **wait** | **bool**| Wait until the files have been generated before responding. Default true on sync.api hosts. | [optional] |
+| **idempotency_key** | **string**| A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of creating another submission. Send a new key with each new submission, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` means the first request is still being processed: send the request again in a few seconds. | [optional] |
 
 ### Return type
 
@@ -579,7 +585,7 @@ try {
 ## `createSubmissionBatch()`
 
 ```php
-createSubmissionBatch($body, $wait): \DocSpring\Model\SubmissionBatch
+createSubmissionBatch($body, $wait, $idempotency_key): \DocSpring\Model\SubmissionBatch
 ```
 
 Generate PDFs in a batch
@@ -607,9 +613,10 @@ $apiInstance = new DocSpring\Api\Client(
 );
 $body = {"template_id":"tpl_1234567890abcdef01","metadata":{"job_id":54321},"submissions":[{"data":{"first_name":"John","last_name":"Smith"},"metadata":{"row":1}},{"data":{"first_name":"Jane","last_name":"Doe"},"test":true,"metadata":{"row":2}}]}; // \DocSpring\Model\CreateSubmissionBatchRequest | The submissions to create, and the settings they share.
 $wait = True; // bool | Wait until every PDF in the batch has been generated before responding. Default true on sync.api hosts.
+$idempotency_key = 'idempotency_key_example'; // string | A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of creating another batch. Send a new key with each new batch, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` means the first request is still being processed: send the request again in a few seconds.
 
 try {
-    $result = $apiInstance->createSubmissionBatch($body, $wait);
+    $result = $apiInstance->createSubmissionBatch($body, $wait, $idempotency_key);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling Client->createSubmissionBatch: ', $e->getMessage(), PHP_EOL;
@@ -622,6 +629,7 @@ try {
 | ------------- | ------------- | ------------- | ------------- |
 | **body** | [**\DocSpring\Model\CreateSubmissionBatchRequest**](../Model/CreateSubmissionBatchRequest.md)| The submissions to create, and the settings they share. | |
 | **wait** | **bool**| Wait until every PDF in the batch has been generated before responding. Default true on sync.api hosts. | [optional] |
+| **idempotency_key** | **string**| A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of creating another batch. Send a new key with each new batch, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` means the first request is still being processed: send the request again in a few seconds. | [optional] |
 
 ### Return type
 
@@ -690,6 +698,72 @@ try {
 ### Return type
 
 [**\DocSpring\Model\Template**](../Model/Template.md)
+
+### Authorization
+
+[api_token_basic](../../README.md#api_token_basic)
+
+### HTTP request headers
+
+- **Content-Type**: `application/json`
+- **Accept**: `application/json`
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
+## `createTemplatePreview()`
+
+```php
+createTemplatePreview($template_id, $body, $version): \DocSpring\Model\TemplatePreview
+```
+
+Preview a template with data
+
+Makes PNG images of a template's pages filled in with the data you send (not a PDF), so you can check how an HTML or PDF template prints with your data before you publish a version or send live data. It renders the template's draft, or the published `version` you ask for. A preview makes no submission and uses no credits, and its pages are watermarked like a test submission's PDF. It's `pending` while it renders: get it with GET /templates/{template_id}/previews/{preview_id} until it's `processed`, with an image of each page, or `error`.
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+// Configure HTTP basic authorization: api_token_basic
+$config = DocSpring\Configuration::getDefaultConfiguration()
+              ->setUsername('YOUR_USERNAME')
+              ->setPassword('YOUR_PASSWORD');
+
+
+$apiInstance = new DocSpring\Api\Client(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$template_id = tpl_1234567890abcdef02; // string | The template's ID.
+$body = {"data":{"invoice_number":"INV-001"}}; // \DocSpring\Model\CreateTemplatePreviewRequest | The data to render the template with.
+$version = 'version_example'; // string | A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `draft`.
+
+try {
+    $result = $apiInstance->createTemplatePreview($template_id, $body, $version);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling Client->createTemplatePreview: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **template_id** | **string**| The template's ID. | |
+| **body** | [**\DocSpring\Model\CreateTemplatePreviewRequest**](../Model/CreateTemplatePreviewRequest.md)| The data to render the template with. | |
+| **version** | **string**| A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `draft`. | [optional] |
+
+### Return type
+
+[**\DocSpring\Model\TemplatePreview**](../Model/TemplatePreview.md)
 
 ### Authorization
 
@@ -1832,12 +1906,12 @@ try {
 ## `getTemplateModelCode()`
 
 ```php
-getTemplateModelCode($template_id, $lang, $version): \DocSpring\Model\TemplateModelCode
+getTemplateModelCode($template_id, $lang, $version, $just_types): \DocSpring\Model\TemplateModelCode
 ```
 
 Generate typed code for a template's submission data
 
-Generates types for a template's submission data in TypeScript, JavaScript, Ruby, Python, PHP, Java, C#, Elixir or Go, so your app catches mistakes before it calls the API. `root_type_name` is the type of the whole `data` object. Java returns every class in `code`, each under a `// ClassName.java` comment. A template with no named fields returns 422.
+Generates types for a template's submission data in TypeScript, JavaScript, Ruby, Python, PHP, Java, C#, Elixir or Go, so your app catches mistakes before it calls the API. `root_type_name` is the type of the whole `data` object, and `just_types=true` leaves out the code that converts JSON to and from the types. Java returns every class in `code`, each under a `// ClassName.java` comment. A template with no named fields returns 422.
 
 ### Example
 
@@ -1861,9 +1935,10 @@ $apiInstance = new DocSpring\Api\Client(
 $template_id = tpl_1234567890abcdef01; // string | The template's ID.
 $lang = typescript; // \DocSpring\Model\ModelCodeLanguage | The language to generate the code in.
 $version = draft; // string | The template version: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `latest` (the draft when no version has been published), the version a submission uses by default.
+$just_types = true; // bool | Return only the types (interfaces, classes or structs), without the code that converts JSON to and from them. Default false. JavaScript has no types and PHP no types-only code, so theirs is the same either way.
 
 try {
-    $result = $apiInstance->getTemplateModelCode($template_id, $lang, $version);
+    $result = $apiInstance->getTemplateModelCode($template_id, $lang, $version, $just_types);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling Client->getTemplateModelCode: ', $e->getMessage(), PHP_EOL;
@@ -1877,6 +1952,7 @@ try {
 | **template_id** | **string**| The template's ID. | |
 | **lang** | [**\DocSpring\Model\ModelCodeLanguage**](../Model/.md)| The language to generate the code in. | |
 | **version** | **string**| The template version: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `latest` (the draft when no version has been published), the version a submission uses by default. | [optional] |
+| **just_types** | **bool**| Return only the types (interfaces, classes or structs), without the code that converts JSON to and from them. Default false. JavaScript has no types and PHP no types-only code, so theirs is the same either way. | [optional] |
 
 ### Return type
 
@@ -1945,6 +2021,70 @@ try {
 ### Return type
 
 [**\DocSpring\Model\TemplatePageImages**](../Model/TemplatePageImages.md)
+
+### Authorization
+
+[api_token_basic](../../README.md#api_token_basic)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/json`
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
+## `getTemplatePreview()`
+
+```php
+getTemplatePreview($template_id, $preview_id): \DocSpring\Model\TemplatePreview
+```
+
+Get a template preview
+
+Returns a preview made with POST /templates/{template_id}/previews. Once it's `processed`, `pages` has a PNG image of each page with a temporary link to download it: a preview has no PDF. Previews are deleted an hour after they're created.
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+// Configure HTTP basic authorization: api_token_basic
+$config = DocSpring\Configuration::getDefaultConfiguration()
+              ->setUsername('YOUR_USERNAME')
+              ->setPassword('YOUR_PASSWORD');
+
+
+$apiInstance = new DocSpring\Api\Client(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$template_id = tpl_1234567890abcdef02; // string | The template's ID.
+$preview_id = tpv_1234567890abcdef0123; // string | The preview's ID.
+
+try {
+    $result = $apiInstance->getTemplatePreview($template_id, $preview_id);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling Client->getTemplatePreview: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **template_id** | **string**| The template's ID. | |
+| **preview_id** | **string**| The preview's ID. | |
+
+### Return type
+
+[**\DocSpring\Model\TemplatePreview**](../Model/TemplatePreview.md)
 
 ### Authorization
 
@@ -2282,12 +2422,12 @@ try {
 ## `listSubmissions()`
 
 ```php
-listSubmissions($template_id, $test, $created_after, $created_before, $include_data, $limit, $cursor): \DocSpring\Model\SubmissionList
+listSubmissions($template_id, $test, $created_after, $created_before, $include_data, $limit, $cursor, $state, $include_files): \DocSpring\Model\SubmissionList
 ```
 
 List submissions
 
-Returns the submissions in your account, newest first, one page at a time. Lists leave out each submission's `data` unless you pass `include_data=true`.
+Returns the submissions in your account, newest first, one page at a time. Each one is a summary: its `data` is null unless you pass `include_data=true`, and its `files` are empty unless you pass `include_files=true`. Get a submission by its ID for its signature requests, uploads and page images.
 
 ### Example
 
@@ -2315,9 +2455,11 @@ $created_before = 2018-10-20T09:00:00Z; // \DateTime | Only list submissions cre
 $include_data = true; // bool | Include each submission's `data` (null without it).
 $limit = 50; // int | How many items to return (1-100, default 50).
 $cursor = 'cursor_example'; // string | The previous page's `next_cursor`, to get the next page. It's the ID of that page's last item, so get the next page before you delete or change the items on this one.
+$state = invalid_data; // \DocSpring\Model\SubmissionState | Only list submissions in this state (one state per request). The ones that failed are `invalid_data`, `error`, `syntax_error`, `image_download_failed` and `image_processing_failed`, and one still `pending` an hour after it was created is stuck.
+$include_files = true; // bool | Include each submission's generated files and their download links (`files`, empty without it), without the page images' links.
 
 try {
-    $result = $apiInstance->listSubmissions($template_id, $test, $created_after, $created_before, $include_data, $limit, $cursor);
+    $result = $apiInstance->listSubmissions($template_id, $test, $created_after, $created_before, $include_data, $limit, $cursor, $state, $include_files);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling Client->listSubmissions: ', $e->getMessage(), PHP_EOL;
@@ -2335,6 +2477,8 @@ try {
 | **include_data** | **bool**| Include each submission's `data` (null without it). | [optional] |
 | **limit** | **int**| How many items to return (1-100, default 50). | [optional] [default to 50] |
 | **cursor** | **string**| The previous page's `next_cursor`, to get the next page. It's the ID of that page's last item, so get the next page before you delete or change the items on this one. | [optional] |
+| **state** | [**\DocSpring\Model\SubmissionState**](../Model/.md)| Only list submissions in this state (one state per request). The ones that failed are `invalid_data`, `error`, `syntax_error`, `image_download_failed` and `image_processing_failed`, and one still `pending` an hour after it was created is stuck. | [optional] |
+| **include_files** | **bool**| Include each submission's generated files and their download links (`files`, empty without it), without the page images' links. | [optional] |
 
 ### Return type
 
@@ -2420,7 +2564,7 @@ try {
 ## `listTemplateSubmissions()`
 
 ```php
-listTemplateSubmissions($template_id, $test, $created_after, $created_before, $include_data, $limit, $cursor): \DocSpring\Model\SubmissionList
+listTemplateSubmissions($template_id, $test, $created_after, $created_before, $include_data, $limit, $cursor, $state, $include_files): \DocSpring\Model\SubmissionList
 ```
 
 List a template's submissions
@@ -2453,9 +2597,11 @@ $created_before = new \DateTime('2013-10-20T19:20:30+01:00'); // \DateTime | Onl
 $include_data = True; // bool | Include each submission's `data` (null without it).
 $limit = 50; // int | How many items to return (1-100, default 50).
 $cursor = 'cursor_example'; // string | The previous page's `next_cursor`, to get the next page. It's the ID of that page's last item, so get the next page before you delete or change the items on this one.
+$state = processed; // \DocSpring\Model\SubmissionState | Only list submissions in this state (one state per request). The ones that failed are `invalid_data`, `error`, `syntax_error`, `image_download_failed` and `image_processing_failed`, and one still `pending` an hour after it was created is stuck.
+$include_files = True; // bool | Include each submission's generated files and their download links (`files`, empty without it), without the page images' links.
 
 try {
-    $result = $apiInstance->listTemplateSubmissions($template_id, $test, $created_after, $created_before, $include_data, $limit, $cursor);
+    $result = $apiInstance->listTemplateSubmissions($template_id, $test, $created_after, $created_before, $include_data, $limit, $cursor, $state, $include_files);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling Client->listTemplateSubmissions: ', $e->getMessage(), PHP_EOL;
@@ -2473,6 +2619,8 @@ try {
 | **include_data** | **bool**| Include each submission's `data` (null without it). | [optional] |
 | **limit** | **int**| How many items to return (1-100, default 50). | [optional] [default to 50] |
 | **cursor** | **string**| The previous page's `next_cursor`, to get the next page. It's the ID of that page's last item, so get the next page before you delete or change the items on this one. | [optional] |
+| **state** | [**\DocSpring\Model\SubmissionState**](../Model/.md)| Only list submissions in this state (one state per request). The ones that failed are `invalid_data`, `error`, `syntax_error`, `image_download_failed` and `image_processing_failed`, and one still `pending` an hour after it was created is stuck. | [optional] |
+| **include_files** | **bool**| Include each submission's generated files and their download links (`files`, empty without it), without the page images' links. | [optional] |
 
 ### Return type
 
@@ -2499,7 +2647,7 @@ listTemplates($query, $parent_folder_id, $limit, $cursor): \DocSpring\Model\Temp
 
 List templates
 
-Returns the templates in your account (their drafts), newest first, one page at a time. Get a template by its ID for its HTML, defaults and published versions.
+Returns the templates in your account (their drafts), newest first, one page at a time. Each one is a summary: get a template by its ID for its settings, its PDF in full, its HTML, defaults and published versions.
 
 ### Example
 

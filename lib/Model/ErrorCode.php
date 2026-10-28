@@ -85,6 +85,10 @@ class ErrorCode
 
     public const POLLING_TIMEOUT = 'polling_timeout';
 
+    public const IDEMPOTENCY_KEY_IN_USE = 'idempotency_key_in_use';
+
+    public const IDEMPOTENCY_KEY_REUSED = 'idempotency_key_reused';
+
     /**
      * Gets allowable values of the enum
      * @return string[]
@@ -112,7 +116,9 @@ class ErrorCode
             self::BAD_GATEWAY,
             self::SERVICE_UNAVAILABLE,
             self::UPSTREAM_TIMEOUT,
-            self::POLLING_TIMEOUT
+            self::POLLING_TIMEOUT,
+            self::IDEMPOTENCY_KEY_IN_USE,
+            self::IDEMPOTENCY_KEY_REUSED
         ];
     }
 }

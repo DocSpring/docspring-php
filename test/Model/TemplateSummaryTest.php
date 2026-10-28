@@ -34,7 +34,7 @@ use PHPUnit\Framework\TestCase;
  * TemplateSummaryTest Class Doc Comment
  *
  * @category    Class
- * @description A template in a list. Get a template by its ID for its HTML, defaults, field dependency rules and published versions.
+ * @description A template in a list: its name, type, folder, latest published version and whether it's ready. Get a template by its ID for its settings, its PDF in full, its HTML, defaults, field dependency rules and published versions.
  * @package     DocSpring
  * @author      OpenAPI Generator team
  * @link        https://openapi-generator.tech
@@ -152,15 +152,6 @@ class TemplateSummaryTest extends TestCase
     }
 
     /**
-     * Test attribute "version"
-     */
-    public function testPropertyVersion()
-    {
-        // TODO: implement
-        self::markTestIncomplete('Not implemented');
-    }
-
-    /**
      * Test attribute "latest_version"
      */
     public function testPropertyLatestVersion()
@@ -188,207 +179,9 @@ class TemplateSummaryTest extends TestCase
     }
 
     /**
-     * Test attribute "add_signature_request_submission_id_footers"
-     */
-    public function testPropertyAddSignatureRequestSubmissionIdFooters()
-    {
-        // TODO: implement
-        self::markTestIncomplete('Not implemented');
-    }
-
-    /**
-     * Test attribute "ai_field_naming_language"
-     */
-    public function testPropertyAiFieldNamingLanguage()
-    {
-        // TODO: implement
-        self::markTestIncomplete('Not implemented');
-    }
-
-    /**
-     * Test attribute "allow_additional_properties"
-     */
-    public function testPropertyAllowAdditionalProperties()
-    {
-        // TODO: implement
-        self::markTestIncomplete('Not implemented');
-    }
-
-    /**
-     * Test attribute "allow_skipping_optional_fields"
-     */
-    public function testPropertyAllowSkippingOptionalFields()
-    {
-        // TODO: implement
-        self::markTestIncomplete('Not implemented');
-    }
-
-    /**
-     * Test attribute "default_form_mode"
-     */
-    public function testPropertyDefaultFormMode()
-    {
-        // TODO: implement
-        self::markTestIncomplete('Not implemented');
-    }
-
-    /**
-     * Test attribute "editable_submissions"
-     */
-    public function testPropertyEditableSubmissions()
-    {
-        // TODO: implement
-        self::markTestIncomplete('Not implemented');
-    }
-
-    /**
-     * Test attribute "embed_domains"
-     */
-    public function testPropertyEmbedDomains()
-    {
-        // TODO: implement
-        self::markTestIncomplete('Not implemented');
-    }
-
-    /**
-     * Test attribute "embed_edit_allow_settings"
-     */
-    public function testPropertyEmbedEditAllowSettings()
-    {
-        // TODO: implement
-        self::markTestIncomplete('Not implemented');
-    }
-
-    /**
-     * Test attribute "embed_edit_allow_versioning"
-     */
-    public function testPropertyEmbedEditAllowVersioning()
-    {
-        // TODO: implement
-        self::markTestIncomplete('Not implemented');
-    }
-
-    /**
-     * Test attribute "embed_edit_allow_document_replacement"
-     */
-    public function testPropertyEmbedEditAllowDocumentReplacement()
-    {
-        // TODO: implement
-        self::markTestIncomplete('Not implemented');
-    }
-
-    /**
-     * Test attribute "encrypt_pdfs"
-     */
-    public function testPropertyEncryptPdfs()
-    {
-        // TODO: implement
-        self::markTestIncomplete('Not implemented');
-    }
-
-    /**
-     * Test attribute "has_encrypt_pdfs_password"
-     */
-    public function testPropertyHasEncryptPdfsPassword()
-    {
-        // TODO: implement
-        self::markTestIncomplete('Not implemented');
-    }
-
-    /**
-     * Test attribute "expire_submissions"
-     */
-    public function testPropertyExpireSubmissions()
-    {
-        // TODO: implement
-        self::markTestIncomplete('Not implemented');
-    }
-
-    /**
-     * Test attribute "expire_after"
-     */
-    public function testPropertyExpireAfter()
-    {
-        // TODO: implement
-        self::markTestIncomplete('Not implemented');
-    }
-
-    /**
-     * Test attribute "expiration_interval"
-     */
-    public function testPropertyExpirationInterval()
-    {
-        // TODO: implement
-        self::markTestIncomplete('Not implemented');
-    }
-
-    /**
-     * Test attribute "merge_audit_trail_pdf"
-     */
-    public function testPropertyMergeAuditTrailPdf()
-    {
-        // TODO: implement
-        self::markTestIncomplete('Not implemented');
-    }
-
-    /**
-     * Test attribute "parse_dates_using_template_date_format"
-     */
-    public function testPropertyParseDatesUsingTemplateDateFormat()
-    {
-        // TODO: implement
-        self::markTestIncomplete('Not implemented');
-    }
-
-    /**
-     * Test attribute "public_submissions"
-     */
-    public function testPropertyPublicSubmissions()
-    {
-        // TODO: implement
-        self::markTestIncomplete('Not implemented');
-    }
-
-    /**
-     * Test attribute "public_web_form"
-     */
-    public function testPropertyPublicWebForm()
-    {
-        // TODO: implement
-        self::markTestIncomplete('Not implemented');
-    }
-
-    /**
-     * Test attribute "redirect_url"
-     */
-    public function testPropertyRedirectUrl()
-    {
-        // TODO: implement
-        self::markTestIncomplete('Not implemented');
-    }
-
-    /**
-     * Test attribute "has_slack_webhook_url"
-     */
-    public function testPropertyHasSlackWebhookUrl()
-    {
-        // TODO: implement
-        self::markTestIncomplete('Not implemented');
-    }
-
-    /**
      * Test attribute "last_changed_at"
      */
     public function testPropertyLastChangedAt()
-    {
-        // TODO: implement
-        self::markTestIncomplete('Not implemented');
-    }
-
-    /**
-     * Test attribute "last_changed_by"
-     */
-    public function testPropertyLastChangedBy()
     {
         // TODO: implement
         self::markTestIncomplete('Not implemented');

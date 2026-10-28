@@ -59,11 +59,11 @@ class TemplateDocument implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     protected static $openAPITypes = [
         'filename' => 'string',
-        'md5' => 'string',
         'state' => '\DocSpring\Model\TemplateDocumentState',
         'error_message' => 'string',
-        'field_reimport_state' => '\DocSpring\Model\FieldReimportState',
         'page_count' => 'int',
+        'md5' => 'string',
+        'field_reimport_state' => '\DocSpring\Model\FieldReimportState',
         'page_dimensions' => 'float[][]',
         'has_fillable_fields' => 'bool',
         'page_processing_statuses' => '\DocSpring\Model\TemplatePageProcessingStatus[]',
@@ -81,11 +81,11 @@ class TemplateDocument implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     protected static $openAPIFormats = [
         'filename' => null,
-        'md5' => null,
         'state' => null,
         'error_message' => null,
-        'field_reimport_state' => null,
         'page_count' => null,
+        'md5' => null,
+        'field_reimport_state' => null,
         'page_dimensions' => null,
         'has_fillable_fields' => null,
         'page_processing_statuses' => null,
@@ -101,11 +101,11 @@ class TemplateDocument implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     protected static array $openAPINullables = [
         'filename' => true,
-        'md5' => true,
         'state' => false,
         'error_message' => true,
-        'field_reimport_state' => false,
         'page_count' => false,
+        'md5' => true,
+        'field_reimport_state' => false,
         'page_dimensions' => true,
         'has_fillable_fields' => true,
         'page_processing_statuses' => false,
@@ -201,11 +201,11 @@ class TemplateDocument implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     protected static $attributeMap = [
         'filename' => 'filename',
-        'md5' => 'md5',
         'state' => 'state',
         'error_message' => 'error_message',
-        'field_reimport_state' => 'field_reimport_state',
         'page_count' => 'page_count',
+        'md5' => 'md5',
+        'field_reimport_state' => 'field_reimport_state',
         'page_dimensions' => 'page_dimensions',
         'has_fillable_fields' => 'has_fillable_fields',
         'page_processing_statuses' => 'page_processing_statuses',
@@ -221,11 +221,11 @@ class TemplateDocument implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     protected static $setters = [
         'filename' => 'setFilename',
-        'md5' => 'setMd5',
         'state' => 'setState',
         'error_message' => 'setErrorMessage',
-        'field_reimport_state' => 'setFieldReimportState',
         'page_count' => 'setPageCount',
+        'md5' => 'setMd5',
+        'field_reimport_state' => 'setFieldReimportState',
         'page_dimensions' => 'setPageDimensions',
         'has_fillable_fields' => 'setHasFillableFields',
         'page_processing_statuses' => 'setPageProcessingStatuses',
@@ -241,11 +241,11 @@ class TemplateDocument implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     protected static $getters = [
         'filename' => 'getFilename',
-        'md5' => 'getMd5',
         'state' => 'getState',
         'error_message' => 'getErrorMessage',
-        'field_reimport_state' => 'getFieldReimportState',
         'page_count' => 'getPageCount',
+        'md5' => 'getMd5',
+        'field_reimport_state' => 'getFieldReimportState',
         'page_dimensions' => 'getPageDimensions',
         'has_fillable_fields' => 'getHasFillableFields',
         'page_processing_statuses' => 'getPageProcessingStatuses',
@@ -312,11 +312,11 @@ class TemplateDocument implements ModelInterface, ArrayAccess, \JsonSerializable
     public function __construct(?array $data = null)
     {
         $this->setIfExists('filename', $data ?? [], null);
-        $this->setIfExists('md5', $data ?? [], null);
         $this->setIfExists('state', $data ?? [], null);
         $this->setIfExists('error_message', $data ?? [], null);
-        $this->setIfExists('field_reimport_state', $data ?? [], null);
         $this->setIfExists('page_count', $data ?? [], null);
+        $this->setIfExists('md5', $data ?? [], null);
+        $this->setIfExists('field_reimport_state', $data ?? [], null);
         $this->setIfExists('page_dimensions', $data ?? [], null);
         $this->setIfExists('has_fillable_fields', $data ?? [], null);
         $this->setIfExists('page_processing_statuses', $data ?? [], null);
@@ -355,20 +355,20 @@ class TemplateDocument implements ModelInterface, ArrayAccess, \JsonSerializable
         if ($this->container['filename'] === null && !$this->isNullableSetToNull('filename')) {
             $invalidProperties[] = "'filename' is required";
         }
-        if ($this->container['md5'] === null && !$this->isNullableSetToNull('md5')) {
-            $invalidProperties[] = "'md5' is required";
-        }
         if ($this->container['state'] === null) {
             $invalidProperties[] = "'state' can't be null";
         }
         if ($this->container['error_message'] === null && !$this->isNullableSetToNull('error_message')) {
             $invalidProperties[] = "'error_message' is required";
         }
-        if ($this->container['field_reimport_state'] === null) {
-            $invalidProperties[] = "'field_reimport_state' can't be null";
-        }
         if ($this->container['page_count'] === null) {
             $invalidProperties[] = "'page_count' can't be null";
+        }
+        if ($this->container['md5'] === null && !$this->isNullableSetToNull('md5')) {
+            $invalidProperties[] = "'md5' is required";
+        }
+        if ($this->container['field_reimport_state'] === null) {
+            $invalidProperties[] = "'field_reimport_state' can't be null";
         }
         if ($this->container['page_dimensions'] === null && !$this->isNullableSetToNull('page_dimensions')) {
             $invalidProperties[] = "'page_dimensions' is required";
@@ -438,40 +438,6 @@ class TemplateDocument implements ModelInterface, ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets md5
-     *
-     * @return string|null
-     */
-    public function getMd5()
-    {
-        return $this->container['md5'];
-    }
-
-    /**
-     * Sets md5
-     *
-     * @param string|null $md5 The MD5 hash of the PDF.
-     *
-     * @return self
-     */
-    public function setMd5($md5)
-    {
-        if (is_null($md5)) {
-            array_push($this->openAPINullablesSetToNull, 'md5');
-        } else {
-            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('md5', $nullablesSetToNull);
-            if ($index !== FALSE) {
-                unset($nullablesSetToNull[$index]);
-                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
-            }
-        }
-        $this->container['md5'] = $md5;
-
-        return $this;
-    }
-
-    /**
      * Gets state
      *
      * @return \DocSpring\Model\TemplateDocumentState
@@ -484,7 +450,7 @@ class TemplateDocument implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets state
      *
-     * @param \DocSpring\Model\TemplateDocumentState $state `pending` while DocSpring processes the PDF, then `processed`. `password_required`, `malformed_pdf` and `unknown_error` mean the PDF couldn't be processed, and `error_message` says why: upload it again or upload another one. `downloading` while DocSpring downloads a `document_url`, then as for an upload. `download_failed` means it couldn't be downloaded, and `error_message` says why. A template keeps its PDF while a new one is downloaded, and when it couldn't be.
+     * @param \DocSpring\Model\TemplateDocumentState $state `pending` while DocSpring processes the PDF, then `processed` (`ready` says when its pages are done too). `password_required`, `malformed_pdf` and `unknown_error` mean the PDF couldn't be processed, and `error_message` says why: upload it again or upload another one. `downloading` while DocSpring downloads a `document_url`, then as for an upload. `download_failed` means it couldn't be downloaded, and `error_message` says why. A template keeps its PDF while a new one is downloaded, and when it couldn't be.
      *
      * @return self
      */
@@ -533,33 +499,6 @@ class TemplateDocument implements ModelInterface, ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets field_reimport_state
-     *
-     * @return \DocSpring\Model\FieldReimportState
-     */
-    public function getFieldReimportState()
-    {
-        return $this->container['field_reimport_state'];
-    }
-
-    /**
-     * Sets field_reimport_state
-     *
-     * @param \DocSpring\Model\FieldReimportState $field_reimport_state Whether the fields are being re-imported from this PDF (`reimport_fields` when the PDF was replaced): `requested` while DocSpring processes the PDF, then `imported`, or `no_fields` when the PDF had no fillable fields and the template kept its fields. `none` when no re-import was asked for, or when it couldn't run (the PDF couldn't be processed, or the template was locked or published while it was).
-     *
-     * @return self
-     */
-    public function setFieldReimportState($field_reimport_state)
-    {
-        if (is_null($field_reimport_state)) {
-            throw new \InvalidArgumentException('non-nullable field_reimport_state cannot be null');
-        }
-        $this->container['field_reimport_state'] = $field_reimport_state;
-
-        return $this;
-    }
-
-    /**
      * Gets page_count
      *
      * @return int
@@ -582,6 +521,67 @@ class TemplateDocument implements ModelInterface, ArrayAccess, \JsonSerializable
             throw new \InvalidArgumentException('non-nullable page_count cannot be null');
         }
         $this->container['page_count'] = $page_count;
+
+        return $this;
+    }
+
+    /**
+     * Gets md5
+     *
+     * @return string|null
+     */
+    public function getMd5()
+    {
+        return $this->container['md5'];
+    }
+
+    /**
+     * Sets md5
+     *
+     * @param string|null $md5 The MD5 hash of the PDF.
+     *
+     * @return self
+     */
+    public function setMd5($md5)
+    {
+        if (is_null($md5)) {
+            array_push($this->openAPINullablesSetToNull, 'md5');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('md5', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['md5'] = $md5;
+
+        return $this;
+    }
+
+    /**
+     * Gets field_reimport_state
+     *
+     * @return \DocSpring\Model\FieldReimportState
+     */
+    public function getFieldReimportState()
+    {
+        return $this->container['field_reimport_state'];
+    }
+
+    /**
+     * Sets field_reimport_state
+     *
+     * @param \DocSpring\Model\FieldReimportState $field_reimport_state Whether the fields are being re-imported from this PDF (`reimport_fields` when the PDF was replaced): `requested` while DocSpring processes the PDF, then `imported`, or `no_fields` when the PDF had no fillable fields and the template kept its fields. `none` when no re-import was asked for, or when it couldn't run (the PDF couldn't be processed, or the template was locked or published while it was).
+     *
+     * @return self
+     */
+    public function setFieldReimportState($field_reimport_state)
+    {
+        if (is_null($field_reimport_state)) {
+            throw new \InvalidArgumentException('non-nullable field_reimport_state cannot be null');
+        }
+        $this->container['field_reimport_state'] = $field_reimport_state;
 
         return $this;
     }

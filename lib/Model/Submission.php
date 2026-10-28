@@ -71,18 +71,18 @@ class Submission implements ModelInterface, ArrayAccess, \JsonSerializable
         'data_errors' => '\DocSpring\Model\ErrorDetail[]',
         'error_message' => 'string',
         'metadata' => 'array<string,mixed>',
+        'files' => '\DocSpring\Model\SubmissionFiles',
+        'expired' => 'bool',
+        'expires_at' => '\DateTime',
+        'processed_at' => '\DateTime',
+        'created_at' => '\DateTime',
+        'updated_at' => '\DateTime',
         'has_password' => 'bool',
         'signature_requests' => '\DocSpring\Model\SignatureRequest[]',
         'actions' => '\DocSpring\Model\SubmissionAction[]',
         'truncated_text' => 'array<string,string[]>',
         'output_formats' => '\DocSpring\Model\OutputFormat[]',
-        'files' => '\DocSpring\Model\SubmissionFiles',
-        'preview_generated_at' => '\DateTime',
-        'expired' => 'bool',
-        'expires_at' => '\DateTime',
-        'processed_at' => '\DateTime',
-        'created_at' => '\DateTime',
-        'updated_at' => '\DateTime'
+        'preview_generated_at' => '\DateTime'
     ];
 
     /**
@@ -106,18 +106,18 @@ class Submission implements ModelInterface, ArrayAccess, \JsonSerializable
         'data_errors' => null,
         'error_message' => null,
         'metadata' => null,
+        'files' => null,
+        'expired' => null,
+        'expires_at' => 'date-time',
+        'processed_at' => 'date-time',
+        'created_at' => 'date-time',
+        'updated_at' => 'date-time',
         'has_password' => null,
         'signature_requests' => null,
         'actions' => null,
         'truncated_text' => null,
         'output_formats' => null,
-        'files' => null,
-        'preview_generated_at' => 'date-time',
-        'expired' => null,
-        'expires_at' => 'date-time',
-        'processed_at' => 'date-time',
-        'created_at' => 'date-time',
-        'updated_at' => 'date-time'
+        'preview_generated_at' => 'date-time'
     ];
 
     /**
@@ -139,18 +139,18 @@ class Submission implements ModelInterface, ArrayAccess, \JsonSerializable
         'data_errors' => false,
         'error_message' => true,
         'metadata' => false,
+        'files' => false,
+        'expired' => false,
+        'expires_at' => true,
+        'processed_at' => true,
+        'created_at' => false,
+        'updated_at' => false,
         'has_password' => false,
         'signature_requests' => false,
         'actions' => false,
         'truncated_text' => true,
         'output_formats' => false,
-        'files' => false,
-        'preview_generated_at' => true,
-        'expired' => false,
-        'expires_at' => true,
-        'processed_at' => true,
-        'created_at' => false,
-        'updated_at' => false
+        'preview_generated_at' => true
     ];
 
     /**
@@ -252,18 +252,18 @@ class Submission implements ModelInterface, ArrayAccess, \JsonSerializable
         'data_errors' => 'data_errors',
         'error_message' => 'error_message',
         'metadata' => 'metadata',
+        'files' => 'files',
+        'expired' => 'expired',
+        'expires_at' => 'expires_at',
+        'processed_at' => 'processed_at',
+        'created_at' => 'created_at',
+        'updated_at' => 'updated_at',
         'has_password' => 'has_password',
         'signature_requests' => 'signature_requests',
         'actions' => 'actions',
         'truncated_text' => 'truncated_text',
         'output_formats' => 'output_formats',
-        'files' => 'files',
-        'preview_generated_at' => 'preview_generated_at',
-        'expired' => 'expired',
-        'expires_at' => 'expires_at',
-        'processed_at' => 'processed_at',
-        'created_at' => 'created_at',
-        'updated_at' => 'updated_at'
+        'preview_generated_at' => 'preview_generated_at'
     ];
 
     /**
@@ -285,18 +285,18 @@ class Submission implements ModelInterface, ArrayAccess, \JsonSerializable
         'data_errors' => 'setDataErrors',
         'error_message' => 'setErrorMessage',
         'metadata' => 'setMetadata',
+        'files' => 'setFiles',
+        'expired' => 'setExpired',
+        'expires_at' => 'setExpiresAt',
+        'processed_at' => 'setProcessedAt',
+        'created_at' => 'setCreatedAt',
+        'updated_at' => 'setUpdatedAt',
         'has_password' => 'setHasPassword',
         'signature_requests' => 'setSignatureRequests',
         'actions' => 'setActions',
         'truncated_text' => 'setTruncatedText',
         'output_formats' => 'setOutputFormats',
-        'files' => 'setFiles',
-        'preview_generated_at' => 'setPreviewGeneratedAt',
-        'expired' => 'setExpired',
-        'expires_at' => 'setExpiresAt',
-        'processed_at' => 'setProcessedAt',
-        'created_at' => 'setCreatedAt',
-        'updated_at' => 'setUpdatedAt'
+        'preview_generated_at' => 'setPreviewGeneratedAt'
     ];
 
     /**
@@ -318,18 +318,18 @@ class Submission implements ModelInterface, ArrayAccess, \JsonSerializable
         'data_errors' => 'getDataErrors',
         'error_message' => 'getErrorMessage',
         'metadata' => 'getMetadata',
+        'files' => 'getFiles',
+        'expired' => 'getExpired',
+        'expires_at' => 'getExpiresAt',
+        'processed_at' => 'getProcessedAt',
+        'created_at' => 'getCreatedAt',
+        'updated_at' => 'getUpdatedAt',
         'has_password' => 'getHasPassword',
         'signature_requests' => 'getSignatureRequests',
         'actions' => 'getActions',
         'truncated_text' => 'getTruncatedText',
         'output_formats' => 'getOutputFormats',
-        'files' => 'getFiles',
-        'preview_generated_at' => 'getPreviewGeneratedAt',
-        'expired' => 'getExpired',
-        'expires_at' => 'getExpiresAt',
-        'processed_at' => 'getProcessedAt',
-        'created_at' => 'getCreatedAt',
-        'updated_at' => 'getUpdatedAt'
+        'preview_generated_at' => 'getPreviewGeneratedAt'
     ];
 
     /**
@@ -402,18 +402,18 @@ class Submission implements ModelInterface, ArrayAccess, \JsonSerializable
         $this->setIfExists('data_errors', $data ?? [], null);
         $this->setIfExists('error_message', $data ?? [], null);
         $this->setIfExists('metadata', $data ?? [], null);
-        $this->setIfExists('has_password', $data ?? [], null);
-        $this->setIfExists('signature_requests', $data ?? [], null);
-        $this->setIfExists('actions', $data ?? [], null);
-        $this->setIfExists('truncated_text', $data ?? [], null);
-        $this->setIfExists('output_formats', $data ?? [], null);
         $this->setIfExists('files', $data ?? [], null);
-        $this->setIfExists('preview_generated_at', $data ?? [], null);
         $this->setIfExists('expired', $data ?? [], null);
         $this->setIfExists('expires_at', $data ?? [], null);
         $this->setIfExists('processed_at', $data ?? [], null);
         $this->setIfExists('created_at', $data ?? [], null);
         $this->setIfExists('updated_at', $data ?? [], null);
+        $this->setIfExists('has_password', $data ?? [], null);
+        $this->setIfExists('signature_requests', $data ?? [], null);
+        $this->setIfExists('actions', $data ?? [], null);
+        $this->setIfExists('truncated_text', $data ?? [], null);
+        $this->setIfExists('output_formats', $data ?? [], null);
+        $this->setIfExists('preview_generated_at', $data ?? [], null);
     }
 
     /**
@@ -482,26 +482,8 @@ class Submission implements ModelInterface, ArrayAccess, \JsonSerializable
         if ($this->container['metadata'] === null) {
             $invalidProperties[] = "'metadata' can't be null";
         }
-        if ($this->container['has_password'] === null) {
-            $invalidProperties[] = "'has_password' can't be null";
-        }
-        if ($this->container['signature_requests'] === null) {
-            $invalidProperties[] = "'signature_requests' can't be null";
-        }
-        if ($this->container['actions'] === null) {
-            $invalidProperties[] = "'actions' can't be null";
-        }
-        if ($this->container['truncated_text'] === null && !$this->isNullableSetToNull('truncated_text')) {
-            $invalidProperties[] = "'truncated_text' is required";
-        }
-        if ($this->container['output_formats'] === null) {
-            $invalidProperties[] = "'output_formats' can't be null";
-        }
         if ($this->container['files'] === null) {
             $invalidProperties[] = "'files' can't be null";
-        }
-        if ($this->container['preview_generated_at'] === null && !$this->isNullableSetToNull('preview_generated_at')) {
-            $invalidProperties[] = "'preview_generated_at' is required";
         }
         if ($this->container['expired'] === null) {
             $invalidProperties[] = "'expired' can't be null";
@@ -517,6 +499,24 @@ class Submission implements ModelInterface, ArrayAccess, \JsonSerializable
         }
         if ($this->container['updated_at'] === null) {
             $invalidProperties[] = "'updated_at' can't be null";
+        }
+        if ($this->container['has_password'] === null) {
+            $invalidProperties[] = "'has_password' can't be null";
+        }
+        if ($this->container['signature_requests'] === null) {
+            $invalidProperties[] = "'signature_requests' can't be null";
+        }
+        if ($this->container['actions'] === null) {
+            $invalidProperties[] = "'actions' can't be null";
+        }
+        if ($this->container['truncated_text'] === null && !$this->isNullableSetToNull('truncated_text')) {
+            $invalidProperties[] = "'truncated_text' is required";
+        }
+        if ($this->container['output_formats'] === null) {
+            $invalidProperties[] = "'output_formats' can't be null";
+        }
+        if ($this->container['preview_generated_at'] === null && !$this->isNullableSetToNull('preview_generated_at')) {
+            $invalidProperties[] = "'preview_generated_at' is required";
         }
         return $invalidProperties;
     }
@@ -810,7 +810,7 @@ class Submission implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets data
      *
-     * @param array<string,mixed>|null $data The submission's data, with the values entered in completed signature requests. Lists leave it out (null) unless you pass `include_data=true`. Empty once the submission has expired.
+     * @param array<string,mixed>|null $data The submission's data, with the values entered in completed signature requests. Empty once the submission has expired. Null in a batch's submissions unless you pass `include_data=true`, and in the events of a webhook that leaves out submission data.
      *
      * @return self
      */
@@ -905,7 +905,7 @@ class Submission implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets metadata
      *
-     * @param array<string,mixed> $metadata Your own data about the submission, such as an ID from your app. It isn't printed on the PDF.
+     * @param array<string,mixed> $metadata Your own data about the submission, such as an ID from your app. It isn't printed on the PDF. Two keys also change the PDF: `pdf_filename` names its file (`files.pdf.filename`, and its download), and `pdf_title` is its title in the PDF's document properties (and an HTML template's `<title>`, unless its HTML has one). Without `pdf_title`, the title is the template's name. In `pdf_filename`, a `.pdf` ending is removed, each run of characters other than letters, digits, `-`, `_` and `.` becomes one `_`, and the first 128 characters are kept, then `.pdf` is added. Without it, the file is named after the submission's ID (`sub_1234567890abcdef01.pdf`).
      *
      * @return self
      */
@@ -915,148 +915,6 @@ class Submission implements ModelInterface, ArrayAccess, \JsonSerializable
             throw new \InvalidArgumentException('non-nullable metadata cannot be null');
         }
         $this->container['metadata'] = $metadata;
-
-        return $this;
-    }
-
-    /**
-     * Gets has_password
-     *
-     * @return bool
-     */
-    public function getHasPassword()
-    {
-        return $this->container['has_password'];
-    }
-
-    /**
-     * Sets has_password
-     *
-     * @param bool $has_password Whether the PDF needs a password to open (`password`).
-     *
-     * @return self
-     */
-    public function setHasPassword($has_password)
-    {
-        if (is_null($has_password)) {
-            throw new \InvalidArgumentException('non-nullable has_password cannot be null');
-        }
-        $this->container['has_password'] = $has_password;
-
-        return $this;
-    }
-
-    /**
-     * Gets signature_requests
-     *
-     * @return \DocSpring\Model\SignatureRequest[]
-     */
-    public function getSignatureRequests()
-    {
-        return $this->container['signature_requests'];
-    }
-
-    /**
-     * Sets signature_requests
-     *
-     * @param \DocSpring\Model\SignatureRequest[] $signature_requests The people asked to sign the submission (and fill in their fields), in order.
-     *
-     * @return self
-     */
-    public function setSignatureRequests($signature_requests)
-    {
-        if (is_null($signature_requests)) {
-            throw new \InvalidArgumentException('non-nullable signature_requests cannot be null');
-        }
-        $this->container['signature_requests'] = $signature_requests;
-
-        return $this;
-    }
-
-    /**
-     * Gets actions
-     *
-     * @return \DocSpring\Model\SubmissionAction[]
-     */
-    public function getActions()
-    {
-        return $this->container['actions'];
-    }
-
-    /**
-     * Sets actions
-     *
-     * @param \DocSpring\Model\SubmissionAction[] $actions The uploads of the submission's PDF to your storage (account integrations).
-     *
-     * @return self
-     */
-    public function setActions($actions)
-    {
-        if (is_null($actions)) {
-            throw new \InvalidArgumentException('non-nullable actions cannot be null');
-        }
-        $this->container['actions'] = $actions;
-
-        return $this;
-    }
-
-    /**
-     * Gets truncated_text
-     *
-     * @return array<string,string[]>|null
-     */
-    public function getTruncatedText()
-    {
-        return $this->container['truncated_text'];
-    }
-
-    /**
-     * Sets truncated_text
-     *
-     * @param array<string,string[]>|null $truncated_text The text of each field that didn't fit in it, by field name. Left out (null) with `data`, and empty once the submission has expired.
-     *
-     * @return self
-     */
-    public function setTruncatedText($truncated_text)
-    {
-        if (is_null($truncated_text)) {
-            array_push($this->openAPINullablesSetToNull, 'truncated_text');
-        } else {
-            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('truncated_text', $nullablesSetToNull);
-            if ($index !== FALSE) {
-                unset($nullablesSetToNull[$index]);
-                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
-            }
-        }
-        $this->container['truncated_text'] = $truncated_text;
-
-        return $this;
-    }
-
-    /**
-     * Gets output_formats
-     *
-     * @return \DocSpring\Model\OutputFormat[]
-     */
-    public function getOutputFormats()
-    {
-        return $this->container['output_formats'];
-    }
-
-    /**
-     * Sets output_formats
-     *
-     * @param \DocSpring\Model\OutputFormat[] $output_formats What the submission makes: `pdf`, and `png` (an image of each page of the PDF, up to 100 pages) when you ask for it. Default `["pdf"]`. POST /submissions/{submission_id}/generate_files adds `png` to a processed submission.
-     *
-     * @return self
-     */
-    public function setOutputFormats($output_formats)
-    {
-        if (is_null($output_formats)) {
-            throw new \InvalidArgumentException('non-nullable output_formats cannot be null');
-        }
-        $this->container['output_formats'] = $output_formats;
 
         return $this;
     }
@@ -1084,40 +942,6 @@ class Submission implements ModelInterface, ArrayAccess, \JsonSerializable
             throw new \InvalidArgumentException('non-nullable files cannot be null');
         }
         $this->container['files'] = $files;
-
-        return $this;
-    }
-
-    /**
-     * Gets preview_generated_at
-     *
-     * @return \DateTime|null
-     */
-    public function getPreviewGeneratedAt()
-    {
-        return $this->container['preview_generated_at'];
-    }
-
-    /**
-     * Sets preview_generated_at
-     *
-     * @param \DateTime|null $preview_generated_at When the preview PDF was generated. Null if there is no preview.
-     *
-     * @return self
-     */
-    public function setPreviewGeneratedAt($preview_generated_at)
-    {
-        if (is_null($preview_generated_at)) {
-            array_push($this->openAPINullablesSetToNull, 'preview_generated_at');
-        } else {
-            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('preview_generated_at', $nullablesSetToNull);
-            if ($index !== FALSE) {
-                unset($nullablesSetToNull[$index]);
-                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
-            }
-        }
-        $this->container['preview_generated_at'] = $preview_generated_at;
 
         return $this;
     }
@@ -1267,6 +1091,182 @@ class Submission implements ModelInterface, ArrayAccess, \JsonSerializable
             throw new \InvalidArgumentException('non-nullable updated_at cannot be null');
         }
         $this->container['updated_at'] = $updated_at;
+
+        return $this;
+    }
+
+    /**
+     * Gets has_password
+     *
+     * @return bool
+     */
+    public function getHasPassword()
+    {
+        return $this->container['has_password'];
+    }
+
+    /**
+     * Sets has_password
+     *
+     * @param bool $has_password Whether the PDF needs a password to open (`password`).
+     *
+     * @return self
+     */
+    public function setHasPassword($has_password)
+    {
+        if (is_null($has_password)) {
+            throw new \InvalidArgumentException('non-nullable has_password cannot be null');
+        }
+        $this->container['has_password'] = $has_password;
+
+        return $this;
+    }
+
+    /**
+     * Gets signature_requests
+     *
+     * @return \DocSpring\Model\SignatureRequest[]
+     */
+    public function getSignatureRequests()
+    {
+        return $this->container['signature_requests'];
+    }
+
+    /**
+     * Sets signature_requests
+     *
+     * @param \DocSpring\Model\SignatureRequest[] $signature_requests The people asked to sign the submission (and fill in their fields), in order.
+     *
+     * @return self
+     */
+    public function setSignatureRequests($signature_requests)
+    {
+        if (is_null($signature_requests)) {
+            throw new \InvalidArgumentException('non-nullable signature_requests cannot be null');
+        }
+        $this->container['signature_requests'] = $signature_requests;
+
+        return $this;
+    }
+
+    /**
+     * Gets actions
+     *
+     * @return \DocSpring\Model\SubmissionAction[]
+     */
+    public function getActions()
+    {
+        return $this->container['actions'];
+    }
+
+    /**
+     * Sets actions
+     *
+     * @param \DocSpring\Model\SubmissionAction[] $actions The uploads of the submission's PDF to your storage (account integrations).
+     *
+     * @return self
+     */
+    public function setActions($actions)
+    {
+        if (is_null($actions)) {
+            throw new \InvalidArgumentException('non-nullable actions cannot be null');
+        }
+        $this->container['actions'] = $actions;
+
+        return $this;
+    }
+
+    /**
+     * Gets truncated_text
+     *
+     * @return array<string,string[]>|null
+     */
+    public function getTruncatedText()
+    {
+        return $this->container['truncated_text'];
+    }
+
+    /**
+     * Sets truncated_text
+     *
+     * @param array<string,string[]>|null $truncated_text The text of each field that didn't fit in it, by field name. Left out (null) with `data`, and empty once the submission has expired.
+     *
+     * @return self
+     */
+    public function setTruncatedText($truncated_text)
+    {
+        if (is_null($truncated_text)) {
+            array_push($this->openAPINullablesSetToNull, 'truncated_text');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('truncated_text', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['truncated_text'] = $truncated_text;
+
+        return $this;
+    }
+
+    /**
+     * Gets output_formats
+     *
+     * @return \DocSpring\Model\OutputFormat[]
+     */
+    public function getOutputFormats()
+    {
+        return $this->container['output_formats'];
+    }
+
+    /**
+     * Sets output_formats
+     *
+     * @param \DocSpring\Model\OutputFormat[] $output_formats What the submission makes: `pdf`, and `png` (an image of each page of the PDF, up to 100 pages) when you ask for it. Default `["pdf"]`. POST /submissions/{submission_id}/generate_files adds `png` to a processed submission.
+     *
+     * @return self
+     */
+    public function setOutputFormats($output_formats)
+    {
+        if (is_null($output_formats)) {
+            throw new \InvalidArgumentException('non-nullable output_formats cannot be null');
+        }
+        $this->container['output_formats'] = $output_formats;
+
+        return $this;
+    }
+
+    /**
+     * Gets preview_generated_at
+     *
+     * @return \DateTime|null
+     */
+    public function getPreviewGeneratedAt()
+    {
+        return $this->container['preview_generated_at'];
+    }
+
+    /**
+     * Sets preview_generated_at
+     *
+     * @param \DateTime|null $preview_generated_at When the preview PDF was generated. Null if there is no preview.
+     *
+     * @return self
+     */
+    public function setPreviewGeneratedAt($preview_generated_at)
+    {
+        if (is_null($preview_generated_at)) {
+            array_push($this->openAPINullablesSetToNull, 'preview_generated_at');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('preview_generated_at', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['preview_generated_at'] = $preview_generated_at;
 
         return $this;
     }

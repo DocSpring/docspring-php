@@ -393,4 +393,13 @@ class UpdateTemplateRequestTest extends TestCase
         // TODO: implement
         self::markTestIncomplete('Not implemented');
     }
+
+    /**
+     * Test attribute "html_escape_data"
+     */
+    public function testPropertyHtmlEscapeData()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
 }

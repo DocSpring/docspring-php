@@ -152,15 +152,6 @@ class TemplateTest extends TestCase
     }
 
     /**
-     * Test attribute "version"
-     */
-    public function testPropertyVersion()
-    {
-        // TODO: implement
-        self::markTestIncomplete('Not implemented');
-    }
-
-    /**
      * Test attribute "latest_version"
      */
     public function testPropertyLatestVersion()
@@ -182,6 +173,42 @@ class TemplateTest extends TestCase
      * Test attribute "locked"
      */
     public function testPropertyLocked()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * Test attribute "last_changed_at"
+     */
+    public function testPropertyLastChangedAt()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * Test attribute "created_at"
+     */
+    public function testPropertyCreatedAt()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * Test attribute "updated_at"
+     */
+    public function testPropertyUpdatedAt()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * Test attribute "version"
+     */
+    public function testPropertyVersion()
     {
         // TODO: implement
         self::markTestIncomplete('Not implemented');
@@ -377,36 +404,9 @@ class TemplateTest extends TestCase
     }
 
     /**
-     * Test attribute "last_changed_at"
-     */
-    public function testPropertyLastChangedAt()
-    {
-        // TODO: implement
-        self::markTestIncomplete('Not implemented');
-    }
-
-    /**
      * Test attribute "last_changed_by"
      */
     public function testPropertyLastChangedBy()
-    {
-        // TODO: implement
-        self::markTestIncomplete('Not implemented');
-    }
-
-    /**
-     * Test attribute "created_at"
-     */
-    public function testPropertyCreatedAt()
-    {
-        // TODO: implement
-        self::markTestIncomplete('Not implemented');
-    }
-
-    /**
-     * Test attribute "updated_at"
-     */
-    public function testPropertyUpdatedAt()
     {
         // TODO: implement
         self::markTestIncomplete('Not implemented');
@@ -497,6 +497,15 @@ class TemplateTest extends TestCase
      * Test attribute "html_engine_options"
      */
     public function testPropertyHtmlEngineOptions()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * Test attribute "html_escape_data"
+     */
+    public function testPropertyHtmlEscapeData()
     {
         // TODO: implement
         self::markTestIncomplete('Not implemented');

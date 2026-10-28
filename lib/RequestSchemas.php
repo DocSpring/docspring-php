@@ -643,7 +643,7 @@ final class RequestSchemas
             "name": {
               "type": "string",
               "minLength": 1,
-              "maxLength": 255
+              "maxLength": 512
             },
             "parent_folder_id": {
               "type": [
@@ -952,7 +952,7 @@ final class RequestSchemas
                       "string",
                       "null"
                     ],
-                    "maxLength": 255
+                    "maxLength": 254
                   },
                   "fields": {
                     "type": "array",
@@ -1180,7 +1180,7 @@ final class RequestSchemas
             "name": {
               "type": "string",
               "minLength": 1,
-              "maxLength": 255
+              "maxLength": 512
             },
             "description": {
               "type": [
@@ -1719,6 +1719,9 @@ final class RequestSchemas
               },
               "additionalProperties": false
             },
+            "html_escape_data": {
+              "type": "boolean"
+            },
             "cache_id": {
               "type": "string",
               "minLength": 1,
@@ -1773,6 +1776,34 @@ final class RequestSchemas
         }
       }
     },
+    "createTemplatePreview": {
+      "query": {
+        "version": {
+          "required": false,
+          "schema": {
+            "type": "string",
+            "pattern": "^(\\d+(\\.\\d+(\\.\\d+)?)?|latest|draft)$",
+            "x-pattern-message": "must be a version like 1.2.3 or 1, or latest or draft"
+          }
+        }
+      },
+      "body": {
+        "mediaType": "application/json",
+        "required": true,
+        "schema": {
+          "type": "object",
+          "required": [
+            "data"
+          ],
+          "properties": {
+            "data": {
+              "type": "object"
+            }
+          },
+          "additionalProperties": false
+        }
+      }
+    },
     "createWebhook": {
       "body": {
         "mediaType": "application/json",
@@ -1785,7 +1816,7 @@ final class RequestSchemas
                 "string",
                 "null"
               ],
-              "maxLength": 255
+              "maxLength": 512
             },
             "url": {
               "type": "string",
@@ -2003,6 +2034,12 @@ final class RequestSchemas
               "go"
             ]
           }
+        },
+        "just_types": {
+          "required": false,
+          "schema": {
+            "type": "boolean"
+          }
         }
       }
     },
@@ -2018,6 +2055,7 @@ final class RequestSchemas
         }
       }
     },
+    "getTemplatePreview": {},
     "getTemplateSchema": {
       "query": {
         "version": {
@@ -2138,6 +2176,33 @@ final class RequestSchemas
           "schema": {
             "type": "string"
           }
+        },
+        "state": {
+          "required": false,
+          "schema": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "processed",
+              "invalid_data",
+              "error",
+              "image_download_failed",
+              "image_processing_failed",
+              "waiting_for_signature_requests",
+              "syntax_error",
+              "insufficient_credits",
+              "account_suspended",
+              "license_revoked",
+              "accidental",
+              "declined"
+            ]
+          }
+        },
+        "include_files": {
+          "required": false,
+          "schema": {
+            "type": "boolean"
+          }
         }
       }
     },
@@ -2193,6 +2258,33 @@ final class RequestSchemas
           "required": false,
           "schema": {
             "type": "string"
+          }
+        },
+        "state": {
+          "required": false,
+          "schema": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "processed",
+              "invalid_data",
+              "error",
+              "image_download_failed",
+              "image_processing_failed",
+              "waiting_for_signature_requests",
+              "syntax_error",
+              "insufficient_credits",
+              "account_suspended",
+              "license_revoked",
+              "accidental",
+              "declined"
+            ]
+          }
+        },
+        "include_files": {
+          "required": false,
+          "schema": {
+            "type": "boolean"
           }
         }
       }
@@ -2550,7 +2642,7 @@ final class RequestSchemas
             "name": {
               "type": "string",
               "minLength": 1,
-              "maxLength": 255
+              "maxLength": 512
             },
             "description": {
               "type": [
@@ -3123,6 +3215,9 @@ final class RequestSchemas
                 }
               },
               "additionalProperties": false
+            },
+            "html_escape_data": {
+              "type": "boolean"
             }
           },
           "additionalProperties": false
@@ -3810,7 +3905,7 @@ final class RequestSchemas
                 "string",
                 "null"
               ],
-              "maxLength": 255
+              "maxLength": 512
             },
             "url": {
               "type": "string",
@@ -3931,7 +4026,7 @@ final class RequestSchemas
             "name": {
               "type": "string",
               "minLength": 1,
-              "maxLength": 255
+              "maxLength": 512
             },
             "description": {
               "type": "string"
@@ -4088,7 +4183,7 @@ final class RequestSchemas
                       "string",
                       "null"
                     ],
-                    "maxLength": 255
+                    "maxLength": 254
                   },
                   "fields": {
                     "type": "array",
@@ -4210,6 +4305,7 @@ final class RequestSchemas
     "GET /templates/{template_id}/fields": "listTemplateFields",
     "GET /templates/{template_id}/model_code": "getTemplateModelCode",
     "GET /templates/{template_id}/page_images": "getTemplatePageImages",
+    "GET /templates/{template_id}/previews/{preview_id}": "getTemplatePreview",
     "GET /templates/{template_id}/schema": "getTemplateSchema",
     "GET /templates/{template_id}/submissions": "listTemplateSubmissions",
     "GET /uploads/presign": "getPresignUrl",
@@ -4232,6 +4328,7 @@ final class RequestSchemas
     "POST /templates/{template_id}/fields/remove": "removeTemplateFields",
     "POST /templates/{template_id}/fields/reorder": "reorderTemplateFields",
     "POST /templates/{template_id}/move": "moveTemplate",
+    "POST /templates/{template_id}/previews": "createTemplatePreview",
     "POST /templates/{template_id}/publish_version": "publishTemplateVersion",
     "POST /templates/{template_id}/restore_version": "restoreTemplateVersion",
     "POST /templates/{template_id}/submissions": "createSubmission",

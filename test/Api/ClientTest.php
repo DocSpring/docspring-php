@@ -192,6 +192,18 @@ class ClientTest extends TestCase
     }
 
     /**
+     * Test case for createTemplatePreview
+     *
+     * Preview a template with data.
+     *
+     */
+    public function testCreateTemplatePreview()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
      * Test case for createWebhook
      *
      * Create a webhook.
@@ -426,6 +438,18 @@ class ClientTest extends TestCase
      *
      */
     public function testGetTemplatePageImages()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * Test case for getTemplatePreview
+     *
+     * Get a template preview.
+     *
+     */
+    public function testGetTemplatePreview()
     {
         // TODO: implement
         self::markTestIncomplete('Not implemented');

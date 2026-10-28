@@ -104,6 +104,9 @@ class Client
         'createTemplate' => [
             'application/json',
         ],
+        'createTemplatePreview' => [
+            'application/json',
+        ],
         'createWebhook' => [
             'application/json',
         ],
@@ -162,6 +165,9 @@ class Client
             'application/json',
         ],
         'getTemplatePageImages' => [
+            'application/json',
+        ],
+        'getTemplatePreview' => [
             'application/json',
         ],
         'getTemplateSchema' => [
@@ -301,7 +307,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \DocSpring\Model\TemplateFields|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
+     * @return \DocSpring\Model\TemplateFields|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
      */
     public function addTemplateFields($template_id, $body, string $contentType = self::contentTypes['addTemplateFields'][0])
     {
@@ -320,7 +326,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \DocSpring\Model\TemplateFields|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \DocSpring\Model\TemplateFields|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
     public function addTemplateFieldsWithHttpInfo($template_id, $body, string $contentType = self::contentTypes['addTemplateFields'][0])
     {
@@ -375,6 +381,12 @@ class Client
                         $response,
                     );
                 case 401:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 429:
                     return $this->handleResponseWithDataType(
                         '\DocSpring\Model\ErrorResponse',
                         $request,
@@ -437,6 +449,14 @@ class Client
                     $e->setResponseObject($data);
                     throw $e;
                 case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\DocSpring\Model\ErrorResponse',
@@ -660,7 +680,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \DocSpring\Model\Template|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
+     * @return \DocSpring\Model\Template|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
      */
     public function copyTemplate($template_id, $body = null, string $contentType = self::contentTypes['copyTemplate'][0])
     {
@@ -679,7 +699,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \DocSpring\Model\Template|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \DocSpring\Model\Template|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
     public function copyTemplateWithHttpInfo($template_id, $body = null, string $contentType = self::contentTypes['copyTemplate'][0])
     {
@@ -734,6 +754,12 @@ class Client
                         $response,
                     );
                 case 401:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 429:
                     return $this->handleResponseWithDataType(
                         '\DocSpring\Model\ErrorResponse',
                         $request,
@@ -796,6 +822,14 @@ class Client
                     $e->setResponseObject($data);
                     throw $e;
                 case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\DocSpring\Model\ErrorResponse',
@@ -1009,15 +1043,16 @@ class Client
      *
      * @param  \DocSpring\Model\CreateCombinedPdfRequest $body The PDFs to merge, and the combined PDF's settings. (required)
      * @param  bool|null $wait Wait until the PDF has been generated before responding. Default true on sync.api hosts. (optional)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of creating another combined PDF. Send a new key with each new combined PDF, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` means the first request is still being processed: send the request again in a few seconds. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createCombinedPdf'] to see the possible values for this operation
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \DocSpring\Model\CombinedPdf|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
+     * @return \DocSpring\Model\CombinedPdf|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
      */
-    public function createCombinedPdf($body, $wait = null, string $contentType = self::contentTypes['createCombinedPdf'][0])
+    public function createCombinedPdf($body, $wait = null, $idempotency_key = null, string $contentType = self::contentTypes['createCombinedPdf'][0])
     {
-        list($response) = $this->createCombinedPdfWithHttpInfo($body, $wait, $contentType);
+        list($response) = $this->createCombinedPdfWithHttpInfo($body, $wait, $idempotency_key, $contentType);
         return $response;
     }
 
@@ -1028,15 +1063,16 @@ class Client
      *
      * @param  \DocSpring\Model\CreateCombinedPdfRequest $body The PDFs to merge, and the combined PDF's settings. (required)
      * @param  bool|null $wait Wait until the PDF has been generated before responding. Default true on sync.api hosts. (optional)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of creating another combined PDF. Send a new key with each new combined PDF, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` means the first request is still being processed: send the request again in a few seconds. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createCombinedPdf'] to see the possible values for this operation
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \DocSpring\Model\CombinedPdf|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \DocSpring\Model\CombinedPdf|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function createCombinedPdfWithHttpInfo($body, $wait = null, string $contentType = self::contentTypes['createCombinedPdf'][0])
+    public function createCombinedPdfWithHttpInfo($body, $wait = null, $idempotency_key = null, string $contentType = self::contentTypes['createCombinedPdf'][0])
     {
-        $request = $this->createCombinedPdfRequest($body, $wait, $contentType);
+        $request = $this->createCombinedPdfRequest($body, $wait, $idempotency_key, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -1086,7 +1122,25 @@ class Client
                         $request,
                         $response,
                     );
+                case 409:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
                 case 401:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 429:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 504:
                     return $this->handleResponseWithDataType(
                         '\DocSpring\Model\ErrorResponse',
                         $request,
@@ -1148,7 +1202,31 @@ class Client
                     );
                     $e->setResponseObject($data);
                     throw $e;
+                case 409:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
                 case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 429:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 504:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\DocSpring\Model\ErrorResponse',
@@ -1170,14 +1248,15 @@ class Client
      *
      * @param  \DocSpring\Model\CreateCombinedPdfRequest $body The PDFs to merge, and the combined PDF's settings. (required)
      * @param  bool|null $wait Wait until the PDF has been generated before responding. Default true on sync.api hosts. (optional)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of creating another combined PDF. Send a new key with each new combined PDF, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` means the first request is still being processed: send the request again in a few seconds. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createCombinedPdf'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function createCombinedPdfAsync($body, $wait = null, string $contentType = self::contentTypes['createCombinedPdf'][0])
+    public function createCombinedPdfAsync($body, $wait = null, $idempotency_key = null, string $contentType = self::contentTypes['createCombinedPdf'][0])
     {
-        return $this->createCombinedPdfAsyncWithHttpInfo($body, $wait, $contentType)
+        return $this->createCombinedPdfAsyncWithHttpInfo($body, $wait, $idempotency_key, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -1192,15 +1271,16 @@ class Client
      *
      * @param  \DocSpring\Model\CreateCombinedPdfRequest $body The PDFs to merge, and the combined PDF's settings. (required)
      * @param  bool|null $wait Wait until the PDF has been generated before responding. Default true on sync.api hosts. (optional)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of creating another combined PDF. Send a new key with each new combined PDF, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` means the first request is still being processed: send the request again in a few seconds. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createCombinedPdf'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function createCombinedPdfAsyncWithHttpInfo($body, $wait = null, string $contentType = self::contentTypes['createCombinedPdf'][0])
+    public function createCombinedPdfAsyncWithHttpInfo($body, $wait = null, $idempotency_key = null, string $contentType = self::contentTypes['createCombinedPdf'][0])
     {
         $returnType = '\DocSpring\Model\CombinedPdf';
-        $request = $this->createCombinedPdfRequest($body, $wait, $contentType);
+        $request = $this->createCombinedPdfRequest($body, $wait, $idempotency_key, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -1243,12 +1323,13 @@ class Client
      *
      * @param  \DocSpring\Model\CreateCombinedPdfRequest $body The PDFs to merge, and the combined PDF's settings. (required)
      * @param  bool|null $wait Wait until the PDF has been generated before responding. Default true on sync.api hosts. (optional)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of creating another combined PDF. Send a new key with each new combined PDF, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` means the first request is still being processed: send the request again in a few seconds. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createCombinedPdf'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function createCombinedPdfRequest($body, $wait = null, string $contentType = self::contentTypes['createCombinedPdf'][0])
+    public function createCombinedPdfRequest($body, $wait = null, $idempotency_key = null, string $contentType = self::contentTypes['createCombinedPdf'][0])
     {
 
         // verify the required parameter 'body' is set
@@ -1257,6 +1338,7 @@ class Client
                 'Missing the required parameter $body when calling createCombinedPdf'
             );
         }
+
 
 
 
@@ -1277,6 +1359,10 @@ class Client
             false // required
         ) ?? []);
 
+        // header params
+        if ($idempotency_key !== null) {
+            $headerParams['Idempotency-Key'] = ObjectSerializer::toHeaderValue($idempotency_key);
+        }
 
 
 
@@ -1366,7 +1452,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \DocSpring\Model\CustomFile|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
+     * @return \DocSpring\Model\CustomFile|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
      */
     public function createCustomFileFromUpload($body, string $contentType = self::contentTypes['createCustomFileFromUpload'][0])
     {
@@ -1384,7 +1470,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \DocSpring\Model\CustomFile|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \DocSpring\Model\CustomFile|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
     public function createCustomFileFromUploadWithHttpInfo($body, string $contentType = self::contentTypes['createCustomFileFromUpload'][0])
     {
@@ -1432,6 +1518,12 @@ class Client
                         $request,
                         $response,
                     );
+                case 429:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
             }
 
             
@@ -1473,6 +1565,14 @@ class Client
                     $e->setResponseObject($data);
                     throw $e;
                 case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\DocSpring\Model\ErrorResponse',
@@ -1677,7 +1777,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \DocSpring\Model\Folder|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
+     * @return \DocSpring\Model\Folder|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
      */
     public function createFolder($body, string $contentType = self::contentTypes['createFolder'][0])
     {
@@ -1695,7 +1795,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \DocSpring\Model\Folder|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \DocSpring\Model\Folder|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
     public function createFolderWithHttpInfo($body, string $contentType = self::contentTypes['createFolder'][0])
     {
@@ -1743,6 +1843,12 @@ class Client
                         $request,
                         $response,
                     );
+                case 429:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
             }
 
             
@@ -1784,6 +1890,14 @@ class Client
                     $e->setResponseObject($data);
                     throw $e;
                 case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\DocSpring\Model\ErrorResponse',
@@ -1989,7 +2103,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \DocSpring\Model\SignatureRequestEvent|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
+     * @return \DocSpring\Model\SignatureRequestEvent|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
      */
     public function createSignatureRequestEvent($signature_request_id, $body, string $contentType = self::contentTypes['createSignatureRequestEvent'][0])
     {
@@ -2008,7 +2122,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \DocSpring\Model\SignatureRequestEvent|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \DocSpring\Model\SignatureRequestEvent|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
     public function createSignatureRequestEventWithHttpInfo($signature_request_id, $body, string $contentType = self::contentTypes['createSignatureRequestEvent'][0])
     {
@@ -2044,6 +2158,18 @@ class Client
                         $request,
                         $response,
                     );
+                case 403:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 409:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
                 case 422:
                     return $this->handleResponseWithDataType(
                         '\DocSpring\Model\ErrorResponse',
@@ -2057,6 +2183,12 @@ class Client
                         $response,
                     );
                 case 401:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 429:
                     return $this->handleResponseWithDataType(
                         '\DocSpring\Model\ErrorResponse',
                         $request,
@@ -2094,6 +2226,22 @@ class Client
                     );
                     $e->setResponseObject($data);
                     throw $e;
+                case 403:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 409:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
                 case 422:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
@@ -2111,6 +2259,14 @@ class Client
                     $e->setResponseObject($data);
                     throw $e;
                 case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\DocSpring\Model\ErrorResponse',
@@ -2334,7 +2490,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \DocSpring\Model\SignatureRequestToken|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
+     * @return \DocSpring\Model\SignatureRequestToken|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
      */
     public function createSignatureRequestToken($signature_request_id, $body = null, string $contentType = self::contentTypes['createSignatureRequestToken'][0])
     {
@@ -2353,7 +2509,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \DocSpring\Model\SignatureRequestToken|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \DocSpring\Model\SignatureRequestToken|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
     public function createSignatureRequestTokenWithHttpInfo($signature_request_id, $body = null, string $contentType = self::contentTypes['createSignatureRequestToken'][0])
     {
@@ -2414,6 +2570,12 @@ class Client
                         $response,
                     );
                 case 401:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 429:
                     return $this->handleResponseWithDataType(
                         '\DocSpring\Model\ErrorResponse',
                         $request,
@@ -2484,6 +2646,14 @@ class Client
                     $e->setResponseObject($data);
                     throw $e;
                 case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\DocSpring\Model\ErrorResponse',
@@ -2699,15 +2869,16 @@ class Client
      * @param  \DocSpring\Model\CreateSubmissionRequest $body The submission's data and settings. (required)
      * @param  string|null $version The template version to use: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `latest` (the draft when no version has been published). (optional)
      * @param  bool|null $wait Wait until the files have been generated before responding. Default true on sync.api hosts. (optional)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of creating another submission. Send a new key with each new submission, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` means the first request is still being processed: send the request again in a few seconds. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createSubmission'] to see the possible values for this operation
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \DocSpring\Model\Submission|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
+     * @return \DocSpring\Model\Submission|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
      */
-    public function createSubmission($template_id, $body, $version = null, $wait = null, string $contentType = self::contentTypes['createSubmission'][0])
+    public function createSubmission($template_id, $body, $version = null, $wait = null, $idempotency_key = null, string $contentType = self::contentTypes['createSubmission'][0])
     {
-        list($response) = $this->createSubmissionWithHttpInfo($template_id, $body, $version, $wait, $contentType);
+        list($response) = $this->createSubmissionWithHttpInfo($template_id, $body, $version, $wait, $idempotency_key, $contentType);
         return $response;
     }
 
@@ -2720,15 +2891,16 @@ class Client
      * @param  \DocSpring\Model\CreateSubmissionRequest $body The submission's data and settings. (required)
      * @param  string|null $version The template version to use: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `latest` (the draft when no version has been published). (optional)
      * @param  bool|null $wait Wait until the files have been generated before responding. Default true on sync.api hosts. (optional)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of creating another submission. Send a new key with each new submission, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` means the first request is still being processed: send the request again in a few seconds. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createSubmission'] to see the possible values for this operation
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \DocSpring\Model\Submission|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \DocSpring\Model\Submission|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function createSubmissionWithHttpInfo($template_id, $body, $version = null, $wait = null, string $contentType = self::contentTypes['createSubmission'][0])
+    public function createSubmissionWithHttpInfo($template_id, $body, $version = null, $wait = null, $idempotency_key = null, string $contentType = self::contentTypes['createSubmission'][0])
     {
-        $request = $this->createSubmissionRequest($template_id, $body, $version, $wait, $contentType);
+        $request = $this->createSubmissionRequest($template_id, $body, $version, $wait, $idempotency_key, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -2784,7 +2956,25 @@ class Client
                         $request,
                         $response,
                     );
+                case 409:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
                 case 401:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 429:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 504:
                     return $this->handleResponseWithDataType(
                         '\DocSpring\Model\ErrorResponse',
                         $request,
@@ -2854,7 +3044,31 @@ class Client
                     );
                     $e->setResponseObject($data);
                     throw $e;
+                case 409:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
                 case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 429:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 504:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\DocSpring\Model\ErrorResponse',
@@ -2878,14 +3092,15 @@ class Client
      * @param  \DocSpring\Model\CreateSubmissionRequest $body The submission's data and settings. (required)
      * @param  string|null $version The template version to use: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `latest` (the draft when no version has been published). (optional)
      * @param  bool|null $wait Wait until the files have been generated before responding. Default true on sync.api hosts. (optional)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of creating another submission. Send a new key with each new submission, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` means the first request is still being processed: send the request again in a few seconds. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createSubmission'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function createSubmissionAsync($template_id, $body, $version = null, $wait = null, string $contentType = self::contentTypes['createSubmission'][0])
+    public function createSubmissionAsync($template_id, $body, $version = null, $wait = null, $idempotency_key = null, string $contentType = self::contentTypes['createSubmission'][0])
     {
-        return $this->createSubmissionAsyncWithHttpInfo($template_id, $body, $version, $wait, $contentType)
+        return $this->createSubmissionAsyncWithHttpInfo($template_id, $body, $version, $wait, $idempotency_key, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -2902,15 +3117,16 @@ class Client
      * @param  \DocSpring\Model\CreateSubmissionRequest $body The submission's data and settings. (required)
      * @param  string|null $version The template version to use: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `latest` (the draft when no version has been published). (optional)
      * @param  bool|null $wait Wait until the files have been generated before responding. Default true on sync.api hosts. (optional)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of creating another submission. Send a new key with each new submission, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` means the first request is still being processed: send the request again in a few seconds. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createSubmission'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function createSubmissionAsyncWithHttpInfo($template_id, $body, $version = null, $wait = null, string $contentType = self::contentTypes['createSubmission'][0])
+    public function createSubmissionAsyncWithHttpInfo($template_id, $body, $version = null, $wait = null, $idempotency_key = null, string $contentType = self::contentTypes['createSubmission'][0])
     {
         $returnType = '\DocSpring\Model\Submission';
-        $request = $this->createSubmissionRequest($template_id, $body, $version, $wait, $contentType);
+        $request = $this->createSubmissionRequest($template_id, $body, $version, $wait, $idempotency_key, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -2955,12 +3171,13 @@ class Client
      * @param  \DocSpring\Model\CreateSubmissionRequest $body The submission's data and settings. (required)
      * @param  string|null $version The template version to use: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `latest` (the draft when no version has been published). (optional)
      * @param  bool|null $wait Wait until the files have been generated before responding. Default true on sync.api hosts. (optional)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of creating another submission. Send a new key with each new submission, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` means the first request is still being processed: send the request again in a few seconds. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createSubmission'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function createSubmissionRequest($template_id, $body, $version = null, $wait = null, string $contentType = self::contentTypes['createSubmission'][0])
+    public function createSubmissionRequest($template_id, $body, $version = null, $wait = null, $idempotency_key = null, string $contentType = self::contentTypes['createSubmission'][0])
     {
 
         // verify the required parameter 'template_id' is set
@@ -2976,6 +3193,7 @@ class Client
                 'Missing the required parameter $body when calling createSubmission'
             );
         }
+
 
 
 
@@ -3006,6 +3224,10 @@ class Client
             false // required
         ) ?? []);
 
+        // header params
+        if ($idempotency_key !== null) {
+            $headerParams['Idempotency-Key'] = ObjectSerializer::toHeaderValue($idempotency_key);
+        }
 
         // path params
         if ($template_id !== null) {
@@ -3100,15 +3322,16 @@ class Client
      *
      * @param  \DocSpring\Model\CreateSubmissionBatchRequest $body The submissions to create, and the settings they share. (required)
      * @param  bool|null $wait Wait until every PDF in the batch has been generated before responding. Default true on sync.api hosts. (optional)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of creating another batch. Send a new key with each new batch, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` means the first request is still being processed: send the request again in a few seconds. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createSubmissionBatch'] to see the possible values for this operation
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \DocSpring\Model\SubmissionBatch|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
+     * @return \DocSpring\Model\SubmissionBatch|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
      */
-    public function createSubmissionBatch($body, $wait = null, string $contentType = self::contentTypes['createSubmissionBatch'][0])
+    public function createSubmissionBatch($body, $wait = null, $idempotency_key = null, string $contentType = self::contentTypes['createSubmissionBatch'][0])
     {
-        list($response) = $this->createSubmissionBatchWithHttpInfo($body, $wait, $contentType);
+        list($response) = $this->createSubmissionBatchWithHttpInfo($body, $wait, $idempotency_key, $contentType);
         return $response;
     }
 
@@ -3119,15 +3342,16 @@ class Client
      *
      * @param  \DocSpring\Model\CreateSubmissionBatchRequest $body The submissions to create, and the settings they share. (required)
      * @param  bool|null $wait Wait until every PDF in the batch has been generated before responding. Default true on sync.api hosts. (optional)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of creating another batch. Send a new key with each new batch, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` means the first request is still being processed: send the request again in a few seconds. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createSubmissionBatch'] to see the possible values for this operation
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \DocSpring\Model\SubmissionBatch|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \DocSpring\Model\SubmissionBatch|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function createSubmissionBatchWithHttpInfo($body, $wait = null, string $contentType = self::contentTypes['createSubmissionBatch'][0])
+    public function createSubmissionBatchWithHttpInfo($body, $wait = null, $idempotency_key = null, string $contentType = self::contentTypes['createSubmissionBatch'][0])
     {
-        $request = $this->createSubmissionBatchRequest($body, $wait, $contentType);
+        $request = $this->createSubmissionBatchRequest($body, $wait, $idempotency_key, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -3177,7 +3401,25 @@ class Client
                         $request,
                         $response,
                     );
+                case 409:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
                 case 401:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 429:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 504:
                     return $this->handleResponseWithDataType(
                         '\DocSpring\Model\ErrorResponse',
                         $request,
@@ -3239,7 +3481,31 @@ class Client
                     );
                     $e->setResponseObject($data);
                     throw $e;
+                case 409:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
                 case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 429:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 504:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\DocSpring\Model\ErrorResponse',
@@ -3261,14 +3527,15 @@ class Client
      *
      * @param  \DocSpring\Model\CreateSubmissionBatchRequest $body The submissions to create, and the settings they share. (required)
      * @param  bool|null $wait Wait until every PDF in the batch has been generated before responding. Default true on sync.api hosts. (optional)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of creating another batch. Send a new key with each new batch, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` means the first request is still being processed: send the request again in a few seconds. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createSubmissionBatch'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function createSubmissionBatchAsync($body, $wait = null, string $contentType = self::contentTypes['createSubmissionBatch'][0])
+    public function createSubmissionBatchAsync($body, $wait = null, $idempotency_key = null, string $contentType = self::contentTypes['createSubmissionBatch'][0])
     {
-        return $this->createSubmissionBatchAsyncWithHttpInfo($body, $wait, $contentType)
+        return $this->createSubmissionBatchAsyncWithHttpInfo($body, $wait, $idempotency_key, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -3283,15 +3550,16 @@ class Client
      *
      * @param  \DocSpring\Model\CreateSubmissionBatchRequest $body The submissions to create, and the settings they share. (required)
      * @param  bool|null $wait Wait until every PDF in the batch has been generated before responding. Default true on sync.api hosts. (optional)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of creating another batch. Send a new key with each new batch, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` means the first request is still being processed: send the request again in a few seconds. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createSubmissionBatch'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function createSubmissionBatchAsyncWithHttpInfo($body, $wait = null, string $contentType = self::contentTypes['createSubmissionBatch'][0])
+    public function createSubmissionBatchAsyncWithHttpInfo($body, $wait = null, $idempotency_key = null, string $contentType = self::contentTypes['createSubmissionBatch'][0])
     {
         $returnType = '\DocSpring\Model\SubmissionBatch';
-        $request = $this->createSubmissionBatchRequest($body, $wait, $contentType);
+        $request = $this->createSubmissionBatchRequest($body, $wait, $idempotency_key, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -3334,12 +3602,13 @@ class Client
      *
      * @param  \DocSpring\Model\CreateSubmissionBatchRequest $body The submissions to create, and the settings they share. (required)
      * @param  bool|null $wait Wait until every PDF in the batch has been generated before responding. Default true on sync.api hosts. (optional)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of creating another batch. Send a new key with each new batch, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` means the first request is still being processed: send the request again in a few seconds. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createSubmissionBatch'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function createSubmissionBatchRequest($body, $wait = null, string $contentType = self::contentTypes['createSubmissionBatch'][0])
+    public function createSubmissionBatchRequest($body, $wait = null, $idempotency_key = null, string $contentType = self::contentTypes['createSubmissionBatch'][0])
     {
 
         // verify the required parameter 'body' is set
@@ -3348,6 +3617,7 @@ class Client
                 'Missing the required parameter $body when calling createSubmissionBatch'
             );
         }
+
 
 
 
@@ -3368,6 +3638,10 @@ class Client
             false // required
         ) ?? []);
 
+        // header params
+        if ($idempotency_key !== null) {
+            $headerParams['Idempotency-Key'] = ObjectSerializer::toHeaderValue($idempotency_key);
+        }
 
 
 
@@ -3458,7 +3732,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \DocSpring\Model\Template|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
+     * @return \DocSpring\Model\Template|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
      */
     public function createTemplate($body, $wait = null, string $contentType = self::contentTypes['createTemplate'][0])
     {
@@ -3477,7 +3751,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \DocSpring\Model\Template|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \DocSpring\Model\Template|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
     public function createTemplateWithHttpInfo($body, $wait = null, string $contentType = self::contentTypes['createTemplate'][0])
     {
@@ -3526,6 +3800,18 @@ class Client
                         $response,
                     );
                 case 401:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 429:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 504:
                     return $this->handleResponseWithDataType(
                         '\DocSpring\Model\ErrorResponse',
                         $request,
@@ -3580,6 +3866,22 @@ class Client
                     $e->setResponseObject($data);
                     throw $e;
                 case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 429:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 504:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\DocSpring\Model\ErrorResponse',
@@ -3788,6 +4090,366 @@ class Client
     }
 
     /**
+     * Operation createTemplatePreview
+     *
+     * Preview a template with data
+     *
+     * @param  string $template_id The template's ID. (required)
+     * @param  \DocSpring\Model\CreateTemplatePreviewRequest $body The data to render the template with. (required)
+     * @param  string|null $version A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `draft`. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createTemplatePreview'] to see the possible values for this operation
+     *
+     * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \InvalidArgumentException
+     * @return \DocSpring\Model\TemplatePreview|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
+     */
+    public function createTemplatePreview($template_id, $body, $version = null, string $contentType = self::contentTypes['createTemplatePreview'][0])
+    {
+        list($response) = $this->createTemplatePreviewWithHttpInfo($template_id, $body, $version, $contentType);
+        return $response;
+    }
+
+    /**
+     * Operation createTemplatePreviewWithHttpInfo
+     *
+     * Preview a template with data
+     *
+     * @param  string $template_id The template's ID. (required)
+     * @param  \DocSpring\Model\CreateTemplatePreviewRequest $body The data to render the template with. (required)
+     * @param  string|null $version A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `draft`. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createTemplatePreview'] to see the possible values for this operation
+     *
+     * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \InvalidArgumentException
+     * @return array of \DocSpring\Model\TemplatePreview|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function createTemplatePreviewWithHttpInfo($template_id, $body, $version = null, string $contentType = self::contentTypes['createTemplatePreview'][0])
+    {
+        $request = $this->createTemplatePreviewRequest($template_id, $body, $version, $contentType);
+
+        try {
+            $options = $this->createHttpClientOption();
+            try {
+                $response = $this->client->send($request, $options);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null,
+                    $e->getResponse() ? (string) $e->getResponse()->getBody() : null
+                );
+            } catch (ConnectException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    null,
+                    null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+
+            switch($statusCode) {
+                case 201:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\TemplatePreview',
+                        $request,
+                        $response,
+                    );
+                case 409:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 422:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 429:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+            }
+
+            
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        (string) $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    (string) $response->getBody()
+                );
+            }
+
+            return $this->handleResponseWithDataType(
+                '\DocSpring\Model\TemplatePreview',
+                $request,
+                $response,
+            );
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 201:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\TemplatePreview',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 409:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 422:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 429:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+            }
+        
+
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation createTemplatePreviewAsync
+     *
+     * Preview a template with data
+     *
+     * @param  string $template_id The template's ID. (required)
+     * @param  \DocSpring\Model\CreateTemplatePreviewRequest $body The data to render the template with. (required)
+     * @param  string|null $version A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `draft`. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createTemplatePreview'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function createTemplatePreviewAsync($template_id, $body, $version = null, string $contentType = self::contentTypes['createTemplatePreview'][0])
+    {
+        return $this->createTemplatePreviewAsyncWithHttpInfo($template_id, $body, $version, $contentType)
+            ->then(
+                function ($response) {
+                    return $response[0];
+                }
+            );
+    }
+
+    /**
+     * Operation createTemplatePreviewAsyncWithHttpInfo
+     *
+     * Preview a template with data
+     *
+     * @param  string $template_id The template's ID. (required)
+     * @param  \DocSpring\Model\CreateTemplatePreviewRequest $body The data to render the template with. (required)
+     * @param  string|null $version A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `draft`. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createTemplatePreview'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function createTemplatePreviewAsyncWithHttpInfo($template_id, $body, $version = null, string $contentType = self::contentTypes['createTemplatePreview'][0])
+    {
+        $returnType = '\DocSpring\Model\TemplatePreview';
+        $request = $this->createTemplatePreviewRequest($template_id, $body, $version, $contentType);
+
+        return $this->client
+            ->sendAsync($request, $this->createHttpClientOption())
+            ->then(
+                function ($response) use ($returnType) {
+                    if ($returnType === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ($returnType !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                },
+                function ($exception) {
+                    $response = $exception->getResponse();
+                    $statusCode = $response->getStatusCode();
+                    throw new ApiException(
+                        sprintf(
+                            '[%d] Error connecting to the API (%s)',
+                            $statusCode,
+                            $exception->getRequest()->getUri()
+                        ),
+                        $statusCode,
+                        $response->getHeaders(),
+                        (string) $response->getBody()
+                    );
+                }
+            );
+    }
+
+    /**
+     * Create request for operation 'createTemplatePreview'
+     *
+     * @param  string $template_id The template's ID. (required)
+     * @param  \DocSpring\Model\CreateTemplatePreviewRequest $body The data to render the template with. (required)
+     * @param  string|null $version A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `draft`. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createTemplatePreview'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    public function createTemplatePreviewRequest($template_id, $body, $version = null, string $contentType = self::contentTypes['createTemplatePreview'][0])
+    {
+
+        // verify the required parameter 'template_id' is set
+        if ($template_id === null || (is_array($template_id) && count($template_id) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $template_id when calling createTemplatePreview'
+            );
+        }
+
+        // verify the required parameter 'body' is set
+        if ($body === null || (is_array($body) && count($body) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $body when calling createTemplatePreview'
+            );
+        }
+
+
+
+        $resourcePath = '/templates/{template_id}/previews';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = '';
+        $multipart = false;
+
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $version,
+            'version', // param base name
+            'string', // openApiType
+            'form', // style
+            true, // explode
+            false // required
+        ) ?? []);
+
+
+        // path params
+        if ($template_id !== null) {
+            $resourcePath = str_replace(
+                '{template_id}',
+                ObjectSerializer::toPathValue($template_id),
+                $resourcePath
+            );
+        }
+
+
+        $headers = $this->headerSelector->selectHeaders(
+            ['application/json', ],
+            $contentType,
+            $multipart
+        );
+
+        // for model (json/xml)
+        if (isset($body)) {
+            if (stripos($headers['Content-Type'], 'application/json') !== false) {
+                # if Content-Type contains "application/json", json_encode the body
+                try {
+                    $httpBody = json_encode(ObjectSerializer::sanitizeForSerialization($body), JSON_THROW_ON_ERROR);
+                } catch (\JsonException $e) {
+                    throw new \InvalidArgumentException('json_encode error: ' . $e->getMessage(), 0, $e);
+                }
+            } else {
+                $httpBody = $body;
+            }
+        } elseif (count($formParams) > 0) {
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
+                    foreach ($formParamValueItems as $formParamValueItem) {
+                        $multipartContents[] = [
+                            'name' => $formParamName,
+                            'contents' => $formParamValueItem
+                        ];
+                    }
+                }
+                // for HTTP post (form)
+                $httpBody = new MultipartStream($multipartContents);
+
+            } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
+                # if Content-Type contains "application/json", json_encode the form parameters
+                try {
+                    $httpBody = json_encode($formParams, JSON_THROW_ON_ERROR);
+                } catch (\JsonException $e) {
+                    throw new \InvalidArgumentException('json_encode error: ' . $e->getMessage(), 0, $e);
+                }
+            } else {
+                // for HTTP post (form)
+                $httpBody = ObjectSerializer::buildQuery($formParams);
+            }
+        }
+
+        // this endpoint requires HTTP basic authentication
+        if (!empty($this->config->getUsername()) || !(empty($this->config->getPassword()))) {
+            $headers['Authorization'] = 'Basic ' . base64_encode($this->config->getUsername() . ":" . $this->config->getPassword());
+        }
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        if ($this->config->getValidateRequests()) {
+            \DocSpring\RequestValidator::validateRequest('createTemplatePreview', $queryParams, count($formParams) > 0 ? $formParams : ($httpBody === '' ? null : $httpBody));
+        }
+
+        $operationHost = $this->config->getHost();
+        $query = ObjectSerializer::buildQuery($queryParams);
+        return new Request(
+            'POST',
+            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
+            $headers,
+            $httpBody
+        );
+    }
+
+    /**
      * Operation createWebhook
      *
      * Create a webhook
@@ -3797,7 +4459,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \DocSpring\Model\Webhook|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
+     * @return \DocSpring\Model\Webhook|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
      */
     public function createWebhook($body, string $contentType = self::contentTypes['createWebhook'][0])
     {
@@ -3815,7 +4477,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \DocSpring\Model\Webhook|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \DocSpring\Model\Webhook|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
     public function createWebhookWithHttpInfo($body, string $contentType = self::contentTypes['createWebhook'][0])
     {
@@ -3863,6 +4525,12 @@ class Client
                         $request,
                         $response,
                     );
+                case 429:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
             }
 
             
@@ -3904,6 +4572,14 @@ class Client
                     $e->setResponseObject($data);
                     throw $e;
                 case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\DocSpring\Model\ErrorResponse',
@@ -4108,7 +4784,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \DocSpring\Model\CustomFile|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
+     * @return \DocSpring\Model\CustomFile|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
      */
     public function deleteCustomFile($custom_file_id, string $contentType = self::contentTypes['deleteCustomFile'][0])
     {
@@ -4126,7 +4802,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \DocSpring\Model\CustomFile|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \DocSpring\Model\CustomFile|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
     public function deleteCustomFileWithHttpInfo($custom_file_id, string $contentType = self::contentTypes['deleteCustomFile'][0])
     {
@@ -4175,6 +4851,12 @@ class Client
                         $response,
                     );
                 case 401:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 429:
                     return $this->handleResponseWithDataType(
                         '\DocSpring\Model\ErrorResponse',
                         $request,
@@ -4229,6 +4911,14 @@ class Client
                     $e->setResponseObject($data);
                     throw $e;
                 case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\DocSpring\Model\ErrorResponse',
@@ -4430,7 +5120,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \DocSpring\Model\Folder|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
+     * @return \DocSpring\Model\Folder|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
      */
     public function deleteFolder($folder_id, string $contentType = self::contentTypes['deleteFolder'][0])
     {
@@ -4448,7 +5138,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \DocSpring\Model\Folder|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \DocSpring\Model\Folder|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
     public function deleteFolderWithHttpInfo($folder_id, string $contentType = self::contentTypes['deleteFolder'][0])
     {
@@ -4497,6 +5187,12 @@ class Client
                         $response,
                     );
                 case 401:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 429:
                     return $this->handleResponseWithDataType(
                         '\DocSpring\Model\ErrorResponse',
                         $request,
@@ -4551,6 +5247,14 @@ class Client
                     $e->setResponseObject($data);
                     throw $e;
                 case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\DocSpring\Model\ErrorResponse',
@@ -4753,7 +5457,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \DocSpring\Model\Template|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
+     * @return \DocSpring\Model\Template|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
      */
     public function deleteTemplate($template_id, $version = null, string $contentType = self::contentTypes['deleteTemplate'][0])
     {
@@ -4772,7 +5476,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \DocSpring\Model\Template|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \DocSpring\Model\Template|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
     public function deleteTemplateWithHttpInfo($template_id, $version = null, string $contentType = self::contentTypes['deleteTemplate'][0])
     {
@@ -4827,6 +5531,12 @@ class Client
                         $response,
                     );
                 case 401:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 429:
                     return $this->handleResponseWithDataType(
                         '\DocSpring\Model\ErrorResponse',
                         $request,
@@ -4889,6 +5599,14 @@ class Client
                     $e->setResponseObject($data);
                     throw $e;
                 case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\DocSpring\Model\ErrorResponse',
@@ -5103,7 +5821,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \DocSpring\Model\Webhook|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
+     * @return \DocSpring\Model\Webhook|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
      */
     public function deleteWebhook($webhook_id, string $contentType = self::contentTypes['deleteWebhook'][0])
     {
@@ -5121,7 +5839,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \DocSpring\Model\Webhook|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \DocSpring\Model\Webhook|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
     public function deleteWebhookWithHttpInfo($webhook_id, string $contentType = self::contentTypes['deleteWebhook'][0])
     {
@@ -5169,6 +5887,12 @@ class Client
                         $request,
                         $response,
                     );
+                case 429:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
             }
 
             
@@ -5210,6 +5934,14 @@ class Client
                     $e->setResponseObject($data);
                     throw $e;
                 case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\DocSpring\Model\ErrorResponse',
@@ -5411,7 +6143,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \DocSpring\Model\CombinedPdf|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
+     * @return \DocSpring\Model\CombinedPdf|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
      */
     public function expireCombinedPdf($combined_pdf_id, string $contentType = self::contentTypes['expireCombinedPdf'][0])
     {
@@ -5429,7 +6161,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \DocSpring\Model\CombinedPdf|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \DocSpring\Model\CombinedPdf|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
     public function expireCombinedPdfWithHttpInfo($combined_pdf_id, string $contentType = self::contentTypes['expireCombinedPdf'][0])
     {
@@ -5478,6 +6210,12 @@ class Client
                         $response,
                     );
                 case 401:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 429:
                     return $this->handleResponseWithDataType(
                         '\DocSpring\Model\ErrorResponse',
                         $request,
@@ -5532,6 +6270,14 @@ class Client
                     $e->setResponseObject($data);
                     throw $e;
                 case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\DocSpring\Model\ErrorResponse',
@@ -5733,7 +6479,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \DocSpring\Model\Submission|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
+     * @return \DocSpring\Model\Submission|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
      */
     public function expireSubmission($submission_id, string $contentType = self::contentTypes['expireSubmission'][0])
     {
@@ -5751,7 +6497,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \DocSpring\Model\Submission|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \DocSpring\Model\Submission|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
     public function expireSubmissionWithHttpInfo($submission_id, string $contentType = self::contentTypes['expireSubmission'][0])
     {
@@ -5800,6 +6546,12 @@ class Client
                         $response,
                     );
                 case 401:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 429:
                     return $this->handleResponseWithDataType(
                         '\DocSpring\Model\ErrorResponse',
                         $request,
@@ -5854,6 +6606,14 @@ class Client
                     $e->setResponseObject($data);
                     throw $e;
                 case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\DocSpring\Model\ErrorResponse',
@@ -6057,7 +6817,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \DocSpring\Model\Submission|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
+     * @return \DocSpring\Model\Submission|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
      */
     public function generateSubmissionFiles($submission_id, $body, $wait = null, string $contentType = self::contentTypes['generateSubmissionFiles'][0])
     {
@@ -6077,7 +6837,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \DocSpring\Model\Submission|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \DocSpring\Model\Submission|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
     public function generateSubmissionFilesWithHttpInfo($submission_id, $body, $wait = null, string $contentType = self::contentTypes['generateSubmissionFiles'][0])
     {
@@ -6132,6 +6892,18 @@ class Client
                         $response,
                     );
                 case 401:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 429:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 504:
                     return $this->handleResponseWithDataType(
                         '\DocSpring\Model\ErrorResponse',
                         $request,
@@ -6194,6 +6966,22 @@ class Client
                     $e->setResponseObject($data);
                     throw $e;
                 case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 429:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 504:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\DocSpring\Model\ErrorResponse',
@@ -6429,7 +7217,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \DocSpring\Model\Submission|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
+     * @return \DocSpring\Model\Submission|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
      */
     public function generateSubmissionPreview($submission_id, string $contentType = self::contentTypes['generateSubmissionPreview'][0])
     {
@@ -6447,7 +7235,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \DocSpring\Model\Submission|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \DocSpring\Model\Submission|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
     public function generateSubmissionPreviewWithHttpInfo($submission_id, string $contentType = self::contentTypes['generateSubmissionPreview'][0])
     {
@@ -6496,6 +7284,12 @@ class Client
                         $response,
                     );
                 case 401:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 429:
                     return $this->handleResponseWithDataType(
                         '\DocSpring\Model\ErrorResponse',
                         $request,
@@ -6550,6 +7344,14 @@ class Client
                     $e->setResponseObject($data);
                     throw $e;
                 case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\DocSpring\Model\ErrorResponse',
@@ -6751,7 +7553,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \DocSpring\Model\CombinedPdf|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
+     * @return \DocSpring\Model\CombinedPdf|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
      */
     public function getCombinedPdf($combined_pdf_id, string $contentType = self::contentTypes['getCombinedPdf'][0])
     {
@@ -6769,7 +7571,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \DocSpring\Model\CombinedPdf|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \DocSpring\Model\CombinedPdf|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
     public function getCombinedPdfWithHttpInfo($combined_pdf_id, string $contentType = self::contentTypes['getCombinedPdf'][0])
     {
@@ -6817,6 +7619,12 @@ class Client
                         $request,
                         $response,
                     );
+                case 429:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
             }
 
             
@@ -6858,6 +7666,14 @@ class Client
                     $e->setResponseObject($data);
                     throw $e;
                 case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\DocSpring\Model\ErrorResponse',
@@ -7059,7 +7875,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \DocSpring\Model\CustomFile|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
+     * @return \DocSpring\Model\CustomFile|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
      */
     public function getCustomFile($custom_file_id, string $contentType = self::contentTypes['getCustomFile'][0])
     {
@@ -7077,7 +7893,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \DocSpring\Model\CustomFile|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \DocSpring\Model\CustomFile|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
     public function getCustomFileWithHttpInfo($custom_file_id, string $contentType = self::contentTypes['getCustomFile'][0])
     {
@@ -7125,6 +7941,12 @@ class Client
                         $request,
                         $response,
                     );
+                case 429:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
             }
 
             
@@ -7166,6 +7988,14 @@ class Client
                     $e->setResponseObject($data);
                     throw $e;
                 case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\DocSpring\Model\ErrorResponse',
@@ -7367,7 +8197,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \DocSpring\Model\Folder|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
+     * @return \DocSpring\Model\Folder|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
      */
     public function getFolder($folder_id, string $contentType = self::contentTypes['getFolder'][0])
     {
@@ -7385,7 +8215,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \DocSpring\Model\Folder|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \DocSpring\Model\Folder|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
     public function getFolderWithHttpInfo($folder_id, string $contentType = self::contentTypes['getFolder'][0])
     {
@@ -7433,6 +8263,12 @@ class Client
                         $request,
                         $response,
                     );
+                case 429:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
             }
 
             
@@ -7474,6 +8310,14 @@ class Client
                     $e->setResponseObject($data);
                     throw $e;
                 case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\DocSpring\Model\ErrorResponse',
@@ -7674,7 +8518,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \DocSpring\Model\UploadPresign|\DocSpring\Model\ErrorResponse
+     * @return \DocSpring\Model\UploadPresign|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
      */
     public function getPresignUrl(string $contentType = self::contentTypes['getPresignUrl'][0])
     {
@@ -7691,7 +8535,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \DocSpring\Model\UploadPresign|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \DocSpring\Model\UploadPresign|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
     public function getPresignUrlWithHttpInfo(string $contentType = self::contentTypes['getPresignUrl'][0])
     {
@@ -7733,6 +8577,12 @@ class Client
                         $request,
                         $response,
                     );
+                case 429:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
             }
 
             
@@ -7766,6 +8616,14 @@ class Client
                     $e->setResponseObject($data);
                     throw $e;
                 case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\DocSpring\Model\ErrorResponse',
@@ -7949,7 +8807,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \DocSpring\Model\SignatureRequest|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
+     * @return \DocSpring\Model\SignatureRequest|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
      */
     public function getSignatureRequest($signature_request_id, string $contentType = self::contentTypes['getSignatureRequest'][0])
     {
@@ -7967,7 +8825,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \DocSpring\Model\SignatureRequest|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \DocSpring\Model\SignatureRequest|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
     public function getSignatureRequestWithHttpInfo($signature_request_id, string $contentType = self::contentTypes['getSignatureRequest'][0])
     {
@@ -8015,6 +8873,12 @@ class Client
                         $request,
                         $response,
                     );
+                case 429:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
             }
 
             
@@ -8056,6 +8920,14 @@ class Client
                     $e->setResponseObject($data);
                     throw $e;
                 case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\DocSpring\Model\ErrorResponse',
@@ -8257,7 +9129,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \DocSpring\Model\Submission|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
+     * @return \DocSpring\Model\Submission|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
      */
     public function getSubmission($submission_id, string $contentType = self::contentTypes['getSubmission'][0])
     {
@@ -8275,7 +9147,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \DocSpring\Model\Submission|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \DocSpring\Model\Submission|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
     public function getSubmissionWithHttpInfo($submission_id, string $contentType = self::contentTypes['getSubmission'][0])
     {
@@ -8323,6 +9195,12 @@ class Client
                         $request,
                         $response,
                     );
+                case 429:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
             }
 
             
@@ -8364,6 +9242,14 @@ class Client
                     $e->setResponseObject($data);
                     throw $e;
                 case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\DocSpring\Model\ErrorResponse',
@@ -8566,7 +9452,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \DocSpring\Model\SubmissionBatch|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
+     * @return \DocSpring\Model\SubmissionBatch|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
      */
     public function getSubmissionBatch($submission_batch_id, $include_data = null, string $contentType = self::contentTypes['getSubmissionBatch'][0])
     {
@@ -8585,7 +9471,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \DocSpring\Model\SubmissionBatch|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \DocSpring\Model\SubmissionBatch|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
     public function getSubmissionBatchWithHttpInfo($submission_batch_id, $include_data = null, string $contentType = self::contentTypes['getSubmissionBatch'][0])
     {
@@ -8633,6 +9519,12 @@ class Client
                         $request,
                         $response,
                     );
+                case 429:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
             }
 
             
@@ -8674,6 +9566,14 @@ class Client
                     $e->setResponseObject($data);
                     throw $e;
                 case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\DocSpring\Model\ErrorResponse',
@@ -8889,7 +9789,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \DocSpring\Model\Template|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
+     * @return \DocSpring\Model\Template|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
      */
     public function getTemplate($template_id, $version = null, string $contentType = self::contentTypes['getTemplate'][0])
     {
@@ -8908,7 +9808,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \DocSpring\Model\Template|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \DocSpring\Model\Template|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
     public function getTemplateWithHttpInfo($template_id, $version = null, string $contentType = self::contentTypes['getTemplate'][0])
     {
@@ -8957,6 +9857,12 @@ class Client
                         $response,
                     );
                 case 401:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 429:
                     return $this->handleResponseWithDataType(
                         '\DocSpring\Model\ErrorResponse',
                         $request,
@@ -9011,6 +9917,14 @@ class Client
                     $e->setResponseObject($data);
                     throw $e;
                 case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\DocSpring\Model\ErrorResponse',
@@ -9226,7 +10140,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \DocSpring\Model\TemplateDiff|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
+     * @return \DocSpring\Model\TemplateDiff|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
      */
     public function getTemplateDiff($template_id, $version = null, string $contentType = self::contentTypes['getTemplateDiff'][0])
     {
@@ -9245,7 +10159,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \DocSpring\Model\TemplateDiff|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \DocSpring\Model\TemplateDiff|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
     public function getTemplateDiffWithHttpInfo($template_id, $version = null, string $contentType = self::contentTypes['getTemplateDiff'][0])
     {
@@ -9294,6 +10208,12 @@ class Client
                         $response,
                     );
                 case 401:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 429:
                     return $this->handleResponseWithDataType(
                         '\DocSpring\Model\ErrorResponse',
                         $request,
@@ -9348,6 +10268,14 @@ class Client
                     $e->setResponseObject($data);
                     throw $e;
                 case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\DocSpring\Model\ErrorResponse',
@@ -9560,15 +10488,16 @@ class Client
      * @param  string $template_id The template's ID. (required)
      * @param  \DocSpring\Model\ModelCodeLanguage $lang The language to generate the code in. (required)
      * @param  string|null $version The template version: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `latest` (the draft when no version has been published), the version a submission uses by default. (optional)
+     * @param  bool|null $just_types Return only the types (interfaces, classes or structs), without the code that converts JSON to and from them. Default false. JavaScript has no types and PHP no types-only code, so theirs is the same either way. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getTemplateModelCode'] to see the possible values for this operation
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \DocSpring\Model\TemplateModelCode|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
+     * @return \DocSpring\Model\TemplateModelCode|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
      */
-    public function getTemplateModelCode($template_id, $lang, $version = null, string $contentType = self::contentTypes['getTemplateModelCode'][0])
+    public function getTemplateModelCode($template_id, $lang, $version = null, $just_types = null, string $contentType = self::contentTypes['getTemplateModelCode'][0])
     {
-        list($response) = $this->getTemplateModelCodeWithHttpInfo($template_id, $lang, $version, $contentType);
+        list($response) = $this->getTemplateModelCodeWithHttpInfo($template_id, $lang, $version, $just_types, $contentType);
         return $response;
     }
 
@@ -9580,15 +10509,16 @@ class Client
      * @param  string $template_id The template's ID. (required)
      * @param  \DocSpring\Model\ModelCodeLanguage $lang The language to generate the code in. (required)
      * @param  string|null $version The template version: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `latest` (the draft when no version has been published), the version a submission uses by default. (optional)
+     * @param  bool|null $just_types Return only the types (interfaces, classes or structs), without the code that converts JSON to and from them. Default false. JavaScript has no types and PHP no types-only code, so theirs is the same either way. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getTemplateModelCode'] to see the possible values for this operation
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \DocSpring\Model\TemplateModelCode|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \DocSpring\Model\TemplateModelCode|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getTemplateModelCodeWithHttpInfo($template_id, $lang, $version = null, string $contentType = self::contentTypes['getTemplateModelCode'][0])
+    public function getTemplateModelCodeWithHttpInfo($template_id, $lang, $version = null, $just_types = null, string $contentType = self::contentTypes['getTemplateModelCode'][0])
     {
-        $request = $this->getTemplateModelCodeRequest($template_id, $lang, $version, $contentType);
+        $request = $this->getTemplateModelCodeRequest($template_id, $lang, $version, $just_types, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -9633,6 +10563,12 @@ class Client
                         $response,
                     );
                 case 401:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 429:
                     return $this->handleResponseWithDataType(
                         '\DocSpring\Model\ErrorResponse',
                         $request,
@@ -9694,6 +10630,14 @@ class Client
                     );
                     $e->setResponseObject($data);
                     throw $e;
+                case 429:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
             }
         
 
@@ -9709,14 +10653,15 @@ class Client
      * @param  string $template_id The template's ID. (required)
      * @param  \DocSpring\Model\ModelCodeLanguage $lang The language to generate the code in. (required)
      * @param  string|null $version The template version: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `latest` (the draft when no version has been published), the version a submission uses by default. (optional)
+     * @param  bool|null $just_types Return only the types (interfaces, classes or structs), without the code that converts JSON to and from them. Default false. JavaScript has no types and PHP no types-only code, so theirs is the same either way. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getTemplateModelCode'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function getTemplateModelCodeAsync($template_id, $lang, $version = null, string $contentType = self::contentTypes['getTemplateModelCode'][0])
+    public function getTemplateModelCodeAsync($template_id, $lang, $version = null, $just_types = null, string $contentType = self::contentTypes['getTemplateModelCode'][0])
     {
-        return $this->getTemplateModelCodeAsyncWithHttpInfo($template_id, $lang, $version, $contentType)
+        return $this->getTemplateModelCodeAsyncWithHttpInfo($template_id, $lang, $version, $just_types, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -9732,15 +10677,16 @@ class Client
      * @param  string $template_id The template's ID. (required)
      * @param  \DocSpring\Model\ModelCodeLanguage $lang The language to generate the code in. (required)
      * @param  string|null $version The template version: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `latest` (the draft when no version has been published), the version a submission uses by default. (optional)
+     * @param  bool|null $just_types Return only the types (interfaces, classes or structs), without the code that converts JSON to and from them. Default false. JavaScript has no types and PHP no types-only code, so theirs is the same either way. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getTemplateModelCode'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function getTemplateModelCodeAsyncWithHttpInfo($template_id, $lang, $version = null, string $contentType = self::contentTypes['getTemplateModelCode'][0])
+    public function getTemplateModelCodeAsyncWithHttpInfo($template_id, $lang, $version = null, $just_types = null, string $contentType = self::contentTypes['getTemplateModelCode'][0])
     {
         $returnType = '\DocSpring\Model\TemplateModelCode';
-        $request = $this->getTemplateModelCodeRequest($template_id, $lang, $version, $contentType);
+        $request = $this->getTemplateModelCodeRequest($template_id, $lang, $version, $just_types, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -9784,12 +10730,13 @@ class Client
      * @param  string $template_id The template's ID. (required)
      * @param  \DocSpring\Model\ModelCodeLanguage $lang The language to generate the code in. (required)
      * @param  string|null $version The template version: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `latest` (the draft when no version has been published), the version a submission uses by default. (optional)
+     * @param  bool|null $just_types Return only the types (interfaces, classes or structs), without the code that converts JSON to and from them. Default false. JavaScript has no types and PHP no types-only code, so theirs is the same either way. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getTemplateModelCode'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function getTemplateModelCodeRequest($template_id, $lang, $version = null, string $contentType = self::contentTypes['getTemplateModelCode'][0])
+    public function getTemplateModelCodeRequest($template_id, $lang, $version = null, $just_types = null, string $contentType = self::contentTypes['getTemplateModelCode'][0])
     {
 
         // verify the required parameter 'template_id' is set
@@ -9805,6 +10752,7 @@ class Client
                 'Missing the required parameter $lang when calling getTemplateModelCode'
             );
         }
+
 
 
 
@@ -9832,6 +10780,15 @@ class Client
             'form', // style
             true, // explode
             true // required
+        ) ?? []);
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $just_types,
+            'just_types', // param base name
+            'boolean', // openApiType
+            'form', // style
+            true, // explode
+            false // required
         ) ?? []);
 
 
@@ -9921,7 +10878,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \DocSpring\Model\TemplatePageImages|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
+     * @return \DocSpring\Model\TemplatePageImages|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
      */
     public function getTemplatePageImages($template_id, $version = null, string $contentType = self::contentTypes['getTemplatePageImages'][0])
     {
@@ -9940,7 +10897,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \DocSpring\Model\TemplatePageImages|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \DocSpring\Model\TemplatePageImages|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
     public function getTemplatePageImagesWithHttpInfo($template_id, $version = null, string $contentType = self::contentTypes['getTemplatePageImages'][0])
     {
@@ -9989,6 +10946,12 @@ class Client
                         $response,
                     );
                 case 401:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 429:
                     return $this->handleResponseWithDataType(
                         '\DocSpring\Model\ErrorResponse',
                         $request,
@@ -10043,6 +11006,14 @@ class Client
                     $e->setResponseObject($data);
                     throw $e;
                 case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\DocSpring\Model\ErrorResponse',
@@ -10248,6 +11219,334 @@ class Client
     }
 
     /**
+     * Operation getTemplatePreview
+     *
+     * Get a template preview
+     *
+     * @param  string $template_id The template's ID. (required)
+     * @param  string $preview_id The preview's ID. (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getTemplatePreview'] to see the possible values for this operation
+     *
+     * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \InvalidArgumentException
+     * @return \DocSpring\Model\TemplatePreview|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
+     */
+    public function getTemplatePreview($template_id, $preview_id, string $contentType = self::contentTypes['getTemplatePreview'][0])
+    {
+        list($response) = $this->getTemplatePreviewWithHttpInfo($template_id, $preview_id, $contentType);
+        return $response;
+    }
+
+    /**
+     * Operation getTemplatePreviewWithHttpInfo
+     *
+     * Get a template preview
+     *
+     * @param  string $template_id The template's ID. (required)
+     * @param  string $preview_id The preview's ID. (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getTemplatePreview'] to see the possible values for this operation
+     *
+     * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \InvalidArgumentException
+     * @return array of \DocSpring\Model\TemplatePreview|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function getTemplatePreviewWithHttpInfo($template_id, $preview_id, string $contentType = self::contentTypes['getTemplatePreview'][0])
+    {
+        $request = $this->getTemplatePreviewRequest($template_id, $preview_id, $contentType);
+
+        try {
+            $options = $this->createHttpClientOption();
+            try {
+                $response = $this->client->send($request, $options);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null,
+                    $e->getResponse() ? (string) $e->getResponse()->getBody() : null
+                );
+            } catch (ConnectException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    null,
+                    null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+
+            switch($statusCode) {
+                case 200:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\TemplatePreview',
+                        $request,
+                        $response,
+                    );
+                case 404:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 429:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+            }
+
+            
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        (string) $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    (string) $response->getBody()
+                );
+            }
+
+            return $this->handleResponseWithDataType(
+                '\DocSpring\Model\TemplatePreview',
+                $request,
+                $response,
+            );
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\TemplatePreview',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 404:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 429:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+            }
+        
+
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation getTemplatePreviewAsync
+     *
+     * Get a template preview
+     *
+     * @param  string $template_id The template's ID. (required)
+     * @param  string $preview_id The preview's ID. (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getTemplatePreview'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getTemplatePreviewAsync($template_id, $preview_id, string $contentType = self::contentTypes['getTemplatePreview'][0])
+    {
+        return $this->getTemplatePreviewAsyncWithHttpInfo($template_id, $preview_id, $contentType)
+            ->then(
+                function ($response) {
+                    return $response[0];
+                }
+            );
+    }
+
+    /**
+     * Operation getTemplatePreviewAsyncWithHttpInfo
+     *
+     * Get a template preview
+     *
+     * @param  string $template_id The template's ID. (required)
+     * @param  string $preview_id The preview's ID. (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getTemplatePreview'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getTemplatePreviewAsyncWithHttpInfo($template_id, $preview_id, string $contentType = self::contentTypes['getTemplatePreview'][0])
+    {
+        $returnType = '\DocSpring\Model\TemplatePreview';
+        $request = $this->getTemplatePreviewRequest($template_id, $preview_id, $contentType);
+
+        return $this->client
+            ->sendAsync($request, $this->createHttpClientOption())
+            ->then(
+                function ($response) use ($returnType) {
+                    if ($returnType === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ($returnType !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                },
+                function ($exception) {
+                    $response = $exception->getResponse();
+                    $statusCode = $response->getStatusCode();
+                    throw new ApiException(
+                        sprintf(
+                            '[%d] Error connecting to the API (%s)',
+                            $statusCode,
+                            $exception->getRequest()->getUri()
+                        ),
+                        $statusCode,
+                        $response->getHeaders(),
+                        (string) $response->getBody()
+                    );
+                }
+            );
+    }
+
+    /**
+     * Create request for operation 'getTemplatePreview'
+     *
+     * @param  string $template_id The template's ID. (required)
+     * @param  string $preview_id The preview's ID. (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getTemplatePreview'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    public function getTemplatePreviewRequest($template_id, $preview_id, string $contentType = self::contentTypes['getTemplatePreview'][0])
+    {
+
+        // verify the required parameter 'template_id' is set
+        if ($template_id === null || (is_array($template_id) && count($template_id) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $template_id when calling getTemplatePreview'
+            );
+        }
+
+        // verify the required parameter 'preview_id' is set
+        if ($preview_id === null || (is_array($preview_id) && count($preview_id) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $preview_id when calling getTemplatePreview'
+            );
+        }
+
+
+        $resourcePath = '/templates/{template_id}/previews/{preview_id}';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = '';
+        $multipart = false;
+
+
+
+        // path params
+        if ($template_id !== null) {
+            $resourcePath = str_replace(
+                '{template_id}',
+                ObjectSerializer::toPathValue($template_id),
+                $resourcePath
+            );
+        }
+        // path params
+        if ($preview_id !== null) {
+            $resourcePath = str_replace(
+                '{preview_id}',
+                ObjectSerializer::toPathValue($preview_id),
+                $resourcePath
+            );
+        }
+
+
+        $headers = $this->headerSelector->selectHeaders(
+            ['application/json', ],
+            $contentType,
+            $multipart
+        );
+
+        // for model (json/xml)
+        if (count($formParams) > 0) {
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
+                    foreach ($formParamValueItems as $formParamValueItem) {
+                        $multipartContents[] = [
+                            'name' => $formParamName,
+                            'contents' => $formParamValueItem
+                        ];
+                    }
+                }
+                // for HTTP post (form)
+                $httpBody = new MultipartStream($multipartContents);
+
+            } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
+                # if Content-Type contains "application/json", json_encode the form parameters
+                try {
+                    $httpBody = json_encode($formParams, JSON_THROW_ON_ERROR);
+                } catch (\JsonException $e) {
+                    throw new \InvalidArgumentException('json_encode error: ' . $e->getMessage(), 0, $e);
+                }
+            } else {
+                // for HTTP post (form)
+                $httpBody = ObjectSerializer::buildQuery($formParams);
+            }
+        }
+
+        // this endpoint requires HTTP basic authentication
+        if (!empty($this->config->getUsername()) || !(empty($this->config->getPassword()))) {
+            $headers['Authorization'] = 'Basic ' . base64_encode($this->config->getUsername() . ":" . $this->config->getPassword());
+        }
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        if ($this->config->getValidateRequests()) {
+            \DocSpring\RequestValidator::validateRequest('getTemplatePreview', $queryParams, count($formParams) > 0 ? $formParams : ($httpBody === '' ? null : $httpBody));
+        }
+
+        $operationHost = $this->config->getHost();
+        $query = ObjectSerializer::buildQuery($queryParams);
+        return new Request(
+            'GET',
+            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
+            $headers,
+            $httpBody
+        );
+    }
+
+    /**
      * Operation getTemplateSchema
      *
      * Get the JSON Schema of a template's submission data
@@ -10258,7 +11557,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array<string,mixed>|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
+     * @return array<string,mixed>|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
      */
     public function getTemplateSchema($template_id, $version = null, string $contentType = self::contentTypes['getTemplateSchema'][0])
     {
@@ -10277,7 +11576,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of array<string,mixed>|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     * @return array of array<string,mixed>|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
     public function getTemplateSchemaWithHttpInfo($template_id, $version = null, string $contentType = self::contentTypes['getTemplateSchema'][0])
     {
@@ -10325,6 +11624,12 @@ class Client
                         $request,
                         $response,
                     );
+                case 429:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
             }
 
             
@@ -10366,6 +11671,14 @@ class Client
                     $e->setResponseObject($data);
                     throw $e;
                 case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\DocSpring\Model\ErrorResponse',
@@ -10580,7 +11893,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \DocSpring\Model\Webhook|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
+     * @return \DocSpring\Model\Webhook|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
      */
     public function getWebhook($webhook_id, string $contentType = self::contentTypes['getWebhook'][0])
     {
@@ -10598,7 +11911,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \DocSpring\Model\Webhook|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \DocSpring\Model\Webhook|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
     public function getWebhookWithHttpInfo($webhook_id, string $contentType = self::contentTypes['getWebhook'][0])
     {
@@ -10646,6 +11959,12 @@ class Client
                         $request,
                         $response,
                     );
+                case 429:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
             }
 
             
@@ -10687,6 +12006,14 @@ class Client
                     $e->setResponseObject($data);
                     throw $e;
                 case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\DocSpring\Model\ErrorResponse',
@@ -10889,7 +12216,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \DocSpring\Model\CombinedPdfList|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
+     * @return \DocSpring\Model\CombinedPdfList|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
      */
     public function listCombinedPdfs($limit = 50, $cursor = null, string $contentType = self::contentTypes['listCombinedPdfs'][0])
     {
@@ -10908,7 +12235,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \DocSpring\Model\CombinedPdfList|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \DocSpring\Model\CombinedPdfList|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
     public function listCombinedPdfsWithHttpInfo($limit = 50, $cursor = null, string $contentType = self::contentTypes['listCombinedPdfs'][0])
     {
@@ -10956,6 +12283,12 @@ class Client
                         $request,
                         $response,
                     );
+                case 429:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
             }
 
             
@@ -10997,6 +12330,14 @@ class Client
                     $e->setResponseObject($data);
                     throw $e;
                 case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\DocSpring\Model\ErrorResponse',
@@ -11207,7 +12548,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \DocSpring\Model\CustomFileList|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
+     * @return \DocSpring\Model\CustomFileList|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
      */
     public function listCustomFiles($limit = 50, $cursor = null, string $contentType = self::contentTypes['listCustomFiles'][0])
     {
@@ -11226,7 +12567,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \DocSpring\Model\CustomFileList|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \DocSpring\Model\CustomFileList|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
     public function listCustomFilesWithHttpInfo($limit = 50, $cursor = null, string $contentType = self::contentTypes['listCustomFiles'][0])
     {
@@ -11274,6 +12615,12 @@ class Client
                         $request,
                         $response,
                     );
+                case 429:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
             }
 
             
@@ -11315,6 +12662,14 @@ class Client
                     $e->setResponseObject($data);
                     throw $e;
                 case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\DocSpring\Model\ErrorResponse',
@@ -11526,7 +12881,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \DocSpring\Model\FolderList|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
+     * @return \DocSpring\Model\FolderList|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
      */
     public function listFolders($parent_folder_id = null, $limit = 50, $cursor = null, string $contentType = self::contentTypes['listFolders'][0])
     {
@@ -11546,7 +12901,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \DocSpring\Model\FolderList|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \DocSpring\Model\FolderList|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
     public function listFoldersWithHttpInfo($parent_folder_id = null, $limit = 50, $cursor = null, string $contentType = self::contentTypes['listFolders'][0])
     {
@@ -11594,6 +12949,12 @@ class Client
                         $request,
                         $response,
                     );
+                case 429:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
             }
 
             
@@ -11635,6 +12996,14 @@ class Client
                     $e->setResponseObject($data);
                     throw $e;
                 case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\DocSpring\Model\ErrorResponse',
@@ -11859,15 +13228,17 @@ class Client
      * @param  bool|null $include_data Include each submission's `data` (null without it). (optional)
      * @param  int|null $limit How many items to return (1-100, default 50). (optional, default to 50)
      * @param  string|null $cursor The previous page's `next_cursor`, to get the next page. It's the ID of that page's last item, so get the next page before you delete or change the items on this one. (optional)
+     * @param  \DocSpring\Model\SubmissionState|null $state Only list submissions in this state (one state per request). The ones that failed are `invalid_data`, `error`, `syntax_error`, `image_download_failed` and `image_processing_failed`, and one still `pending` an hour after it was created is stuck. (optional)
+     * @param  bool|null $include_files Include each submission's generated files and their download links (`files`, empty without it), without the page images' links. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['listSubmissions'] to see the possible values for this operation
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \DocSpring\Model\SubmissionList|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
+     * @return \DocSpring\Model\SubmissionList|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
      */
-    public function listSubmissions($template_id = null, $test = null, $created_after = null, $created_before = null, $include_data = null, $limit = 50, $cursor = null, string $contentType = self::contentTypes['listSubmissions'][0])
+    public function listSubmissions($template_id = null, $test = null, $created_after = null, $created_before = null, $include_data = null, $limit = 50, $cursor = null, $state = null, $include_files = null, string $contentType = self::contentTypes['listSubmissions'][0])
     {
-        list($response) = $this->listSubmissionsWithHttpInfo($template_id, $test, $created_after, $created_before, $include_data, $limit, $cursor, $contentType);
+        list($response) = $this->listSubmissionsWithHttpInfo($template_id, $test, $created_after, $created_before, $include_data, $limit, $cursor, $state, $include_files, $contentType);
         return $response;
     }
 
@@ -11883,15 +13254,17 @@ class Client
      * @param  bool|null $include_data Include each submission's `data` (null without it). (optional)
      * @param  int|null $limit How many items to return (1-100, default 50). (optional, default to 50)
      * @param  string|null $cursor The previous page's `next_cursor`, to get the next page. It's the ID of that page's last item, so get the next page before you delete or change the items on this one. (optional)
+     * @param  \DocSpring\Model\SubmissionState|null $state Only list submissions in this state (one state per request). The ones that failed are `invalid_data`, `error`, `syntax_error`, `image_download_failed` and `image_processing_failed`, and one still `pending` an hour after it was created is stuck. (optional)
+     * @param  bool|null $include_files Include each submission's generated files and their download links (`files`, empty without it), without the page images' links. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['listSubmissions'] to see the possible values for this operation
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \DocSpring\Model\SubmissionList|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \DocSpring\Model\SubmissionList|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function listSubmissionsWithHttpInfo($template_id = null, $test = null, $created_after = null, $created_before = null, $include_data = null, $limit = 50, $cursor = null, string $contentType = self::contentTypes['listSubmissions'][0])
+    public function listSubmissionsWithHttpInfo($template_id = null, $test = null, $created_after = null, $created_before = null, $include_data = null, $limit = 50, $cursor = null, $state = null, $include_files = null, string $contentType = self::contentTypes['listSubmissions'][0])
     {
-        $request = $this->listSubmissionsRequest($template_id, $test, $created_after, $created_before, $include_data, $limit, $cursor, $contentType);
+        $request = $this->listSubmissionsRequest($template_id, $test, $created_after, $created_before, $include_data, $limit, $cursor, $state, $include_files, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -11930,6 +13303,12 @@ class Client
                         $response,
                     );
                 case 401:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 429:
                     return $this->handleResponseWithDataType(
                         '\DocSpring\Model\ErrorResponse',
                         $request,
@@ -11983,6 +13362,14 @@ class Client
                     );
                     $e->setResponseObject($data);
                     throw $e;
+                case 429:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
             }
         
 
@@ -12002,14 +13389,16 @@ class Client
      * @param  bool|null $include_data Include each submission's `data` (null without it). (optional)
      * @param  int|null $limit How many items to return (1-100, default 50). (optional, default to 50)
      * @param  string|null $cursor The previous page's `next_cursor`, to get the next page. It's the ID of that page's last item, so get the next page before you delete or change the items on this one. (optional)
+     * @param  \DocSpring\Model\SubmissionState|null $state Only list submissions in this state (one state per request). The ones that failed are `invalid_data`, `error`, `syntax_error`, `image_download_failed` and `image_processing_failed`, and one still `pending` an hour after it was created is stuck. (optional)
+     * @param  bool|null $include_files Include each submission's generated files and their download links (`files`, empty without it), without the page images' links. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['listSubmissions'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function listSubmissionsAsync($template_id = null, $test = null, $created_after = null, $created_before = null, $include_data = null, $limit = 50, $cursor = null, string $contentType = self::contentTypes['listSubmissions'][0])
+    public function listSubmissionsAsync($template_id = null, $test = null, $created_after = null, $created_before = null, $include_data = null, $limit = 50, $cursor = null, $state = null, $include_files = null, string $contentType = self::contentTypes['listSubmissions'][0])
     {
-        return $this->listSubmissionsAsyncWithHttpInfo($template_id, $test, $created_after, $created_before, $include_data, $limit, $cursor, $contentType)
+        return $this->listSubmissionsAsyncWithHttpInfo($template_id, $test, $created_after, $created_before, $include_data, $limit, $cursor, $state, $include_files, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -12029,15 +13418,17 @@ class Client
      * @param  bool|null $include_data Include each submission's `data` (null without it). (optional)
      * @param  int|null $limit How many items to return (1-100, default 50). (optional, default to 50)
      * @param  string|null $cursor The previous page's `next_cursor`, to get the next page. It's the ID of that page's last item, so get the next page before you delete or change the items on this one. (optional)
+     * @param  \DocSpring\Model\SubmissionState|null $state Only list submissions in this state (one state per request). The ones that failed are `invalid_data`, `error`, `syntax_error`, `image_download_failed` and `image_processing_failed`, and one still `pending` an hour after it was created is stuck. (optional)
+     * @param  bool|null $include_files Include each submission's generated files and their download links (`files`, empty without it), without the page images' links. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['listSubmissions'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function listSubmissionsAsyncWithHttpInfo($template_id = null, $test = null, $created_after = null, $created_before = null, $include_data = null, $limit = 50, $cursor = null, string $contentType = self::contentTypes['listSubmissions'][0])
+    public function listSubmissionsAsyncWithHttpInfo($template_id = null, $test = null, $created_after = null, $created_before = null, $include_data = null, $limit = 50, $cursor = null, $state = null, $include_files = null, string $contentType = self::contentTypes['listSubmissions'][0])
     {
         $returnType = '\DocSpring\Model\SubmissionList';
-        $request = $this->listSubmissionsRequest($template_id, $test, $created_after, $created_before, $include_data, $limit, $cursor, $contentType);
+        $request = $this->listSubmissionsRequest($template_id, $test, $created_after, $created_before, $include_data, $limit, $cursor, $state, $include_files, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -12085,13 +13476,17 @@ class Client
      * @param  bool|null $include_data Include each submission's `data` (null without it). (optional)
      * @param  int|null $limit How many items to return (1-100, default 50). (optional, default to 50)
      * @param  string|null $cursor The previous page's `next_cursor`, to get the next page. It's the ID of that page's last item, so get the next page before you delete or change the items on this one. (optional)
+     * @param  \DocSpring\Model\SubmissionState|null $state Only list submissions in this state (one state per request). The ones that failed are `invalid_data`, `error`, `syntax_error`, `image_download_failed` and `image_processing_failed`, and one still `pending` an hour after it was created is stuck. (optional)
+     * @param  bool|null $include_files Include each submission's generated files and their download links (`files`, empty without it), without the page images' links. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['listSubmissions'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function listSubmissionsRequest($template_id = null, $test = null, $created_after = null, $created_before = null, $include_data = null, $limit = 50, $cursor = null, string $contentType = self::contentTypes['listSubmissions'][0])
+    public function listSubmissionsRequest($template_id = null, $test = null, $created_after = null, $created_before = null, $include_data = null, $limit = 50, $cursor = null, $state = null, $include_files = null, string $contentType = self::contentTypes['listSubmissions'][0])
     {
+
+
 
 
 
@@ -12167,6 +13562,24 @@ class Client
             $cursor,
             'cursor', // param base name
             'string', // openApiType
+            'form', // style
+            true, // explode
+            false // required
+        ) ?? []);
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $state,
+            'state', // param base name
+            'SubmissionState', // openApiType
+            'form', // style
+            true, // explode
+            false // required
+        ) ?? []);
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $include_files,
+            'include_files', // param base name
+            'boolean', // openApiType
             'form', // style
             true, // explode
             false // required
@@ -12251,7 +13664,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \DocSpring\Model\TemplateFields|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
+     * @return \DocSpring\Model\TemplateFields|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
      */
     public function listTemplateFields($template_id, $version = null, string $contentType = self::contentTypes['listTemplateFields'][0])
     {
@@ -12270,7 +13683,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \DocSpring\Model\TemplateFields|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \DocSpring\Model\TemplateFields|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
     public function listTemplateFieldsWithHttpInfo($template_id, $version = null, string $contentType = self::contentTypes['listTemplateFields'][0])
     {
@@ -12319,6 +13732,12 @@ class Client
                         $response,
                     );
                 case 401:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 429:
                     return $this->handleResponseWithDataType(
                         '\DocSpring\Model\ErrorResponse',
                         $request,
@@ -12373,6 +13792,14 @@ class Client
                     $e->setResponseObject($data);
                     throw $e;
                 case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\DocSpring\Model\ErrorResponse',
@@ -12589,15 +14016,17 @@ class Client
      * @param  bool|null $include_data Include each submission's `data` (null without it). (optional)
      * @param  int|null $limit How many items to return (1-100, default 50). (optional, default to 50)
      * @param  string|null $cursor The previous page's `next_cursor`, to get the next page. It's the ID of that page's last item, so get the next page before you delete or change the items on this one. (optional)
+     * @param  \DocSpring\Model\SubmissionState|null $state Only list submissions in this state (one state per request). The ones that failed are `invalid_data`, `error`, `syntax_error`, `image_download_failed` and `image_processing_failed`, and one still `pending` an hour after it was created is stuck. (optional)
+     * @param  bool|null $include_files Include each submission's generated files and their download links (`files`, empty without it), without the page images' links. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['listTemplateSubmissions'] to see the possible values for this operation
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \DocSpring\Model\SubmissionList|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
+     * @return \DocSpring\Model\SubmissionList|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
      */
-    public function listTemplateSubmissions($template_id, $test = null, $created_after = null, $created_before = null, $include_data = null, $limit = 50, $cursor = null, string $contentType = self::contentTypes['listTemplateSubmissions'][0])
+    public function listTemplateSubmissions($template_id, $test = null, $created_after = null, $created_before = null, $include_data = null, $limit = 50, $cursor = null, $state = null, $include_files = null, string $contentType = self::contentTypes['listTemplateSubmissions'][0])
     {
-        list($response) = $this->listTemplateSubmissionsWithHttpInfo($template_id, $test, $created_after, $created_before, $include_data, $limit, $cursor, $contentType);
+        list($response) = $this->listTemplateSubmissionsWithHttpInfo($template_id, $test, $created_after, $created_before, $include_data, $limit, $cursor, $state, $include_files, $contentType);
         return $response;
     }
 
@@ -12613,15 +14042,17 @@ class Client
      * @param  bool|null $include_data Include each submission's `data` (null without it). (optional)
      * @param  int|null $limit How many items to return (1-100, default 50). (optional, default to 50)
      * @param  string|null $cursor The previous page's `next_cursor`, to get the next page. It's the ID of that page's last item, so get the next page before you delete or change the items on this one. (optional)
+     * @param  \DocSpring\Model\SubmissionState|null $state Only list submissions in this state (one state per request). The ones that failed are `invalid_data`, `error`, `syntax_error`, `image_download_failed` and `image_processing_failed`, and one still `pending` an hour after it was created is stuck. (optional)
+     * @param  bool|null $include_files Include each submission's generated files and their download links (`files`, empty without it), without the page images' links. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['listTemplateSubmissions'] to see the possible values for this operation
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \DocSpring\Model\SubmissionList|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \DocSpring\Model\SubmissionList|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function listTemplateSubmissionsWithHttpInfo($template_id, $test = null, $created_after = null, $created_before = null, $include_data = null, $limit = 50, $cursor = null, string $contentType = self::contentTypes['listTemplateSubmissions'][0])
+    public function listTemplateSubmissionsWithHttpInfo($template_id, $test = null, $created_after = null, $created_before = null, $include_data = null, $limit = 50, $cursor = null, $state = null, $include_files = null, string $contentType = self::contentTypes['listTemplateSubmissions'][0])
     {
-        $request = $this->listTemplateSubmissionsRequest($template_id, $test, $created_after, $created_before, $include_data, $limit, $cursor, $contentType);
+        $request = $this->listTemplateSubmissionsRequest($template_id, $test, $created_after, $created_before, $include_data, $limit, $cursor, $state, $include_files, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -12666,6 +14097,12 @@ class Client
                         $response,
                     );
                 case 401:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 429:
                     return $this->handleResponseWithDataType(
                         '\DocSpring\Model\ErrorResponse',
                         $request,
@@ -12727,6 +14164,14 @@ class Client
                     );
                     $e->setResponseObject($data);
                     throw $e;
+                case 429:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
             }
         
 
@@ -12746,14 +14191,16 @@ class Client
      * @param  bool|null $include_data Include each submission's `data` (null without it). (optional)
      * @param  int|null $limit How many items to return (1-100, default 50). (optional, default to 50)
      * @param  string|null $cursor The previous page's `next_cursor`, to get the next page. It's the ID of that page's last item, so get the next page before you delete or change the items on this one. (optional)
+     * @param  \DocSpring\Model\SubmissionState|null $state Only list submissions in this state (one state per request). The ones that failed are `invalid_data`, `error`, `syntax_error`, `image_download_failed` and `image_processing_failed`, and one still `pending` an hour after it was created is stuck. (optional)
+     * @param  bool|null $include_files Include each submission's generated files and their download links (`files`, empty without it), without the page images' links. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['listTemplateSubmissions'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function listTemplateSubmissionsAsync($template_id, $test = null, $created_after = null, $created_before = null, $include_data = null, $limit = 50, $cursor = null, string $contentType = self::contentTypes['listTemplateSubmissions'][0])
+    public function listTemplateSubmissionsAsync($template_id, $test = null, $created_after = null, $created_before = null, $include_data = null, $limit = 50, $cursor = null, $state = null, $include_files = null, string $contentType = self::contentTypes['listTemplateSubmissions'][0])
     {
-        return $this->listTemplateSubmissionsAsyncWithHttpInfo($template_id, $test, $created_after, $created_before, $include_data, $limit, $cursor, $contentType)
+        return $this->listTemplateSubmissionsAsyncWithHttpInfo($template_id, $test, $created_after, $created_before, $include_data, $limit, $cursor, $state, $include_files, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -12773,15 +14220,17 @@ class Client
      * @param  bool|null $include_data Include each submission's `data` (null without it). (optional)
      * @param  int|null $limit How many items to return (1-100, default 50). (optional, default to 50)
      * @param  string|null $cursor The previous page's `next_cursor`, to get the next page. It's the ID of that page's last item, so get the next page before you delete or change the items on this one. (optional)
+     * @param  \DocSpring\Model\SubmissionState|null $state Only list submissions in this state (one state per request). The ones that failed are `invalid_data`, `error`, `syntax_error`, `image_download_failed` and `image_processing_failed`, and one still `pending` an hour after it was created is stuck. (optional)
+     * @param  bool|null $include_files Include each submission's generated files and their download links (`files`, empty without it), without the page images' links. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['listTemplateSubmissions'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function listTemplateSubmissionsAsyncWithHttpInfo($template_id, $test = null, $created_after = null, $created_before = null, $include_data = null, $limit = 50, $cursor = null, string $contentType = self::contentTypes['listTemplateSubmissions'][0])
+    public function listTemplateSubmissionsAsyncWithHttpInfo($template_id, $test = null, $created_after = null, $created_before = null, $include_data = null, $limit = 50, $cursor = null, $state = null, $include_files = null, string $contentType = self::contentTypes['listTemplateSubmissions'][0])
     {
         $returnType = '\DocSpring\Model\SubmissionList';
-        $request = $this->listTemplateSubmissionsRequest($template_id, $test, $created_after, $created_before, $include_data, $limit, $cursor, $contentType);
+        $request = $this->listTemplateSubmissionsRequest($template_id, $test, $created_after, $created_before, $include_data, $limit, $cursor, $state, $include_files, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -12829,12 +14278,14 @@ class Client
      * @param  bool|null $include_data Include each submission's `data` (null without it). (optional)
      * @param  int|null $limit How many items to return (1-100, default 50). (optional, default to 50)
      * @param  string|null $cursor The previous page's `next_cursor`, to get the next page. It's the ID of that page's last item, so get the next page before you delete or change the items on this one. (optional)
+     * @param  \DocSpring\Model\SubmissionState|null $state Only list submissions in this state (one state per request). The ones that failed are `invalid_data`, `error`, `syntax_error`, `image_download_failed` and `image_processing_failed`, and one still `pending` an hour after it was created is stuck. (optional)
+     * @param  bool|null $include_files Include each submission's generated files and their download links (`files`, empty without it), without the page images' links. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['listTemplateSubmissions'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function listTemplateSubmissionsRequest($template_id, $test = null, $created_after = null, $created_before = null, $include_data = null, $limit = 50, $cursor = null, string $contentType = self::contentTypes['listTemplateSubmissions'][0])
+    public function listTemplateSubmissionsRequest($template_id, $test = null, $created_after = null, $created_before = null, $include_data = null, $limit = 50, $cursor = null, $state = null, $include_files = null, string $contentType = self::contentTypes['listTemplateSubmissions'][0])
     {
 
         // verify the required parameter 'template_id' is set
@@ -12843,6 +14294,8 @@ class Client
                 'Missing the required parameter $template_id when calling listTemplateSubmissions'
             );
         }
+
+
 
 
 
@@ -12908,6 +14361,24 @@ class Client
             $cursor,
             'cursor', // param base name
             'string', // openApiType
+            'form', // style
+            true, // explode
+            false // required
+        ) ?? []);
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $state,
+            'state', // param base name
+            'SubmissionState', // openApiType
+            'form', // style
+            true, // explode
+            false // required
+        ) ?? []);
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $include_files,
+            'include_files', // param base name
+            'boolean', // openApiType
             'form', // style
             true, // explode
             false // required
@@ -13002,7 +14473,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \DocSpring\Model\TemplateSummaryList|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
+     * @return \DocSpring\Model\TemplateSummaryList|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
      */
     public function listTemplates($query = null, $parent_folder_id = null, $limit = 50, $cursor = null, string $contentType = self::contentTypes['listTemplates'][0])
     {
@@ -13023,7 +14494,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \DocSpring\Model\TemplateSummaryList|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \DocSpring\Model\TemplateSummaryList|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
     public function listTemplatesWithHttpInfo($query = null, $parent_folder_id = null, $limit = 50, $cursor = null, string $contentType = self::contentTypes['listTemplates'][0])
     {
@@ -13071,6 +14542,12 @@ class Client
                         $request,
                         $response,
                     );
+                case 429:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
             }
 
             
@@ -13112,6 +14589,14 @@ class Client
                     $e->setResponseObject($data);
                     throw $e;
                 case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\DocSpring\Model\ErrorResponse',
@@ -13353,7 +14838,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \DocSpring\Model\WebhookList|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
+     * @return \DocSpring\Model\WebhookList|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
      */
     public function listWebhooks($event_type = null, $mode = null, $template_id = null, $folder_id = null, $api_token_id = null, $limit = 50, $cursor = null, string $contentType = self::contentTypes['listWebhooks'][0])
     {
@@ -13377,7 +14862,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \DocSpring\Model\WebhookList|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \DocSpring\Model\WebhookList|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
     public function listWebhooksWithHttpInfo($event_type = null, $mode = null, $template_id = null, $folder_id = null, $api_token_id = null, $limit = 50, $cursor = null, string $contentType = self::contentTypes['listWebhooks'][0])
     {
@@ -13425,6 +14910,12 @@ class Client
                         $request,
                         $response,
                     );
+                case 429:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
             }
 
             
@@ -13466,6 +14957,14 @@ class Client
                     $e->setResponseObject($data);
                     throw $e;
                 case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\DocSpring\Model\ErrorResponse',
@@ -13741,7 +15240,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \DocSpring\Model\Folder|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
+     * @return \DocSpring\Model\Folder|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
      */
     public function moveFolder($folder_id, $body, string $contentType = self::contentTypes['moveFolder'][0])
     {
@@ -13760,7 +15259,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \DocSpring\Model\Folder|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \DocSpring\Model\Folder|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
     public function moveFolderWithHttpInfo($folder_id, $body, string $contentType = self::contentTypes['moveFolder'][0])
     {
@@ -13809,6 +15308,12 @@ class Client
                         $response,
                     );
                 case 401:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 429:
                     return $this->handleResponseWithDataType(
                         '\DocSpring\Model\ErrorResponse',
                         $request,
@@ -13863,6 +15368,14 @@ class Client
                     $e->setResponseObject($data);
                     throw $e;
                 case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\DocSpring\Model\ErrorResponse',
@@ -14086,7 +15599,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \DocSpring\Model\Template|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
+     * @return \DocSpring\Model\Template|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
      */
     public function moveTemplate($template_id, $body, string $contentType = self::contentTypes['moveTemplate'][0])
     {
@@ -14105,7 +15618,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \DocSpring\Model\Template|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \DocSpring\Model\Template|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
     public function moveTemplateWithHttpInfo($template_id, $body, string $contentType = self::contentTypes['moveTemplate'][0])
     {
@@ -14154,6 +15667,12 @@ class Client
                         $response,
                     );
                 case 401:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 429:
                     return $this->handleResponseWithDataType(
                         '\DocSpring\Model\ErrorResponse',
                         $request,
@@ -14208,6 +15727,14 @@ class Client
                     $e->setResponseObject($data);
                     throw $e;
                 case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\DocSpring\Model\ErrorResponse',
@@ -14431,7 +15958,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \DocSpring\Model\TemplateVersion|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
+     * @return \DocSpring\Model\TemplateVersion|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
      */
     public function publishTemplateVersion($template_id, $body, string $contentType = self::contentTypes['publishTemplateVersion'][0])
     {
@@ -14450,7 +15977,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \DocSpring\Model\TemplateVersion|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \DocSpring\Model\TemplateVersion|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
     public function publishTemplateVersionWithHttpInfo($template_id, $body, string $contentType = self::contentTypes['publishTemplateVersion'][0])
     {
@@ -14505,6 +16032,12 @@ class Client
                         $response,
                     );
                 case 401:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 429:
                     return $this->handleResponseWithDataType(
                         '\DocSpring\Model\ErrorResponse',
                         $request,
@@ -14567,6 +16100,14 @@ class Client
                     $e->setResponseObject($data);
                     throw $e;
                 case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\DocSpring\Model\ErrorResponse',
@@ -14790,7 +16331,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \DocSpring\Model\TemplateFields|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
+     * @return \DocSpring\Model\TemplateFields|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
      */
     public function removeTemplateFields($template_id, $body, string $contentType = self::contentTypes['removeTemplateFields'][0])
     {
@@ -14809,7 +16350,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \DocSpring\Model\TemplateFields|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \DocSpring\Model\TemplateFields|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
     public function removeTemplateFieldsWithHttpInfo($template_id, $body, string $contentType = self::contentTypes['removeTemplateFields'][0])
     {
@@ -14858,6 +16399,12 @@ class Client
                         $response,
                     );
                 case 401:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 429:
                     return $this->handleResponseWithDataType(
                         '\DocSpring\Model\ErrorResponse',
                         $request,
@@ -14912,6 +16459,14 @@ class Client
                     $e->setResponseObject($data);
                     throw $e;
                 case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\DocSpring\Model\ErrorResponse',
@@ -15135,7 +16690,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \DocSpring\Model\Folder|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
+     * @return \DocSpring\Model\Folder|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
      */
     public function renameFolder($folder_id, $body, string $contentType = self::contentTypes['renameFolder'][0])
     {
@@ -15154,7 +16709,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \DocSpring\Model\Folder|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \DocSpring\Model\Folder|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
     public function renameFolderWithHttpInfo($folder_id, $body, string $contentType = self::contentTypes['renameFolder'][0])
     {
@@ -15203,6 +16758,12 @@ class Client
                         $response,
                     );
                 case 401:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 429:
                     return $this->handleResponseWithDataType(
                         '\DocSpring\Model\ErrorResponse',
                         $request,
@@ -15257,6 +16818,14 @@ class Client
                     $e->setResponseObject($data);
                     throw $e;
                 case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\DocSpring\Model\ErrorResponse',
@@ -15480,7 +17049,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \DocSpring\Model\TemplateFields|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
+     * @return \DocSpring\Model\TemplateFields|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
      */
     public function reorderTemplateFields($template_id, $body, string $contentType = self::contentTypes['reorderTemplateFields'][0])
     {
@@ -15499,7 +17068,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \DocSpring\Model\TemplateFields|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \DocSpring\Model\TemplateFields|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
     public function reorderTemplateFieldsWithHttpInfo($template_id, $body, string $contentType = self::contentTypes['reorderTemplateFields'][0])
     {
@@ -15548,6 +17117,12 @@ class Client
                         $response,
                     );
                 case 401:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 429:
                     return $this->handleResponseWithDataType(
                         '\DocSpring\Model\ErrorResponse',
                         $request,
@@ -15602,6 +17177,14 @@ class Client
                     $e->setResponseObject($data);
                     throw $e;
                 case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\DocSpring\Model\ErrorResponse',
@@ -15825,7 +17408,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \DocSpring\Model\Template|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
+     * @return \DocSpring\Model\Template|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
      */
     public function restoreTemplateVersion($template_id, $body, string $contentType = self::contentTypes['restoreTemplateVersion'][0])
     {
@@ -15844,7 +17427,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \DocSpring\Model\Template|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \DocSpring\Model\Template|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
     public function restoreTemplateVersionWithHttpInfo($template_id, $body, string $contentType = self::contentTypes['restoreTemplateVersion'][0])
     {
@@ -15899,6 +17482,12 @@ class Client
                         $response,
                     );
                 case 401:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 429:
                     return $this->handleResponseWithDataType(
                         '\DocSpring\Model\ErrorResponse',
                         $request,
@@ -15961,6 +17550,14 @@ class Client
                     $e->setResponseObject($data);
                     throw $e;
                 case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\DocSpring\Model\ErrorResponse',
@@ -16182,7 +17779,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \DocSpring\Model\AuthenticationCheck|\DocSpring\Model\ErrorResponse
+     * @return \DocSpring\Model\AuthenticationCheck|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
      */
     public function testAuthentication(string $contentType = self::contentTypes['testAuthentication'][0])
     {
@@ -16199,7 +17796,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \DocSpring\Model\AuthenticationCheck|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \DocSpring\Model\AuthenticationCheck|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
     public function testAuthenticationWithHttpInfo(string $contentType = self::contentTypes['testAuthentication'][0])
     {
@@ -16241,6 +17838,12 @@ class Client
                         $request,
                         $response,
                     );
+                case 429:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
             }
 
             
@@ -16274,6 +17877,14 @@ class Client
                     $e->setResponseObject($data);
                     throw $e;
                 case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\DocSpring\Model\ErrorResponse',
@@ -16458,7 +18069,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \DocSpring\Model\SignatureRequest|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
+     * @return \DocSpring\Model\SignatureRequest|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
      */
     public function updateSignatureRequest($signature_request_id, $body, string $contentType = self::contentTypes['updateSignatureRequest'][0])
     {
@@ -16477,7 +18088,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \DocSpring\Model\SignatureRequest|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \DocSpring\Model\SignatureRequest|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
     public function updateSignatureRequestWithHttpInfo($signature_request_id, $body, string $contentType = self::contentTypes['updateSignatureRequest'][0])
     {
@@ -16532,6 +18143,12 @@ class Client
                         $response,
                     );
                 case 401:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 429:
                     return $this->handleResponseWithDataType(
                         '\DocSpring\Model\ErrorResponse',
                         $request,
@@ -16594,6 +18211,14 @@ class Client
                     $e->setResponseObject($data);
                     throw $e;
                 case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\DocSpring\Model\ErrorResponse',
@@ -16817,7 +18442,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \DocSpring\Model\Template|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
+     * @return \DocSpring\Model\Template|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
      */
     public function updateTemplate($template_id, $body, string $contentType = self::contentTypes['updateTemplate'][0])
     {
@@ -16836,7 +18461,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \DocSpring\Model\Template|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \DocSpring\Model\Template|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
     public function updateTemplateWithHttpInfo($template_id, $body, string $contentType = self::contentTypes['updateTemplate'][0])
     {
@@ -16891,6 +18516,12 @@ class Client
                         $response,
                     );
                 case 401:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 429:
                     return $this->handleResponseWithDataType(
                         '\DocSpring\Model\ErrorResponse',
                         $request,
@@ -16953,6 +18584,14 @@ class Client
                     $e->setResponseObject($data);
                     throw $e;
                 case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\DocSpring\Model\ErrorResponse',
@@ -17177,7 +18816,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \DocSpring\Model\Template|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
+     * @return \DocSpring\Model\Template|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
      */
     public function updateTemplateDocument($template_id, $body, $wait = null, string $contentType = self::contentTypes['updateTemplateDocument'][0])
     {
@@ -17197,7 +18836,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \DocSpring\Model\Template|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \DocSpring\Model\Template|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
     public function updateTemplateDocumentWithHttpInfo($template_id, $body, $wait = null, string $contentType = self::contentTypes['updateTemplateDocument'][0])
     {
@@ -17252,6 +18891,18 @@ class Client
                         $response,
                     );
                 case 401:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 429:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 504:
                     return $this->handleResponseWithDataType(
                         '\DocSpring\Model\ErrorResponse',
                         $request,
@@ -17314,6 +18965,22 @@ class Client
                     $e->setResponseObject($data);
                     throw $e;
                 case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 429:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 504:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\DocSpring\Model\ErrorResponse',
@@ -17550,7 +19217,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \DocSpring\Model\TemplateFields|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
+     * @return \DocSpring\Model\TemplateFields|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
      */
     public function updateTemplateFields($template_id, $body, string $contentType = self::contentTypes['updateTemplateFields'][0])
     {
@@ -17569,7 +19236,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \DocSpring\Model\TemplateFields|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \DocSpring\Model\TemplateFields|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
     public function updateTemplateFieldsWithHttpInfo($template_id, $body, string $contentType = self::contentTypes['updateTemplateFields'][0])
     {
@@ -17618,6 +19285,12 @@ class Client
                         $response,
                     );
                 case 401:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 429:
                     return $this->handleResponseWithDataType(
                         '\DocSpring\Model\ErrorResponse',
                         $request,
@@ -17672,6 +19345,14 @@ class Client
                     $e->setResponseObject($data);
                     throw $e;
                 case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\DocSpring\Model\ErrorResponse',
@@ -17895,7 +19576,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \DocSpring\Model\Webhook|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
+     * @return \DocSpring\Model\Webhook|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
      */
     public function updateWebhook($webhook_id, $body, string $contentType = self::contentTypes['updateWebhook'][0])
     {
@@ -17914,7 +19595,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \DocSpring\Model\Webhook|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \DocSpring\Model\Webhook|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
     public function updateWebhookWithHttpInfo($webhook_id, $body, string $contentType = self::contentTypes['updateWebhook'][0])
     {
@@ -17963,6 +19644,12 @@ class Client
                         $response,
                     );
                 case 401:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 429:
                     return $this->handleResponseWithDataType(
                         '\DocSpring\Model\ErrorResponse',
                         $request,
@@ -18017,6 +19704,14 @@ class Client
                     $e->setResponseObject($data);
                     throw $e;
                 case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\DocSpring\Model\ErrorResponse',
@@ -18248,7 +19943,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \DocSpring\Model\Template|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
+     * @return \DocSpring\Model\Template|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
      */
     public function uploadTemplate($document, $wait = null, $name = null, $description = null, $parent_folder_id = null, $ai_field_naming_language = null, $detect_fields = null, $field_source = null, $field_naming = null, $field_logic = null, string $contentType = self::contentTypes['uploadTemplate'][0])
     {
@@ -18275,7 +19970,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \DocSpring\Model\Template|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \DocSpring\Model\Template|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
     public function uploadTemplateWithHttpInfo($document, $wait = null, $name = null, $description = null, $parent_folder_id = null, $ai_field_naming_language = null, $detect_fields = null, $field_source = null, $field_naming = null, $field_logic = null, string $contentType = self::contentTypes['uploadTemplate'][0])
     {
@@ -18324,6 +20019,18 @@ class Client
                         $response,
                     );
                 case 401:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 429:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 504:
                     return $this->handleResponseWithDataType(
                         '\DocSpring\Model\ErrorResponse',
                         $request,
@@ -18378,6 +20085,22 @@ class Client
                     $e->setResponseObject($data);
                     throw $e;
                 case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 429:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 504:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\DocSpring\Model\ErrorResponse',
@@ -18637,7 +20360,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \DocSpring\Model\Template|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
+     * @return \DocSpring\Model\Template|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
      */
     public function uploadTemplateDocument($template_id, $document, $wait = null, $reimport_fields = null, string $contentType = self::contentTypes['uploadTemplateDocument'][0])
     {
@@ -18658,7 +20381,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \DocSpring\Model\Template|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \DocSpring\Model\Template|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
     public function uploadTemplateDocumentWithHttpInfo($template_id, $document, $wait = null, $reimport_fields = null, string $contentType = self::contentTypes['uploadTemplateDocument'][0])
     {
@@ -18707,6 +20430,18 @@ class Client
                         $response,
                     );
                 case 401:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 429:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 504:
                     return $this->handleResponseWithDataType(
                         '\DocSpring\Model\ErrorResponse',
                         $request,
@@ -18761,6 +20496,22 @@ class Client
                     $e->setResponseObject($data);
                     throw $e;
                 case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 429:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 504:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\DocSpring\Model\ErrorResponse',
@@ -19002,7 +20753,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \DocSpring\Model\SubmissionValidation|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
+     * @return \DocSpring\Model\SubmissionValidation|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
      */
     public function validateSubmission($template_id, $body, $version = null, string $contentType = self::contentTypes['validateSubmission'][0])
     {
@@ -19022,7 +20773,7 @@ class Client
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \DocSpring\Model\SubmissionValidation|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \DocSpring\Model\SubmissionValidation|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
     public function validateSubmissionWithHttpInfo($template_id, $body, $version = null, string $contentType = self::contentTypes['validateSubmission'][0])
     {
@@ -19071,6 +20822,12 @@ class Client
                         $response,
                     );
                 case 401:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 429:
                     return $this->handleResponseWithDataType(
                         '\DocSpring\Model\ErrorResponse',
                         $request,
@@ -19125,6 +20882,14 @@ class Client
                     $e->setResponseObject($data);
                     throw $e;
                 case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\DocSpring\Model\ErrorResponse',

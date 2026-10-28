@@ -58,7 +58,7 @@ class SubmissionList implements ModelInterface, ArrayAccess, \JsonSerializable
      * @var string[]
      */
     protected static $openAPITypes = [
-        'data' => '\DocSpring\Model\Submission[]',
+        'data' => '\DocSpring\Model\SubmissionSummary[]',
         'next_cursor' => 'string'
     ];
 
@@ -306,7 +306,7 @@ class SubmissionList implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Gets data
      *
-     * @return \DocSpring\Model\Submission[]
+     * @return \DocSpring\Model\SubmissionSummary[]
      */
     public function getData()
     {
@@ -316,7 +316,7 @@ class SubmissionList implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets data
      *
-     * @param \DocSpring\Model\Submission[] $data The items on this page.
+     * @param \DocSpring\Model\SubmissionSummary[] $data The items on this page.
      *
      * @return self
      */

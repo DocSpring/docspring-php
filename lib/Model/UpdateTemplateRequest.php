@@ -92,7 +92,8 @@ class UpdateTemplateRequest implements ModelInterface, ArrayAccess, \JsonSeriali
         'scss' => 'string',
         'header_html' => 'string',
         'footer_html' => 'string',
-        'html_engine_options' => '\DocSpring\Model\HtmlEngineOptionsInput'
+        'html_engine_options' => '\DocSpring\Model\HtmlEngineOptionsInput',
+        'html_escape_data' => 'bool'
     ];
 
     /**
@@ -137,7 +138,8 @@ class UpdateTemplateRequest implements ModelInterface, ArrayAccess, \JsonSeriali
         'scss' => null,
         'header_html' => null,
         'footer_html' => null,
-        'html_engine_options' => null
+        'html_engine_options' => null,
+        'html_escape_data' => null
     ];
 
     /**
@@ -180,7 +182,8 @@ class UpdateTemplateRequest implements ModelInterface, ArrayAccess, \JsonSeriali
         'scss' => true,
         'header_html' => true,
         'footer_html' => true,
-        'html_engine_options' => true
+        'html_engine_options' => true,
+        'html_escape_data' => false
     ];
 
     /**
@@ -303,7 +306,8 @@ class UpdateTemplateRequest implements ModelInterface, ArrayAccess, \JsonSeriali
         'scss' => 'scss',
         'header_html' => 'header_html',
         'footer_html' => 'footer_html',
-        'html_engine_options' => 'html_engine_options'
+        'html_engine_options' => 'html_engine_options',
+        'html_escape_data' => 'html_escape_data'
     ];
 
     /**
@@ -346,7 +350,8 @@ class UpdateTemplateRequest implements ModelInterface, ArrayAccess, \JsonSeriali
         'scss' => 'setScss',
         'header_html' => 'setHeaderHtml',
         'footer_html' => 'setFooterHtml',
-        'html_engine_options' => 'setHtmlEngineOptions'
+        'html_engine_options' => 'setHtmlEngineOptions',
+        'html_escape_data' => 'setHtmlEscapeData'
     ];
 
     /**
@@ -389,7 +394,8 @@ class UpdateTemplateRequest implements ModelInterface, ArrayAccess, \JsonSeriali
         'scss' => 'getScss',
         'header_html' => 'getHeaderHtml',
         'footer_html' => 'getFooterHtml',
-        'html_engine_options' => 'getHtmlEngineOptions'
+        'html_engine_options' => 'getHtmlEngineOptions',
+        'html_escape_data' => 'getHtmlEscapeData'
     ];
 
     /**
@@ -484,6 +490,7 @@ class UpdateTemplateRequest implements ModelInterface, ArrayAccess, \JsonSeriali
         $this->setIfExists('header_html', $data ?? [], null);
         $this->setIfExists('footer_html', $data ?? [], null);
         $this->setIfExists('html_engine_options', $data ?? [], null);
+        $this->setIfExists('html_escape_data', $data ?? [], null);
     }
 
     /**
@@ -825,7 +832,7 @@ class UpdateTemplateRequest implements ModelInterface, ArrayAccess, \JsonSeriali
     /**
      * Sets embed_domains
      *
-     * @param string[]|null $embed_domains The sites where the template's signature requests, forms and embedded template editor can be loaded: a host such as `app.example.com`, with an optional leading wildcard (`*.example.com`), port (`localhost:3000`) or scheme (`https://app.example.com`; without one, `http` and `https` both work). When it's empty, live signature requests don't load on any site, and the embedded template editor loads on every site.
+     * @param string[]|null $embed_domains The sites that can embed the template's live signature requests and its embedded template editor: a host such as `app.example.com`, with an optional leading wildcard (`*.example.com`), port (`localhost:3000`) or scheme (`https://app.example.com`; without one, `http` and `https` both work). Browsers open a live signature request in a frame only on these sites (and DocSpring's), so with an empty list it can't be embedded anywhere; a test signature request can be embedded on any site. The embedded template editor loads only for a page on one of these sites (by its Referer or Origin header), and on any site when the list is empty. Forms embedded on a page (Visual Forms JS and the simple form) aren't restricted.
      *
      * @return self
      */
@@ -1546,6 +1553,33 @@ class UpdateTemplateRequest implements ModelInterface, ArrayAccess, \JsonSeriali
             }
         }
         $this->container['html_engine_options'] = $html_engine_options;
+
+        return $this;
+    }
+
+    /**
+     * Gets html_escape_data
+     *
+     * @return bool|null
+     */
+    public function getHtmlEscapeData()
+    {
+        return $this->container['html_escape_data'];
+    }
+
+    /**
+     * Sets html_escape_data
+     *
+     * @param bool|null $html_escape_data Whether an HTML template HTML-escapes the values it prints. When true, `{{ value }}` prints a value as text, so a `<` or `&` in it is printed as that character, and `{{ value | raw }}` prints a value as HTML. New HTML templates default to true. Templates created before October 2026, or with API v1, default to false, which prints every value as HTML. Null for PDF templates.
+     *
+     * @return self
+     */
+    public function setHtmlEscapeData($html_escape_data)
+    {
+        if (is_null($html_escape_data)) {
+            throw new \InvalidArgumentException('non-nullable html_escape_data cannot be null');
+        }
+        $this->container['html_escape_data'] = $html_escape_data;
 
         return $this;
     }

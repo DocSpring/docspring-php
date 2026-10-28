@@ -346,7 +346,7 @@ class TemplateActor implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets type
      *
-     * @param \DocSpring\Model\TemplateActorType $type `user`: a user in your account. `api`: an API token. `external_user`: someone using the embedded template editor, as identified by your app.
+     * @param \DocSpring\Model\TemplateActorType $type `user`: a user in your account, also when they make the change with an app they connected (an OAuth access token). `api`: an API token. `external_user`: someone using the embedded template editor, as identified by your app.
      *
      * @return self
      */

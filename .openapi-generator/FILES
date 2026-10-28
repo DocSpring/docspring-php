@@ -26,6 +26,7 @@ docs/Model/CreateSignatureRequestEventRequest.md
 docs/Model/CreateSignatureRequestTokenRequest.md
 docs/Model/CreateSubmissionBatchRequest.md
 docs/Model/CreateSubmissionRequest.md
+docs/Model/CreateTemplatePreviewRequest.md
 docs/Model/CreateTemplateRequest.md
 docs/Model/CreateWebhookRequest.md
 docs/Model/CustomFile.md
@@ -107,6 +108,7 @@ docs/Model/SubmissionList.md
 docs/Model/SubmissionSource.md
 docs/Model/SubmissionSourcePdf.md
 docs/Model/SubmissionState.md
+docs/Model/SubmissionSummary.md
 docs/Model/SubmissionValidation.md
 docs/Model/Template.md
 docs/Model/TemplateActor.md
@@ -117,6 +119,7 @@ docs/Model/TemplateDiff.md
 docs/Model/TemplateDiffSummary.md
 docs/Model/TemplateDocument.md
 docs/Model/TemplateDocumentState.md
+docs/Model/TemplateDocumentSummary.md
 docs/Model/TemplateFieldChange.md
 docs/Model/TemplateFieldChanges.md
 docs/Model/TemplateFieldDependency.md
@@ -137,6 +140,8 @@ docs/Model/TemplatePageFieldsStatus.md
 docs/Model/TemplatePageImageStatus.md
 docs/Model/TemplatePageImages.md
 docs/Model/TemplatePageProcessingStatus.md
+docs/Model/TemplatePreview.md
+docs/Model/TemplatePreviewState.md
 docs/Model/TemplateSourcePdf.md
 docs/Model/TemplateSummary.md
 docs/Model/TemplateSummaryList.md
@@ -188,6 +193,7 @@ lib/Model/CreateSignatureRequestEventRequest.php
 lib/Model/CreateSignatureRequestTokenRequest.php
 lib/Model/CreateSubmissionBatchRequest.php
 lib/Model/CreateSubmissionRequest.php
+lib/Model/CreateTemplatePreviewRequest.php
 lib/Model/CreateTemplateRequest.php
 lib/Model/CreateWebhookRequest.php
 lib/Model/CustomFile.php
@@ -270,6 +276,7 @@ lib/Model/SubmissionList.php
 lib/Model/SubmissionSource.php
 lib/Model/SubmissionSourcePdf.php
 lib/Model/SubmissionState.php
+lib/Model/SubmissionSummary.php
 lib/Model/SubmissionValidation.php
 lib/Model/Template.php
 lib/Model/TemplateActor.php
@@ -280,6 +287,7 @@ lib/Model/TemplateDiff.php
 lib/Model/TemplateDiffSummary.php
 lib/Model/TemplateDocument.php
 lib/Model/TemplateDocumentState.php
+lib/Model/TemplateDocumentSummary.php
 lib/Model/TemplateFieldChange.php
 lib/Model/TemplateFieldChanges.php
 lib/Model/TemplateFieldDependency.php
@@ -300,6 +308,8 @@ lib/Model/TemplatePageFieldsStatus.php
 lib/Model/TemplatePageImageStatus.php
 lib/Model/TemplatePageImages.php
 lib/Model/TemplatePageProcessingStatus.php
+lib/Model/TemplatePreview.php
+lib/Model/TemplatePreviewState.php
 lib/Model/TemplateSourcePdf.php
 lib/Model/TemplateSummary.php
 lib/Model/TemplateSummaryList.php
@@ -348,6 +358,7 @@ test/Model/CreateSignatureRequestEventRequestTest.php
 test/Model/CreateSignatureRequestTokenRequestTest.php
 test/Model/CreateSubmissionBatchRequestTest.php
 test/Model/CreateSubmissionRequestTest.php
+test/Model/CreateTemplatePreviewRequestTest.php
 test/Model/CreateTemplateRequestTest.php
 test/Model/CreateWebhookRequestTest.php
 test/Model/CustomFileListTest.php
@@ -428,6 +439,7 @@ test/Model/SubmissionListTest.php
 test/Model/SubmissionSourcePdfTest.php
 test/Model/SubmissionSourceTest.php
 test/Model/SubmissionStateTest.php
+test/Model/SubmissionSummaryTest.php
 test/Model/SubmissionTest.php
 test/Model/SubmissionValidationTest.php
 test/Model/TemplateActorTest.php
@@ -437,6 +449,7 @@ test/Model/TemplateDefaultsTest.php
 test/Model/TemplateDiffSummaryTest.php
 test/Model/TemplateDiffTest.php
 test/Model/TemplateDocumentStateTest.php
+test/Model/TemplateDocumentSummaryTest.php
 test/Model/TemplateDocumentTest.php
 test/Model/TemplateFieldChangeTest.php
 test/Model/TemplateFieldChangesTest.php
@@ -458,6 +471,8 @@ test/Model/TemplatePageFieldsStatusTest.php
 test/Model/TemplatePageImageStatusTest.php
 test/Model/TemplatePageImagesTest.php
 test/Model/TemplatePageProcessingStatusTest.php
+test/Model/TemplatePreviewStateTest.php
+test/Model/TemplatePreviewTest.php
 test/Model/TemplateSourcePdfTest.php
 test/Model/TemplateSummaryListTest.php
 test/Model/TemplateSummaryTest.php

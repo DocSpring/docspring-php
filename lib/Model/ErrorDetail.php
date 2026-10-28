@@ -418,7 +418,7 @@ class ErrorDetail implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets parameter
      *
-     * @param string|null $parameter The query parameter the detail is about.
+     * @param string|null $parameter The query parameter or header the detail is about.
      *
      * @return self
      */

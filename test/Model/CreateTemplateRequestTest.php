@@ -395,6 +395,15 @@ class CreateTemplateRequestTest extends TestCase
     }
 
     /**
+     * Test attribute "html_escape_data"
+     */
+    public function testPropertyHtmlEscapeData()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
      * Test attribute "cache_id"
      */
     public function testPropertyCacheId()

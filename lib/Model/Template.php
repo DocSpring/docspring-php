@@ -66,10 +66,13 @@ class Template implements ModelInterface, ArrayAccess, \JsonSerializable
         'document' => '\DocSpring\Model\TemplateDocument',
         'parent_folder_id' => 'string',
         'path' => 'string',
-        'version' => 'string',
         'latest_version' => 'string',
         'version_published_at' => '\DateTime',
         'locked' => 'bool',
+        'last_changed_at' => '\DateTime',
+        'created_at' => '\DateTime',
+        'updated_at' => '\DateTime',
+        'version' => 'string',
         'add_signature_request_submission_id_footers' => 'bool',
         'ai_field_naming_language' => '\DocSpring\Model\AiFieldNamingLanguage',
         'allow_additional_properties' => 'bool',
@@ -91,10 +94,7 @@ class Template implements ModelInterface, ArrayAccess, \JsonSerializable
         'public_web_form' => 'bool',
         'redirect_url' => 'string',
         'has_slack_webhook_url' => 'bool',
-        'last_changed_at' => '\DateTime',
         'last_changed_by' => '\DocSpring\Model\TemplateActor',
-        'created_at' => '\DateTime',
-        'updated_at' => '\DateTime',
         'defaults' => '\DocSpring\Model\TemplateDefaults',
         'field_dependencies' => '\DocSpring\Model\TemplateFieldDependency[]',
         'field_groups' => '\DocSpring\Model\FieldGroup[]',
@@ -105,6 +105,7 @@ class Template implements ModelInterface, ArrayAccess, \JsonSerializable
         'header_html' => 'string',
         'footer_html' => 'string',
         'html_engine_options' => '\DocSpring\Model\HtmlEngineOptions',
+        'html_escape_data' => 'bool',
         'embed_edit_token' => 'string',
         'versions' => '\DocSpring\Model\TemplateVersion[]'
     ];
@@ -125,10 +126,13 @@ class Template implements ModelInterface, ArrayAccess, \JsonSerializable
         'document' => null,
         'parent_folder_id' => null,
         'path' => null,
-        'version' => null,
         'latest_version' => null,
         'version_published_at' => 'date-time',
         'locked' => null,
+        'last_changed_at' => 'date-time',
+        'created_at' => 'date-time',
+        'updated_at' => 'date-time',
+        'version' => null,
         'add_signature_request_submission_id_footers' => null,
         'ai_field_naming_language' => null,
         'allow_additional_properties' => null,
@@ -150,10 +154,7 @@ class Template implements ModelInterface, ArrayAccess, \JsonSerializable
         'public_web_form' => null,
         'redirect_url' => null,
         'has_slack_webhook_url' => null,
-        'last_changed_at' => 'date-time',
         'last_changed_by' => null,
-        'created_at' => 'date-time',
-        'updated_at' => 'date-time',
         'defaults' => null,
         'field_dependencies' => null,
         'field_groups' => null,
@@ -164,6 +165,7 @@ class Template implements ModelInterface, ArrayAccess, \JsonSerializable
         'header_html' => null,
         'footer_html' => null,
         'html_engine_options' => null,
+        'html_escape_data' => null,
         'embed_edit_token' => null,
         'versions' => null
     ];
@@ -182,10 +184,13 @@ class Template implements ModelInterface, ArrayAccess, \JsonSerializable
         'document' => true,
         'parent_folder_id' => true,
         'path' => false,
-        'version' => true,
         'latest_version' => true,
         'version_published_at' => true,
         'locked' => false,
+        'last_changed_at' => true,
+        'created_at' => false,
+        'updated_at' => false,
+        'version' => true,
         'add_signature_request_submission_id_footers' => false,
         'ai_field_naming_language' => true,
         'allow_additional_properties' => false,
@@ -207,10 +212,7 @@ class Template implements ModelInterface, ArrayAccess, \JsonSerializable
         'public_web_form' => false,
         'redirect_url' => true,
         'has_slack_webhook_url' => false,
-        'last_changed_at' => true,
         'last_changed_by' => true,
-        'created_at' => false,
-        'updated_at' => false,
         'defaults' => false,
         'field_dependencies' => false,
         'field_groups' => false,
@@ -221,6 +223,7 @@ class Template implements ModelInterface, ArrayAccess, \JsonSerializable
         'header_html' => true,
         'footer_html' => true,
         'html_engine_options' => true,
+        'html_escape_data' => true,
         'embed_edit_token' => true,
         'versions' => false
     ];
@@ -319,10 +322,13 @@ class Template implements ModelInterface, ArrayAccess, \JsonSerializable
         'document' => 'document',
         'parent_folder_id' => 'parent_folder_id',
         'path' => 'path',
-        'version' => 'version',
         'latest_version' => 'latest_version',
         'version_published_at' => 'version_published_at',
         'locked' => 'locked',
+        'last_changed_at' => 'last_changed_at',
+        'created_at' => 'created_at',
+        'updated_at' => 'updated_at',
+        'version' => 'version',
         'add_signature_request_submission_id_footers' => 'add_signature_request_submission_id_footers',
         'ai_field_naming_language' => 'ai_field_naming_language',
         'allow_additional_properties' => 'allow_additional_properties',
@@ -344,10 +350,7 @@ class Template implements ModelInterface, ArrayAccess, \JsonSerializable
         'public_web_form' => 'public_web_form',
         'redirect_url' => 'redirect_url',
         'has_slack_webhook_url' => 'has_slack_webhook_url',
-        'last_changed_at' => 'last_changed_at',
         'last_changed_by' => 'last_changed_by',
-        'created_at' => 'created_at',
-        'updated_at' => 'updated_at',
         'defaults' => 'defaults',
         'field_dependencies' => 'field_dependencies',
         'field_groups' => 'field_groups',
@@ -358,6 +361,7 @@ class Template implements ModelInterface, ArrayAccess, \JsonSerializable
         'header_html' => 'header_html',
         'footer_html' => 'footer_html',
         'html_engine_options' => 'html_engine_options',
+        'html_escape_data' => 'html_escape_data',
         'embed_edit_token' => 'embed_edit_token',
         'versions' => 'versions'
     ];
@@ -376,10 +380,13 @@ class Template implements ModelInterface, ArrayAccess, \JsonSerializable
         'document' => 'setDocument',
         'parent_folder_id' => 'setParentFolderId',
         'path' => 'setPath',
-        'version' => 'setVersion',
         'latest_version' => 'setLatestVersion',
         'version_published_at' => 'setVersionPublishedAt',
         'locked' => 'setLocked',
+        'last_changed_at' => 'setLastChangedAt',
+        'created_at' => 'setCreatedAt',
+        'updated_at' => 'setUpdatedAt',
+        'version' => 'setVersion',
         'add_signature_request_submission_id_footers' => 'setAddSignatureRequestSubmissionIdFooters',
         'ai_field_naming_language' => 'setAiFieldNamingLanguage',
         'allow_additional_properties' => 'setAllowAdditionalProperties',
@@ -401,10 +408,7 @@ class Template implements ModelInterface, ArrayAccess, \JsonSerializable
         'public_web_form' => 'setPublicWebForm',
         'redirect_url' => 'setRedirectUrl',
         'has_slack_webhook_url' => 'setHasSlackWebhookUrl',
-        'last_changed_at' => 'setLastChangedAt',
         'last_changed_by' => 'setLastChangedBy',
-        'created_at' => 'setCreatedAt',
-        'updated_at' => 'setUpdatedAt',
         'defaults' => 'setDefaults',
         'field_dependencies' => 'setFieldDependencies',
         'field_groups' => 'setFieldGroups',
@@ -415,6 +419,7 @@ class Template implements ModelInterface, ArrayAccess, \JsonSerializable
         'header_html' => 'setHeaderHtml',
         'footer_html' => 'setFooterHtml',
         'html_engine_options' => 'setHtmlEngineOptions',
+        'html_escape_data' => 'setHtmlEscapeData',
         'embed_edit_token' => 'setEmbedEditToken',
         'versions' => 'setVersions'
     ];
@@ -433,10 +438,13 @@ class Template implements ModelInterface, ArrayAccess, \JsonSerializable
         'document' => 'getDocument',
         'parent_folder_id' => 'getParentFolderId',
         'path' => 'getPath',
-        'version' => 'getVersion',
         'latest_version' => 'getLatestVersion',
         'version_published_at' => 'getVersionPublishedAt',
         'locked' => 'getLocked',
+        'last_changed_at' => 'getLastChangedAt',
+        'created_at' => 'getCreatedAt',
+        'updated_at' => 'getUpdatedAt',
+        'version' => 'getVersion',
         'add_signature_request_submission_id_footers' => 'getAddSignatureRequestSubmissionIdFooters',
         'ai_field_naming_language' => 'getAiFieldNamingLanguage',
         'allow_additional_properties' => 'getAllowAdditionalProperties',
@@ -458,10 +466,7 @@ class Template implements ModelInterface, ArrayAccess, \JsonSerializable
         'public_web_form' => 'getPublicWebForm',
         'redirect_url' => 'getRedirectUrl',
         'has_slack_webhook_url' => 'getHasSlackWebhookUrl',
-        'last_changed_at' => 'getLastChangedAt',
         'last_changed_by' => 'getLastChangedBy',
-        'created_at' => 'getCreatedAt',
-        'updated_at' => 'getUpdatedAt',
         'defaults' => 'getDefaults',
         'field_dependencies' => 'getFieldDependencies',
         'field_groups' => 'getFieldGroups',
@@ -472,6 +477,7 @@ class Template implements ModelInterface, ArrayAccess, \JsonSerializable
         'header_html' => 'getHeaderHtml',
         'footer_html' => 'getFooterHtml',
         'html_engine_options' => 'getHtmlEngineOptions',
+        'html_escape_data' => 'getHtmlEscapeData',
         'embed_edit_token' => 'getEmbedEditToken',
         'versions' => 'getVersions'
     ];
@@ -541,10 +547,13 @@ class Template implements ModelInterface, ArrayAccess, \JsonSerializable
         $this->setIfExists('document', $data ?? [], null);
         $this->setIfExists('parent_folder_id', $data ?? [], null);
         $this->setIfExists('path', $data ?? [], null);
-        $this->setIfExists('version', $data ?? [], null);
         $this->setIfExists('latest_version', $data ?? [], null);
         $this->setIfExists('version_published_at', $data ?? [], null);
         $this->setIfExists('locked', $data ?? [], null);
+        $this->setIfExists('last_changed_at', $data ?? [], null);
+        $this->setIfExists('created_at', $data ?? [], null);
+        $this->setIfExists('updated_at', $data ?? [], null);
+        $this->setIfExists('version', $data ?? [], null);
         $this->setIfExists('add_signature_request_submission_id_footers', $data ?? [], null);
         $this->setIfExists('ai_field_naming_language', $data ?? [], null);
         $this->setIfExists('allow_additional_properties', $data ?? [], null);
@@ -566,10 +575,7 @@ class Template implements ModelInterface, ArrayAccess, \JsonSerializable
         $this->setIfExists('public_web_form', $data ?? [], null);
         $this->setIfExists('redirect_url', $data ?? [], null);
         $this->setIfExists('has_slack_webhook_url', $data ?? [], null);
-        $this->setIfExists('last_changed_at', $data ?? [], null);
         $this->setIfExists('last_changed_by', $data ?? [], null);
-        $this->setIfExists('created_at', $data ?? [], null);
-        $this->setIfExists('updated_at', $data ?? [], null);
         $this->setIfExists('defaults', $data ?? [], null);
         $this->setIfExists('field_dependencies', $data ?? [], null);
         $this->setIfExists('field_groups', $data ?? [], null);
@@ -580,6 +586,7 @@ class Template implements ModelInterface, ArrayAccess, \JsonSerializable
         $this->setIfExists('header_html', $data ?? [], null);
         $this->setIfExists('footer_html', $data ?? [], null);
         $this->setIfExists('html_engine_options', $data ?? [], null);
+        $this->setIfExists('html_escape_data', $data ?? [], null);
         $this->setIfExists('embed_edit_token', $data ?? [], null);
         $this->setIfExists('versions', $data ?? [], null);
     }
@@ -635,9 +642,6 @@ class Template implements ModelInterface, ArrayAccess, \JsonSerializable
         if ($this->container['path'] === null) {
             $invalidProperties[] = "'path' can't be null";
         }
-        if ($this->container['version'] === null && !$this->isNullableSetToNull('version')) {
-            $invalidProperties[] = "'version' is required";
-        }
         if ($this->container['latest_version'] === null && !$this->isNullableSetToNull('latest_version')) {
             $invalidProperties[] = "'latest_version' is required";
         }
@@ -646,6 +650,18 @@ class Template implements ModelInterface, ArrayAccess, \JsonSerializable
         }
         if ($this->container['locked'] === null) {
             $invalidProperties[] = "'locked' can't be null";
+        }
+        if ($this->container['last_changed_at'] === null && !$this->isNullableSetToNull('last_changed_at')) {
+            $invalidProperties[] = "'last_changed_at' is required";
+        }
+        if ($this->container['created_at'] === null) {
+            $invalidProperties[] = "'created_at' can't be null";
+        }
+        if ($this->container['updated_at'] === null) {
+            $invalidProperties[] = "'updated_at' can't be null";
+        }
+        if ($this->container['version'] === null && !$this->isNullableSetToNull('version')) {
+            $invalidProperties[] = "'version' is required";
         }
         if ($this->container['add_signature_request_submission_id_footers'] === null) {
             $invalidProperties[] = "'add_signature_request_submission_id_footers' can't be null";
@@ -710,17 +726,8 @@ class Template implements ModelInterface, ArrayAccess, \JsonSerializable
         if ($this->container['has_slack_webhook_url'] === null) {
             $invalidProperties[] = "'has_slack_webhook_url' can't be null";
         }
-        if ($this->container['last_changed_at'] === null && !$this->isNullableSetToNull('last_changed_at')) {
-            $invalidProperties[] = "'last_changed_at' is required";
-        }
         if ($this->container['last_changed_by'] === null && !$this->isNullableSetToNull('last_changed_by')) {
             $invalidProperties[] = "'last_changed_by' is required";
-        }
-        if ($this->container['created_at'] === null) {
-            $invalidProperties[] = "'created_at' can't be null";
-        }
-        if ($this->container['updated_at'] === null) {
-            $invalidProperties[] = "'updated_at' can't be null";
         }
         if ($this->container['defaults'] === null) {
             $invalidProperties[] = "'defaults' can't be null";
@@ -751,6 +758,9 @@ class Template implements ModelInterface, ArrayAccess, \JsonSerializable
         }
         if ($this->container['html_engine_options'] === null && !$this->isNullableSetToNull('html_engine_options')) {
             $invalidProperties[] = "'html_engine_options' is required";
+        }
+        if ($this->container['html_escape_data'] === null && !$this->isNullableSetToNull('html_escape_data')) {
+            $invalidProperties[] = "'html_escape_data' is required";
         }
         if ($this->container['embed_edit_token'] === null && !$this->isNullableSetToNull('embed_edit_token')) {
             $invalidProperties[] = "'embed_edit_token' is required";
@@ -908,7 +918,7 @@ class Template implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets ready
      *
-     * @param bool $ready Whether the template can generate PDFs. HTML templates are always ready. A PDF template is ready once its document has been processed (`document.state` is `processed`).
+     * @param bool $ready Whether the template can generate PDFs. HTML templates are always ready. A PDF template is ready once DocSpring has stored its PDF, made an image of each page and finished looking for fields on each page, which can be after `document.state` becomes `processed`. A PDF template with no PDF (`document` is null) isn't ready.
      *
      * @return self
      */
@@ -1018,40 +1028,6 @@ class Template implements ModelInterface, ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets version
-     *
-     * @return string|null
-     */
-    public function getVersion()
-    {
-        return $this->container['version'];
-    }
-
-    /**
-     * Sets version
-     *
-     * @param string|null $version The published version this is, such as `1.2.0`. Null for the draft.
-     *
-     * @return self
-     */
-    public function setVersion($version)
-    {
-        if (is_null($version)) {
-            array_push($this->openAPINullablesSetToNull, 'version');
-        } else {
-            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('version', $nullablesSetToNull);
-            if ($index !== FALSE) {
-                unset($nullablesSetToNull[$index]);
-                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
-            }
-        }
-        $this->container['version'] = $version;
-
-        return $this;
-    }
-
-    /**
      * Gets latest_version
      *
      * @return string|null
@@ -1142,6 +1118,128 @@ class Template implements ModelInterface, ArrayAccess, \JsonSerializable
             throw new \InvalidArgumentException('non-nullable locked cannot be null');
         }
         $this->container['locked'] = $locked;
+
+        return $this;
+    }
+
+    /**
+     * Gets last_changed_at
+     *
+     * @return \DateTime|null
+     */
+    public function getLastChangedAt()
+    {
+        return $this->container['last_changed_at'];
+    }
+
+    /**
+     * Sets last_changed_at
+     *
+     * @param \DateTime|null $last_changed_at When the draft was last changed.
+     *
+     * @return self
+     */
+    public function setLastChangedAt($last_changed_at)
+    {
+        if (is_null($last_changed_at)) {
+            array_push($this->openAPINullablesSetToNull, 'last_changed_at');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('last_changed_at', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['last_changed_at'] = $last_changed_at;
+
+        return $this;
+    }
+
+    /**
+     * Gets created_at
+     *
+     * @return \DateTime
+     */
+    public function getCreatedAt()
+    {
+        return $this->container['created_at'];
+    }
+
+    /**
+     * Sets created_at
+     *
+     * @param \DateTime $created_at When the template was created.
+     *
+     * @return self
+     */
+    public function setCreatedAt($created_at)
+    {
+        if (is_null($created_at)) {
+            throw new \InvalidArgumentException('non-nullable created_at cannot be null');
+        }
+        $this->container['created_at'] = $created_at;
+
+        return $this;
+    }
+
+    /**
+     * Gets updated_at
+     *
+     * @return \DateTime
+     */
+    public function getUpdatedAt()
+    {
+        return $this->container['updated_at'];
+    }
+
+    /**
+     * Sets updated_at
+     *
+     * @param \DateTime $updated_at When the template was last updated.
+     *
+     * @return self
+     */
+    public function setUpdatedAt($updated_at)
+    {
+        if (is_null($updated_at)) {
+            throw new \InvalidArgumentException('non-nullable updated_at cannot be null');
+        }
+        $this->container['updated_at'] = $updated_at;
+
+        return $this;
+    }
+
+    /**
+     * Gets version
+     *
+     * @return string|null
+     */
+    public function getVersion()
+    {
+        return $this->container['version'];
+    }
+
+    /**
+     * Sets version
+     *
+     * @param string|null $version The published version this is, such as `1.2.0`. Null for the draft.
+     *
+     * @return self
+     */
+    public function setVersion($version)
+    {
+        if (is_null($version)) {
+            array_push($this->openAPINullablesSetToNull, 'version');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('version', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['version'] = $version;
 
         return $this;
     }
@@ -1328,7 +1426,7 @@ class Template implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets embed_domains
      *
-     * @param string[] $embed_domains The sites where the template's signature requests, forms and embedded template editor can be loaded: a host such as `app.example.com`, with an optional leading wildcard (`*.example.com`), port (`localhost:3000`) or scheme (`https://app.example.com`; without one, `http` and `https` both work). When it's empty, live signature requests don't load on any site, and the embedded template editor loads on every site.
+     * @param string[] $embed_domains The sites that can embed the template's live signature requests and its embedded template editor: a host such as `app.example.com`, with an optional leading wildcard (`*.example.com`), port (`localhost:3000`) or scheme (`https://app.example.com`; without one, `http` and `https` both work). Browsers open a live signature request in a frame only on these sites (and DocSpring's), so with an empty list it can't be embedded anywhere; a test signature request can be embedded on any site. The embedded template editor loads only for a page on one of these sites (by its Referer or Origin header), and on any site when the list is empty. Forms embedded on a page (Visual Forms JS and the simple form) aren't restricted.
      *
      * @return self
      */
@@ -1728,40 +1826,6 @@ class Template implements ModelInterface, ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets last_changed_at
-     *
-     * @return \DateTime|null
-     */
-    public function getLastChangedAt()
-    {
-        return $this->container['last_changed_at'];
-    }
-
-    /**
-     * Sets last_changed_at
-     *
-     * @param \DateTime|null $last_changed_at When the draft was last changed.
-     *
-     * @return self
-     */
-    public function setLastChangedAt($last_changed_at)
-    {
-        if (is_null($last_changed_at)) {
-            array_push($this->openAPINullablesSetToNull, 'last_changed_at');
-        } else {
-            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('last_changed_at', $nullablesSetToNull);
-            if ($index !== FALSE) {
-                unset($nullablesSetToNull[$index]);
-                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
-            }
-        }
-        $this->container['last_changed_at'] = $last_changed_at;
-
-        return $this;
-    }
-
-    /**
      * Gets last_changed_by
      *
      * @return \DocSpring\Model\TemplateActor|null
@@ -1791,60 +1855,6 @@ class Template implements ModelInterface, ArrayAccess, \JsonSerializable
             }
         }
         $this->container['last_changed_by'] = $last_changed_by;
-
-        return $this;
-    }
-
-    /**
-     * Gets created_at
-     *
-     * @return \DateTime
-     */
-    public function getCreatedAt()
-    {
-        return $this->container['created_at'];
-    }
-
-    /**
-     * Sets created_at
-     *
-     * @param \DateTime $created_at When the template was created.
-     *
-     * @return self
-     */
-    public function setCreatedAt($created_at)
-    {
-        if (is_null($created_at)) {
-            throw new \InvalidArgumentException('non-nullable created_at cannot be null');
-        }
-        $this->container['created_at'] = $created_at;
-
-        return $this;
-    }
-
-    /**
-     * Gets updated_at
-     *
-     * @return \DateTime
-     */
-    public function getUpdatedAt()
-    {
-        return $this->container['updated_at'];
-    }
-
-    /**
-     * Sets updated_at
-     *
-     * @param \DateTime $updated_at When the template was last updated.
-     *
-     * @return self
-     */
-    public function setUpdatedAt($updated_at)
-    {
-        if (is_null($updated_at)) {
-            throw new \InvalidArgumentException('non-nullable updated_at cannot be null');
-        }
-        $this->container['updated_at'] = $updated_at;
 
         return $this;
     }
@@ -2157,6 +2167,40 @@ class Template implements ModelInterface, ArrayAccess, \JsonSerializable
             }
         }
         $this->container['html_engine_options'] = $html_engine_options;
+
+        return $this;
+    }
+
+    /**
+     * Gets html_escape_data
+     *
+     * @return bool|null
+     */
+    public function getHtmlEscapeData()
+    {
+        return $this->container['html_escape_data'];
+    }
+
+    /**
+     * Sets html_escape_data
+     *
+     * @param bool|null $html_escape_data Whether an HTML template HTML-escapes the values it prints. When true, `{{ value }}` prints a value as text, so a `<` or `&` in it is printed as that character, and `{{ value | raw }}` prints a value as HTML. New HTML templates default to true. Templates created before October 2026, or with API v1, default to false, which prints every value as HTML. Null for PDF templates.
+     *
+     * @return self
+     */
+    public function setHtmlEscapeData($html_escape_data)
+    {
+        if (is_null($html_escape_data)) {
+            array_push($this->openAPINullablesSetToNull, 'html_escape_data');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('html_escape_data', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['html_escape_data'] = $html_escape_data;
 
         return $this;
     }

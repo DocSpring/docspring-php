@@ -35,7 +35,7 @@ use \DocSpring\ObjectSerializer;
  * TemplateSummary Class Doc Comment
  *
  * @category Class
- * @description A template in a list. Get a template by its ID for its HTML, defaults, field dependency rules and published versions.
+ * @description A template in a list: its name, type, folder, latest published version and whether it's ready. Get a template by its ID for its settings, its PDF in full, its HTML, defaults, field dependency rules and published versions.
  * @package  DocSpring
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -63,36 +63,13 @@ class TemplateSummary implements ModelInterface, ArrayAccess, \JsonSerializable
         'description' => 'string',
         'template_type' => '\DocSpring\Model\TemplateType',
         'ready' => 'bool',
-        'document' => '\DocSpring\Model\TemplateDocument',
+        'document' => '\DocSpring\Model\TemplateDocumentSummary',
         'parent_folder_id' => 'string',
         'path' => 'string',
-        'version' => 'string',
         'latest_version' => 'string',
         'version_published_at' => '\DateTime',
         'locked' => 'bool',
-        'add_signature_request_submission_id_footers' => 'bool',
-        'ai_field_naming_language' => '\DocSpring\Model\AiFieldNamingLanguage',
-        'allow_additional_properties' => 'bool',
-        'allow_skipping_optional_fields' => 'bool',
-        'default_form_mode' => '\DocSpring\Model\TemplateFormMode',
-        'editable_submissions' => 'bool',
-        'embed_domains' => 'string[]',
-        'embed_edit_allow_settings' => 'bool',
-        'embed_edit_allow_versioning' => 'bool',
-        'embed_edit_allow_document_replacement' => 'bool',
-        'encrypt_pdfs' => 'bool',
-        'has_encrypt_pdfs_password' => 'bool',
-        'expire_submissions' => 'bool',
-        'expire_after' => 'int',
-        'expiration_interval' => '\DocSpring\Model\ExpirationInterval',
-        'merge_audit_trail_pdf' => 'bool',
-        'parse_dates_using_template_date_format' => 'bool',
-        'public_submissions' => 'bool',
-        'public_web_form' => 'bool',
-        'redirect_url' => 'string',
-        'has_slack_webhook_url' => 'bool',
         'last_changed_at' => '\DateTime',
-        'last_changed_by' => '\DocSpring\Model\TemplateActor',
         'created_at' => '\DateTime',
         'updated_at' => '\DateTime'
     ];
@@ -113,33 +90,10 @@ class TemplateSummary implements ModelInterface, ArrayAccess, \JsonSerializable
         'document' => null,
         'parent_folder_id' => null,
         'path' => null,
-        'version' => null,
         'latest_version' => null,
         'version_published_at' => 'date-time',
         'locked' => null,
-        'add_signature_request_submission_id_footers' => null,
-        'ai_field_naming_language' => null,
-        'allow_additional_properties' => null,
-        'allow_skipping_optional_fields' => null,
-        'default_form_mode' => null,
-        'editable_submissions' => null,
-        'embed_domains' => null,
-        'embed_edit_allow_settings' => null,
-        'embed_edit_allow_versioning' => null,
-        'embed_edit_allow_document_replacement' => null,
-        'encrypt_pdfs' => null,
-        'has_encrypt_pdfs_password' => null,
-        'expire_submissions' => null,
-        'expire_after' => null,
-        'expiration_interval' => null,
-        'merge_audit_trail_pdf' => null,
-        'parse_dates_using_template_date_format' => null,
-        'public_submissions' => null,
-        'public_web_form' => null,
-        'redirect_url' => null,
-        'has_slack_webhook_url' => null,
         'last_changed_at' => 'date-time',
-        'last_changed_by' => null,
         'created_at' => 'date-time',
         'updated_at' => 'date-time'
     ];
@@ -158,33 +112,10 @@ class TemplateSummary implements ModelInterface, ArrayAccess, \JsonSerializable
         'document' => true,
         'parent_folder_id' => true,
         'path' => false,
-        'version' => true,
         'latest_version' => true,
         'version_published_at' => true,
         'locked' => false,
-        'add_signature_request_submission_id_footers' => false,
-        'ai_field_naming_language' => true,
-        'allow_additional_properties' => false,
-        'allow_skipping_optional_fields' => false,
-        'default_form_mode' => false,
-        'editable_submissions' => false,
-        'embed_domains' => false,
-        'embed_edit_allow_settings' => false,
-        'embed_edit_allow_versioning' => false,
-        'embed_edit_allow_document_replacement' => false,
-        'encrypt_pdfs' => false,
-        'has_encrypt_pdfs_password' => false,
-        'expire_submissions' => false,
-        'expire_after' => false,
-        'expiration_interval' => false,
-        'merge_audit_trail_pdf' => false,
-        'parse_dates_using_template_date_format' => false,
-        'public_submissions' => false,
-        'public_web_form' => false,
-        'redirect_url' => true,
-        'has_slack_webhook_url' => false,
         'last_changed_at' => true,
-        'last_changed_by' => true,
         'created_at' => false,
         'updated_at' => false
     ];
@@ -283,33 +214,10 @@ class TemplateSummary implements ModelInterface, ArrayAccess, \JsonSerializable
         'document' => 'document',
         'parent_folder_id' => 'parent_folder_id',
         'path' => 'path',
-        'version' => 'version',
         'latest_version' => 'latest_version',
         'version_published_at' => 'version_published_at',
         'locked' => 'locked',
-        'add_signature_request_submission_id_footers' => 'add_signature_request_submission_id_footers',
-        'ai_field_naming_language' => 'ai_field_naming_language',
-        'allow_additional_properties' => 'allow_additional_properties',
-        'allow_skipping_optional_fields' => 'allow_skipping_optional_fields',
-        'default_form_mode' => 'default_form_mode',
-        'editable_submissions' => 'editable_submissions',
-        'embed_domains' => 'embed_domains',
-        'embed_edit_allow_settings' => 'embed_edit_allow_settings',
-        'embed_edit_allow_versioning' => 'embed_edit_allow_versioning',
-        'embed_edit_allow_document_replacement' => 'embed_edit_allow_document_replacement',
-        'encrypt_pdfs' => 'encrypt_pdfs',
-        'has_encrypt_pdfs_password' => 'has_encrypt_pdfs_password',
-        'expire_submissions' => 'expire_submissions',
-        'expire_after' => 'expire_after',
-        'expiration_interval' => 'expiration_interval',
-        'merge_audit_trail_pdf' => 'merge_audit_trail_pdf',
-        'parse_dates_using_template_date_format' => 'parse_dates_using_template_date_format',
-        'public_submissions' => 'public_submissions',
-        'public_web_form' => 'public_web_form',
-        'redirect_url' => 'redirect_url',
-        'has_slack_webhook_url' => 'has_slack_webhook_url',
         'last_changed_at' => 'last_changed_at',
-        'last_changed_by' => 'last_changed_by',
         'created_at' => 'created_at',
         'updated_at' => 'updated_at'
     ];
@@ -328,33 +236,10 @@ class TemplateSummary implements ModelInterface, ArrayAccess, \JsonSerializable
         'document' => 'setDocument',
         'parent_folder_id' => 'setParentFolderId',
         'path' => 'setPath',
-        'version' => 'setVersion',
         'latest_version' => 'setLatestVersion',
         'version_published_at' => 'setVersionPublishedAt',
         'locked' => 'setLocked',
-        'add_signature_request_submission_id_footers' => 'setAddSignatureRequestSubmissionIdFooters',
-        'ai_field_naming_language' => 'setAiFieldNamingLanguage',
-        'allow_additional_properties' => 'setAllowAdditionalProperties',
-        'allow_skipping_optional_fields' => 'setAllowSkippingOptionalFields',
-        'default_form_mode' => 'setDefaultFormMode',
-        'editable_submissions' => 'setEditableSubmissions',
-        'embed_domains' => 'setEmbedDomains',
-        'embed_edit_allow_settings' => 'setEmbedEditAllowSettings',
-        'embed_edit_allow_versioning' => 'setEmbedEditAllowVersioning',
-        'embed_edit_allow_document_replacement' => 'setEmbedEditAllowDocumentReplacement',
-        'encrypt_pdfs' => 'setEncryptPdfs',
-        'has_encrypt_pdfs_password' => 'setHasEncryptPdfsPassword',
-        'expire_submissions' => 'setExpireSubmissions',
-        'expire_after' => 'setExpireAfter',
-        'expiration_interval' => 'setExpirationInterval',
-        'merge_audit_trail_pdf' => 'setMergeAuditTrailPdf',
-        'parse_dates_using_template_date_format' => 'setParseDatesUsingTemplateDateFormat',
-        'public_submissions' => 'setPublicSubmissions',
-        'public_web_form' => 'setPublicWebForm',
-        'redirect_url' => 'setRedirectUrl',
-        'has_slack_webhook_url' => 'setHasSlackWebhookUrl',
         'last_changed_at' => 'setLastChangedAt',
-        'last_changed_by' => 'setLastChangedBy',
         'created_at' => 'setCreatedAt',
         'updated_at' => 'setUpdatedAt'
     ];
@@ -373,33 +258,10 @@ class TemplateSummary implements ModelInterface, ArrayAccess, \JsonSerializable
         'document' => 'getDocument',
         'parent_folder_id' => 'getParentFolderId',
         'path' => 'getPath',
-        'version' => 'getVersion',
         'latest_version' => 'getLatestVersion',
         'version_published_at' => 'getVersionPublishedAt',
         'locked' => 'getLocked',
-        'add_signature_request_submission_id_footers' => 'getAddSignatureRequestSubmissionIdFooters',
-        'ai_field_naming_language' => 'getAiFieldNamingLanguage',
-        'allow_additional_properties' => 'getAllowAdditionalProperties',
-        'allow_skipping_optional_fields' => 'getAllowSkippingOptionalFields',
-        'default_form_mode' => 'getDefaultFormMode',
-        'editable_submissions' => 'getEditableSubmissions',
-        'embed_domains' => 'getEmbedDomains',
-        'embed_edit_allow_settings' => 'getEmbedEditAllowSettings',
-        'embed_edit_allow_versioning' => 'getEmbedEditAllowVersioning',
-        'embed_edit_allow_document_replacement' => 'getEmbedEditAllowDocumentReplacement',
-        'encrypt_pdfs' => 'getEncryptPdfs',
-        'has_encrypt_pdfs_password' => 'getHasEncryptPdfsPassword',
-        'expire_submissions' => 'getExpireSubmissions',
-        'expire_after' => 'getExpireAfter',
-        'expiration_interval' => 'getExpirationInterval',
-        'merge_audit_trail_pdf' => 'getMergeAuditTrailPdf',
-        'parse_dates_using_template_date_format' => 'getParseDatesUsingTemplateDateFormat',
-        'public_submissions' => 'getPublicSubmissions',
-        'public_web_form' => 'getPublicWebForm',
-        'redirect_url' => 'getRedirectUrl',
-        'has_slack_webhook_url' => 'getHasSlackWebhookUrl',
         'last_changed_at' => 'getLastChangedAt',
-        'last_changed_by' => 'getLastChangedBy',
         'created_at' => 'getCreatedAt',
         'updated_at' => 'getUpdatedAt'
     ];
@@ -469,33 +331,10 @@ class TemplateSummary implements ModelInterface, ArrayAccess, \JsonSerializable
         $this->setIfExists('document', $data ?? [], null);
         $this->setIfExists('parent_folder_id', $data ?? [], null);
         $this->setIfExists('path', $data ?? [], null);
-        $this->setIfExists('version', $data ?? [], null);
         $this->setIfExists('latest_version', $data ?? [], null);
         $this->setIfExists('version_published_at', $data ?? [], null);
         $this->setIfExists('locked', $data ?? [], null);
-        $this->setIfExists('add_signature_request_submission_id_footers', $data ?? [], null);
-        $this->setIfExists('ai_field_naming_language', $data ?? [], null);
-        $this->setIfExists('allow_additional_properties', $data ?? [], null);
-        $this->setIfExists('allow_skipping_optional_fields', $data ?? [], null);
-        $this->setIfExists('default_form_mode', $data ?? [], null);
-        $this->setIfExists('editable_submissions', $data ?? [], null);
-        $this->setIfExists('embed_domains', $data ?? [], null);
-        $this->setIfExists('embed_edit_allow_settings', $data ?? [], null);
-        $this->setIfExists('embed_edit_allow_versioning', $data ?? [], null);
-        $this->setIfExists('embed_edit_allow_document_replacement', $data ?? [], null);
-        $this->setIfExists('encrypt_pdfs', $data ?? [], null);
-        $this->setIfExists('has_encrypt_pdfs_password', $data ?? [], null);
-        $this->setIfExists('expire_submissions', $data ?? [], null);
-        $this->setIfExists('expire_after', $data ?? [], null);
-        $this->setIfExists('expiration_interval', $data ?? [], null);
-        $this->setIfExists('merge_audit_trail_pdf', $data ?? [], null);
-        $this->setIfExists('parse_dates_using_template_date_format', $data ?? [], null);
-        $this->setIfExists('public_submissions', $data ?? [], null);
-        $this->setIfExists('public_web_form', $data ?? [], null);
-        $this->setIfExists('redirect_url', $data ?? [], null);
-        $this->setIfExists('has_slack_webhook_url', $data ?? [], null);
         $this->setIfExists('last_changed_at', $data ?? [], null);
-        $this->setIfExists('last_changed_by', $data ?? [], null);
         $this->setIfExists('created_at', $data ?? [], null);
         $this->setIfExists('updated_at', $data ?? [], null);
     }
@@ -551,9 +390,6 @@ class TemplateSummary implements ModelInterface, ArrayAccess, \JsonSerializable
         if ($this->container['path'] === null) {
             $invalidProperties[] = "'path' can't be null";
         }
-        if ($this->container['version'] === null && !$this->isNullableSetToNull('version')) {
-            $invalidProperties[] = "'version' is required";
-        }
         if ($this->container['latest_version'] === null && !$this->isNullableSetToNull('latest_version')) {
             $invalidProperties[] = "'latest_version' is required";
         }
@@ -563,74 +399,8 @@ class TemplateSummary implements ModelInterface, ArrayAccess, \JsonSerializable
         if ($this->container['locked'] === null) {
             $invalidProperties[] = "'locked' can't be null";
         }
-        if ($this->container['add_signature_request_submission_id_footers'] === null) {
-            $invalidProperties[] = "'add_signature_request_submission_id_footers' can't be null";
-        }
-        if ($this->container['ai_field_naming_language'] === null && !$this->isNullableSetToNull('ai_field_naming_language')) {
-            $invalidProperties[] = "'ai_field_naming_language' is required";
-        }
-        if ($this->container['allow_additional_properties'] === null) {
-            $invalidProperties[] = "'allow_additional_properties' can't be null";
-        }
-        if ($this->container['allow_skipping_optional_fields'] === null) {
-            $invalidProperties[] = "'allow_skipping_optional_fields' can't be null";
-        }
-        if ($this->container['default_form_mode'] === null) {
-            $invalidProperties[] = "'default_form_mode' can't be null";
-        }
-        if ($this->container['editable_submissions'] === null) {
-            $invalidProperties[] = "'editable_submissions' can't be null";
-        }
-        if ($this->container['embed_domains'] === null) {
-            $invalidProperties[] = "'embed_domains' can't be null";
-        }
-        if ($this->container['embed_edit_allow_settings'] === null) {
-            $invalidProperties[] = "'embed_edit_allow_settings' can't be null";
-        }
-        if ($this->container['embed_edit_allow_versioning'] === null) {
-            $invalidProperties[] = "'embed_edit_allow_versioning' can't be null";
-        }
-        if ($this->container['embed_edit_allow_document_replacement'] === null) {
-            $invalidProperties[] = "'embed_edit_allow_document_replacement' can't be null";
-        }
-        if ($this->container['encrypt_pdfs'] === null) {
-            $invalidProperties[] = "'encrypt_pdfs' can't be null";
-        }
-        if ($this->container['has_encrypt_pdfs_password'] === null) {
-            $invalidProperties[] = "'has_encrypt_pdfs_password' can't be null";
-        }
-        if ($this->container['expire_submissions'] === null) {
-            $invalidProperties[] = "'expire_submissions' can't be null";
-        }
-        if ($this->container['expire_after'] === null) {
-            $invalidProperties[] = "'expire_after' can't be null";
-        }
-        if ($this->container['expiration_interval'] === null) {
-            $invalidProperties[] = "'expiration_interval' can't be null";
-        }
-        if ($this->container['merge_audit_trail_pdf'] === null) {
-            $invalidProperties[] = "'merge_audit_trail_pdf' can't be null";
-        }
-        if ($this->container['parse_dates_using_template_date_format'] === null) {
-            $invalidProperties[] = "'parse_dates_using_template_date_format' can't be null";
-        }
-        if ($this->container['public_submissions'] === null) {
-            $invalidProperties[] = "'public_submissions' can't be null";
-        }
-        if ($this->container['public_web_form'] === null) {
-            $invalidProperties[] = "'public_web_form' can't be null";
-        }
-        if ($this->container['redirect_url'] === null && !$this->isNullableSetToNull('redirect_url')) {
-            $invalidProperties[] = "'redirect_url' is required";
-        }
-        if ($this->container['has_slack_webhook_url'] === null) {
-            $invalidProperties[] = "'has_slack_webhook_url' can't be null";
-        }
         if ($this->container['last_changed_at'] === null && !$this->isNullableSetToNull('last_changed_at')) {
             $invalidProperties[] = "'last_changed_at' is required";
-        }
-        if ($this->container['last_changed_by'] === null && !$this->isNullableSetToNull('last_changed_by')) {
-            $invalidProperties[] = "'last_changed_by' is required";
         }
         if ($this->container['created_at'] === null) {
             $invalidProperties[] = "'created_at' can't be null";
@@ -788,7 +558,7 @@ class TemplateSummary implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets ready
      *
-     * @param bool $ready Whether the template can generate PDFs. HTML templates are always ready. A PDF template is ready once its document has been processed (`document.state` is `processed`).
+     * @param bool $ready Whether the template can generate PDFs. HTML templates are always ready. A PDF template is ready once DocSpring has stored its PDF, made an image of each page and finished looking for fields on each page, which can be after `document.state` becomes `processed`. A PDF template with no PDF (`document` is null) isn't ready.
      *
      * @return self
      */
@@ -805,7 +575,7 @@ class TemplateSummary implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Gets document
      *
-     * @return \DocSpring\Model\TemplateDocument|null
+     * @return \DocSpring\Model\TemplateDocumentSummary|null
      */
     public function getDocument()
     {
@@ -815,7 +585,7 @@ class TemplateSummary implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets document
      *
-     * @param \DocSpring\Model\TemplateDocument|null $document The PDF of a PDF template. Null for HTML templates, and for a PDF template that has no PDF yet.
+     * @param \DocSpring\Model\TemplateDocumentSummary|null $document The PDF of a PDF template: its file name, page count and processing state. Null for HTML templates, and for a PDF template that has no PDF yet.
      *
      * @return self
      */
@@ -893,40 +663,6 @@ class TemplateSummary implements ModelInterface, ArrayAccess, \JsonSerializable
             throw new \InvalidArgumentException('non-nullable path cannot be null');
         }
         $this->container['path'] = $path;
-
-        return $this;
-    }
-
-    /**
-     * Gets version
-     *
-     * @return string|null
-     */
-    public function getVersion()
-    {
-        return $this->container['version'];
-    }
-
-    /**
-     * Sets version
-     *
-     * @param string|null $version The published version this is, such as `1.2.0`. Null for the draft.
-     *
-     * @return self
-     */
-    public function setVersion($version)
-    {
-        if (is_null($version)) {
-            array_push($this->openAPINullablesSetToNull, 'version');
-        } else {
-            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('version', $nullablesSetToNull);
-            if ($index !== FALSE) {
-                unset($nullablesSetToNull[$index]);
-                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
-            }
-        }
-        $this->container['version'] = $version;
 
         return $this;
     }
@@ -1027,587 +763,6 @@ class TemplateSummary implements ModelInterface, ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets add_signature_request_submission_id_footers
-     *
-     * @return bool
-     */
-    public function getAddSignatureRequestSubmissionIdFooters()
-    {
-        return $this->container['add_signature_request_submission_id_footers'];
-    }
-
-    /**
-     * Sets add_signature_request_submission_id_footers
-     *
-     * @param bool $add_signature_request_submission_id_footers Print the submission ID in the footer of each page of PDFs signed through signature requests.
-     *
-     * @return self
-     */
-    public function setAddSignatureRequestSubmissionIdFooters($add_signature_request_submission_id_footers)
-    {
-        if (is_null($add_signature_request_submission_id_footers)) {
-            throw new \InvalidArgumentException('non-nullable add_signature_request_submission_id_footers cannot be null');
-        }
-        $this->container['add_signature_request_submission_id_footers'] = $add_signature_request_submission_id_footers;
-
-        return $this;
-    }
-
-    /**
-     * Gets ai_field_naming_language
-     *
-     * @return \DocSpring\Model\AiFieldNamingLanguage|null
-     */
-    public function getAiFieldNamingLanguage()
-    {
-        return $this->container['ai_field_naming_language'];
-    }
-
-    /**
-     * Sets ai_field_naming_language
-     *
-     * @param \DocSpring\Model\AiFieldNamingLanguage|null $ai_field_naming_language The language AI field setup names fields in: `auto` uses the form's language when it's written in the Latin alphabet without accents, and English otherwise; `english` always uses English; `form_language` uses the form's language and script. New templates take it from your account's template settings. Null for HTML templates.
-     *
-     * @return self
-     */
-    public function setAiFieldNamingLanguage($ai_field_naming_language)
-    {
-        if (is_null($ai_field_naming_language)) {
-            array_push($this->openAPINullablesSetToNull, 'ai_field_naming_language');
-        } else {
-            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('ai_field_naming_language', $nullablesSetToNull);
-            if ($index !== FALSE) {
-                unset($nullablesSetToNull[$index]);
-                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
-            }
-        }
-        $this->container['ai_field_naming_language'] = $ai_field_naming_language;
-
-        return $this;
-    }
-
-    /**
-     * Gets allow_additional_properties
-     *
-     * @return bool
-     */
-    public function getAllowAdditionalProperties()
-    {
-        return $this->container['allow_additional_properties'];
-    }
-
-    /**
-     * Sets allow_additional_properties
-     *
-     * @param bool $allow_additional_properties Accept submission data with properties that aren't fields of the template.
-     *
-     * @return self
-     */
-    public function setAllowAdditionalProperties($allow_additional_properties)
-    {
-        if (is_null($allow_additional_properties)) {
-            throw new \InvalidArgumentException('non-nullable allow_additional_properties cannot be null');
-        }
-        $this->container['allow_additional_properties'] = $allow_additional_properties;
-
-        return $this;
-    }
-
-    /**
-     * Gets allow_skipping_optional_fields
-     *
-     * @return bool
-     */
-    public function getAllowSkippingOptionalFields()
-    {
-        return $this->container['allow_skipping_optional_fields'];
-    }
-
-    /**
-     * Sets allow_skipping_optional_fields
-     *
-     * @param bool $allow_skipping_optional_fields Visual forms and signature request forms show the Continue button as soon as the required fields are filled in, without visiting each optional field. The `allowSkippingOptionalFields` embed option overrides it.
-     *
-     * @return self
-     */
-    public function setAllowSkippingOptionalFields($allow_skipping_optional_fields)
-    {
-        if (is_null($allow_skipping_optional_fields)) {
-            throw new \InvalidArgumentException('non-nullable allow_skipping_optional_fields cannot be null');
-        }
-        $this->container['allow_skipping_optional_fields'] = $allow_skipping_optional_fields;
-
-        return $this;
-    }
-
-    /**
-     * Gets default_form_mode
-     *
-     * @return \DocSpring\Model\TemplateFormMode
-     */
-    public function getDefaultFormMode()
-    {
-        return $this->container['default_form_mode'];
-    }
-
-    /**
-     * Sets default_form_mode
-     *
-     * @param \DocSpring\Model\TemplateFormMode $default_form_mode The hosted form that /templates/{template_id}/form shows when its URL has no `mode` parameter: `web` (the web form), `visual` (the visual form, where fields are filled in on the PDF) or `dual` (both, in tabs). HTML templates have no visual form, so `web` is the only value they accept.
-     *
-     * @return self
-     */
-    public function setDefaultFormMode($default_form_mode)
-    {
-        if (is_null($default_form_mode)) {
-            throw new \InvalidArgumentException('non-nullable default_form_mode cannot be null');
-        }
-        $this->container['default_form_mode'] = $default_form_mode;
-
-        return $this;
-    }
-
-    /**
-     * Gets editable_submissions
-     *
-     * @return bool
-     */
-    public function getEditableSubmissions()
-    {
-        return $this->container['editable_submissions'];
-    }
-
-    /**
-     * Sets editable_submissions
-     *
-     * @param bool $editable_submissions Generate PDFs whose text and check fields stay fillable ("Generate Editable PDFs"). A submission's `editable` overrides it.
-     *
-     * @return self
-     */
-    public function setEditableSubmissions($editable_submissions)
-    {
-        if (is_null($editable_submissions)) {
-            throw new \InvalidArgumentException('non-nullable editable_submissions cannot be null');
-        }
-        $this->container['editable_submissions'] = $editable_submissions;
-
-        return $this;
-    }
-
-    /**
-     * Gets embed_domains
-     *
-     * @return string[]
-     */
-    public function getEmbedDomains()
-    {
-        return $this->container['embed_domains'];
-    }
-
-    /**
-     * Sets embed_domains
-     *
-     * @param string[] $embed_domains The sites where the template's signature requests, forms and embedded template editor can be loaded: a host such as `app.example.com`, with an optional leading wildcard (`*.example.com`), port (`localhost:3000`) or scheme (`https://app.example.com`; without one, `http` and `https` both work). When it's empty, live signature requests don't load on any site, and the embedded template editor loads on every site.
-     *
-     * @return self
-     */
-    public function setEmbedDomains($embed_domains)
-    {
-        if (is_null($embed_domains)) {
-            throw new \InvalidArgumentException('non-nullable embed_domains cannot be null');
-        }
-        $this->container['embed_domains'] = $embed_domains;
-
-        return $this;
-    }
-
-    /**
-     * Gets embed_edit_allow_settings
-     *
-     * @return bool
-     */
-    public function getEmbedEditAllowSettings()
-    {
-        return $this->container['embed_edit_allow_settings'];
-    }
-
-    /**
-     * Sets embed_edit_allow_settings
-     *
-     * @param bool $embed_edit_allow_settings Allow the embedded template editor to change sensitive template settings (webhooks, redirect URL, encryption, public access, expiration and so on).
-     *
-     * @return self
-     */
-    public function setEmbedEditAllowSettings($embed_edit_allow_settings)
-    {
-        if (is_null($embed_edit_allow_settings)) {
-            throw new \InvalidArgumentException('non-nullable embed_edit_allow_settings cannot be null');
-        }
-        $this->container['embed_edit_allow_settings'] = $embed_edit_allow_settings;
-
-        return $this;
-    }
-
-    /**
-     * Gets embed_edit_allow_versioning
-     *
-     * @return bool
-     */
-    public function getEmbedEditAllowVersioning()
-    {
-        return $this->container['embed_edit_allow_versioning'];
-    }
-
-    /**
-     * Sets embed_edit_allow_versioning
-     *
-     * @param bool $embed_edit_allow_versioning Allow the embedded template editor to publish, restore, compare and delete published versions.
-     *
-     * @return self
-     */
-    public function setEmbedEditAllowVersioning($embed_edit_allow_versioning)
-    {
-        if (is_null($embed_edit_allow_versioning)) {
-            throw new \InvalidArgumentException('non-nullable embed_edit_allow_versioning cannot be null');
-        }
-        $this->container['embed_edit_allow_versioning'] = $embed_edit_allow_versioning;
-
-        return $this;
-    }
-
-    /**
-     * Gets embed_edit_allow_document_replacement
-     *
-     * @return bool
-     */
-    public function getEmbedEditAllowDocumentReplacement()
-    {
-        return $this->container['embed_edit_allow_document_replacement'];
-    }
-
-    /**
-     * Sets embed_edit_allow_document_replacement
-     *
-     * @param bool $embed_edit_allow_document_replacement Allow the embedded template editor to replace the template's PDF.
-     *
-     * @return self
-     */
-    public function setEmbedEditAllowDocumentReplacement($embed_edit_allow_document_replacement)
-    {
-        if (is_null($embed_edit_allow_document_replacement)) {
-            throw new \InvalidArgumentException('non-nullable embed_edit_allow_document_replacement cannot be null');
-        }
-        $this->container['embed_edit_allow_document_replacement'] = $embed_edit_allow_document_replacement;
-
-        return $this;
-    }
-
-    /**
-     * Gets encrypt_pdfs
-     *
-     * @return bool
-     */
-    public function getEncryptPdfs()
-    {
-        return $this->container['encrypt_pdfs'];
-    }
-
-    /**
-     * Sets encrypt_pdfs
-     *
-     * @param bool $encrypt_pdfs Encrypt generated PDFs with `encrypt_pdfs_password`.
-     *
-     * @return self
-     */
-    public function setEncryptPdfs($encrypt_pdfs)
-    {
-        if (is_null($encrypt_pdfs)) {
-            throw new \InvalidArgumentException('non-nullable encrypt_pdfs cannot be null');
-        }
-        $this->container['encrypt_pdfs'] = $encrypt_pdfs;
-
-        return $this;
-    }
-
-    /**
-     * Gets has_encrypt_pdfs_password
-     *
-     * @return bool
-     */
-    public function getHasEncryptPdfsPassword()
-    {
-        return $this->container['has_encrypt_pdfs_password'];
-    }
-
-    /**
-     * Sets has_encrypt_pdfs_password
-     *
-     * @param bool $has_encrypt_pdfs_password Whether `encrypt_pdfs_password` is set.
-     *
-     * @return self
-     */
-    public function setHasEncryptPdfsPassword($has_encrypt_pdfs_password)
-    {
-        if (is_null($has_encrypt_pdfs_password)) {
-            throw new \InvalidArgumentException('non-nullable has_encrypt_pdfs_password cannot be null');
-        }
-        $this->container['has_encrypt_pdfs_password'] = $has_encrypt_pdfs_password;
-
-        return $this;
-    }
-
-    /**
-     * Gets expire_submissions
-     *
-     * @return bool
-     */
-    public function getExpireSubmissions()
-    {
-        return $this->container['expire_submissions'];
-    }
-
-    /**
-     * Sets expire_submissions
-     *
-     * @param bool $expire_submissions Delete each submission's data and PDF after `expire_after` `expiration_interval`.
-     *
-     * @return self
-     */
-    public function setExpireSubmissions($expire_submissions)
-    {
-        if (is_null($expire_submissions)) {
-            throw new \InvalidArgumentException('non-nullable expire_submissions cannot be null');
-        }
-        $this->container['expire_submissions'] = $expire_submissions;
-
-        return $this;
-    }
-
-    /**
-     * Gets expire_after
-     *
-     * @return int
-     */
-    public function getExpireAfter()
-    {
-        return $this->container['expire_after'];
-    }
-
-    /**
-     * Sets expire_after
-     *
-     * @param int $expire_after How many `expiration_interval`s a submission's data and PDF are kept for, when `expire_submissions` is on. At most 5256000 (10 years in minutes).
-     *
-     * @return self
-     */
-    public function setExpireAfter($expire_after)
-    {
-        if (is_null($expire_after)) {
-            throw new \InvalidArgumentException('non-nullable expire_after cannot be null');
-        }
-        $this->container['expire_after'] = $expire_after;
-
-        return $this;
-    }
-
-    /**
-     * Gets expiration_interval
-     *
-     * @return \DocSpring\Model\ExpirationInterval
-     */
-    public function getExpirationInterval()
-    {
-        return $this->container['expiration_interval'];
-    }
-
-    /**
-     * Sets expiration_interval
-     *
-     * @param \DocSpring\Model\ExpirationInterval $expiration_interval The unit of `expire_after`.
-     *
-     * @return self
-     */
-    public function setExpirationInterval($expiration_interval)
-    {
-        if (is_null($expiration_interval)) {
-            throw new \InvalidArgumentException('non-nullable expiration_interval cannot be null');
-        }
-        $this->container['expiration_interval'] = $expiration_interval;
-
-        return $this;
-    }
-
-    /**
-     * Gets merge_audit_trail_pdf
-     *
-     * @return bool
-     */
-    public function getMergeAuditTrailPdf()
-    {
-        return $this->container['merge_audit_trail_pdf'];
-    }
-
-    /**
-     * Sets merge_audit_trail_pdf
-     *
-     * @param bool $merge_audit_trail_pdf Add the audit trail to the end of PDFs signed through signature requests.
-     *
-     * @return self
-     */
-    public function setMergeAuditTrailPdf($merge_audit_trail_pdf)
-    {
-        if (is_null($merge_audit_trail_pdf)) {
-            throw new \InvalidArgumentException('non-nullable merge_audit_trail_pdf cannot be null');
-        }
-        $this->container['merge_audit_trail_pdf'] = $merge_audit_trail_pdf;
-
-        return $this;
-    }
-
-    /**
-     * Gets parse_dates_using_template_date_format
-     *
-     * @return bool
-     */
-    public function getParseDatesUsingTemplateDateFormat()
-    {
-        return $this->container['parse_dates_using_template_date_format'];
-    }
-
-    /**
-     * Sets parse_dates_using_template_date_format
-     *
-     * @param bool $parse_dates_using_template_date_format Date fields also accept NN/NN/YYYY dates (with slashes, dashes or dots), read in the order of the template's default date format: month first for %m/%d/%Y, day first for %d/%m/%Y. When false, date fields only accept YYYY-MM-DD. Applies to PDF templates: an HTML template's date fields only accept YYYY-MM-DD. Date fields that include a time take RFC 3339 date-times either way.
-     *
-     * @return self
-     */
-    public function setParseDatesUsingTemplateDateFormat($parse_dates_using_template_date_format)
-    {
-        if (is_null($parse_dates_using_template_date_format)) {
-            throw new \InvalidArgumentException('non-nullable parse_dates_using_template_date_format cannot be null');
-        }
-        $this->container['parse_dates_using_template_date_format'] = $parse_dates_using_template_date_format;
-
-        return $this;
-    }
-
-    /**
-     * Gets public_submissions
-     *
-     * @return bool
-     */
-    public function getPublicSubmissions()
-    {
-        return $this->container['public_submissions'];
-    }
-
-    /**
-     * Sets public_submissions
-     *
-     * @param bool $public_submissions Allow anyone with a submission's ID to download its PDF.
-     *
-     * @return self
-     */
-    public function setPublicSubmissions($public_submissions)
-    {
-        if (is_null($public_submissions)) {
-            throw new \InvalidArgumentException('non-nullable public_submissions cannot be null');
-        }
-        $this->container['public_submissions'] = $public_submissions;
-
-        return $this;
-    }
-
-    /**
-     * Gets public_web_form
-     *
-     * @return bool
-     */
-    public function getPublicWebForm()
-    {
-        return $this->container['public_web_form'];
-    }
-
-    /**
-     * Sets public_web_form
-     *
-     * @param bool $public_web_form Allow anyone to fill in the template's web form.
-     *
-     * @return self
-     */
-    public function setPublicWebForm($public_web_form)
-    {
-        if (is_null($public_web_form)) {
-            throw new \InvalidArgumentException('non-nullable public_web_form cannot be null');
-        }
-        $this->container['public_web_form'] = $public_web_form;
-
-        return $this;
-    }
-
-    /**
-     * Gets redirect_url
-     *
-     * @return string|null
-     */
-    public function getRedirectUrl()
-    {
-        return $this->container['redirect_url'];
-    }
-
-    /**
-     * Sets redirect_url
-     *
-     * @param string|null $redirect_url Where the web form sends people after they submit it.
-     *
-     * @return self
-     */
-    public function setRedirectUrl($redirect_url)
-    {
-        if (is_null($redirect_url)) {
-            array_push($this->openAPINullablesSetToNull, 'redirect_url');
-        } else {
-            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('redirect_url', $nullablesSetToNull);
-            if ($index !== FALSE) {
-                unset($nullablesSetToNull[$index]);
-                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
-            }
-        }
-        $this->container['redirect_url'] = $redirect_url;
-
-        return $this;
-    }
-
-    /**
-     * Gets has_slack_webhook_url
-     *
-     * @return bool
-     */
-    public function getHasSlackWebhookUrl()
-    {
-        return $this->container['has_slack_webhook_url'];
-    }
-
-    /**
-     * Sets has_slack_webhook_url
-     *
-     * @param bool $has_slack_webhook_url Whether `slack_webhook_url` is set.
-     *
-     * @return self
-     */
-    public function setHasSlackWebhookUrl($has_slack_webhook_url)
-    {
-        if (is_null($has_slack_webhook_url)) {
-            throw new \InvalidArgumentException('non-nullable has_slack_webhook_url cannot be null');
-        }
-        $this->container['has_slack_webhook_url'] = $has_slack_webhook_url;
-
-        return $this;
-    }
-
-    /**
      * Gets last_changed_at
      *
      * @return \DateTime|null
@@ -1637,40 +792,6 @@ class TemplateSummary implements ModelInterface, ArrayAccess, \JsonSerializable
             }
         }
         $this->container['last_changed_at'] = $last_changed_at;
-
-        return $this;
-    }
-
-    /**
-     * Gets last_changed_by
-     *
-     * @return \DocSpring\Model\TemplateActor|null
-     */
-    public function getLastChangedBy()
-    {
-        return $this->container['last_changed_by'];
-    }
-
-    /**
-     * Sets last_changed_by
-     *
-     * @param \DocSpring\Model\TemplateActor|null $last_changed_by Who last changed the draft: a user in your account, an API token, or someone using the embedded template editor. Null if no change has been recorded.
-     *
-     * @return self
-     */
-    public function setLastChangedBy($last_changed_by)
-    {
-        if (is_null($last_changed_by)) {
-            array_push($this->openAPINullablesSetToNull, 'last_changed_by');
-        } else {
-            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('last_changed_by', $nullablesSetToNull);
-            if ($index !== FALSE) {
-                unset($nullablesSetToNull[$index]);
-                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
-            }
-        }
-        $this->container['last_changed_by'] = $last_changed_by;
 
         return $this;
     }

@@ -9,7 +9,7 @@ templates with your data, generates PDFs from HTML templates, combines PDFs and 
 The code in this repository is generated from DocSpring's OpenAPI spec ([About this SDK](#about-this-sdk)). Issues and
 pull requests are welcome.
 
-Version 4.1.0. Requires PHP ^8.1.
+Version 4.2.0. Requires PHP ^8.1.
 
 ## Install and configure
 
@@ -112,6 +112,7 @@ PHP code for every method.
 | [`createSubmission`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#createsubmission) | Generate a PDF |
 | [`createSubmissionBatch`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#createsubmissionbatch) | Generate PDFs in a batch |
 | [`createTemplate`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#createtemplate) | Create a template |
+| [`createTemplatePreview`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#createtemplatepreview) | Preview a template with data |
 | [`createWebhook`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#createwebhook) | Create a webhook |
 | [`deleteCustomFile`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#deletecustomfile) | Delete a custom file |
 | [`deleteFolder`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#deletefolder) | Delete a folder |
@@ -132,6 +133,7 @@ PHP code for every method.
 | [`getTemplateDiff`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#gettemplatediff) | Compare a version of a template with the one before it |
 | [`getTemplateModelCode`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#gettemplatemodelcode) | Generate typed code for a template's submission data |
 | [`getTemplatePageImages`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#gettemplatepageimages) | Get images of a template's pages |
+| [`getTemplatePreview`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#gettemplatepreview) | Get a template preview |
 | [`getTemplateSchema`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#gettemplateschema) | Get the JSON Schema of a template's submission data |
 | [`getWebhook`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#getwebhook) | Get a webhook |
 | [`listCombinedPdfs`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#listcombinedpdfs) | List combined PDFs |
@@ -192,6 +194,7 @@ On top of the generated code, we add:
 
 - A client constructor that reads your credentials, region and host from the environment.
 - Fixes for the file uploads in `uploadTemplate` and `uploadTemplateDocument`.
+- `DocSpring\Webhooks::verifyWebhookSignature($payload, $signatureHeader, $secret)` checks a webhook request's `X-DocSpring-Signature` header, with `$tolerance` and `$now` arguments.
 
 Each release regenerates every file, so a change made only here would be lost in the next one. Issues and pull
 requests are welcome all the same: [open an issue](https://github.com/DocSpring/docspring-php/issues) or a pull request, or email

@@ -197,63 +197,9 @@ class SubmissionTest extends TestCase
     }
 
     /**
-     * Test attribute "has_password"
-     */
-    public function testPropertyHasPassword()
-    {
-        // TODO: implement
-        self::markTestIncomplete('Not implemented');
-    }
-
-    /**
-     * Test attribute "signature_requests"
-     */
-    public function testPropertySignatureRequests()
-    {
-        // TODO: implement
-        self::markTestIncomplete('Not implemented');
-    }
-
-    /**
-     * Test attribute "actions"
-     */
-    public function testPropertyActions()
-    {
-        // TODO: implement
-        self::markTestIncomplete('Not implemented');
-    }
-
-    /**
-     * Test attribute "truncated_text"
-     */
-    public function testPropertyTruncatedText()
-    {
-        // TODO: implement
-        self::markTestIncomplete('Not implemented');
-    }
-
-    /**
-     * Test attribute "output_formats"
-     */
-    public function testPropertyOutputFormats()
-    {
-        // TODO: implement
-        self::markTestIncomplete('Not implemented');
-    }
-
-    /**
      * Test attribute "files"
      */
     public function testPropertyFiles()
-    {
-        // TODO: implement
-        self::markTestIncomplete('Not implemented');
-    }
-
-    /**
-     * Test attribute "preview_generated_at"
-     */
-    public function testPropertyPreviewGeneratedAt()
     {
         // TODO: implement
         self::markTestIncomplete('Not implemented');
@@ -299,6 +245,60 @@ class SubmissionTest extends TestCase
      * Test attribute "updated_at"
      */
     public function testPropertyUpdatedAt()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * Test attribute "has_password"
+     */
+    public function testPropertyHasPassword()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * Test attribute "signature_requests"
+     */
+    public function testPropertySignatureRequests()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * Test attribute "actions"
+     */
+    public function testPropertyActions()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * Test attribute "truncated_text"
+     */
+    public function testPropertyTruncatedText()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * Test attribute "output_formats"
+     */
+    public function testPropertyOutputFormats()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * Test attribute "preview_generated_at"
+     */
+    public function testPropertyPreviewGeneratedAt()
     {
         // TODO: implement
         self::markTestIncomplete('Not implemented');

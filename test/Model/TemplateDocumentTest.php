@@ -89,15 +89,6 @@ class TemplateDocumentTest extends TestCase
     }
 
     /**
-     * Test attribute "md5"
-     */
-    public function testPropertyMd5()
-    {
-        // TODO: implement
-        self::markTestIncomplete('Not implemented');
-    }
-
-    /**
      * Test attribute "state"
      */
     public function testPropertyState()
@@ -116,18 +107,27 @@ class TemplateDocumentTest extends TestCase
     }
 
     /**
-     * Test attribute "field_reimport_state"
+     * Test attribute "page_count"
      */
-    public function testPropertyFieldReimportState()
+    public function testPropertyPageCount()
     {
         // TODO: implement
         self::markTestIncomplete('Not implemented');
     }
 
     /**
-     * Test attribute "page_count"
+     * Test attribute "md5"
      */
-    public function testPropertyPageCount()
+    public function testPropertyMd5()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * Test attribute "field_reimport_state"
+     */
+    public function testPropertyFieldReimportState()
     {
         // TODO: implement
         self::markTestIncomplete('Not implemented');

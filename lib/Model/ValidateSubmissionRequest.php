@@ -454,7 +454,7 @@ class ValidateSubmissionRequest implements ModelInterface, ArrayAccess, \JsonSer
     /**
      * Sets metadata
      *
-     * @param array<string,mixed>|null $metadata Your own data about the submission, such as an ID from your app. It isn't printed on the PDF.
+     * @param array<string,mixed>|null $metadata Your own data about the submission, such as an ID from your app. It isn't printed on the PDF. Two keys also change the PDF: `pdf_filename` names its file (`files.pdf.filename`, and its download), and `pdf_title` is its title in the PDF's document properties (and an HTML template's `<title>`, unless its HTML has one). Without `pdf_title`, the title is the template's name. In `pdf_filename`, a `.pdf` ending is removed, each run of characters other than letters, digits, `-`, `_` and `.` becomes one `_`, and the first 128 characters are kept, then `.pdf` is added. Without it, the file is named after the submission's ID (`sub_1234567890abcdef01.pdf`).
      *
      * @return self
      */
@@ -617,7 +617,7 @@ class ValidateSubmissionRequest implements ModelInterface, ArrayAccess, \JsonSer
     /**
      * Sets css
      *
-     * @param string|null $css For an HTML template, CSS to use instead of the template's.
+     * @param string|null $css For an HTML template, SCSS (plain CSS works too) added after the template's styles, on the page and in its header and footer. It doesn't replace them: its rules come later, so they win over the template's rules of the same specificity.
      *
      * @return self
      */
