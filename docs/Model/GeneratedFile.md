@@ -8,9 +8,9 @@ Name | Type | Description | Notes
 **error_message** | **string** | Why the file couldn't be made, when `state` is `error`. |
 **download_url** | **string** | A temporary link to download the file. Null until the file has been made, and when your account turns off download links for submissions. |
 **permanent_url** | **string** | A link to download the file that doesn't expire: it redirects to a new temporary link. It needs your API token or a signed-in session, except for a submission of a template that makes its submissions public. Null until the file has been made. |
-**filename** | **string** | The file's name, such as `sub_123.pdf`. |
-**content_type** | **string** | The file's media type, such as `application/pdf`. |
+**filename** | **string** | The file's name, such as `sub_123.pdf`, `sub_123.docx` or `sub_123.odt`. |
+**content_type** | **string** | The file's media type: `application/pdf`, `application/vnd.openxmlformats-officedocument.wordprocessingml.document` for a Word document, or `application/vnd.oasis.opendocument.text` for an OpenDocument file. |
 **size** | **int** | The file's size in bytes. Null until the file has been made. |
 **sha256** | **string** | The SHA-256 hash of the file. Null until the file has been made. |
 
-[[Back to Model list]](../../README.md#models) [[Back to API list]](../../README.md#endpoints) [[Back to README]](../../README.md)
+[[Back to Model list]](../../README.md#methods) [[Back to API list]](../../README.md#methods) [[Back to README]](../../README.md)

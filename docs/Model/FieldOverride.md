@@ -68,4 +68,4 @@ Name | Type | Description | Notes
 **image_scale_type** | [**\DocSpring\Model\ImageScaleType**](ImageScaleType.md) | How an image is resized to its field. | [optional]
 **image_gravity** | [**\DocSpring\Model\ImageGravity**](ImageGravity.md) | Where an image sits in its field when it doesn't fill it, or which part is kept when it's cropped. | [optional]
 
-[[Back to Model list]](../../README.md#models) [[Back to API list]](../../README.md#endpoints) [[Back to README]](../../README.md)
+[[Back to Model list]](../../README.md#methods) [[Back to API list]](../../README.md#methods) [[Back to README]](../../README.md)

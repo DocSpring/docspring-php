@@ -913,6 +913,8 @@ final class RequestSchemas
                 "type": "string",
                 "enum": [
                   "pdf",
+                  "docx",
+                  "odt",
                   "png"
                 ]
               }
@@ -1086,6 +1088,8 @@ final class RequestSchemas
                 "type": "string",
                 "enum": [
                   "pdf",
+                  "docx",
+                  "odt",
                   "png"
                 ]
               }
@@ -1121,6 +1125,8 @@ final class RequestSchemas
                       "type": "string",
                       "enum": [
                         "pdf",
+                        "docx",
+                        "odt",
                         "png"
                       ]
                     }
@@ -1192,7 +1198,16 @@ final class RequestSchemas
               "type": "string",
               "enum": [
                 "pdf",
-                "html"
+                "html",
+                "docx"
+              ]
+            },
+            "output_format": {
+              "type": "string",
+              "enum": [
+                "pdf",
+                "docx",
+                "odt"
               ]
             },
             "parent_folder_id": {
@@ -1958,6 +1973,9 @@ final class RequestSchemas
               "items": {
                 "type": "string",
                 "enum": [
+                  "pdf",
+                  "docx",
+                  "odt",
                   "png"
                 ]
               }
@@ -2031,7 +2049,8 @@ final class RequestSchemas
               "java",
               "csharp",
               "elixir",
-              "go"
+              "go",
+              "rust"
             ]
           }
         },
@@ -2648,6 +2667,14 @@ final class RequestSchemas
               "type": [
                 "string",
                 "null"
+              ]
+            },
+            "output_format": {
+              "type": "string",
+              "enum": [
+                "pdf",
+                "docx",
+                "odt"
               ]
             },
             "parent_folder_id": {
@@ -4067,6 +4094,14 @@ final class RequestSchemas
                 "ai",
                 "none"
               ]
+            },
+            "output_format": {
+              "type": "string",
+              "enum": [
+                "pdf",
+                "docx",
+                "odt"
+              ]
             }
           },
           "additionalProperties": false
@@ -4144,6 +4179,8 @@ final class RequestSchemas
                 "type": "string",
                 "enum": [
                   "pdf",
+                  "docx",
+                  "odt",
                   "png"
                 ]
               }

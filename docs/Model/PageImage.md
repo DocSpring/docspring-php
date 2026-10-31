@@ -14,4 +14,4 @@ Name | Type | Description | Notes
 **size** | **int** | The image's size in bytes. |
 **sha256** | **string** | The SHA-256 hash of the image. Null for a template's page images. |
 
-[[Back to Model list]](../../README.md#models) [[Back to API list]](../../README.md#endpoints) [[Back to README]](../../README.md)
+[[Back to Model list]](../../README.md#methods) [[Back to API list]](../../README.md#methods) [[Back to README]](../../README.md)

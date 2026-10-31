@@ -9,4 +9,4 @@ Name | Type | Description | Notes
 **fields** | **array<string,string>** | Form fields to send with the file. Send them all, as they are. `key` is the uploaded file's ID: pass it as `cache_id`. |
 **headers** | **array<string,string>** | Headers to send with the upload. |
 
-[[Back to Model list]](../../README.md#models) [[Back to API list]](../../README.md#endpoints) [[Back to README]](../../README.md)
+[[Back to Model list]](../../README.md#methods) [[Back to API list]](../../README.md#methods) [[Back to README]](../../README.md)

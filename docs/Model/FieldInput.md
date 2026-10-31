@@ -95,4 +95,4 @@ Name | Type | Description | Notes
 **dependencies** | [**\DocSpring\Model\FieldDependencyInput**](FieldDependencyInput.md) | The field's own conditional logic rule: when other fields' values meet its conditions, the field is shown, made required, or both. Null when it has none. The template's rules (`field_dependencies`) can apply to the field too. Shared by every field with the same `name`. | [optional]
 **id** | **int** | The field's ID. Required when updating a field. When adding one, leave it out for the next free ID. | [optional]
 
-[[Back to Model list]](../../README.md#models) [[Back to API list]](../../README.md#endpoints) [[Back to README]](../../README.md)
+[[Back to Model list]](../../README.md#methods) [[Back to API list]](../../README.md#methods) [[Back to README]](../../README.md)

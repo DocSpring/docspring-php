@@ -11,4 +11,4 @@ Name | Type | Description | Notes
 **result_data** | **array<string,mixed>** | Where the PDF was uploaded, such as the S3 bucket and key. |
 **error_message** | **string** | Why the upload failed, when `state` is `failed` or `error`. |
 
-[[Back to Model list]](../../README.md#models) [[Back to API list]](../../README.md#endpoints) [[Back to README]](../../README.md)
+[[Back to Model list]](../../README.md#methods) [[Back to API list]](../../README.md#methods) [[Back to README]](../../README.md)

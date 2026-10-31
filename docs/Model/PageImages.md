@@ -9,4 +9,4 @@ Name | Type | Description | Notes
 **page_count** | **int** | How many pages have an image. Null until the images have been made. |
 **pages** | [**\DocSpring\Model\PageImage[]**](PageImage.md) | An image of each page, in order: `pages[0]` is page 1. Lists of submissions leave it out (null): get the submission to see them. Empty until the images have been made. |
 
-[[Back to Model list]](../../README.md#models) [[Back to API list]](../../README.md#endpoints) [[Back to README]](../../README.md)
+[[Back to Model list]](../../README.md#methods) [[Back to API list]](../../README.md#methods) [[Back to README]](../../README.md)

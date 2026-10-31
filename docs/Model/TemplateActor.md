@@ -10,4 +10,4 @@ Name | Type | Description | Notes
 **name** | **string** | The user's name, or the name your app gave the embedded editor's user. |
 **email** | **string** | The email address your app gave the embedded editor's user, for `external_user`. |
 
-[[Back to Model list]](../../README.md#models) [[Back to API list]](../../README.md#endpoints) [[Back to README]](../../README.md)
+[[Back to Model list]](../../README.md#methods) [[Back to API list]](../../README.md#methods) [[Back to README]](../../README.md)

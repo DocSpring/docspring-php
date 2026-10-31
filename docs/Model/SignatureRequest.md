@@ -30,4 +30,4 @@ Name | Type | Description | Notes
 **created_at** | **\DateTime** | When the signature request was created. |
 **updated_at** | **\DateTime** | When the signature request was last updated. |
 
-[[Back to Model list]](../../README.md#models) [[Back to API list]](../../README.md#endpoints) [[Back to README]](../../README.md)
+[[Back to Model list]](../../README.md#methods) [[Back to API list]](../../README.md#methods) [[Back to README]](../../README.md)

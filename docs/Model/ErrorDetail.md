@@ -10,4 +10,4 @@ Name | Type | Description | Notes
 **parameter** | **string** | The query parameter or header the detail is about. | [optional]
 **submission_id** | **string** | For a batch item that failed validation, the ID of the submission recorded for it. | [optional]
 
-[[Back to Model list]](../../README.md#models) [[Back to API list]](../../README.md#endpoints) [[Back to README]](../../README.md)
+[[Back to Model list]](../../README.md#methods) [[Back to API list]](../../README.md#methods) [[Back to README]](../../README.md)

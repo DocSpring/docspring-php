@@ -11,4 +11,4 @@ Name | Type | Description | Notes
 **output_formats** | [**\DocSpring\Model\OutputFormat[]**](OutputFormat.md) | The default `output_formats` for each submission that doesn't set its own. | [optional]
 **submissions** | [**\DocSpring\Model\SubmissionInput[]**](SubmissionInput.md) | Up to 50 submissions. Each one takes the properties of POST /templates/{template_id}/submissions except `signature_requests`, plus `template_id` and `template_version` when it uses a different template from the batch. |
 
-[[Back to Model list]](../../README.md#models) [[Back to API list]](../../README.md#endpoints) [[Back to README]](../../README.md)
+[[Back to Model list]](../../README.md#methods) [[Back to API list]](../../README.md#methods) [[Back to README]](../../README.md)

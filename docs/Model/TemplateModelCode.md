@@ -8,4 +8,4 @@ Name | Type | Description | Notes
 **root_type_name** | **string** | The name of the type for the whole submission data object. |
 **code** | **string** | The source code of the types, starting with `root_type_name`. |
 
-[[Back to Model list]](../../README.md#models) [[Back to API list]](../../README.md#endpoints) [[Back to README]](../../README.md)
+[[Back to Model list]](../../README.md#methods) [[Back to API list]](../../README.md#methods) [[Back to README]](../../README.md)

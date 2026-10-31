@@ -15,4 +15,4 @@ Name | Type | Description | Notes
 **margin_left** | **string** | The left margin, with a unit. | [optional]
 **margin_right** | **string** | The right margin, with a unit. | [optional]
 
-[[Back to Model list]](../../README.md#models) [[Back to API list]](../../README.md#endpoints) [[Back to README]](../../README.md)
+[[Back to Model list]](../../README.md#methods) [[Back to API list]](../../README.md#methods) [[Back to README]](../../README.md)

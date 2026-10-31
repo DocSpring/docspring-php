@@ -13,4 +13,4 @@ Name | Type | Description | Notes
 **occurred_at** | **\DateTime** | When it happened. Default now. |
 **created_at** | **\DateTime** | When the event was recorded. |
 
-[[Back to Model list]](../../README.md#models) [[Back to API list]](../../README.md#endpoints) [[Back to README]](../../README.md)
+[[Back to Model list]](../../README.md#methods) [[Back to API list]](../../README.md#methods) [[Back to README]](../../README.md)

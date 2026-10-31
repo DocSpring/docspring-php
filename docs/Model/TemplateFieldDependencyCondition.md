@@ -9,4 +9,4 @@ Name | Type | Description | Notes
 **value** | **mixed** | The value to compare the field's value with. | [optional]
 **range_max** | **mixed** | The upper end of a `range`, a number (or a number as a string, as the template editor saves it). | [optional]
 
-[[Back to Model list]](../../README.md#models) [[Back to API list]](../../README.md#endpoints) [[Back to README]](../../README.md)
+[[Back to Model list]](../../README.md#methods) [[Back to API list]](../../README.md#methods) [[Back to README]](../../README.md)
