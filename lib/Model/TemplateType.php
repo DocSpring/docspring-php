@@ -49,6 +49,8 @@ class TemplateType
 
     public const DOCX = 'docx';
 
+    public const PAGE_DESIGNER = 'page_designer';
+
     /**
      * Gets allowable values of the enum
      * @return string[]
@@ -58,7 +60,8 @@ class TemplateType
         return [
             self::PDF,
             self::HTML,
-            self::DOCX
+            self::DOCX,
+            self::PAGE_DESIGNER
         ];
     }
 }

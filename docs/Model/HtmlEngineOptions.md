@@ -7,7 +7,7 @@ Name | Type | Description | Notes
 **format** | [**\DocSpring\Model\PageFormat**](PageFormat.md) | The paper size. `Custom` uses `width` and `height`. |
 **width** | **string** | The page width for the `Custom` format, with a unit (`8.5in`, `210mm`). | [optional]
 **height** | **string** | The page height for the `Custom` format, with a unit. | [optional]
-**scale** | **float** | How much to scale the page, such as `0.8`. `1` prints it at its normal size. |
+**scale** | **float** | How much to scale the page, from 0.1 to 2, such as `0.8`. `1` prints it at its normal size. |
 **landscape** | **bool** | Print pages in landscape orientation. |
 **print_background** | **bool** | Print background colors and images. |
 **margin_top** | **string** | The top margin, with a unit, such as `1in` or `20mm`. |

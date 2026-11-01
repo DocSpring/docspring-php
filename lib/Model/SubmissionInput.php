@@ -380,7 +380,7 @@ class SubmissionInput implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets test
      *
-     * @param bool|null $test Test PDFs have a watermark and are free. Live PDFs use credits. Submissions made with a test API token are always test submissions.
+     * @param bool|null $test Test PDFs have a watermark and are free. Live PDFs use credits. Submissions made with a test API token are always test submissions, and the demo API token's are always live.
      *
      * @return self
      */
@@ -434,7 +434,7 @@ class SubmissionInput implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets data
      *
-     * @param array<string,mixed>|null $data The values of the template's fields, by field name. Required for PDF and Word templates.
+     * @param array<string,mixed>|null $data The values of the template's fields, by field name. Required for PDF templates, Word templates and page designs.
      *
      * @return self
      */
@@ -543,7 +543,7 @@ class SubmissionInput implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets expires_in
      *
-     * @param int|null $expires_in Seconds after the PDF is generated until the submission expires, up to 10 years (315360000). Default the template's expiration setting. A submission that isn't processed, such as one with invalid data, is kept for at least 48 hours.
+     * @param int|null $expires_in Seconds after the PDF is generated until the submission expires, up to 10 years (315360000). Default the template's expiration setting. A submission that isn't processed, such as one with invalid data, is kept for at least 48 hours. The demo API token's submissions expire within an hour: up to 3600, and that's their default.
      *
      * @return self
      */

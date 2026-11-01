@@ -177,4 +177,85 @@ class CreateSubmissionRequestTest extends TestCase
         // TODO: implement
         self::markTestIncomplete('Not implemented');
     }
+
+    /**
+     * Test attribute "send_email"
+     */
+    public function testPropertySendEmail()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * Test attribute "signing_order"
+     */
+    public function testPropertySigningOrder()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * Test attribute "email_subject"
+     */
+    public function testPropertyEmailSubject()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * Test attribute "email_message"
+     */
+    public function testPropertyEmailMessage()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * Test attribute "cc"
+     */
+    public function testPropertyCc()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * Test attribute "reply_to"
+     */
+    public function testPropertyReplyTo()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * Test attribute "notification_emails"
+     */
+    public function testPropertyNotificationEmails()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * Test attribute "notify_when_signed"
+     */
+    public function testPropertyNotifyWhenSigned()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * Test attribute "reminders"
+     */
+    public function testPropertyReminders()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
 }

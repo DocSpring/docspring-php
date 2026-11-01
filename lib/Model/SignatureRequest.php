@@ -66,6 +66,10 @@ class SignatureRequest implements ModelInterface, ArrayAccess, \JsonSerializable
         'metadata' => 'array<string,mixed>',
         'role' => 'string',
         'sort_order' => 'int',
+        'send_email' => 'bool',
+        'signing_step' => 'int',
+        'sent_at' => '\DateTime',
+        'email_status' => '\DocSpring\Model\SignatureRequestEmailStatus',
         'state' => '\DocSpring\Model\SignatureRequestState',
         'data' => 'array<string,mixed>',
         'viewed_at' => '\DateTime',
@@ -101,6 +105,10 @@ class SignatureRequest implements ModelInterface, ArrayAccess, \JsonSerializable
         'metadata' => null,
         'role' => null,
         'sort_order' => null,
+        'send_email' => null,
+        'signing_step' => null,
+        'sent_at' => 'date-time',
+        'email_status' => null,
         'state' => null,
         'data' => null,
         'viewed_at' => 'date-time',
@@ -134,6 +142,10 @@ class SignatureRequest implements ModelInterface, ArrayAccess, \JsonSerializable
         'metadata' => false,
         'role' => false,
         'sort_order' => false,
+        'send_email' => false,
+        'signing_step' => true,
+        'sent_at' => true,
+        'email_status' => true,
         'state' => false,
         'data' => true,
         'viewed_at' => true,
@@ -247,6 +259,10 @@ class SignatureRequest implements ModelInterface, ArrayAccess, \JsonSerializable
         'metadata' => 'metadata',
         'role' => 'role',
         'sort_order' => 'sort_order',
+        'send_email' => 'send_email',
+        'signing_step' => 'signing_step',
+        'sent_at' => 'sent_at',
+        'email_status' => 'email_status',
         'state' => 'state',
         'data' => 'data',
         'viewed_at' => 'viewed_at',
@@ -280,6 +296,10 @@ class SignatureRequest implements ModelInterface, ArrayAccess, \JsonSerializable
         'metadata' => 'setMetadata',
         'role' => 'setRole',
         'sort_order' => 'setSortOrder',
+        'send_email' => 'setSendEmail',
+        'signing_step' => 'setSigningStep',
+        'sent_at' => 'setSentAt',
+        'email_status' => 'setEmailStatus',
         'state' => 'setState',
         'data' => 'setData',
         'viewed_at' => 'setViewedAt',
@@ -313,6 +333,10 @@ class SignatureRequest implements ModelInterface, ArrayAccess, \JsonSerializable
         'metadata' => 'getMetadata',
         'role' => 'getRole',
         'sort_order' => 'getSortOrder',
+        'send_email' => 'getSendEmail',
+        'signing_step' => 'getSigningStep',
+        'sent_at' => 'getSentAt',
+        'email_status' => 'getEmailStatus',
         'state' => 'getState',
         'data' => 'getData',
         'viewed_at' => 'getViewedAt',
@@ -397,6 +421,10 @@ class SignatureRequest implements ModelInterface, ArrayAccess, \JsonSerializable
         $this->setIfExists('metadata', $data ?? [], null);
         $this->setIfExists('role', $data ?? [], null);
         $this->setIfExists('sort_order', $data ?? [], null);
+        $this->setIfExists('send_email', $data ?? [], null);
+        $this->setIfExists('signing_step', $data ?? [], null);
+        $this->setIfExists('sent_at', $data ?? [], null);
+        $this->setIfExists('email_status', $data ?? [], null);
         $this->setIfExists('state', $data ?? [], null);
         $this->setIfExists('data', $data ?? [], null);
         $this->setIfExists('viewed_at', $data ?? [], null);
@@ -466,6 +494,18 @@ class SignatureRequest implements ModelInterface, ArrayAccess, \JsonSerializable
         }
         if ($this->container['sort_order'] === null) {
             $invalidProperties[] = "'sort_order' can't be null";
+        }
+        if ($this->container['send_email'] === null) {
+            $invalidProperties[] = "'send_email' can't be null";
+        }
+        if ($this->container['signing_step'] === null && !$this->isNullableSetToNull('signing_step')) {
+            $invalidProperties[] = "'signing_step' is required";
+        }
+        if ($this->container['sent_at'] === null && !$this->isNullableSetToNull('sent_at')) {
+            $invalidProperties[] = "'sent_at' is required";
+        }
+        if ($this->container['email_status'] === null && !$this->isNullableSetToNull('email_status')) {
+            $invalidProperties[] = "'email_status' is required";
         }
         if ($this->container['state'] === null) {
             $invalidProperties[] = "'state' can't be null";
@@ -634,7 +674,7 @@ class SignatureRequest implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets email
      *
-     * @param string|null $email Their email address.
+     * @param string|null $email Their email address. Null when they have none.
      *
      * @return self
      */
@@ -766,6 +806,135 @@ class SignatureRequest implements ModelInterface, ArrayAccess, \JsonSerializable
             throw new \InvalidArgumentException('non-nullable sort_order cannot be null');
         }
         $this->container['sort_order'] = $sort_order;
+
+        return $this;
+    }
+
+    /**
+     * Gets send_email
+     *
+     * @return bool
+     */
+    public function getSendEmail()
+    {
+        return $this->container['send_email'];
+    }
+
+    /**
+     * Sets send_email
+     *
+     * @param bool $send_email Whether DocSpring emails this person their signing link.
+     *
+     * @return self
+     */
+    public function setSendEmail($send_email)
+    {
+        if (is_null($send_email)) {
+            throw new \InvalidArgumentException('non-nullable send_email cannot be null');
+        }
+        $this->container['send_email'] = $send_email;
+
+        return $this;
+    }
+
+    /**
+     * Gets signing_step
+     *
+     * @return int|null
+     */
+    public function getSigningStep()
+    {
+        return $this->container['signing_step'];
+    }
+
+    /**
+     * Sets signing_step
+     *
+     * @param int|null $signing_step When this person signs, when the submission's `signing_order` is `sequential`: everyone in step 1 first, then step 2, and so on. Null when everyone can sign at once.
+     *
+     * @return self
+     */
+    public function setSigningStep($signing_step)
+    {
+        if (is_null($signing_step)) {
+            array_push($this->openAPINullablesSetToNull, 'signing_step');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('signing_step', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['signing_step'] = $signing_step;
+
+        return $this;
+    }
+
+    /**
+     * Gets sent_at
+     *
+     * @return \DateTime|null
+     */
+    public function getSentAt()
+    {
+        return $this->container['sent_at'];
+    }
+
+    /**
+     * Sets sent_at
+     *
+     * @param \DateTime|null $sent_at When DocSpring first emailed this person their signing link. Null until it has, and when it doesn't email them (`send_email` is false).
+     *
+     * @return self
+     */
+    public function setSentAt($sent_at)
+    {
+        if (is_null($sent_at)) {
+            array_push($this->openAPINullablesSetToNull, 'sent_at');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('sent_at', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['sent_at'] = $sent_at;
+
+        return $this;
+    }
+
+    /**
+     * Gets email_status
+     *
+     * @return \DocSpring\Model\SignatureRequestEmailStatus|null
+     */
+    public function getEmailStatus()
+    {
+        return $this->container['email_status'];
+    }
+
+    /**
+     * Sets email_status
+     *
+     * @param \DocSpring\Model\SignatureRequestEmailStatus|null $email_status What happened to the latest email DocSpring sent this person with their signing link: `sent` until the email service reports on it, then `delayed` (still trying), `delivered`, `undelivered` (it stopped trying, as with a full mailbox), `bounced` (the address doesn't exist) or `complained` (marked as spam). `failed` means DocSpring couldn't send the first email with their link, and `unknown` that it couldn't tell whether that email went: neither is sent again. Null until DocSpring has emailed them or tried to.
+     *
+     * @return self
+     */
+    public function setEmailStatus($email_status)
+    {
+        if (is_null($email_status)) {
+            array_push($this->openAPINullablesSetToNull, 'email_status');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('email_status', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['email_status'] = $email_status;
 
         return $this;
     }

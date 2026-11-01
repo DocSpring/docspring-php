@@ -80,10 +80,19 @@ class Client
         'copyTemplate' => [
             'application/json',
         ],
+        'createAccountEmailAction' => [
+            'application/json',
+        ],
         'createCombinedPdf' => [
             'application/json',
         ],
         'createCustomFileFromUpload' => [
+            'application/json',
+        ],
+        'createEmailAction' => [
+            'application/json',
+        ],
+        'createEmailDomain' => [
             'application/json',
         ],
         'createFolder' => [
@@ -110,7 +119,19 @@ class Client
         'createWebhook' => [
             'application/json',
         ],
+        'deleteAccountEmailAction' => [
+            'application/json',
+        ],
         'deleteCustomFile' => [
+            'application/json',
+        ],
+        'deleteEmailAction' => [
+            'application/json',
+        ],
+        'deleteEmailActionCustomization' => [
+            'application/json',
+        ],
+        'deleteEmailDomain' => [
             'application/json',
         ],
         'deleteFolder' => [
@@ -134,10 +155,19 @@ class Client
         'generateSubmissionPreview' => [
             'application/json',
         ],
+        'getAccountEmailAction' => [
+            'application/json',
+        ],
         'getCombinedPdf' => [
             'application/json',
         ],
         'getCustomFile' => [
+            'application/json',
+        ],
+        'getEmailAction' => [
+            'application/json',
+        ],
+        'getEmailDomain' => [
             'application/json',
         ],
         'getFolder' => [
@@ -176,10 +206,19 @@ class Client
         'getWebhook' => [
             'application/json',
         ],
+        'listAccountEmailActions' => [
+            'application/json',
+        ],
         'listCombinedPdfs' => [
             'application/json',
         ],
         'listCustomFiles' => [
+            'application/json',
+        ],
+        'listEmailActions' => [
+            'application/json',
+        ],
+        'listEmailDomains' => [
             'application/json',
         ],
         'listFolders' => [
@@ -221,7 +260,22 @@ class Client
         'restoreTemplateVersion' => [
             'application/json',
         ],
+        'sendAccountEmailActionTestEmail' => [
+            'application/json',
+        ],
+        'sendEmailActionTestEmail' => [
+            'application/json',
+        ],
         'testAuthentication' => [
+            'application/json',
+        ],
+        'updateAccountEmailAction' => [
+            'application/json',
+        ],
+        'updateEmailAction' => [
+            'application/json',
+        ],
+        'updateEmailActionCustomization' => [
             'application/json',
         ],
         'updateSignatureRequest' => [
@@ -246,6 +300,9 @@ class Client
             'multipart/form-data',
         ],
         'validateSubmission' => [
+            'application/json',
+        ],
+        'verifyEmailDomain' => [
             'application/json',
         ],
     ];
@@ -303,15 +360,16 @@ class Client
      *
      * @param  string $template_id The template's ID. (required)
      * @param  \DocSpring\Model\AddTemplateFieldsRequest $body The fields to add to the template's draft. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['addTemplateFields'] to see the possible values for this operation
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return \DocSpring\Model\TemplateFields|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
      */
-    public function addTemplateFields($template_id, $body, string $contentType = self::contentTypes['addTemplateFields'][0])
+    public function addTemplateFields($template_id, $body, $idempotency_key = null, string $contentType = self::contentTypes['addTemplateFields'][0])
     {
-        list($response) = $this->addTemplateFieldsWithHttpInfo($template_id, $body, $contentType);
+        list($response) = $this->addTemplateFieldsWithHttpInfo($template_id, $body, $idempotency_key, $contentType);
         return $response;
     }
 
@@ -322,15 +380,16 @@ class Client
      *
      * @param  string $template_id The template's ID. (required)
      * @param  \DocSpring\Model\AddTemplateFieldsRequest $body The fields to add to the template's draft. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['addTemplateFields'] to see the possible values for this operation
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return array of \DocSpring\Model\TemplateFields|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function addTemplateFieldsWithHttpInfo($template_id, $body, string $contentType = self::contentTypes['addTemplateFields'][0])
+    public function addTemplateFieldsWithHttpInfo($template_id, $body, $idempotency_key = null, string $contentType = self::contentTypes['addTemplateFields'][0])
     {
-        $request = $this->addTemplateFieldsRequest($template_id, $body, $contentType);
+        $request = $this->addTemplateFieldsRequest($template_id, $body, $idempotency_key, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -478,14 +537,15 @@ class Client
      *
      * @param  string $template_id The template's ID. (required)
      * @param  \DocSpring\Model\AddTemplateFieldsRequest $body The fields to add to the template's draft. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['addTemplateFields'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function addTemplateFieldsAsync($template_id, $body, string $contentType = self::contentTypes['addTemplateFields'][0])
+    public function addTemplateFieldsAsync($template_id, $body, $idempotency_key = null, string $contentType = self::contentTypes['addTemplateFields'][0])
     {
-        return $this->addTemplateFieldsAsyncWithHttpInfo($template_id, $body, $contentType)
+        return $this->addTemplateFieldsAsyncWithHttpInfo($template_id, $body, $idempotency_key, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -500,15 +560,16 @@ class Client
      *
      * @param  string $template_id The template's ID. (required)
      * @param  \DocSpring\Model\AddTemplateFieldsRequest $body The fields to add to the template's draft. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['addTemplateFields'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function addTemplateFieldsAsyncWithHttpInfo($template_id, $body, string $contentType = self::contentTypes['addTemplateFields'][0])
+    public function addTemplateFieldsAsyncWithHttpInfo($template_id, $body, $idempotency_key = null, string $contentType = self::contentTypes['addTemplateFields'][0])
     {
         $returnType = '\DocSpring\Model\TemplateFields';
-        $request = $this->addTemplateFieldsRequest($template_id, $body, $contentType);
+        $request = $this->addTemplateFieldsRequest($template_id, $body, $idempotency_key, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -551,12 +612,13 @@ class Client
      *
      * @param  string $template_id The template's ID. (required)
      * @param  \DocSpring\Model\AddTemplateFieldsRequest $body The fields to add to the template's draft. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['addTemplateFields'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function addTemplateFieldsRequest($template_id, $body, string $contentType = self::contentTypes['addTemplateFields'][0])
+    public function addTemplateFieldsRequest($template_id, $body, $idempotency_key = null, string $contentType = self::contentTypes['addTemplateFields'][0])
     {
 
         // verify the required parameter 'template_id' is set
@@ -574,6 +636,7 @@ class Client
         }
 
 
+
         $resourcePath = '/templates/{template_id}/fields';
         $formParams = [];
         $queryParams = [];
@@ -582,6 +645,10 @@ class Client
         $multipart = false;
 
 
+        // header params
+        if ($idempotency_key !== null) {
+            $headerParams['Idempotency-Key'] = ObjectSerializer::toHeaderValue($idempotency_key);
+        }
 
         // path params
         if ($template_id !== null) {
@@ -676,15 +743,16 @@ class Client
      *
      * @param  string $template_id The template's ID. (required)
      * @param  \DocSpring\Model\CopyTemplateRequest|null $body Settings for the copy. (optional)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['copyTemplate'] to see the possible values for this operation
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return \DocSpring\Model\Template|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
      */
-    public function copyTemplate($template_id, $body = null, string $contentType = self::contentTypes['copyTemplate'][0])
+    public function copyTemplate($template_id, $body = null, $idempotency_key = null, string $contentType = self::contentTypes['copyTemplate'][0])
     {
-        list($response) = $this->copyTemplateWithHttpInfo($template_id, $body, $contentType);
+        list($response) = $this->copyTemplateWithHttpInfo($template_id, $body, $idempotency_key, $contentType);
         return $response;
     }
 
@@ -695,15 +763,16 @@ class Client
      *
      * @param  string $template_id The template's ID. (required)
      * @param  \DocSpring\Model\CopyTemplateRequest|null $body Settings for the copy. (optional)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['copyTemplate'] to see the possible values for this operation
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return array of \DocSpring\Model\Template|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function copyTemplateWithHttpInfo($template_id, $body = null, string $contentType = self::contentTypes['copyTemplate'][0])
+    public function copyTemplateWithHttpInfo($template_id, $body = null, $idempotency_key = null, string $contentType = self::contentTypes['copyTemplate'][0])
     {
-        $request = $this->copyTemplateRequest($template_id, $body, $contentType);
+        $request = $this->copyTemplateRequest($template_id, $body, $idempotency_key, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -851,14 +920,15 @@ class Client
      *
      * @param  string $template_id The template's ID. (required)
      * @param  \DocSpring\Model\CopyTemplateRequest|null $body Settings for the copy. (optional)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['copyTemplate'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function copyTemplateAsync($template_id, $body = null, string $contentType = self::contentTypes['copyTemplate'][0])
+    public function copyTemplateAsync($template_id, $body = null, $idempotency_key = null, string $contentType = self::contentTypes['copyTemplate'][0])
     {
-        return $this->copyTemplateAsyncWithHttpInfo($template_id, $body, $contentType)
+        return $this->copyTemplateAsyncWithHttpInfo($template_id, $body, $idempotency_key, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -873,15 +943,16 @@ class Client
      *
      * @param  string $template_id The template's ID. (required)
      * @param  \DocSpring\Model\CopyTemplateRequest|null $body Settings for the copy. (optional)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['copyTemplate'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function copyTemplateAsyncWithHttpInfo($template_id, $body = null, string $contentType = self::contentTypes['copyTemplate'][0])
+    public function copyTemplateAsyncWithHttpInfo($template_id, $body = null, $idempotency_key = null, string $contentType = self::contentTypes['copyTemplate'][0])
     {
         $returnType = '\DocSpring\Model\Template';
-        $request = $this->copyTemplateRequest($template_id, $body, $contentType);
+        $request = $this->copyTemplateRequest($template_id, $body, $idempotency_key, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -924,12 +995,13 @@ class Client
      *
      * @param  string $template_id The template's ID. (required)
      * @param  \DocSpring\Model\CopyTemplateRequest|null $body Settings for the copy. (optional)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['copyTemplate'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function copyTemplateRequest($template_id, $body = null, string $contentType = self::contentTypes['copyTemplate'][0])
+    public function copyTemplateRequest($template_id, $body = null, $idempotency_key = null, string $contentType = self::contentTypes['copyTemplate'][0])
     {
 
         // verify the required parameter 'template_id' is set
@@ -941,6 +1013,7 @@ class Client
 
 
 
+
         $resourcePath = '/templates/{template_id}/copy';
         $formParams = [];
         $queryParams = [];
@@ -949,6 +1022,10 @@ class Client
         $multipart = false;
 
 
+        // header params
+        if ($idempotency_key !== null) {
+            $headerParams['Idempotency-Key'] = ObjectSerializer::toHeaderValue($idempotency_key);
+        }
 
         // path params
         if ($template_id !== null) {
@@ -1037,13 +1114,362 @@ class Client
     }
 
     /**
+     * Operation createAccountEmailAction
+     *
+     * Create an account email action
+     *
+     * @param  \DocSpring\Model\CreateAccountEmailActionRequest $body The account email action to create. Properties left out get their defaults, and it sends for every template unless it lists `template_ids` or `folder_ids`. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createAccountEmailAction'] to see the possible values for this operation
+     *
+     * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \InvalidArgumentException
+     * @return \DocSpring\Model\EmailAction|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
+     */
+    public function createAccountEmailAction($body, $idempotency_key = null, string $contentType = self::contentTypes['createAccountEmailAction'][0])
+    {
+        list($response) = $this->createAccountEmailActionWithHttpInfo($body, $idempotency_key, $contentType);
+        return $response;
+    }
+
+    /**
+     * Operation createAccountEmailActionWithHttpInfo
+     *
+     * Create an account email action
+     *
+     * @param  \DocSpring\Model\CreateAccountEmailActionRequest $body The account email action to create. Properties left out get their defaults, and it sends for every template unless it lists `template_ids` or `folder_ids`. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createAccountEmailAction'] to see the possible values for this operation
+     *
+     * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \InvalidArgumentException
+     * @return array of \DocSpring\Model\EmailAction|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function createAccountEmailActionWithHttpInfo($body, $idempotency_key = null, string $contentType = self::contentTypes['createAccountEmailAction'][0])
+    {
+        $request = $this->createAccountEmailActionRequest($body, $idempotency_key, $contentType);
+
+        try {
+            $options = $this->createHttpClientOption();
+            try {
+                $response = $this->client->send($request, $options);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null,
+                    $e->getResponse() ? (string) $e->getResponse()->getBody() : null
+                );
+            } catch (ConnectException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    null,
+                    null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+
+            switch($statusCode) {
+                case 201:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\EmailAction',
+                        $request,
+                        $response,
+                    );
+                case 422:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 403:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 401:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 429:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+            }
+
+            
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        (string) $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    (string) $response->getBody()
+                );
+            }
+
+            return $this->handleResponseWithDataType(
+                '\DocSpring\Model\EmailAction',
+                $request,
+                $response,
+            );
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 201:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\EmailAction',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 422:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 403:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 429:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+            }
+        
+
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation createAccountEmailActionAsync
+     *
+     * Create an account email action
+     *
+     * @param  \DocSpring\Model\CreateAccountEmailActionRequest $body The account email action to create. Properties left out get their defaults, and it sends for every template unless it lists `template_ids` or `folder_ids`. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createAccountEmailAction'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function createAccountEmailActionAsync($body, $idempotency_key = null, string $contentType = self::contentTypes['createAccountEmailAction'][0])
+    {
+        return $this->createAccountEmailActionAsyncWithHttpInfo($body, $idempotency_key, $contentType)
+            ->then(
+                function ($response) {
+                    return $response[0];
+                }
+            );
+    }
+
+    /**
+     * Operation createAccountEmailActionAsyncWithHttpInfo
+     *
+     * Create an account email action
+     *
+     * @param  \DocSpring\Model\CreateAccountEmailActionRequest $body The account email action to create. Properties left out get their defaults, and it sends for every template unless it lists `template_ids` or `folder_ids`. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createAccountEmailAction'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function createAccountEmailActionAsyncWithHttpInfo($body, $idempotency_key = null, string $contentType = self::contentTypes['createAccountEmailAction'][0])
+    {
+        $returnType = '\DocSpring\Model\EmailAction';
+        $request = $this->createAccountEmailActionRequest($body, $idempotency_key, $contentType);
+
+        return $this->client
+            ->sendAsync($request, $this->createHttpClientOption())
+            ->then(
+                function ($response) use ($returnType) {
+                    if ($returnType === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ($returnType !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                },
+                function ($exception) {
+                    $response = $exception->getResponse();
+                    $statusCode = $response->getStatusCode();
+                    throw new ApiException(
+                        sprintf(
+                            '[%d] Error connecting to the API (%s)',
+                            $statusCode,
+                            $exception->getRequest()->getUri()
+                        ),
+                        $statusCode,
+                        $response->getHeaders(),
+                        (string) $response->getBody()
+                    );
+                }
+            );
+    }
+
+    /**
+     * Create request for operation 'createAccountEmailAction'
+     *
+     * @param  \DocSpring\Model\CreateAccountEmailActionRequest $body The account email action to create. Properties left out get their defaults, and it sends for every template unless it lists `template_ids` or `folder_ids`. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createAccountEmailAction'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    public function createAccountEmailActionRequest($body, $idempotency_key = null, string $contentType = self::contentTypes['createAccountEmailAction'][0])
+    {
+
+        // verify the required parameter 'body' is set
+        if ($body === null || (is_array($body) && count($body) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $body when calling createAccountEmailAction'
+            );
+        }
+
+
+
+        $resourcePath = '/email_actions';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = '';
+        $multipart = false;
+
+
+        // header params
+        if ($idempotency_key !== null) {
+            $headerParams['Idempotency-Key'] = ObjectSerializer::toHeaderValue($idempotency_key);
+        }
+
+
+
+        $headers = $this->headerSelector->selectHeaders(
+            ['application/json', ],
+            $contentType,
+            $multipart
+        );
+
+        // for model (json/xml)
+        if (isset($body)) {
+            if (stripos($headers['Content-Type'], 'application/json') !== false) {
+                # if Content-Type contains "application/json", json_encode the body
+                try {
+                    $httpBody = json_encode(ObjectSerializer::sanitizeForSerialization($body), JSON_THROW_ON_ERROR);
+                } catch (\JsonException $e) {
+                    throw new \InvalidArgumentException('json_encode error: ' . $e->getMessage(), 0, $e);
+                }
+            } else {
+                $httpBody = $body;
+            }
+        } elseif (count($formParams) > 0) {
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
+                    foreach ($formParamValueItems as $formParamValueItem) {
+                        $multipartContents[] = [
+                            'name' => $formParamName,
+                            'contents' => $formParamValueItem
+                        ];
+                    }
+                }
+                // for HTTP post (form)
+                $httpBody = new MultipartStream($multipartContents);
+
+            } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
+                # if Content-Type contains "application/json", json_encode the form parameters
+                try {
+                    $httpBody = json_encode($formParams, JSON_THROW_ON_ERROR);
+                } catch (\JsonException $e) {
+                    throw new \InvalidArgumentException('json_encode error: ' . $e->getMessage(), 0, $e);
+                }
+            } else {
+                // for HTTP post (form)
+                $httpBody = ObjectSerializer::buildQuery($formParams);
+            }
+        }
+
+        // this endpoint requires HTTP basic authentication
+        if (!empty($this->config->getUsername()) || !(empty($this->config->getPassword()))) {
+            $headers['Authorization'] = 'Basic ' . base64_encode($this->config->getUsername() . ":" . $this->config->getPassword());
+        }
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        if ($this->config->getValidateRequests()) {
+            \DocSpring\RequestValidator::validateRequest('createAccountEmailAction', $queryParams, count($formParams) > 0 ? $formParams : ($httpBody === '' ? null : $httpBody));
+        }
+
+        $operationHost = $this->config->getHost();
+        $query = ObjectSerializer::buildQuery($queryParams);
+        return new Request(
+            'POST',
+            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
+            $headers,
+            $httpBody
+        );
+    }
+
+    /**
      * Operation createCombinedPdf
      *
      * Combine PDFs
      *
      * @param  \DocSpring\Model\CreateCombinedPdfRequest $body The PDFs to merge, and the combined PDF's settings. (required)
      * @param  bool|null $wait Wait until the PDF has been generated before responding. Default true on sync.api hosts. (optional)
-     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of creating another combined PDF. Send a new key with each new combined PDF, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` means the first request is still being processed: send the request again in a few seconds. (optional)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createCombinedPdf'] to see the possible values for this operation
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
@@ -1063,7 +1489,7 @@ class Client
      *
      * @param  \DocSpring\Model\CreateCombinedPdfRequest $body The PDFs to merge, and the combined PDF's settings. (required)
      * @param  bool|null $wait Wait until the PDF has been generated before responding. Default true on sync.api hosts. (optional)
-     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of creating another combined PDF. Send a new key with each new combined PDF, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` means the first request is still being processed: send the request again in a few seconds. (optional)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createCombinedPdf'] to see the possible values for this operation
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
@@ -1248,7 +1674,7 @@ class Client
      *
      * @param  \DocSpring\Model\CreateCombinedPdfRequest $body The PDFs to merge, and the combined PDF's settings. (required)
      * @param  bool|null $wait Wait until the PDF has been generated before responding. Default true on sync.api hosts. (optional)
-     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of creating another combined PDF. Send a new key with each new combined PDF, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` means the first request is still being processed: send the request again in a few seconds. (optional)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createCombinedPdf'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
@@ -1271,7 +1697,7 @@ class Client
      *
      * @param  \DocSpring\Model\CreateCombinedPdfRequest $body The PDFs to merge, and the combined PDF's settings. (required)
      * @param  bool|null $wait Wait until the PDF has been generated before responding. Default true on sync.api hosts. (optional)
-     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of creating another combined PDF. Send a new key with each new combined PDF, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` means the first request is still being processed: send the request again in a few seconds. (optional)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createCombinedPdf'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
@@ -1323,7 +1749,7 @@ class Client
      *
      * @param  \DocSpring\Model\CreateCombinedPdfRequest $body The PDFs to merge, and the combined PDF's settings. (required)
      * @param  bool|null $wait Wait until the PDF has been generated before responding. Default true on sync.api hosts. (optional)
-     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of creating another combined PDF. Send a new key with each new combined PDF, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` means the first request is still being processed: send the request again in a few seconds. (optional)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createCombinedPdf'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
@@ -1448,15 +1874,16 @@ class Client
      * Create a custom file from an upload
      *
      * @param  \DocSpring\Model\CreateCustomFileFromUploadRequest $body The uploaded file to create the custom file from. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createCustomFileFromUpload'] to see the possible values for this operation
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return \DocSpring\Model\CustomFile|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
      */
-    public function createCustomFileFromUpload($body, string $contentType = self::contentTypes['createCustomFileFromUpload'][0])
+    public function createCustomFileFromUpload($body, $idempotency_key = null, string $contentType = self::contentTypes['createCustomFileFromUpload'][0])
     {
-        list($response) = $this->createCustomFileFromUploadWithHttpInfo($body, $contentType);
+        list($response) = $this->createCustomFileFromUploadWithHttpInfo($body, $idempotency_key, $contentType);
         return $response;
     }
 
@@ -1466,15 +1893,16 @@ class Client
      * Create a custom file from an upload
      *
      * @param  \DocSpring\Model\CreateCustomFileFromUploadRequest $body The uploaded file to create the custom file from. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createCustomFileFromUpload'] to see the possible values for this operation
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return array of \DocSpring\Model\CustomFile|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function createCustomFileFromUploadWithHttpInfo($body, string $contentType = self::contentTypes['createCustomFileFromUpload'][0])
+    public function createCustomFileFromUploadWithHttpInfo($body, $idempotency_key = null, string $contentType = self::contentTypes['createCustomFileFromUpload'][0])
     {
-        $request = $this->createCustomFileFromUploadRequest($body, $contentType);
+        $request = $this->createCustomFileFromUploadRequest($body, $idempotency_key, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -1593,14 +2021,15 @@ class Client
      * Create a custom file from an upload
      *
      * @param  \DocSpring\Model\CreateCustomFileFromUploadRequest $body The uploaded file to create the custom file from. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createCustomFileFromUpload'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function createCustomFileFromUploadAsync($body, string $contentType = self::contentTypes['createCustomFileFromUpload'][0])
+    public function createCustomFileFromUploadAsync($body, $idempotency_key = null, string $contentType = self::contentTypes['createCustomFileFromUpload'][0])
     {
-        return $this->createCustomFileFromUploadAsyncWithHttpInfo($body, $contentType)
+        return $this->createCustomFileFromUploadAsyncWithHttpInfo($body, $idempotency_key, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -1614,15 +2043,16 @@ class Client
      * Create a custom file from an upload
      *
      * @param  \DocSpring\Model\CreateCustomFileFromUploadRequest $body The uploaded file to create the custom file from. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createCustomFileFromUpload'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function createCustomFileFromUploadAsyncWithHttpInfo($body, string $contentType = self::contentTypes['createCustomFileFromUpload'][0])
+    public function createCustomFileFromUploadAsyncWithHttpInfo($body, $idempotency_key = null, string $contentType = self::contentTypes['createCustomFileFromUpload'][0])
     {
         $returnType = '\DocSpring\Model\CustomFile';
-        $request = $this->createCustomFileFromUploadRequest($body, $contentType);
+        $request = $this->createCustomFileFromUploadRequest($body, $idempotency_key, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -1664,12 +2094,13 @@ class Client
      * Create request for operation 'createCustomFileFromUpload'
      *
      * @param  \DocSpring\Model\CreateCustomFileFromUploadRequest $body The uploaded file to create the custom file from. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createCustomFileFromUpload'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function createCustomFileFromUploadRequest($body, string $contentType = self::contentTypes['createCustomFileFromUpload'][0])
+    public function createCustomFileFromUploadRequest($body, $idempotency_key = null, string $contentType = self::contentTypes['createCustomFileFromUpload'][0])
     {
 
         // verify the required parameter 'body' is set
@@ -1680,6 +2111,7 @@ class Client
         }
 
 
+
         $resourcePath = '/custom_files';
         $formParams = [];
         $queryParams = [];
@@ -1688,6 +2120,10 @@ class Client
         $multipart = false;
 
 
+        // header params
+        if ($idempotency_key !== null) {
+            $headerParams['Idempotency-Key'] = ObjectSerializer::toHeaderValue($idempotency_key);
+        }
 
 
 
@@ -1768,20 +2204,753 @@ class Client
     }
 
     /**
+     * Operation createEmailAction
+     *
+     * Create an email action
+     *
+     * @param  string $template_id The template's ID. (required)
+     * @param  \DocSpring\Model\CreateEmailActionRequest $body The email action to create. Properties left out get their defaults. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createEmailAction'] to see the possible values for this operation
+     *
+     * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \InvalidArgumentException
+     * @return \DocSpring\Model\EmailAction|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
+     */
+    public function createEmailAction($template_id, $body, $idempotency_key = null, string $contentType = self::contentTypes['createEmailAction'][0])
+    {
+        list($response) = $this->createEmailActionWithHttpInfo($template_id, $body, $idempotency_key, $contentType);
+        return $response;
+    }
+
+    /**
+     * Operation createEmailActionWithHttpInfo
+     *
+     * Create an email action
+     *
+     * @param  string $template_id The template's ID. (required)
+     * @param  \DocSpring\Model\CreateEmailActionRequest $body The email action to create. Properties left out get their defaults. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createEmailAction'] to see the possible values for this operation
+     *
+     * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \InvalidArgumentException
+     * @return array of \DocSpring\Model\EmailAction|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function createEmailActionWithHttpInfo($template_id, $body, $idempotency_key = null, string $contentType = self::contentTypes['createEmailAction'][0])
+    {
+        $request = $this->createEmailActionRequest($template_id, $body, $idempotency_key, $contentType);
+
+        try {
+            $options = $this->createHttpClientOption();
+            try {
+                $response = $this->client->send($request, $options);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null,
+                    $e->getResponse() ? (string) $e->getResponse()->getBody() : null
+                );
+            } catch (ConnectException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    null,
+                    null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+
+            switch($statusCode) {
+                case 201:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\EmailAction',
+                        $request,
+                        $response,
+                    );
+                case 422:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 403:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 409:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 401:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 429:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+            }
+
+            
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        (string) $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    (string) $response->getBody()
+                );
+            }
+
+            return $this->handleResponseWithDataType(
+                '\DocSpring\Model\EmailAction',
+                $request,
+                $response,
+            );
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 201:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\EmailAction',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 422:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 403:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 409:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 429:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+            }
+        
+
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation createEmailActionAsync
+     *
+     * Create an email action
+     *
+     * @param  string $template_id The template's ID. (required)
+     * @param  \DocSpring\Model\CreateEmailActionRequest $body The email action to create. Properties left out get their defaults. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createEmailAction'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function createEmailActionAsync($template_id, $body, $idempotency_key = null, string $contentType = self::contentTypes['createEmailAction'][0])
+    {
+        return $this->createEmailActionAsyncWithHttpInfo($template_id, $body, $idempotency_key, $contentType)
+            ->then(
+                function ($response) {
+                    return $response[0];
+                }
+            );
+    }
+
+    /**
+     * Operation createEmailActionAsyncWithHttpInfo
+     *
+     * Create an email action
+     *
+     * @param  string $template_id The template's ID. (required)
+     * @param  \DocSpring\Model\CreateEmailActionRequest $body The email action to create. Properties left out get their defaults. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createEmailAction'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function createEmailActionAsyncWithHttpInfo($template_id, $body, $idempotency_key = null, string $contentType = self::contentTypes['createEmailAction'][0])
+    {
+        $returnType = '\DocSpring\Model\EmailAction';
+        $request = $this->createEmailActionRequest($template_id, $body, $idempotency_key, $contentType);
+
+        return $this->client
+            ->sendAsync($request, $this->createHttpClientOption())
+            ->then(
+                function ($response) use ($returnType) {
+                    if ($returnType === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ($returnType !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                },
+                function ($exception) {
+                    $response = $exception->getResponse();
+                    $statusCode = $response->getStatusCode();
+                    throw new ApiException(
+                        sprintf(
+                            '[%d] Error connecting to the API (%s)',
+                            $statusCode,
+                            $exception->getRequest()->getUri()
+                        ),
+                        $statusCode,
+                        $response->getHeaders(),
+                        (string) $response->getBody()
+                    );
+                }
+            );
+    }
+
+    /**
+     * Create request for operation 'createEmailAction'
+     *
+     * @param  string $template_id The template's ID. (required)
+     * @param  \DocSpring\Model\CreateEmailActionRequest $body The email action to create. Properties left out get their defaults. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createEmailAction'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    public function createEmailActionRequest($template_id, $body, $idempotency_key = null, string $contentType = self::contentTypes['createEmailAction'][0])
+    {
+
+        // verify the required parameter 'template_id' is set
+        if ($template_id === null || (is_array($template_id) && count($template_id) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $template_id when calling createEmailAction'
+            );
+        }
+
+        // verify the required parameter 'body' is set
+        if ($body === null || (is_array($body) && count($body) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $body when calling createEmailAction'
+            );
+        }
+
+
+
+        $resourcePath = '/templates/{template_id}/email_actions';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = '';
+        $multipart = false;
+
+
+        // header params
+        if ($idempotency_key !== null) {
+            $headerParams['Idempotency-Key'] = ObjectSerializer::toHeaderValue($idempotency_key);
+        }
+
+        // path params
+        if ($template_id !== null) {
+            $resourcePath = str_replace(
+                '{template_id}',
+                ObjectSerializer::toPathValue($template_id),
+                $resourcePath
+            );
+        }
+
+
+        $headers = $this->headerSelector->selectHeaders(
+            ['application/json', ],
+            $contentType,
+            $multipart
+        );
+
+        // for model (json/xml)
+        if (isset($body)) {
+            if (stripos($headers['Content-Type'], 'application/json') !== false) {
+                # if Content-Type contains "application/json", json_encode the body
+                try {
+                    $httpBody = json_encode(ObjectSerializer::sanitizeForSerialization($body), JSON_THROW_ON_ERROR);
+                } catch (\JsonException $e) {
+                    throw new \InvalidArgumentException('json_encode error: ' . $e->getMessage(), 0, $e);
+                }
+            } else {
+                $httpBody = $body;
+            }
+        } elseif (count($formParams) > 0) {
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
+                    foreach ($formParamValueItems as $formParamValueItem) {
+                        $multipartContents[] = [
+                            'name' => $formParamName,
+                            'contents' => $formParamValueItem
+                        ];
+                    }
+                }
+                // for HTTP post (form)
+                $httpBody = new MultipartStream($multipartContents);
+
+            } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
+                # if Content-Type contains "application/json", json_encode the form parameters
+                try {
+                    $httpBody = json_encode($formParams, JSON_THROW_ON_ERROR);
+                } catch (\JsonException $e) {
+                    throw new \InvalidArgumentException('json_encode error: ' . $e->getMessage(), 0, $e);
+                }
+            } else {
+                // for HTTP post (form)
+                $httpBody = ObjectSerializer::buildQuery($formParams);
+            }
+        }
+
+        // this endpoint requires HTTP basic authentication
+        if (!empty($this->config->getUsername()) || !(empty($this->config->getPassword()))) {
+            $headers['Authorization'] = 'Basic ' . base64_encode($this->config->getUsername() . ":" . $this->config->getPassword());
+        }
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        if ($this->config->getValidateRequests()) {
+            \DocSpring\RequestValidator::validateRequest('createEmailAction', $queryParams, count($formParams) > 0 ? $formParams : ($httpBody === '' ? null : $httpBody));
+        }
+
+        $operationHost = $this->config->getHost();
+        $query = ObjectSerializer::buildQuery($queryParams);
+        return new Request(
+            'POST',
+            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
+            $headers,
+            $httpBody
+        );
+    }
+
+    /**
+     * Operation createEmailDomain
+     *
+     * Add an email domain
+     *
+     * @param  \DocSpring\Model\CreateEmailDomainRequest $body The domain to add. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createEmailDomain'] to see the possible values for this operation
+     *
+     * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \InvalidArgumentException
+     * @return \DocSpring\Model\EmailDomain|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
+     */
+    public function createEmailDomain($body, $idempotency_key = null, string $contentType = self::contentTypes['createEmailDomain'][0])
+    {
+        list($response) = $this->createEmailDomainWithHttpInfo($body, $idempotency_key, $contentType);
+        return $response;
+    }
+
+    /**
+     * Operation createEmailDomainWithHttpInfo
+     *
+     * Add an email domain
+     *
+     * @param  \DocSpring\Model\CreateEmailDomainRequest $body The domain to add. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createEmailDomain'] to see the possible values for this operation
+     *
+     * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \InvalidArgumentException
+     * @return array of \DocSpring\Model\EmailDomain|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function createEmailDomainWithHttpInfo($body, $idempotency_key = null, string $contentType = self::contentTypes['createEmailDomain'][0])
+    {
+        $request = $this->createEmailDomainRequest($body, $idempotency_key, $contentType);
+
+        try {
+            $options = $this->createHttpClientOption();
+            try {
+                $response = $this->client->send($request, $options);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null,
+                    $e->getResponse() ? (string) $e->getResponse()->getBody() : null
+                );
+            } catch (ConnectException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    null,
+                    null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+
+            switch($statusCode) {
+                case 201:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\EmailDomain',
+                        $request,
+                        $response,
+                    );
+                case 422:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 403:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 401:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 429:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+            }
+
+            
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        (string) $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    (string) $response->getBody()
+                );
+            }
+
+            return $this->handleResponseWithDataType(
+                '\DocSpring\Model\EmailDomain',
+                $request,
+                $response,
+            );
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 201:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\EmailDomain',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 422:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 403:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 429:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+            }
+        
+
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation createEmailDomainAsync
+     *
+     * Add an email domain
+     *
+     * @param  \DocSpring\Model\CreateEmailDomainRequest $body The domain to add. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createEmailDomain'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function createEmailDomainAsync($body, $idempotency_key = null, string $contentType = self::contentTypes['createEmailDomain'][0])
+    {
+        return $this->createEmailDomainAsyncWithHttpInfo($body, $idempotency_key, $contentType)
+            ->then(
+                function ($response) {
+                    return $response[0];
+                }
+            );
+    }
+
+    /**
+     * Operation createEmailDomainAsyncWithHttpInfo
+     *
+     * Add an email domain
+     *
+     * @param  \DocSpring\Model\CreateEmailDomainRequest $body The domain to add. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createEmailDomain'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function createEmailDomainAsyncWithHttpInfo($body, $idempotency_key = null, string $contentType = self::contentTypes['createEmailDomain'][0])
+    {
+        $returnType = '\DocSpring\Model\EmailDomain';
+        $request = $this->createEmailDomainRequest($body, $idempotency_key, $contentType);
+
+        return $this->client
+            ->sendAsync($request, $this->createHttpClientOption())
+            ->then(
+                function ($response) use ($returnType) {
+                    if ($returnType === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ($returnType !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                },
+                function ($exception) {
+                    $response = $exception->getResponse();
+                    $statusCode = $response->getStatusCode();
+                    throw new ApiException(
+                        sprintf(
+                            '[%d] Error connecting to the API (%s)',
+                            $statusCode,
+                            $exception->getRequest()->getUri()
+                        ),
+                        $statusCode,
+                        $response->getHeaders(),
+                        (string) $response->getBody()
+                    );
+                }
+            );
+    }
+
+    /**
+     * Create request for operation 'createEmailDomain'
+     *
+     * @param  \DocSpring\Model\CreateEmailDomainRequest $body The domain to add. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createEmailDomain'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    public function createEmailDomainRequest($body, $idempotency_key = null, string $contentType = self::contentTypes['createEmailDomain'][0])
+    {
+
+        // verify the required parameter 'body' is set
+        if ($body === null || (is_array($body) && count($body) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $body when calling createEmailDomain'
+            );
+        }
+
+
+
+        $resourcePath = '/email_domains';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = '';
+        $multipart = false;
+
+
+        // header params
+        if ($idempotency_key !== null) {
+            $headerParams['Idempotency-Key'] = ObjectSerializer::toHeaderValue($idempotency_key);
+        }
+
+
+
+        $headers = $this->headerSelector->selectHeaders(
+            ['application/json', ],
+            $contentType,
+            $multipart
+        );
+
+        // for model (json/xml)
+        if (isset($body)) {
+            if (stripos($headers['Content-Type'], 'application/json') !== false) {
+                # if Content-Type contains "application/json", json_encode the body
+                try {
+                    $httpBody = json_encode(ObjectSerializer::sanitizeForSerialization($body), JSON_THROW_ON_ERROR);
+                } catch (\JsonException $e) {
+                    throw new \InvalidArgumentException('json_encode error: ' . $e->getMessage(), 0, $e);
+                }
+            } else {
+                $httpBody = $body;
+            }
+        } elseif (count($formParams) > 0) {
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
+                    foreach ($formParamValueItems as $formParamValueItem) {
+                        $multipartContents[] = [
+                            'name' => $formParamName,
+                            'contents' => $formParamValueItem
+                        ];
+                    }
+                }
+                // for HTTP post (form)
+                $httpBody = new MultipartStream($multipartContents);
+
+            } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
+                # if Content-Type contains "application/json", json_encode the form parameters
+                try {
+                    $httpBody = json_encode($formParams, JSON_THROW_ON_ERROR);
+                } catch (\JsonException $e) {
+                    throw new \InvalidArgumentException('json_encode error: ' . $e->getMessage(), 0, $e);
+                }
+            } else {
+                // for HTTP post (form)
+                $httpBody = ObjectSerializer::buildQuery($formParams);
+            }
+        }
+
+        // this endpoint requires HTTP basic authentication
+        if (!empty($this->config->getUsername()) || !(empty($this->config->getPassword()))) {
+            $headers['Authorization'] = 'Basic ' . base64_encode($this->config->getUsername() . ":" . $this->config->getPassword());
+        }
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        if ($this->config->getValidateRequests()) {
+            \DocSpring\RequestValidator::validateRequest('createEmailDomain', $queryParams, count($formParams) > 0 ? $formParams : ($httpBody === '' ? null : $httpBody));
+        }
+
+        $operationHost = $this->config->getHost();
+        $query = ObjectSerializer::buildQuery($queryParams);
+        return new Request(
+            'POST',
+            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
+            $headers,
+            $httpBody
+        );
+    }
+
+    /**
      * Operation createFolder
      *
      * Create a folder
      *
      * @param  \DocSpring\Model\CreateFolderRequest $body The folder to create. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createFolder'] to see the possible values for this operation
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return \DocSpring\Model\Folder|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
      */
-    public function createFolder($body, string $contentType = self::contentTypes['createFolder'][0])
+    public function createFolder($body, $idempotency_key = null, string $contentType = self::contentTypes['createFolder'][0])
     {
-        list($response) = $this->createFolderWithHttpInfo($body, $contentType);
+        list($response) = $this->createFolderWithHttpInfo($body, $idempotency_key, $contentType);
         return $response;
     }
 
@@ -1791,15 +2960,16 @@ class Client
      * Create a folder
      *
      * @param  \DocSpring\Model\CreateFolderRequest $body The folder to create. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createFolder'] to see the possible values for this operation
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return array of \DocSpring\Model\Folder|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function createFolderWithHttpInfo($body, string $contentType = self::contentTypes['createFolder'][0])
+    public function createFolderWithHttpInfo($body, $idempotency_key = null, string $contentType = self::contentTypes['createFolder'][0])
     {
-        $request = $this->createFolderRequest($body, $contentType);
+        $request = $this->createFolderRequest($body, $idempotency_key, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -1918,14 +3088,15 @@ class Client
      * Create a folder
      *
      * @param  \DocSpring\Model\CreateFolderRequest $body The folder to create. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createFolder'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function createFolderAsync($body, string $contentType = self::contentTypes['createFolder'][0])
+    public function createFolderAsync($body, $idempotency_key = null, string $contentType = self::contentTypes['createFolder'][0])
     {
-        return $this->createFolderAsyncWithHttpInfo($body, $contentType)
+        return $this->createFolderAsyncWithHttpInfo($body, $idempotency_key, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -1939,15 +3110,16 @@ class Client
      * Create a folder
      *
      * @param  \DocSpring\Model\CreateFolderRequest $body The folder to create. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createFolder'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function createFolderAsyncWithHttpInfo($body, string $contentType = self::contentTypes['createFolder'][0])
+    public function createFolderAsyncWithHttpInfo($body, $idempotency_key = null, string $contentType = self::contentTypes['createFolder'][0])
     {
         $returnType = '\DocSpring\Model\Folder';
-        $request = $this->createFolderRequest($body, $contentType);
+        $request = $this->createFolderRequest($body, $idempotency_key, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -1989,12 +3161,13 @@ class Client
      * Create request for operation 'createFolder'
      *
      * @param  \DocSpring\Model\CreateFolderRequest $body The folder to create. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createFolder'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function createFolderRequest($body, string $contentType = self::contentTypes['createFolder'][0])
+    public function createFolderRequest($body, $idempotency_key = null, string $contentType = self::contentTypes['createFolder'][0])
     {
 
         // verify the required parameter 'body' is set
@@ -2005,6 +3178,7 @@ class Client
         }
 
 
+
         $resourcePath = '/folders';
         $formParams = [];
         $queryParams = [];
@@ -2013,6 +3187,10 @@ class Client
         $multipart = false;
 
 
+        // header params
+        if ($idempotency_key !== null) {
+            $headerParams['Idempotency-Key'] = ObjectSerializer::toHeaderValue($idempotency_key);
+        }
 
 
 
@@ -2099,15 +3277,16 @@ class Client
      *
      * @param  string $signature_request_id The signature request's ID. (required)
      * @param  \DocSpring\Model\CreateSignatureRequestEventRequest $body The event to record. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createSignatureRequestEvent'] to see the possible values for this operation
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return \DocSpring\Model\SignatureRequestEvent|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
      */
-    public function createSignatureRequestEvent($signature_request_id, $body, string $contentType = self::contentTypes['createSignatureRequestEvent'][0])
+    public function createSignatureRequestEvent($signature_request_id, $body, $idempotency_key = null, string $contentType = self::contentTypes['createSignatureRequestEvent'][0])
     {
-        list($response) = $this->createSignatureRequestEventWithHttpInfo($signature_request_id, $body, $contentType);
+        list($response) = $this->createSignatureRequestEventWithHttpInfo($signature_request_id, $body, $idempotency_key, $contentType);
         return $response;
     }
 
@@ -2118,15 +3297,16 @@ class Client
      *
      * @param  string $signature_request_id The signature request's ID. (required)
      * @param  \DocSpring\Model\CreateSignatureRequestEventRequest $body The event to record. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createSignatureRequestEvent'] to see the possible values for this operation
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return array of \DocSpring\Model\SignatureRequestEvent|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function createSignatureRequestEventWithHttpInfo($signature_request_id, $body, string $contentType = self::contentTypes['createSignatureRequestEvent'][0])
+    public function createSignatureRequestEventWithHttpInfo($signature_request_id, $body, $idempotency_key = null, string $contentType = self::contentTypes['createSignatureRequestEvent'][0])
     {
-        $request = $this->createSignatureRequestEventRequest($signature_request_id, $body, $contentType);
+        $request = $this->createSignatureRequestEventRequest($signature_request_id, $body, $idempotency_key, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -2288,14 +3468,15 @@ class Client
      *
      * @param  string $signature_request_id The signature request's ID. (required)
      * @param  \DocSpring\Model\CreateSignatureRequestEventRequest $body The event to record. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createSignatureRequestEvent'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function createSignatureRequestEventAsync($signature_request_id, $body, string $contentType = self::contentTypes['createSignatureRequestEvent'][0])
+    public function createSignatureRequestEventAsync($signature_request_id, $body, $idempotency_key = null, string $contentType = self::contentTypes['createSignatureRequestEvent'][0])
     {
-        return $this->createSignatureRequestEventAsyncWithHttpInfo($signature_request_id, $body, $contentType)
+        return $this->createSignatureRequestEventAsyncWithHttpInfo($signature_request_id, $body, $idempotency_key, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -2310,15 +3491,16 @@ class Client
      *
      * @param  string $signature_request_id The signature request's ID. (required)
      * @param  \DocSpring\Model\CreateSignatureRequestEventRequest $body The event to record. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createSignatureRequestEvent'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function createSignatureRequestEventAsyncWithHttpInfo($signature_request_id, $body, string $contentType = self::contentTypes['createSignatureRequestEvent'][0])
+    public function createSignatureRequestEventAsyncWithHttpInfo($signature_request_id, $body, $idempotency_key = null, string $contentType = self::contentTypes['createSignatureRequestEvent'][0])
     {
         $returnType = '\DocSpring\Model\SignatureRequestEvent';
-        $request = $this->createSignatureRequestEventRequest($signature_request_id, $body, $contentType);
+        $request = $this->createSignatureRequestEventRequest($signature_request_id, $body, $idempotency_key, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -2361,12 +3543,13 @@ class Client
      *
      * @param  string $signature_request_id The signature request's ID. (required)
      * @param  \DocSpring\Model\CreateSignatureRequestEventRequest $body The event to record. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createSignatureRequestEvent'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function createSignatureRequestEventRequest($signature_request_id, $body, string $contentType = self::contentTypes['createSignatureRequestEvent'][0])
+    public function createSignatureRequestEventRequest($signature_request_id, $body, $idempotency_key = null, string $contentType = self::contentTypes['createSignatureRequestEvent'][0])
     {
 
         // verify the required parameter 'signature_request_id' is set
@@ -2384,6 +3567,7 @@ class Client
         }
 
 
+
         $resourcePath = '/signature_requests/{signature_request_id}/events';
         $formParams = [];
         $queryParams = [];
@@ -2392,6 +3576,10 @@ class Client
         $multipart = false;
 
 
+        // header params
+        if ($idempotency_key !== null) {
+            $headerParams['Idempotency-Key'] = ObjectSerializer::toHeaderValue($idempotency_key);
+        }
 
         // path params
         if ($signature_request_id !== null) {
@@ -2486,15 +3674,16 @@ class Client
      *
      * @param  string $signature_request_id The signature request's ID. (required)
      * @param  \DocSpring\Model\CreateSignatureRequestTokenRequest|null $body The kind of link to make. Send no body for an `api` token. (optional)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createSignatureRequestToken'] to see the possible values for this operation
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return \DocSpring\Model\SignatureRequestToken|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
      */
-    public function createSignatureRequestToken($signature_request_id, $body = null, string $contentType = self::contentTypes['createSignatureRequestToken'][0])
+    public function createSignatureRequestToken($signature_request_id, $body = null, $idempotency_key = null, string $contentType = self::contentTypes['createSignatureRequestToken'][0])
     {
-        list($response) = $this->createSignatureRequestTokenWithHttpInfo($signature_request_id, $body, $contentType);
+        list($response) = $this->createSignatureRequestTokenWithHttpInfo($signature_request_id, $body, $idempotency_key, $contentType);
         return $response;
     }
 
@@ -2505,15 +3694,16 @@ class Client
      *
      * @param  string $signature_request_id The signature request's ID. (required)
      * @param  \DocSpring\Model\CreateSignatureRequestTokenRequest|null $body The kind of link to make. Send no body for an `api` token. (optional)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createSignatureRequestToken'] to see the possible values for this operation
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return array of \DocSpring\Model\SignatureRequestToken|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function createSignatureRequestTokenWithHttpInfo($signature_request_id, $body = null, string $contentType = self::contentTypes['createSignatureRequestToken'][0])
+    public function createSignatureRequestTokenWithHttpInfo($signature_request_id, $body = null, $idempotency_key = null, string $contentType = self::contentTypes['createSignatureRequestToken'][0])
     {
-        $request = $this->createSignatureRequestTokenRequest($signature_request_id, $body, $contentType);
+        $request = $this->createSignatureRequestTokenRequest($signature_request_id, $body, $idempotency_key, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -2675,14 +3865,15 @@ class Client
      *
      * @param  string $signature_request_id The signature request's ID. (required)
      * @param  \DocSpring\Model\CreateSignatureRequestTokenRequest|null $body The kind of link to make. Send no body for an `api` token. (optional)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createSignatureRequestToken'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function createSignatureRequestTokenAsync($signature_request_id, $body = null, string $contentType = self::contentTypes['createSignatureRequestToken'][0])
+    public function createSignatureRequestTokenAsync($signature_request_id, $body = null, $idempotency_key = null, string $contentType = self::contentTypes['createSignatureRequestToken'][0])
     {
-        return $this->createSignatureRequestTokenAsyncWithHttpInfo($signature_request_id, $body, $contentType)
+        return $this->createSignatureRequestTokenAsyncWithHttpInfo($signature_request_id, $body, $idempotency_key, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -2697,15 +3888,16 @@ class Client
      *
      * @param  string $signature_request_id The signature request's ID. (required)
      * @param  \DocSpring\Model\CreateSignatureRequestTokenRequest|null $body The kind of link to make. Send no body for an `api` token. (optional)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createSignatureRequestToken'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function createSignatureRequestTokenAsyncWithHttpInfo($signature_request_id, $body = null, string $contentType = self::contentTypes['createSignatureRequestToken'][0])
+    public function createSignatureRequestTokenAsyncWithHttpInfo($signature_request_id, $body = null, $idempotency_key = null, string $contentType = self::contentTypes['createSignatureRequestToken'][0])
     {
         $returnType = '\DocSpring\Model\SignatureRequestToken';
-        $request = $this->createSignatureRequestTokenRequest($signature_request_id, $body, $contentType);
+        $request = $this->createSignatureRequestTokenRequest($signature_request_id, $body, $idempotency_key, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -2748,12 +3940,13 @@ class Client
      *
      * @param  string $signature_request_id The signature request's ID. (required)
      * @param  \DocSpring\Model\CreateSignatureRequestTokenRequest|null $body The kind of link to make. Send no body for an `api` token. (optional)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createSignatureRequestToken'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function createSignatureRequestTokenRequest($signature_request_id, $body = null, string $contentType = self::contentTypes['createSignatureRequestToken'][0])
+    public function createSignatureRequestTokenRequest($signature_request_id, $body = null, $idempotency_key = null, string $contentType = self::contentTypes['createSignatureRequestToken'][0])
     {
 
         // verify the required parameter 'signature_request_id' is set
@@ -2765,6 +3958,7 @@ class Client
 
 
 
+
         $resourcePath = '/signature_requests/{signature_request_id}/tokens';
         $formParams = [];
         $queryParams = [];
@@ -2773,6 +3967,10 @@ class Client
         $multipart = false;
 
 
+        // header params
+        if ($idempotency_key !== null) {
+            $headerParams['Idempotency-Key'] = ObjectSerializer::toHeaderValue($idempotency_key);
+        }
 
         // path params
         if ($signature_request_id !== null) {
@@ -2867,9 +4065,9 @@ class Client
      *
      * @param  string $template_id The template's ID. (required)
      * @param  \DocSpring\Model\CreateSubmissionRequest $body The submission's data and settings. (required)
-     * @param  string|null $version The template version to use: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `latest` (the draft when no version has been published). (optional)
+     * @param  string|null $version The template version to use: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` (the newest published version, or the draft when none has been published) or `draft`. Default `latest`. (optional)
      * @param  bool|null $wait Wait until the files have been generated before responding. Default true on sync.api hosts. (optional)
-     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of creating another submission. Send a new key with each new submission, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` means the first request is still being processed: send the request again in a few seconds. (optional)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createSubmission'] to see the possible values for this operation
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
@@ -2889,9 +4087,9 @@ class Client
      *
      * @param  string $template_id The template's ID. (required)
      * @param  \DocSpring\Model\CreateSubmissionRequest $body The submission's data and settings. (required)
-     * @param  string|null $version The template version to use: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `latest` (the draft when no version has been published). (optional)
+     * @param  string|null $version The template version to use: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` (the newest published version, or the draft when none has been published) or `draft`. Default `latest`. (optional)
      * @param  bool|null $wait Wait until the files have been generated before responding. Default true on sync.api hosts. (optional)
-     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of creating another submission. Send a new key with each new submission, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` means the first request is still being processed: send the request again in a few seconds. (optional)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createSubmission'] to see the possible values for this operation
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
@@ -3090,9 +4288,9 @@ class Client
      *
      * @param  string $template_id The template's ID. (required)
      * @param  \DocSpring\Model\CreateSubmissionRequest $body The submission's data and settings. (required)
-     * @param  string|null $version The template version to use: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `latest` (the draft when no version has been published). (optional)
+     * @param  string|null $version The template version to use: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` (the newest published version, or the draft when none has been published) or `draft`. Default `latest`. (optional)
      * @param  bool|null $wait Wait until the files have been generated before responding. Default true on sync.api hosts. (optional)
-     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of creating another submission. Send a new key with each new submission, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` means the first request is still being processed: send the request again in a few seconds. (optional)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createSubmission'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
@@ -3115,9 +4313,9 @@ class Client
      *
      * @param  string $template_id The template's ID. (required)
      * @param  \DocSpring\Model\CreateSubmissionRequest $body The submission's data and settings. (required)
-     * @param  string|null $version The template version to use: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `latest` (the draft when no version has been published). (optional)
+     * @param  string|null $version The template version to use: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` (the newest published version, or the draft when none has been published) or `draft`. Default `latest`. (optional)
      * @param  bool|null $wait Wait until the files have been generated before responding. Default true on sync.api hosts. (optional)
-     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of creating another submission. Send a new key with each new submission, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` means the first request is still being processed: send the request again in a few seconds. (optional)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createSubmission'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
@@ -3169,9 +4367,9 @@ class Client
      *
      * @param  string $template_id The template's ID. (required)
      * @param  \DocSpring\Model\CreateSubmissionRequest $body The submission's data and settings. (required)
-     * @param  string|null $version The template version to use: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `latest` (the draft when no version has been published). (optional)
+     * @param  string|null $version The template version to use: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` (the newest published version, or the draft when none has been published) or `draft`. Default `latest`. (optional)
      * @param  bool|null $wait Wait until the files have been generated before responding. Default true on sync.api hosts. (optional)
-     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of creating another submission. Send a new key with each new submission, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` means the first request is still being processed: send the request again in a few seconds. (optional)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createSubmission'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
@@ -3322,7 +4520,7 @@ class Client
      *
      * @param  \DocSpring\Model\CreateSubmissionBatchRequest $body The submissions to create, and the settings they share. (required)
      * @param  bool|null $wait Wait until every file in the batch has been generated before responding. Default true on sync.api hosts. (optional)
-     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of creating another batch. Send a new key with each new batch, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` means the first request is still being processed: send the request again in a few seconds. (optional)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createSubmissionBatch'] to see the possible values for this operation
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
@@ -3342,7 +4540,7 @@ class Client
      *
      * @param  \DocSpring\Model\CreateSubmissionBatchRequest $body The submissions to create, and the settings they share. (required)
      * @param  bool|null $wait Wait until every file in the batch has been generated before responding. Default true on sync.api hosts. (optional)
-     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of creating another batch. Send a new key with each new batch, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` means the first request is still being processed: send the request again in a few seconds. (optional)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createSubmissionBatch'] to see the possible values for this operation
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
@@ -3527,7 +4725,7 @@ class Client
      *
      * @param  \DocSpring\Model\CreateSubmissionBatchRequest $body The submissions to create, and the settings they share. (required)
      * @param  bool|null $wait Wait until every file in the batch has been generated before responding. Default true on sync.api hosts. (optional)
-     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of creating another batch. Send a new key with each new batch, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` means the first request is still being processed: send the request again in a few seconds. (optional)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createSubmissionBatch'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
@@ -3550,7 +4748,7 @@ class Client
      *
      * @param  \DocSpring\Model\CreateSubmissionBatchRequest $body The submissions to create, and the settings they share. (required)
      * @param  bool|null $wait Wait until every file in the batch has been generated before responding. Default true on sync.api hosts. (optional)
-     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of creating another batch. Send a new key with each new batch, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` means the first request is still being processed: send the request again in a few seconds. (optional)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createSubmissionBatch'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
@@ -3602,7 +4800,7 @@ class Client
      *
      * @param  \DocSpring\Model\CreateSubmissionBatchRequest $body The submissions to create, and the settings they share. (required)
      * @param  bool|null $wait Wait until every file in the batch has been generated before responding. Default true on sync.api hosts. (optional)
-     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of creating another batch. Send a new key with each new batch, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` means the first request is still being processed: send the request again in a few seconds. (optional)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createSubmissionBatch'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
@@ -3728,15 +4926,16 @@ class Client
      *
      * @param  \DocSpring\Model\CreateTemplateRequest $body The template to create. (required)
      * @param  bool|null $wait Wait until the PDF has been processed, a `document_url`'s PDF or Word document downloaded, and an OpenDocument file converted, before responding. Default true on sync.api hosts. (optional)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createTemplate'] to see the possible values for this operation
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return \DocSpring\Model\Template|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
      */
-    public function createTemplate($body, $wait = null, string $contentType = self::contentTypes['createTemplate'][0])
+    public function createTemplate($body, $wait = null, $idempotency_key = null, string $contentType = self::contentTypes['createTemplate'][0])
     {
-        list($response) = $this->createTemplateWithHttpInfo($body, $wait, $contentType);
+        list($response) = $this->createTemplateWithHttpInfo($body, $wait, $idempotency_key, $contentType);
         return $response;
     }
 
@@ -3747,15 +4946,16 @@ class Client
      *
      * @param  \DocSpring\Model\CreateTemplateRequest $body The template to create. (required)
      * @param  bool|null $wait Wait until the PDF has been processed, a `document_url`'s PDF or Word document downloaded, and an OpenDocument file converted, before responding. Default true on sync.api hosts. (optional)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createTemplate'] to see the possible values for this operation
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return array of \DocSpring\Model\Template|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function createTemplateWithHttpInfo($body, $wait = null, string $contentType = self::contentTypes['createTemplate'][0])
+    public function createTemplateWithHttpInfo($body, $wait = null, $idempotency_key = null, string $contentType = self::contentTypes['createTemplate'][0])
     {
-        $request = $this->createTemplateRequest($body, $wait, $contentType);
+        $request = $this->createTemplateRequest($body, $wait, $idempotency_key, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -3903,14 +5103,15 @@ class Client
      *
      * @param  \DocSpring\Model\CreateTemplateRequest $body The template to create. (required)
      * @param  bool|null $wait Wait until the PDF has been processed, a `document_url`'s PDF or Word document downloaded, and an OpenDocument file converted, before responding. Default true on sync.api hosts. (optional)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createTemplate'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function createTemplateAsync($body, $wait = null, string $contentType = self::contentTypes['createTemplate'][0])
+    public function createTemplateAsync($body, $wait = null, $idempotency_key = null, string $contentType = self::contentTypes['createTemplate'][0])
     {
-        return $this->createTemplateAsyncWithHttpInfo($body, $wait, $contentType)
+        return $this->createTemplateAsyncWithHttpInfo($body, $wait, $idempotency_key, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -3925,15 +5126,16 @@ class Client
      *
      * @param  \DocSpring\Model\CreateTemplateRequest $body The template to create. (required)
      * @param  bool|null $wait Wait until the PDF has been processed, a `document_url`'s PDF or Word document downloaded, and an OpenDocument file converted, before responding. Default true on sync.api hosts. (optional)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createTemplate'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function createTemplateAsyncWithHttpInfo($body, $wait = null, string $contentType = self::contentTypes['createTemplate'][0])
+    public function createTemplateAsyncWithHttpInfo($body, $wait = null, $idempotency_key = null, string $contentType = self::contentTypes['createTemplate'][0])
     {
         $returnType = '\DocSpring\Model\Template';
-        $request = $this->createTemplateRequest($body, $wait, $contentType);
+        $request = $this->createTemplateRequest($body, $wait, $idempotency_key, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -3976,12 +5178,13 @@ class Client
      *
      * @param  \DocSpring\Model\CreateTemplateRequest $body The template to create. (required)
      * @param  bool|null $wait Wait until the PDF has been processed, a `document_url`'s PDF or Word document downloaded, and an OpenDocument file converted, before responding. Default true on sync.api hosts. (optional)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createTemplate'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function createTemplateRequest($body, $wait = null, string $contentType = self::contentTypes['createTemplate'][0])
+    public function createTemplateRequest($body, $wait = null, $idempotency_key = null, string $contentType = self::contentTypes['createTemplate'][0])
     {
 
         // verify the required parameter 'body' is set
@@ -3990,6 +5193,7 @@ class Client
                 'Missing the required parameter $body when calling createTemplate'
             );
         }
+
 
 
 
@@ -4010,6 +5214,10 @@ class Client
             false // required
         ) ?? []);
 
+        // header params
+        if ($idempotency_key !== null) {
+            $headerParams['Idempotency-Key'] = ObjectSerializer::toHeaderValue($idempotency_key);
+        }
 
 
 
@@ -4096,16 +5304,17 @@ class Client
      *
      * @param  string $template_id The template's ID. (required)
      * @param  \DocSpring\Model\CreateTemplatePreviewRequest $body The data to render the template with. (required)
-     * @param  string|null $version A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `draft`. (optional)
+     * @param  string|null $version A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` (the newest published version, or the draft when none has been published) or `draft`. Default `draft`. (optional)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createTemplatePreview'] to see the possible values for this operation
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return \DocSpring\Model\TemplatePreview|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
      */
-    public function createTemplatePreview($template_id, $body, $version = null, string $contentType = self::contentTypes['createTemplatePreview'][0])
+    public function createTemplatePreview($template_id, $body, $version = null, $idempotency_key = null, string $contentType = self::contentTypes['createTemplatePreview'][0])
     {
-        list($response) = $this->createTemplatePreviewWithHttpInfo($template_id, $body, $version, $contentType);
+        list($response) = $this->createTemplatePreviewWithHttpInfo($template_id, $body, $version, $idempotency_key, $contentType);
         return $response;
     }
 
@@ -4116,16 +5325,17 @@ class Client
      *
      * @param  string $template_id The template's ID. (required)
      * @param  \DocSpring\Model\CreateTemplatePreviewRequest $body The data to render the template with. (required)
-     * @param  string|null $version A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `draft`. (optional)
+     * @param  string|null $version A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` (the newest published version, or the draft when none has been published) or `draft`. Default `draft`. (optional)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createTemplatePreview'] to see the possible values for this operation
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return array of \DocSpring\Model\TemplatePreview|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function createTemplatePreviewWithHttpInfo($template_id, $body, $version = null, string $contentType = self::contentTypes['createTemplatePreview'][0])
+    public function createTemplatePreviewWithHttpInfo($template_id, $body, $version = null, $idempotency_key = null, string $contentType = self::contentTypes['createTemplatePreview'][0])
     {
-        $request = $this->createTemplatePreviewRequest($template_id, $body, $version, $contentType);
+        $request = $this->createTemplatePreviewRequest($template_id, $body, $version, $idempotency_key, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -4245,15 +5455,16 @@ class Client
      *
      * @param  string $template_id The template's ID. (required)
      * @param  \DocSpring\Model\CreateTemplatePreviewRequest $body The data to render the template with. (required)
-     * @param  string|null $version A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `draft`. (optional)
+     * @param  string|null $version A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` (the newest published version, or the draft when none has been published) or `draft`. Default `draft`. (optional)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createTemplatePreview'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function createTemplatePreviewAsync($template_id, $body, $version = null, string $contentType = self::contentTypes['createTemplatePreview'][0])
+    public function createTemplatePreviewAsync($template_id, $body, $version = null, $idempotency_key = null, string $contentType = self::contentTypes['createTemplatePreview'][0])
     {
-        return $this->createTemplatePreviewAsyncWithHttpInfo($template_id, $body, $version, $contentType)
+        return $this->createTemplatePreviewAsyncWithHttpInfo($template_id, $body, $version, $idempotency_key, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -4268,16 +5479,17 @@ class Client
      *
      * @param  string $template_id The template's ID. (required)
      * @param  \DocSpring\Model\CreateTemplatePreviewRequest $body The data to render the template with. (required)
-     * @param  string|null $version A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `draft`. (optional)
+     * @param  string|null $version A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` (the newest published version, or the draft when none has been published) or `draft`. Default `draft`. (optional)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createTemplatePreview'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function createTemplatePreviewAsyncWithHttpInfo($template_id, $body, $version = null, string $contentType = self::contentTypes['createTemplatePreview'][0])
+    public function createTemplatePreviewAsyncWithHttpInfo($template_id, $body, $version = null, $idempotency_key = null, string $contentType = self::contentTypes['createTemplatePreview'][0])
     {
         $returnType = '\DocSpring\Model\TemplatePreview';
-        $request = $this->createTemplatePreviewRequest($template_id, $body, $version, $contentType);
+        $request = $this->createTemplatePreviewRequest($template_id, $body, $version, $idempotency_key, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -4320,13 +5532,14 @@ class Client
      *
      * @param  string $template_id The template's ID. (required)
      * @param  \DocSpring\Model\CreateTemplatePreviewRequest $body The data to render the template with. (required)
-     * @param  string|null $version A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `draft`. (optional)
+     * @param  string|null $version A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` (the newest published version, or the draft when none has been published) or `draft`. Default `draft`. (optional)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createTemplatePreview'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function createTemplatePreviewRequest($template_id, $body, $version = null, string $contentType = self::contentTypes['createTemplatePreview'][0])
+    public function createTemplatePreviewRequest($template_id, $body, $version = null, $idempotency_key = null, string $contentType = self::contentTypes['createTemplatePreview'][0])
     {
 
         // verify the required parameter 'template_id' is set
@@ -4342,6 +5555,7 @@ class Client
                 'Missing the required parameter $body when calling createTemplatePreview'
             );
         }
+
 
 
 
@@ -4362,6 +5576,10 @@ class Client
             false // required
         ) ?? []);
 
+        // header params
+        if ($idempotency_key !== null) {
+            $headerParams['Idempotency-Key'] = ObjectSerializer::toHeaderValue($idempotency_key);
+        }
 
         // path params
         if ($template_id !== null) {
@@ -4455,15 +5673,16 @@ class Client
      * Create a webhook
      *
      * @param  \DocSpring\Model\CreateWebhookRequest $body The webhook to create. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createWebhook'] to see the possible values for this operation
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return \DocSpring\Model\Webhook|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
      */
-    public function createWebhook($body, string $contentType = self::contentTypes['createWebhook'][0])
+    public function createWebhook($body, $idempotency_key = null, string $contentType = self::contentTypes['createWebhook'][0])
     {
-        list($response) = $this->createWebhookWithHttpInfo($body, $contentType);
+        list($response) = $this->createWebhookWithHttpInfo($body, $idempotency_key, $contentType);
         return $response;
     }
 
@@ -4473,15 +5692,16 @@ class Client
      * Create a webhook
      *
      * @param  \DocSpring\Model\CreateWebhookRequest $body The webhook to create. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createWebhook'] to see the possible values for this operation
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return array of \DocSpring\Model\Webhook|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function createWebhookWithHttpInfo($body, string $contentType = self::contentTypes['createWebhook'][0])
+    public function createWebhookWithHttpInfo($body, $idempotency_key = null, string $contentType = self::contentTypes['createWebhook'][0])
     {
-        $request = $this->createWebhookRequest($body, $contentType);
+        $request = $this->createWebhookRequest($body, $idempotency_key, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -4614,14 +5834,15 @@ class Client
      * Create a webhook
      *
      * @param  \DocSpring\Model\CreateWebhookRequest $body The webhook to create. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createWebhook'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function createWebhookAsync($body, string $contentType = self::contentTypes['createWebhook'][0])
+    public function createWebhookAsync($body, $idempotency_key = null, string $contentType = self::contentTypes['createWebhook'][0])
     {
-        return $this->createWebhookAsyncWithHttpInfo($body, $contentType)
+        return $this->createWebhookAsyncWithHttpInfo($body, $idempotency_key, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -4635,15 +5856,16 @@ class Client
      * Create a webhook
      *
      * @param  \DocSpring\Model\CreateWebhookRequest $body The webhook to create. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createWebhook'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function createWebhookAsyncWithHttpInfo($body, string $contentType = self::contentTypes['createWebhook'][0])
+    public function createWebhookAsyncWithHttpInfo($body, $idempotency_key = null, string $contentType = self::contentTypes['createWebhook'][0])
     {
         $returnType = '\DocSpring\Model\Webhook';
-        $request = $this->createWebhookRequest($body, $contentType);
+        $request = $this->createWebhookRequest($body, $idempotency_key, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -4685,12 +5907,13 @@ class Client
      * Create request for operation 'createWebhook'
      *
      * @param  \DocSpring\Model\CreateWebhookRequest $body The webhook to create. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createWebhook'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function createWebhookRequest($body, string $contentType = self::contentTypes['createWebhook'][0])
+    public function createWebhookRequest($body, $idempotency_key = null, string $contentType = self::contentTypes['createWebhook'][0])
     {
 
         // verify the required parameter 'body' is set
@@ -4701,6 +5924,7 @@ class Client
         }
 
 
+
         $resourcePath = '/webhooks';
         $formParams = [];
         $queryParams = [];
@@ -4709,6 +5933,10 @@ class Client
         $multipart = false;
 
 
+        // header params
+        if ($idempotency_key !== null) {
+            $headerParams['Idempotency-Key'] = ObjectSerializer::toHeaderValue($idempotency_key);
+        }
 
 
 
@@ -4789,20 +6017,339 @@ class Client
     }
 
     /**
+     * Operation deleteAccountEmailAction
+     *
+     * Delete an account email action
+     *
+     * @param  string $email_action_id The account email action's ID. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['deleteAccountEmailAction'] to see the possible values for this operation
+     *
+     * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \InvalidArgumentException
+     * @return \DocSpring\Model\EmailAction|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
+     */
+    public function deleteAccountEmailAction($email_action_id, $idempotency_key = null, string $contentType = self::contentTypes['deleteAccountEmailAction'][0])
+    {
+        list($response) = $this->deleteAccountEmailActionWithHttpInfo($email_action_id, $idempotency_key, $contentType);
+        return $response;
+    }
+
+    /**
+     * Operation deleteAccountEmailActionWithHttpInfo
+     *
+     * Delete an account email action
+     *
+     * @param  string $email_action_id The account email action's ID. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['deleteAccountEmailAction'] to see the possible values for this operation
+     *
+     * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \InvalidArgumentException
+     * @return array of \DocSpring\Model\EmailAction|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function deleteAccountEmailActionWithHttpInfo($email_action_id, $idempotency_key = null, string $contentType = self::contentTypes['deleteAccountEmailAction'][0])
+    {
+        $request = $this->deleteAccountEmailActionRequest($email_action_id, $idempotency_key, $contentType);
+
+        try {
+            $options = $this->createHttpClientOption();
+            try {
+                $response = $this->client->send($request, $options);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null,
+                    $e->getResponse() ? (string) $e->getResponse()->getBody() : null
+                );
+            } catch (ConnectException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    null,
+                    null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+
+            switch($statusCode) {
+                case 200:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\EmailAction',
+                        $request,
+                        $response,
+                    );
+                case 401:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 429:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+            }
+
+            
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        (string) $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    (string) $response->getBody()
+                );
+            }
+
+            return $this->handleResponseWithDataType(
+                '\DocSpring\Model\EmailAction',
+                $request,
+                $response,
+            );
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\EmailAction',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 429:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+            }
+        
+
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation deleteAccountEmailActionAsync
+     *
+     * Delete an account email action
+     *
+     * @param  string $email_action_id The account email action's ID. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['deleteAccountEmailAction'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function deleteAccountEmailActionAsync($email_action_id, $idempotency_key = null, string $contentType = self::contentTypes['deleteAccountEmailAction'][0])
+    {
+        return $this->deleteAccountEmailActionAsyncWithHttpInfo($email_action_id, $idempotency_key, $contentType)
+            ->then(
+                function ($response) {
+                    return $response[0];
+                }
+            );
+    }
+
+    /**
+     * Operation deleteAccountEmailActionAsyncWithHttpInfo
+     *
+     * Delete an account email action
+     *
+     * @param  string $email_action_id The account email action's ID. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['deleteAccountEmailAction'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function deleteAccountEmailActionAsyncWithHttpInfo($email_action_id, $idempotency_key = null, string $contentType = self::contentTypes['deleteAccountEmailAction'][0])
+    {
+        $returnType = '\DocSpring\Model\EmailAction';
+        $request = $this->deleteAccountEmailActionRequest($email_action_id, $idempotency_key, $contentType);
+
+        return $this->client
+            ->sendAsync($request, $this->createHttpClientOption())
+            ->then(
+                function ($response) use ($returnType) {
+                    if ($returnType === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ($returnType !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                },
+                function ($exception) {
+                    $response = $exception->getResponse();
+                    $statusCode = $response->getStatusCode();
+                    throw new ApiException(
+                        sprintf(
+                            '[%d] Error connecting to the API (%s)',
+                            $statusCode,
+                            $exception->getRequest()->getUri()
+                        ),
+                        $statusCode,
+                        $response->getHeaders(),
+                        (string) $response->getBody()
+                    );
+                }
+            );
+    }
+
+    /**
+     * Create request for operation 'deleteAccountEmailAction'
+     *
+     * @param  string $email_action_id The account email action's ID. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['deleteAccountEmailAction'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    public function deleteAccountEmailActionRequest($email_action_id, $idempotency_key = null, string $contentType = self::contentTypes['deleteAccountEmailAction'][0])
+    {
+
+        // verify the required parameter 'email_action_id' is set
+        if ($email_action_id === null || (is_array($email_action_id) && count($email_action_id) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $email_action_id when calling deleteAccountEmailAction'
+            );
+        }
+
+
+
+        $resourcePath = '/email_actions/{email_action_id}';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = '';
+        $multipart = false;
+
+
+        // header params
+        if ($idempotency_key !== null) {
+            $headerParams['Idempotency-Key'] = ObjectSerializer::toHeaderValue($idempotency_key);
+        }
+
+        // path params
+        if ($email_action_id !== null) {
+            $resourcePath = str_replace(
+                '{email_action_id}',
+                ObjectSerializer::toPathValue($email_action_id),
+                $resourcePath
+            );
+        }
+
+
+        $headers = $this->headerSelector->selectHeaders(
+            ['application/json', ],
+            $contentType,
+            $multipart
+        );
+
+        // for model (json/xml)
+        if (count($formParams) > 0) {
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
+                    foreach ($formParamValueItems as $formParamValueItem) {
+                        $multipartContents[] = [
+                            'name' => $formParamName,
+                            'contents' => $formParamValueItem
+                        ];
+                    }
+                }
+                // for HTTP post (form)
+                $httpBody = new MultipartStream($multipartContents);
+
+            } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
+                # if Content-Type contains "application/json", json_encode the form parameters
+                try {
+                    $httpBody = json_encode($formParams, JSON_THROW_ON_ERROR);
+                } catch (\JsonException $e) {
+                    throw new \InvalidArgumentException('json_encode error: ' . $e->getMessage(), 0, $e);
+                }
+            } else {
+                // for HTTP post (form)
+                $httpBody = ObjectSerializer::buildQuery($formParams);
+            }
+        }
+
+        // this endpoint requires HTTP basic authentication
+        if (!empty($this->config->getUsername()) || !(empty($this->config->getPassword()))) {
+            $headers['Authorization'] = 'Basic ' . base64_encode($this->config->getUsername() . ":" . $this->config->getPassword());
+        }
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        if ($this->config->getValidateRequests()) {
+            \DocSpring\RequestValidator::validateRequest('deleteAccountEmailAction', $queryParams, count($formParams) > 0 ? $formParams : ($httpBody === '' ? null : $httpBody));
+        }
+
+        $operationHost = $this->config->getHost();
+        $query = ObjectSerializer::buildQuery($queryParams);
+        return new Request(
+            'DELETE',
+            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
+            $headers,
+            $httpBody
+        );
+    }
+
+    /**
      * Operation deleteCustomFile
      *
      * Delete a custom file
      *
      * @param  string $custom_file_id The custom file's ID. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['deleteCustomFile'] to see the possible values for this operation
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return \DocSpring\Model\CustomFile|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
      */
-    public function deleteCustomFile($custom_file_id, string $contentType = self::contentTypes['deleteCustomFile'][0])
+    public function deleteCustomFile($custom_file_id, $idempotency_key = null, string $contentType = self::contentTypes['deleteCustomFile'][0])
     {
-        list($response) = $this->deleteCustomFileWithHttpInfo($custom_file_id, $contentType);
+        list($response) = $this->deleteCustomFileWithHttpInfo($custom_file_id, $idempotency_key, $contentType);
         return $response;
     }
 
@@ -4812,15 +6359,16 @@ class Client
      * Delete a custom file
      *
      * @param  string $custom_file_id The custom file's ID. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['deleteCustomFile'] to see the possible values for this operation
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return array of \DocSpring\Model\CustomFile|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function deleteCustomFileWithHttpInfo($custom_file_id, string $contentType = self::contentTypes['deleteCustomFile'][0])
+    public function deleteCustomFileWithHttpInfo($custom_file_id, $idempotency_key = null, string $contentType = self::contentTypes['deleteCustomFile'][0])
     {
-        $request = $this->deleteCustomFileRequest($custom_file_id, $contentType);
+        $request = $this->deleteCustomFileRequest($custom_file_id, $idempotency_key, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -4953,14 +6501,15 @@ class Client
      * Delete a custom file
      *
      * @param  string $custom_file_id The custom file's ID. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['deleteCustomFile'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function deleteCustomFileAsync($custom_file_id, string $contentType = self::contentTypes['deleteCustomFile'][0])
+    public function deleteCustomFileAsync($custom_file_id, $idempotency_key = null, string $contentType = self::contentTypes['deleteCustomFile'][0])
     {
-        return $this->deleteCustomFileAsyncWithHttpInfo($custom_file_id, $contentType)
+        return $this->deleteCustomFileAsyncWithHttpInfo($custom_file_id, $idempotency_key, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -4974,15 +6523,16 @@ class Client
      * Delete a custom file
      *
      * @param  string $custom_file_id The custom file's ID. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['deleteCustomFile'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function deleteCustomFileAsyncWithHttpInfo($custom_file_id, string $contentType = self::contentTypes['deleteCustomFile'][0])
+    public function deleteCustomFileAsyncWithHttpInfo($custom_file_id, $idempotency_key = null, string $contentType = self::contentTypes['deleteCustomFile'][0])
     {
         $returnType = '\DocSpring\Model\CustomFile';
-        $request = $this->deleteCustomFileRequest($custom_file_id, $contentType);
+        $request = $this->deleteCustomFileRequest($custom_file_id, $idempotency_key, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -5024,12 +6574,13 @@ class Client
      * Create request for operation 'deleteCustomFile'
      *
      * @param  string $custom_file_id The custom file's ID. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['deleteCustomFile'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function deleteCustomFileRequest($custom_file_id, string $contentType = self::contentTypes['deleteCustomFile'][0])
+    public function deleteCustomFileRequest($custom_file_id, $idempotency_key = null, string $contentType = self::contentTypes['deleteCustomFile'][0])
     {
 
         // verify the required parameter 'custom_file_id' is set
@@ -5040,6 +6591,7 @@ class Client
         }
 
 
+
         $resourcePath = '/custom_files/{custom_file_id}';
         $formParams = [];
         $queryParams = [];
@@ -5048,6 +6600,10 @@ class Client
         $multipart = false;
 
 
+        // header params
+        if ($idempotency_key !== null) {
+            $headerParams['Idempotency-Key'] = ObjectSerializer::toHeaderValue($idempotency_key);
+        }
 
         // path params
         if ($custom_file_id !== null) {
@@ -5125,20 +6681,1043 @@ class Client
     }
 
     /**
+     * Operation deleteEmailAction
+     *
+     * Delete an email action
+     *
+     * @param  string $template_id The template's ID. (required)
+     * @param  string $email_action_id The email action's ID. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['deleteEmailAction'] to see the possible values for this operation
+     *
+     * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \InvalidArgumentException
+     * @return \DocSpring\Model\EmailAction|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
+     */
+    public function deleteEmailAction($template_id, $email_action_id, $idempotency_key = null, string $contentType = self::contentTypes['deleteEmailAction'][0])
+    {
+        list($response) = $this->deleteEmailActionWithHttpInfo($template_id, $email_action_id, $idempotency_key, $contentType);
+        return $response;
+    }
+
+    /**
+     * Operation deleteEmailActionWithHttpInfo
+     *
+     * Delete an email action
+     *
+     * @param  string $template_id The template's ID. (required)
+     * @param  string $email_action_id The email action's ID. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['deleteEmailAction'] to see the possible values for this operation
+     *
+     * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \InvalidArgumentException
+     * @return array of \DocSpring\Model\EmailAction|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function deleteEmailActionWithHttpInfo($template_id, $email_action_id, $idempotency_key = null, string $contentType = self::contentTypes['deleteEmailAction'][0])
+    {
+        $request = $this->deleteEmailActionRequest($template_id, $email_action_id, $idempotency_key, $contentType);
+
+        try {
+            $options = $this->createHttpClientOption();
+            try {
+                $response = $this->client->send($request, $options);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null,
+                    $e->getResponse() ? (string) $e->getResponse()->getBody() : null
+                );
+            } catch (ConnectException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    null,
+                    null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+
+            switch($statusCode) {
+                case 200:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\EmailAction',
+                        $request,
+                        $response,
+                    );
+                case 409:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 401:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 429:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+            }
+
+            
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        (string) $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    (string) $response->getBody()
+                );
+            }
+
+            return $this->handleResponseWithDataType(
+                '\DocSpring\Model\EmailAction',
+                $request,
+                $response,
+            );
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\EmailAction',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 409:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 429:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+            }
+        
+
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation deleteEmailActionAsync
+     *
+     * Delete an email action
+     *
+     * @param  string $template_id The template's ID. (required)
+     * @param  string $email_action_id The email action's ID. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['deleteEmailAction'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function deleteEmailActionAsync($template_id, $email_action_id, $idempotency_key = null, string $contentType = self::contentTypes['deleteEmailAction'][0])
+    {
+        return $this->deleteEmailActionAsyncWithHttpInfo($template_id, $email_action_id, $idempotency_key, $contentType)
+            ->then(
+                function ($response) {
+                    return $response[0];
+                }
+            );
+    }
+
+    /**
+     * Operation deleteEmailActionAsyncWithHttpInfo
+     *
+     * Delete an email action
+     *
+     * @param  string $template_id The template's ID. (required)
+     * @param  string $email_action_id The email action's ID. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['deleteEmailAction'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function deleteEmailActionAsyncWithHttpInfo($template_id, $email_action_id, $idempotency_key = null, string $contentType = self::contentTypes['deleteEmailAction'][0])
+    {
+        $returnType = '\DocSpring\Model\EmailAction';
+        $request = $this->deleteEmailActionRequest($template_id, $email_action_id, $idempotency_key, $contentType);
+
+        return $this->client
+            ->sendAsync($request, $this->createHttpClientOption())
+            ->then(
+                function ($response) use ($returnType) {
+                    if ($returnType === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ($returnType !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                },
+                function ($exception) {
+                    $response = $exception->getResponse();
+                    $statusCode = $response->getStatusCode();
+                    throw new ApiException(
+                        sprintf(
+                            '[%d] Error connecting to the API (%s)',
+                            $statusCode,
+                            $exception->getRequest()->getUri()
+                        ),
+                        $statusCode,
+                        $response->getHeaders(),
+                        (string) $response->getBody()
+                    );
+                }
+            );
+    }
+
+    /**
+     * Create request for operation 'deleteEmailAction'
+     *
+     * @param  string $template_id The template's ID. (required)
+     * @param  string $email_action_id The email action's ID. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['deleteEmailAction'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    public function deleteEmailActionRequest($template_id, $email_action_id, $idempotency_key = null, string $contentType = self::contentTypes['deleteEmailAction'][0])
+    {
+
+        // verify the required parameter 'template_id' is set
+        if ($template_id === null || (is_array($template_id) && count($template_id) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $template_id when calling deleteEmailAction'
+            );
+        }
+
+        // verify the required parameter 'email_action_id' is set
+        if ($email_action_id === null || (is_array($email_action_id) && count($email_action_id) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $email_action_id when calling deleteEmailAction'
+            );
+        }
+
+
+
+        $resourcePath = '/templates/{template_id}/email_actions/{email_action_id}';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = '';
+        $multipart = false;
+
+
+        // header params
+        if ($idempotency_key !== null) {
+            $headerParams['Idempotency-Key'] = ObjectSerializer::toHeaderValue($idempotency_key);
+        }
+
+        // path params
+        if ($template_id !== null) {
+            $resourcePath = str_replace(
+                '{template_id}',
+                ObjectSerializer::toPathValue($template_id),
+                $resourcePath
+            );
+        }
+        // path params
+        if ($email_action_id !== null) {
+            $resourcePath = str_replace(
+                '{email_action_id}',
+                ObjectSerializer::toPathValue($email_action_id),
+                $resourcePath
+            );
+        }
+
+
+        $headers = $this->headerSelector->selectHeaders(
+            ['application/json', ],
+            $contentType,
+            $multipart
+        );
+
+        // for model (json/xml)
+        if (count($formParams) > 0) {
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
+                    foreach ($formParamValueItems as $formParamValueItem) {
+                        $multipartContents[] = [
+                            'name' => $formParamName,
+                            'contents' => $formParamValueItem
+                        ];
+                    }
+                }
+                // for HTTP post (form)
+                $httpBody = new MultipartStream($multipartContents);
+
+            } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
+                # if Content-Type contains "application/json", json_encode the form parameters
+                try {
+                    $httpBody = json_encode($formParams, JSON_THROW_ON_ERROR);
+                } catch (\JsonException $e) {
+                    throw new \InvalidArgumentException('json_encode error: ' . $e->getMessage(), 0, $e);
+                }
+            } else {
+                // for HTTP post (form)
+                $httpBody = ObjectSerializer::buildQuery($formParams);
+            }
+        }
+
+        // this endpoint requires HTTP basic authentication
+        if (!empty($this->config->getUsername()) || !(empty($this->config->getPassword()))) {
+            $headers['Authorization'] = 'Basic ' . base64_encode($this->config->getUsername() . ":" . $this->config->getPassword());
+        }
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        if ($this->config->getValidateRequests()) {
+            \DocSpring\RequestValidator::validateRequest('deleteEmailAction', $queryParams, count($formParams) > 0 ? $formParams : ($httpBody === '' ? null : $httpBody));
+        }
+
+        $operationHost = $this->config->getHost();
+        $query = ObjectSerializer::buildQuery($queryParams);
+        return new Request(
+            'DELETE',
+            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
+            $headers,
+            $httpBody
+        );
+    }
+
+    /**
+     * Operation deleteEmailActionCustomization
+     *
+     * Reset an account email action's customization
+     *
+     * @param  string $template_id The template's ID. (required)
+     * @param  string $email_action_id The ID of one of your account's email actions that sends for the template. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['deleteEmailActionCustomization'] to see the possible values for this operation
+     *
+     * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \InvalidArgumentException
+     * @return \DocSpring\Model\EmailAction|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
+     */
+    public function deleteEmailActionCustomization($template_id, $email_action_id, $idempotency_key = null, string $contentType = self::contentTypes['deleteEmailActionCustomization'][0])
+    {
+        list($response) = $this->deleteEmailActionCustomizationWithHttpInfo($template_id, $email_action_id, $idempotency_key, $contentType);
+        return $response;
+    }
+
+    /**
+     * Operation deleteEmailActionCustomizationWithHttpInfo
+     *
+     * Reset an account email action's customization
+     *
+     * @param  string $template_id The template's ID. (required)
+     * @param  string $email_action_id The ID of one of your account's email actions that sends for the template. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['deleteEmailActionCustomization'] to see the possible values for this operation
+     *
+     * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \InvalidArgumentException
+     * @return array of \DocSpring\Model\EmailAction|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function deleteEmailActionCustomizationWithHttpInfo($template_id, $email_action_id, $idempotency_key = null, string $contentType = self::contentTypes['deleteEmailActionCustomization'][0])
+    {
+        $request = $this->deleteEmailActionCustomizationRequest($template_id, $email_action_id, $idempotency_key, $contentType);
+
+        try {
+            $options = $this->createHttpClientOption();
+            try {
+                $response = $this->client->send($request, $options);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null,
+                    $e->getResponse() ? (string) $e->getResponse()->getBody() : null
+                );
+            } catch (ConnectException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    null,
+                    null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+
+            switch($statusCode) {
+                case 200:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\EmailAction',
+                        $request,
+                        $response,
+                    );
+                case 409:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 401:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 429:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+            }
+
+            
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        (string) $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    (string) $response->getBody()
+                );
+            }
+
+            return $this->handleResponseWithDataType(
+                '\DocSpring\Model\EmailAction',
+                $request,
+                $response,
+            );
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\EmailAction',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 409:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 429:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+            }
+        
+
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation deleteEmailActionCustomizationAsync
+     *
+     * Reset an account email action's customization
+     *
+     * @param  string $template_id The template's ID. (required)
+     * @param  string $email_action_id The ID of one of your account's email actions that sends for the template. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['deleteEmailActionCustomization'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function deleteEmailActionCustomizationAsync($template_id, $email_action_id, $idempotency_key = null, string $contentType = self::contentTypes['deleteEmailActionCustomization'][0])
+    {
+        return $this->deleteEmailActionCustomizationAsyncWithHttpInfo($template_id, $email_action_id, $idempotency_key, $contentType)
+            ->then(
+                function ($response) {
+                    return $response[0];
+                }
+            );
+    }
+
+    /**
+     * Operation deleteEmailActionCustomizationAsyncWithHttpInfo
+     *
+     * Reset an account email action's customization
+     *
+     * @param  string $template_id The template's ID. (required)
+     * @param  string $email_action_id The ID of one of your account's email actions that sends for the template. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['deleteEmailActionCustomization'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function deleteEmailActionCustomizationAsyncWithHttpInfo($template_id, $email_action_id, $idempotency_key = null, string $contentType = self::contentTypes['deleteEmailActionCustomization'][0])
+    {
+        $returnType = '\DocSpring\Model\EmailAction';
+        $request = $this->deleteEmailActionCustomizationRequest($template_id, $email_action_id, $idempotency_key, $contentType);
+
+        return $this->client
+            ->sendAsync($request, $this->createHttpClientOption())
+            ->then(
+                function ($response) use ($returnType) {
+                    if ($returnType === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ($returnType !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                },
+                function ($exception) {
+                    $response = $exception->getResponse();
+                    $statusCode = $response->getStatusCode();
+                    throw new ApiException(
+                        sprintf(
+                            '[%d] Error connecting to the API (%s)',
+                            $statusCode,
+                            $exception->getRequest()->getUri()
+                        ),
+                        $statusCode,
+                        $response->getHeaders(),
+                        (string) $response->getBody()
+                    );
+                }
+            );
+    }
+
+    /**
+     * Create request for operation 'deleteEmailActionCustomization'
+     *
+     * @param  string $template_id The template's ID. (required)
+     * @param  string $email_action_id The ID of one of your account's email actions that sends for the template. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['deleteEmailActionCustomization'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    public function deleteEmailActionCustomizationRequest($template_id, $email_action_id, $idempotency_key = null, string $contentType = self::contentTypes['deleteEmailActionCustomization'][0])
+    {
+
+        // verify the required parameter 'template_id' is set
+        if ($template_id === null || (is_array($template_id) && count($template_id) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $template_id when calling deleteEmailActionCustomization'
+            );
+        }
+
+        // verify the required parameter 'email_action_id' is set
+        if ($email_action_id === null || (is_array($email_action_id) && count($email_action_id) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $email_action_id when calling deleteEmailActionCustomization'
+            );
+        }
+
+
+
+        $resourcePath = '/templates/{template_id}/email_actions/{email_action_id}/customization';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = '';
+        $multipart = false;
+
+
+        // header params
+        if ($idempotency_key !== null) {
+            $headerParams['Idempotency-Key'] = ObjectSerializer::toHeaderValue($idempotency_key);
+        }
+
+        // path params
+        if ($template_id !== null) {
+            $resourcePath = str_replace(
+                '{template_id}',
+                ObjectSerializer::toPathValue($template_id),
+                $resourcePath
+            );
+        }
+        // path params
+        if ($email_action_id !== null) {
+            $resourcePath = str_replace(
+                '{email_action_id}',
+                ObjectSerializer::toPathValue($email_action_id),
+                $resourcePath
+            );
+        }
+
+
+        $headers = $this->headerSelector->selectHeaders(
+            ['application/json', ],
+            $contentType,
+            $multipart
+        );
+
+        // for model (json/xml)
+        if (count($formParams) > 0) {
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
+                    foreach ($formParamValueItems as $formParamValueItem) {
+                        $multipartContents[] = [
+                            'name' => $formParamName,
+                            'contents' => $formParamValueItem
+                        ];
+                    }
+                }
+                // for HTTP post (form)
+                $httpBody = new MultipartStream($multipartContents);
+
+            } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
+                # if Content-Type contains "application/json", json_encode the form parameters
+                try {
+                    $httpBody = json_encode($formParams, JSON_THROW_ON_ERROR);
+                } catch (\JsonException $e) {
+                    throw new \InvalidArgumentException('json_encode error: ' . $e->getMessage(), 0, $e);
+                }
+            } else {
+                // for HTTP post (form)
+                $httpBody = ObjectSerializer::buildQuery($formParams);
+            }
+        }
+
+        // this endpoint requires HTTP basic authentication
+        if (!empty($this->config->getUsername()) || !(empty($this->config->getPassword()))) {
+            $headers['Authorization'] = 'Basic ' . base64_encode($this->config->getUsername() . ":" . $this->config->getPassword());
+        }
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        if ($this->config->getValidateRequests()) {
+            \DocSpring\RequestValidator::validateRequest('deleteEmailActionCustomization', $queryParams, count($formParams) > 0 ? $formParams : ($httpBody === '' ? null : $httpBody));
+        }
+
+        $operationHost = $this->config->getHost();
+        $query = ObjectSerializer::buildQuery($queryParams);
+        return new Request(
+            'DELETE',
+            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
+            $headers,
+            $httpBody
+        );
+    }
+
+    /**
+     * Operation deleteEmailDomain
+     *
+     * Remove an email domain
+     *
+     * @param  string $email_domain_id The email domain's ID. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['deleteEmailDomain'] to see the possible values for this operation
+     *
+     * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \InvalidArgumentException
+     * @return \DocSpring\Model\EmailDomain|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
+     */
+    public function deleteEmailDomain($email_domain_id, $idempotency_key = null, string $contentType = self::contentTypes['deleteEmailDomain'][0])
+    {
+        list($response) = $this->deleteEmailDomainWithHttpInfo($email_domain_id, $idempotency_key, $contentType);
+        return $response;
+    }
+
+    /**
+     * Operation deleteEmailDomainWithHttpInfo
+     *
+     * Remove an email domain
+     *
+     * @param  string $email_domain_id The email domain's ID. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['deleteEmailDomain'] to see the possible values for this operation
+     *
+     * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \InvalidArgumentException
+     * @return array of \DocSpring\Model\EmailDomain|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function deleteEmailDomainWithHttpInfo($email_domain_id, $idempotency_key = null, string $contentType = self::contentTypes['deleteEmailDomain'][0])
+    {
+        $request = $this->deleteEmailDomainRequest($email_domain_id, $idempotency_key, $contentType);
+
+        try {
+            $options = $this->createHttpClientOption();
+            try {
+                $response = $this->client->send($request, $options);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null,
+                    $e->getResponse() ? (string) $e->getResponse()->getBody() : null
+                );
+            } catch (ConnectException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    null,
+                    null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+
+            switch($statusCode) {
+                case 200:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\EmailDomain',
+                        $request,
+                        $response,
+                    );
+                case 401:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 429:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+            }
+
+            
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        (string) $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    (string) $response->getBody()
+                );
+            }
+
+            return $this->handleResponseWithDataType(
+                '\DocSpring\Model\EmailDomain',
+                $request,
+                $response,
+            );
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\EmailDomain',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 429:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+            }
+        
+
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation deleteEmailDomainAsync
+     *
+     * Remove an email domain
+     *
+     * @param  string $email_domain_id The email domain's ID. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['deleteEmailDomain'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function deleteEmailDomainAsync($email_domain_id, $idempotency_key = null, string $contentType = self::contentTypes['deleteEmailDomain'][0])
+    {
+        return $this->deleteEmailDomainAsyncWithHttpInfo($email_domain_id, $idempotency_key, $contentType)
+            ->then(
+                function ($response) {
+                    return $response[0];
+                }
+            );
+    }
+
+    /**
+     * Operation deleteEmailDomainAsyncWithHttpInfo
+     *
+     * Remove an email domain
+     *
+     * @param  string $email_domain_id The email domain's ID. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['deleteEmailDomain'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function deleteEmailDomainAsyncWithHttpInfo($email_domain_id, $idempotency_key = null, string $contentType = self::contentTypes['deleteEmailDomain'][0])
+    {
+        $returnType = '\DocSpring\Model\EmailDomain';
+        $request = $this->deleteEmailDomainRequest($email_domain_id, $idempotency_key, $contentType);
+
+        return $this->client
+            ->sendAsync($request, $this->createHttpClientOption())
+            ->then(
+                function ($response) use ($returnType) {
+                    if ($returnType === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ($returnType !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                },
+                function ($exception) {
+                    $response = $exception->getResponse();
+                    $statusCode = $response->getStatusCode();
+                    throw new ApiException(
+                        sprintf(
+                            '[%d] Error connecting to the API (%s)',
+                            $statusCode,
+                            $exception->getRequest()->getUri()
+                        ),
+                        $statusCode,
+                        $response->getHeaders(),
+                        (string) $response->getBody()
+                    );
+                }
+            );
+    }
+
+    /**
+     * Create request for operation 'deleteEmailDomain'
+     *
+     * @param  string $email_domain_id The email domain's ID. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['deleteEmailDomain'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    public function deleteEmailDomainRequest($email_domain_id, $idempotency_key = null, string $contentType = self::contentTypes['deleteEmailDomain'][0])
+    {
+
+        // verify the required parameter 'email_domain_id' is set
+        if ($email_domain_id === null || (is_array($email_domain_id) && count($email_domain_id) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $email_domain_id when calling deleteEmailDomain'
+            );
+        }
+
+
+
+        $resourcePath = '/email_domains/{email_domain_id}';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = '';
+        $multipart = false;
+
+
+        // header params
+        if ($idempotency_key !== null) {
+            $headerParams['Idempotency-Key'] = ObjectSerializer::toHeaderValue($idempotency_key);
+        }
+
+        // path params
+        if ($email_domain_id !== null) {
+            $resourcePath = str_replace(
+                '{email_domain_id}',
+                ObjectSerializer::toPathValue($email_domain_id),
+                $resourcePath
+            );
+        }
+
+
+        $headers = $this->headerSelector->selectHeaders(
+            ['application/json', ],
+            $contentType,
+            $multipart
+        );
+
+        // for model (json/xml)
+        if (count($formParams) > 0) {
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
+                    foreach ($formParamValueItems as $formParamValueItem) {
+                        $multipartContents[] = [
+                            'name' => $formParamName,
+                            'contents' => $formParamValueItem
+                        ];
+                    }
+                }
+                // for HTTP post (form)
+                $httpBody = new MultipartStream($multipartContents);
+
+            } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
+                # if Content-Type contains "application/json", json_encode the form parameters
+                try {
+                    $httpBody = json_encode($formParams, JSON_THROW_ON_ERROR);
+                } catch (\JsonException $e) {
+                    throw new \InvalidArgumentException('json_encode error: ' . $e->getMessage(), 0, $e);
+                }
+            } else {
+                // for HTTP post (form)
+                $httpBody = ObjectSerializer::buildQuery($formParams);
+            }
+        }
+
+        // this endpoint requires HTTP basic authentication
+        if (!empty($this->config->getUsername()) || !(empty($this->config->getPassword()))) {
+            $headers['Authorization'] = 'Basic ' . base64_encode($this->config->getUsername() . ":" . $this->config->getPassword());
+        }
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        if ($this->config->getValidateRequests()) {
+            \DocSpring\RequestValidator::validateRequest('deleteEmailDomain', $queryParams, count($formParams) > 0 ? $formParams : ($httpBody === '' ? null : $httpBody));
+        }
+
+        $operationHost = $this->config->getHost();
+        $query = ObjectSerializer::buildQuery($queryParams);
+        return new Request(
+            'DELETE',
+            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
+            $headers,
+            $httpBody
+        );
+    }
+
+    /**
      * Operation deleteFolder
      *
      * Delete a folder
      *
      * @param  string $folder_id The folder's ID. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['deleteFolder'] to see the possible values for this operation
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return \DocSpring\Model\Folder|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
      */
-    public function deleteFolder($folder_id, string $contentType = self::contentTypes['deleteFolder'][0])
+    public function deleteFolder($folder_id, $idempotency_key = null, string $contentType = self::contentTypes['deleteFolder'][0])
     {
-        list($response) = $this->deleteFolderWithHttpInfo($folder_id, $contentType);
+        list($response) = $this->deleteFolderWithHttpInfo($folder_id, $idempotency_key, $contentType);
         return $response;
     }
 
@@ -5148,15 +7727,16 @@ class Client
      * Delete a folder
      *
      * @param  string $folder_id The folder's ID. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['deleteFolder'] to see the possible values for this operation
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return array of \DocSpring\Model\Folder|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function deleteFolderWithHttpInfo($folder_id, string $contentType = self::contentTypes['deleteFolder'][0])
+    public function deleteFolderWithHttpInfo($folder_id, $idempotency_key = null, string $contentType = self::contentTypes['deleteFolder'][0])
     {
-        $request = $this->deleteFolderRequest($folder_id, $contentType);
+        $request = $this->deleteFolderRequest($folder_id, $idempotency_key, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -5289,14 +7869,15 @@ class Client
      * Delete a folder
      *
      * @param  string $folder_id The folder's ID. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['deleteFolder'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function deleteFolderAsync($folder_id, string $contentType = self::contentTypes['deleteFolder'][0])
+    public function deleteFolderAsync($folder_id, $idempotency_key = null, string $contentType = self::contentTypes['deleteFolder'][0])
     {
-        return $this->deleteFolderAsyncWithHttpInfo($folder_id, $contentType)
+        return $this->deleteFolderAsyncWithHttpInfo($folder_id, $idempotency_key, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -5310,15 +7891,16 @@ class Client
      * Delete a folder
      *
      * @param  string $folder_id The folder's ID. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['deleteFolder'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function deleteFolderAsyncWithHttpInfo($folder_id, string $contentType = self::contentTypes['deleteFolder'][0])
+    public function deleteFolderAsyncWithHttpInfo($folder_id, $idempotency_key = null, string $contentType = self::contentTypes['deleteFolder'][0])
     {
         $returnType = '\DocSpring\Model\Folder';
-        $request = $this->deleteFolderRequest($folder_id, $contentType);
+        $request = $this->deleteFolderRequest($folder_id, $idempotency_key, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -5360,12 +7942,13 @@ class Client
      * Create request for operation 'deleteFolder'
      *
      * @param  string $folder_id The folder's ID. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['deleteFolder'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function deleteFolderRequest($folder_id, string $contentType = self::contentTypes['deleteFolder'][0])
+    public function deleteFolderRequest($folder_id, $idempotency_key = null, string $contentType = self::contentTypes['deleteFolder'][0])
     {
 
         // verify the required parameter 'folder_id' is set
@@ -5376,6 +7959,7 @@ class Client
         }
 
 
+
         $resourcePath = '/folders/{folder_id}';
         $formParams = [];
         $queryParams = [];
@@ -5384,6 +7968,10 @@ class Client
         $multipart = false;
 
 
+        // header params
+        if ($idempotency_key !== null) {
+            $headerParams['Idempotency-Key'] = ObjectSerializer::toHeaderValue($idempotency_key);
+        }
 
         // path params
         if ($folder_id !== null) {
@@ -5467,15 +8055,16 @@ class Client
      *
      * @param  string $template_id The template's ID. (required)
      * @param  string|null $version Delete only this published version (`1.2.0`) or the draft (`draft`, when no version has been published). Without it, the draft and every published version are deleted. (optional)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['deleteTemplate'] to see the possible values for this operation
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return \DocSpring\Model\Template|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
      */
-    public function deleteTemplate($template_id, $version = null, string $contentType = self::contentTypes['deleteTemplate'][0])
+    public function deleteTemplate($template_id, $version = null, $idempotency_key = null, string $contentType = self::contentTypes['deleteTemplate'][0])
     {
-        list($response) = $this->deleteTemplateWithHttpInfo($template_id, $version, $contentType);
+        list($response) = $this->deleteTemplateWithHttpInfo($template_id, $version, $idempotency_key, $contentType);
         return $response;
     }
 
@@ -5486,15 +8075,16 @@ class Client
      *
      * @param  string $template_id The template's ID. (required)
      * @param  string|null $version Delete only this published version (`1.2.0`) or the draft (`draft`, when no version has been published). Without it, the draft and every published version are deleted. (optional)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['deleteTemplate'] to see the possible values for this operation
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return array of \DocSpring\Model\Template|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function deleteTemplateWithHttpInfo($template_id, $version = null, string $contentType = self::contentTypes['deleteTemplate'][0])
+    public function deleteTemplateWithHttpInfo($template_id, $version = null, $idempotency_key = null, string $contentType = self::contentTypes['deleteTemplate'][0])
     {
-        $request = $this->deleteTemplateRequest($template_id, $version, $contentType);
+        $request = $this->deleteTemplateRequest($template_id, $version, $idempotency_key, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -5642,14 +8232,15 @@ class Client
      *
      * @param  string $template_id The template's ID. (required)
      * @param  string|null $version Delete only this published version (`1.2.0`) or the draft (`draft`, when no version has been published). Without it, the draft and every published version are deleted. (optional)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['deleteTemplate'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function deleteTemplateAsync($template_id, $version = null, string $contentType = self::contentTypes['deleteTemplate'][0])
+    public function deleteTemplateAsync($template_id, $version = null, $idempotency_key = null, string $contentType = self::contentTypes['deleteTemplate'][0])
     {
-        return $this->deleteTemplateAsyncWithHttpInfo($template_id, $version, $contentType)
+        return $this->deleteTemplateAsyncWithHttpInfo($template_id, $version, $idempotency_key, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -5664,15 +8255,16 @@ class Client
      *
      * @param  string $template_id The template's ID. (required)
      * @param  string|null $version Delete only this published version (`1.2.0`) or the draft (`draft`, when no version has been published). Without it, the draft and every published version are deleted. (optional)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['deleteTemplate'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function deleteTemplateAsyncWithHttpInfo($template_id, $version = null, string $contentType = self::contentTypes['deleteTemplate'][0])
+    public function deleteTemplateAsyncWithHttpInfo($template_id, $version = null, $idempotency_key = null, string $contentType = self::contentTypes['deleteTemplate'][0])
     {
         $returnType = '\DocSpring\Model\Template';
-        $request = $this->deleteTemplateRequest($template_id, $version, $contentType);
+        $request = $this->deleteTemplateRequest($template_id, $version, $idempotency_key, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -5715,12 +8307,13 @@ class Client
      *
      * @param  string $template_id The template's ID. (required)
      * @param  string|null $version Delete only this published version (`1.2.0`) or the draft (`draft`, when no version has been published). Without it, the draft and every published version are deleted. (optional)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['deleteTemplate'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function deleteTemplateRequest($template_id, $version = null, string $contentType = self::contentTypes['deleteTemplate'][0])
+    public function deleteTemplateRequest($template_id, $version = null, $idempotency_key = null, string $contentType = self::contentTypes['deleteTemplate'][0])
     {
 
         // verify the required parameter 'template_id' is set
@@ -5729,6 +8322,7 @@ class Client
                 'Missing the required parameter $template_id when calling deleteTemplate'
             );
         }
+
 
 
 
@@ -5749,6 +8343,10 @@ class Client
             false // required
         ) ?? []);
 
+        // header params
+        if ($idempotency_key !== null) {
+            $headerParams['Idempotency-Key'] = ObjectSerializer::toHeaderValue($idempotency_key);
+        }
 
         // path params
         if ($template_id !== null) {
@@ -5831,15 +8429,16 @@ class Client
      * Delete a webhook
      *
      * @param  string $webhook_id The webhook's ID. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['deleteWebhook'] to see the possible values for this operation
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return \DocSpring\Model\Webhook|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
      */
-    public function deleteWebhook($webhook_id, string $contentType = self::contentTypes['deleteWebhook'][0])
+    public function deleteWebhook($webhook_id, $idempotency_key = null, string $contentType = self::contentTypes['deleteWebhook'][0])
     {
-        list($response) = $this->deleteWebhookWithHttpInfo($webhook_id, $contentType);
+        list($response) = $this->deleteWebhookWithHttpInfo($webhook_id, $idempotency_key, $contentType);
         return $response;
     }
 
@@ -5849,15 +8448,16 @@ class Client
      * Delete a webhook
      *
      * @param  string $webhook_id The webhook's ID. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['deleteWebhook'] to see the possible values for this operation
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return array of \DocSpring\Model\Webhook|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function deleteWebhookWithHttpInfo($webhook_id, string $contentType = self::contentTypes['deleteWebhook'][0])
+    public function deleteWebhookWithHttpInfo($webhook_id, $idempotency_key = null, string $contentType = self::contentTypes['deleteWebhook'][0])
     {
-        $request = $this->deleteWebhookRequest($webhook_id, $contentType);
+        $request = $this->deleteWebhookRequest($webhook_id, $idempotency_key, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -5976,14 +8576,15 @@ class Client
      * Delete a webhook
      *
      * @param  string $webhook_id The webhook's ID. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['deleteWebhook'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function deleteWebhookAsync($webhook_id, string $contentType = self::contentTypes['deleteWebhook'][0])
+    public function deleteWebhookAsync($webhook_id, $idempotency_key = null, string $contentType = self::contentTypes['deleteWebhook'][0])
     {
-        return $this->deleteWebhookAsyncWithHttpInfo($webhook_id, $contentType)
+        return $this->deleteWebhookAsyncWithHttpInfo($webhook_id, $idempotency_key, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -5997,15 +8598,16 @@ class Client
      * Delete a webhook
      *
      * @param  string $webhook_id The webhook's ID. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['deleteWebhook'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function deleteWebhookAsyncWithHttpInfo($webhook_id, string $contentType = self::contentTypes['deleteWebhook'][0])
+    public function deleteWebhookAsyncWithHttpInfo($webhook_id, $idempotency_key = null, string $contentType = self::contentTypes['deleteWebhook'][0])
     {
         $returnType = '\DocSpring\Model\Webhook';
-        $request = $this->deleteWebhookRequest($webhook_id, $contentType);
+        $request = $this->deleteWebhookRequest($webhook_id, $idempotency_key, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -6047,12 +8649,13 @@ class Client
      * Create request for operation 'deleteWebhook'
      *
      * @param  string $webhook_id The webhook's ID. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['deleteWebhook'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function deleteWebhookRequest($webhook_id, string $contentType = self::contentTypes['deleteWebhook'][0])
+    public function deleteWebhookRequest($webhook_id, $idempotency_key = null, string $contentType = self::contentTypes['deleteWebhook'][0])
     {
 
         // verify the required parameter 'webhook_id' is set
@@ -6063,6 +8666,7 @@ class Client
         }
 
 
+
         $resourcePath = '/webhooks/{webhook_id}';
         $formParams = [];
         $queryParams = [];
@@ -6071,6 +8675,10 @@ class Client
         $multipart = false;
 
 
+        // header params
+        if ($idempotency_key !== null) {
+            $headerParams['Idempotency-Key'] = ObjectSerializer::toHeaderValue($idempotency_key);
+        }
 
         // path params
         if ($webhook_id !== null) {
@@ -6153,15 +8761,16 @@ class Client
      * Expire a combined PDF
      *
      * @param  string $combined_pdf_id The combined PDF's ID. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['expireCombinedPdf'] to see the possible values for this operation
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return \DocSpring\Model\CombinedPdf|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
      */
-    public function expireCombinedPdf($combined_pdf_id, string $contentType = self::contentTypes['expireCombinedPdf'][0])
+    public function expireCombinedPdf($combined_pdf_id, $idempotency_key = null, string $contentType = self::contentTypes['expireCombinedPdf'][0])
     {
-        list($response) = $this->expireCombinedPdfWithHttpInfo($combined_pdf_id, $contentType);
+        list($response) = $this->expireCombinedPdfWithHttpInfo($combined_pdf_id, $idempotency_key, $contentType);
         return $response;
     }
 
@@ -6171,15 +8780,16 @@ class Client
      * Expire a combined PDF
      *
      * @param  string $combined_pdf_id The combined PDF's ID. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['expireCombinedPdf'] to see the possible values for this operation
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return array of \DocSpring\Model\CombinedPdf|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function expireCombinedPdfWithHttpInfo($combined_pdf_id, string $contentType = self::contentTypes['expireCombinedPdf'][0])
+    public function expireCombinedPdfWithHttpInfo($combined_pdf_id, $idempotency_key = null, string $contentType = self::contentTypes['expireCombinedPdf'][0])
     {
-        $request = $this->expireCombinedPdfRequest($combined_pdf_id, $contentType);
+        $request = $this->expireCombinedPdfRequest($combined_pdf_id, $idempotency_key, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -6312,14 +8922,15 @@ class Client
      * Expire a combined PDF
      *
      * @param  string $combined_pdf_id The combined PDF's ID. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['expireCombinedPdf'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function expireCombinedPdfAsync($combined_pdf_id, string $contentType = self::contentTypes['expireCombinedPdf'][0])
+    public function expireCombinedPdfAsync($combined_pdf_id, $idempotency_key = null, string $contentType = self::contentTypes['expireCombinedPdf'][0])
     {
-        return $this->expireCombinedPdfAsyncWithHttpInfo($combined_pdf_id, $contentType)
+        return $this->expireCombinedPdfAsyncWithHttpInfo($combined_pdf_id, $idempotency_key, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -6333,15 +8944,16 @@ class Client
      * Expire a combined PDF
      *
      * @param  string $combined_pdf_id The combined PDF's ID. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['expireCombinedPdf'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function expireCombinedPdfAsyncWithHttpInfo($combined_pdf_id, string $contentType = self::contentTypes['expireCombinedPdf'][0])
+    public function expireCombinedPdfAsyncWithHttpInfo($combined_pdf_id, $idempotency_key = null, string $contentType = self::contentTypes['expireCombinedPdf'][0])
     {
         $returnType = '\DocSpring\Model\CombinedPdf';
-        $request = $this->expireCombinedPdfRequest($combined_pdf_id, $contentType);
+        $request = $this->expireCombinedPdfRequest($combined_pdf_id, $idempotency_key, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -6383,12 +8995,13 @@ class Client
      * Create request for operation 'expireCombinedPdf'
      *
      * @param  string $combined_pdf_id The combined PDF's ID. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['expireCombinedPdf'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function expireCombinedPdfRequest($combined_pdf_id, string $contentType = self::contentTypes['expireCombinedPdf'][0])
+    public function expireCombinedPdfRequest($combined_pdf_id, $idempotency_key = null, string $contentType = self::contentTypes['expireCombinedPdf'][0])
     {
 
         // verify the required parameter 'combined_pdf_id' is set
@@ -6399,6 +9012,7 @@ class Client
         }
 
 
+
         $resourcePath = '/combined_pdfs/{combined_pdf_id}';
         $formParams = [];
         $queryParams = [];
@@ -6407,6 +9021,10 @@ class Client
         $multipart = false;
 
 
+        // header params
+        if ($idempotency_key !== null) {
+            $headerParams['Idempotency-Key'] = ObjectSerializer::toHeaderValue($idempotency_key);
+        }
 
         // path params
         if ($combined_pdf_id !== null) {
@@ -6489,15 +9107,16 @@ class Client
      * Expire a submission
      *
      * @param  string $submission_id The submission's ID. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['expireSubmission'] to see the possible values for this operation
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return \DocSpring\Model\Submission|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
      */
-    public function expireSubmission($submission_id, string $contentType = self::contentTypes['expireSubmission'][0])
+    public function expireSubmission($submission_id, $idempotency_key = null, string $contentType = self::contentTypes['expireSubmission'][0])
     {
-        list($response) = $this->expireSubmissionWithHttpInfo($submission_id, $contentType);
+        list($response) = $this->expireSubmissionWithHttpInfo($submission_id, $idempotency_key, $contentType);
         return $response;
     }
 
@@ -6507,15 +9126,16 @@ class Client
      * Expire a submission
      *
      * @param  string $submission_id The submission's ID. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['expireSubmission'] to see the possible values for this operation
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return array of \DocSpring\Model\Submission|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function expireSubmissionWithHttpInfo($submission_id, string $contentType = self::contentTypes['expireSubmission'][0])
+    public function expireSubmissionWithHttpInfo($submission_id, $idempotency_key = null, string $contentType = self::contentTypes['expireSubmission'][0])
     {
-        $request = $this->expireSubmissionRequest($submission_id, $contentType);
+        $request = $this->expireSubmissionRequest($submission_id, $idempotency_key, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -6648,14 +9268,15 @@ class Client
      * Expire a submission
      *
      * @param  string $submission_id The submission's ID. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['expireSubmission'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function expireSubmissionAsync($submission_id, string $contentType = self::contentTypes['expireSubmission'][0])
+    public function expireSubmissionAsync($submission_id, $idempotency_key = null, string $contentType = self::contentTypes['expireSubmission'][0])
     {
-        return $this->expireSubmissionAsyncWithHttpInfo($submission_id, $contentType)
+        return $this->expireSubmissionAsyncWithHttpInfo($submission_id, $idempotency_key, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -6669,15 +9290,16 @@ class Client
      * Expire a submission
      *
      * @param  string $submission_id The submission's ID. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['expireSubmission'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function expireSubmissionAsyncWithHttpInfo($submission_id, string $contentType = self::contentTypes['expireSubmission'][0])
+    public function expireSubmissionAsyncWithHttpInfo($submission_id, $idempotency_key = null, string $contentType = self::contentTypes['expireSubmission'][0])
     {
         $returnType = '\DocSpring\Model\Submission';
-        $request = $this->expireSubmissionRequest($submission_id, $contentType);
+        $request = $this->expireSubmissionRequest($submission_id, $idempotency_key, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -6719,12 +9341,13 @@ class Client
      * Create request for operation 'expireSubmission'
      *
      * @param  string $submission_id The submission's ID. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['expireSubmission'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function expireSubmissionRequest($submission_id, string $contentType = self::contentTypes['expireSubmission'][0])
+    public function expireSubmissionRequest($submission_id, $idempotency_key = null, string $contentType = self::contentTypes['expireSubmission'][0])
     {
 
         // verify the required parameter 'submission_id' is set
@@ -6735,6 +9358,7 @@ class Client
         }
 
 
+
         $resourcePath = '/submissions/{submission_id}';
         $formParams = [];
         $queryParams = [];
@@ -6743,6 +9367,10 @@ class Client
         $multipart = false;
 
 
+        // header params
+        if ($idempotency_key !== null) {
+            $headerParams['Idempotency-Key'] = ObjectSerializer::toHeaderValue($idempotency_key);
+        }
 
         // path params
         if ($submission_id !== null) {
@@ -6827,15 +9455,16 @@ class Client
      * @param  string $submission_id The submission's ID. (required)
      * @param  \DocSpring\Model\GenerateSubmissionFilesRequest $body The formats to make. (required)
      * @param  bool|null $wait Wait until the files have been generated before responding. Default true on sync.api hosts. (optional)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['generateSubmissionFiles'] to see the possible values for this operation
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return \DocSpring\Model\Submission|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
      */
-    public function generateSubmissionFiles($submission_id, $body, $wait = null, string $contentType = self::contentTypes['generateSubmissionFiles'][0])
+    public function generateSubmissionFiles($submission_id, $body, $wait = null, $idempotency_key = null, string $contentType = self::contentTypes['generateSubmissionFiles'][0])
     {
-        list($response) = $this->generateSubmissionFilesWithHttpInfo($submission_id, $body, $wait, $contentType);
+        list($response) = $this->generateSubmissionFilesWithHttpInfo($submission_id, $body, $wait, $idempotency_key, $contentType);
         return $response;
     }
 
@@ -6847,15 +9476,16 @@ class Client
      * @param  string $submission_id The submission's ID. (required)
      * @param  \DocSpring\Model\GenerateSubmissionFilesRequest $body The formats to make. (required)
      * @param  bool|null $wait Wait until the files have been generated before responding. Default true on sync.api hosts. (optional)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['generateSubmissionFiles'] to see the possible values for this operation
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return array of \DocSpring\Model\Submission|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function generateSubmissionFilesWithHttpInfo($submission_id, $body, $wait = null, string $contentType = self::contentTypes['generateSubmissionFiles'][0])
+    public function generateSubmissionFilesWithHttpInfo($submission_id, $body, $wait = null, $idempotency_key = null, string $contentType = self::contentTypes['generateSubmissionFiles'][0])
     {
-        $request = $this->generateSubmissionFilesRequest($submission_id, $body, $wait, $contentType);
+        $request = $this->generateSubmissionFilesRequest($submission_id, $body, $wait, $idempotency_key, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -7018,14 +9648,15 @@ class Client
      * @param  string $submission_id The submission's ID. (required)
      * @param  \DocSpring\Model\GenerateSubmissionFilesRequest $body The formats to make. (required)
      * @param  bool|null $wait Wait until the files have been generated before responding. Default true on sync.api hosts. (optional)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['generateSubmissionFiles'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function generateSubmissionFilesAsync($submission_id, $body, $wait = null, string $contentType = self::contentTypes['generateSubmissionFiles'][0])
+    public function generateSubmissionFilesAsync($submission_id, $body, $wait = null, $idempotency_key = null, string $contentType = self::contentTypes['generateSubmissionFiles'][0])
     {
-        return $this->generateSubmissionFilesAsyncWithHttpInfo($submission_id, $body, $wait, $contentType)
+        return $this->generateSubmissionFilesAsyncWithHttpInfo($submission_id, $body, $wait, $idempotency_key, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -7041,15 +9672,16 @@ class Client
      * @param  string $submission_id The submission's ID. (required)
      * @param  \DocSpring\Model\GenerateSubmissionFilesRequest $body The formats to make. (required)
      * @param  bool|null $wait Wait until the files have been generated before responding. Default true on sync.api hosts. (optional)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['generateSubmissionFiles'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function generateSubmissionFilesAsyncWithHttpInfo($submission_id, $body, $wait = null, string $contentType = self::contentTypes['generateSubmissionFiles'][0])
+    public function generateSubmissionFilesAsyncWithHttpInfo($submission_id, $body, $wait = null, $idempotency_key = null, string $contentType = self::contentTypes['generateSubmissionFiles'][0])
     {
         $returnType = '\DocSpring\Model\Submission';
-        $request = $this->generateSubmissionFilesRequest($submission_id, $body, $wait, $contentType);
+        $request = $this->generateSubmissionFilesRequest($submission_id, $body, $wait, $idempotency_key, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -7093,12 +9725,13 @@ class Client
      * @param  string $submission_id The submission's ID. (required)
      * @param  \DocSpring\Model\GenerateSubmissionFilesRequest $body The formats to make. (required)
      * @param  bool|null $wait Wait until the files have been generated before responding. Default true on sync.api hosts. (optional)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['generateSubmissionFiles'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function generateSubmissionFilesRequest($submission_id, $body, $wait = null, string $contentType = self::contentTypes['generateSubmissionFiles'][0])
+    public function generateSubmissionFilesRequest($submission_id, $body, $wait = null, $idempotency_key = null, string $contentType = self::contentTypes['generateSubmissionFiles'][0])
     {
 
         // verify the required parameter 'submission_id' is set
@@ -7114,6 +9747,7 @@ class Client
                 'Missing the required parameter $body when calling generateSubmissionFiles'
             );
         }
+
 
 
 
@@ -7134,6 +9768,10 @@ class Client
             false // required
         ) ?? []);
 
+        // header params
+        if ($idempotency_key !== null) {
+            $headerParams['Idempotency-Key'] = ObjectSerializer::toHeaderValue($idempotency_key);
+        }
 
         // path params
         if ($submission_id !== null) {
@@ -7227,15 +9865,16 @@ class Client
      * Generate a preview PDF
      *
      * @param  string $submission_id The submission's ID. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['generateSubmissionPreview'] to see the possible values for this operation
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return \DocSpring\Model\Submission|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
      */
-    public function generateSubmissionPreview($submission_id, string $contentType = self::contentTypes['generateSubmissionPreview'][0])
+    public function generateSubmissionPreview($submission_id, $idempotency_key = null, string $contentType = self::contentTypes['generateSubmissionPreview'][0])
     {
-        list($response) = $this->generateSubmissionPreviewWithHttpInfo($submission_id, $contentType);
+        list($response) = $this->generateSubmissionPreviewWithHttpInfo($submission_id, $idempotency_key, $contentType);
         return $response;
     }
 
@@ -7245,15 +9884,16 @@ class Client
      * Generate a preview PDF
      *
      * @param  string $submission_id The submission's ID. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['generateSubmissionPreview'] to see the possible values for this operation
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return array of \DocSpring\Model\Submission|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function generateSubmissionPreviewWithHttpInfo($submission_id, string $contentType = self::contentTypes['generateSubmissionPreview'][0])
+    public function generateSubmissionPreviewWithHttpInfo($submission_id, $idempotency_key = null, string $contentType = self::contentTypes['generateSubmissionPreview'][0])
     {
-        $request = $this->generateSubmissionPreviewRequest($submission_id, $contentType);
+        $request = $this->generateSubmissionPreviewRequest($submission_id, $idempotency_key, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -7386,14 +10026,15 @@ class Client
      * Generate a preview PDF
      *
      * @param  string $submission_id The submission's ID. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['generateSubmissionPreview'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function generateSubmissionPreviewAsync($submission_id, string $contentType = self::contentTypes['generateSubmissionPreview'][0])
+    public function generateSubmissionPreviewAsync($submission_id, $idempotency_key = null, string $contentType = self::contentTypes['generateSubmissionPreview'][0])
     {
-        return $this->generateSubmissionPreviewAsyncWithHttpInfo($submission_id, $contentType)
+        return $this->generateSubmissionPreviewAsyncWithHttpInfo($submission_id, $idempotency_key, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -7407,15 +10048,16 @@ class Client
      * Generate a preview PDF
      *
      * @param  string $submission_id The submission's ID. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['generateSubmissionPreview'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function generateSubmissionPreviewAsyncWithHttpInfo($submission_id, string $contentType = self::contentTypes['generateSubmissionPreview'][0])
+    public function generateSubmissionPreviewAsyncWithHttpInfo($submission_id, $idempotency_key = null, string $contentType = self::contentTypes['generateSubmissionPreview'][0])
     {
         $returnType = '\DocSpring\Model\Submission';
-        $request = $this->generateSubmissionPreviewRequest($submission_id, $contentType);
+        $request = $this->generateSubmissionPreviewRequest($submission_id, $idempotency_key, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -7457,12 +10099,13 @@ class Client
      * Create request for operation 'generateSubmissionPreview'
      *
      * @param  string $submission_id The submission's ID. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['generateSubmissionPreview'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function generateSubmissionPreviewRequest($submission_id, string $contentType = self::contentTypes['generateSubmissionPreview'][0])
+    public function generateSubmissionPreviewRequest($submission_id, $idempotency_key = null, string $contentType = self::contentTypes['generateSubmissionPreview'][0])
     {
 
         // verify the required parameter 'submission_id' is set
@@ -7473,6 +10116,7 @@ class Client
         }
 
 
+
         $resourcePath = '/submissions/{submission_id}/generate_preview';
         $formParams = [];
         $queryParams = [];
@@ -7481,6 +10125,10 @@ class Client
         $multipart = false;
 
 
+        // header params
+        if ($idempotency_key !== null) {
+            $headerParams['Idempotency-Key'] = ObjectSerializer::toHeaderValue($idempotency_key);
+        }
 
         // path params
         if ($submission_id !== null) {
@@ -7551,6 +10199,328 @@ class Client
         $query = ObjectSerializer::buildQuery($queryParams);
         return new Request(
             'POST',
+            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
+            $headers,
+            $httpBody
+        );
+    }
+
+    /**
+     * Operation getAccountEmailAction
+     *
+     * Get an account email action
+     *
+     * @param  string $email_action_id The account email action's ID. (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getAccountEmailAction'] to see the possible values for this operation
+     *
+     * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \InvalidArgumentException
+     * @return \DocSpring\Model\EmailAction|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
+     */
+    public function getAccountEmailAction($email_action_id, string $contentType = self::contentTypes['getAccountEmailAction'][0])
+    {
+        list($response) = $this->getAccountEmailActionWithHttpInfo($email_action_id, $contentType);
+        return $response;
+    }
+
+    /**
+     * Operation getAccountEmailActionWithHttpInfo
+     *
+     * Get an account email action
+     *
+     * @param  string $email_action_id The account email action's ID. (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getAccountEmailAction'] to see the possible values for this operation
+     *
+     * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \InvalidArgumentException
+     * @return array of \DocSpring\Model\EmailAction|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function getAccountEmailActionWithHttpInfo($email_action_id, string $contentType = self::contentTypes['getAccountEmailAction'][0])
+    {
+        $request = $this->getAccountEmailActionRequest($email_action_id, $contentType);
+
+        try {
+            $options = $this->createHttpClientOption();
+            try {
+                $response = $this->client->send($request, $options);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null,
+                    $e->getResponse() ? (string) $e->getResponse()->getBody() : null
+                );
+            } catch (ConnectException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    null,
+                    null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+
+            switch($statusCode) {
+                case 200:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\EmailAction',
+                        $request,
+                        $response,
+                    );
+                case 404:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 401:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 429:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+            }
+
+            
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        (string) $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    (string) $response->getBody()
+                );
+            }
+
+            return $this->handleResponseWithDataType(
+                '\DocSpring\Model\EmailAction',
+                $request,
+                $response,
+            );
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\EmailAction',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 404:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 429:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+            }
+        
+
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation getAccountEmailActionAsync
+     *
+     * Get an account email action
+     *
+     * @param  string $email_action_id The account email action's ID. (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getAccountEmailAction'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getAccountEmailActionAsync($email_action_id, string $contentType = self::contentTypes['getAccountEmailAction'][0])
+    {
+        return $this->getAccountEmailActionAsyncWithHttpInfo($email_action_id, $contentType)
+            ->then(
+                function ($response) {
+                    return $response[0];
+                }
+            );
+    }
+
+    /**
+     * Operation getAccountEmailActionAsyncWithHttpInfo
+     *
+     * Get an account email action
+     *
+     * @param  string $email_action_id The account email action's ID. (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getAccountEmailAction'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getAccountEmailActionAsyncWithHttpInfo($email_action_id, string $contentType = self::contentTypes['getAccountEmailAction'][0])
+    {
+        $returnType = '\DocSpring\Model\EmailAction';
+        $request = $this->getAccountEmailActionRequest($email_action_id, $contentType);
+
+        return $this->client
+            ->sendAsync($request, $this->createHttpClientOption())
+            ->then(
+                function ($response) use ($returnType) {
+                    if ($returnType === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ($returnType !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                },
+                function ($exception) {
+                    $response = $exception->getResponse();
+                    $statusCode = $response->getStatusCode();
+                    throw new ApiException(
+                        sprintf(
+                            '[%d] Error connecting to the API (%s)',
+                            $statusCode,
+                            $exception->getRequest()->getUri()
+                        ),
+                        $statusCode,
+                        $response->getHeaders(),
+                        (string) $response->getBody()
+                    );
+                }
+            );
+    }
+
+    /**
+     * Create request for operation 'getAccountEmailAction'
+     *
+     * @param  string $email_action_id The account email action's ID. (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getAccountEmailAction'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    public function getAccountEmailActionRequest($email_action_id, string $contentType = self::contentTypes['getAccountEmailAction'][0])
+    {
+
+        // verify the required parameter 'email_action_id' is set
+        if ($email_action_id === null || (is_array($email_action_id) && count($email_action_id) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $email_action_id when calling getAccountEmailAction'
+            );
+        }
+
+
+        $resourcePath = '/email_actions/{email_action_id}';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = '';
+        $multipart = false;
+
+
+
+        // path params
+        if ($email_action_id !== null) {
+            $resourcePath = str_replace(
+                '{email_action_id}',
+                ObjectSerializer::toPathValue($email_action_id),
+                $resourcePath
+            );
+        }
+
+
+        $headers = $this->headerSelector->selectHeaders(
+            ['application/json', ],
+            $contentType,
+            $multipart
+        );
+
+        // for model (json/xml)
+        if (count($formParams) > 0) {
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
+                    foreach ($formParamValueItems as $formParamValueItem) {
+                        $multipartContents[] = [
+                            'name' => $formParamName,
+                            'contents' => $formParamValueItem
+                        ];
+                    }
+                }
+                // for HTTP post (form)
+                $httpBody = new MultipartStream($multipartContents);
+
+            } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
+                # if Content-Type contains "application/json", json_encode the form parameters
+                try {
+                    $httpBody = json_encode($formParams, JSON_THROW_ON_ERROR);
+                } catch (\JsonException $e) {
+                    throw new \InvalidArgumentException('json_encode error: ' . $e->getMessage(), 0, $e);
+                }
+            } else {
+                // for HTTP post (form)
+                $httpBody = ObjectSerializer::buildQuery($formParams);
+            }
+        }
+
+        // this endpoint requires HTTP basic authentication
+        if (!empty($this->config->getUsername()) || !(empty($this->config->getPassword()))) {
+            $headers['Authorization'] = 'Basic ' . base64_encode($this->config->getUsername() . ":" . $this->config->getPassword());
+        }
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        if ($this->config->getValidateRequests()) {
+            \DocSpring\RequestValidator::validateRequest('getAccountEmailAction', $queryParams, count($formParams) > 0 ? $formParams : ($httpBody === '' ? null : $httpBody));
+        }
+
+        $operationHost = $this->config->getHost();
+        $query = ObjectSerializer::buildQuery($queryParams);
+        return new Request(
+            'GET',
             $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
             $httpBody
@@ -8189,6 +11159,670 @@ class Client
 
         if ($this->config->getValidateRequests()) {
             \DocSpring\RequestValidator::validateRequest('getCustomFile', $queryParams, count($formParams) > 0 ? $formParams : ($httpBody === '' ? null : $httpBody));
+        }
+
+        $operationHost = $this->config->getHost();
+        $query = ObjectSerializer::buildQuery($queryParams);
+        return new Request(
+            'GET',
+            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
+            $headers,
+            $httpBody
+        );
+    }
+
+    /**
+     * Operation getEmailAction
+     *
+     * Get an email action
+     *
+     * @param  string $template_id The template's ID. (required)
+     * @param  string $email_action_id The email action's ID. (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getEmailAction'] to see the possible values for this operation
+     *
+     * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \InvalidArgumentException
+     * @return \DocSpring\Model\EmailAction|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
+     */
+    public function getEmailAction($template_id, $email_action_id, string $contentType = self::contentTypes['getEmailAction'][0])
+    {
+        list($response) = $this->getEmailActionWithHttpInfo($template_id, $email_action_id, $contentType);
+        return $response;
+    }
+
+    /**
+     * Operation getEmailActionWithHttpInfo
+     *
+     * Get an email action
+     *
+     * @param  string $template_id The template's ID. (required)
+     * @param  string $email_action_id The email action's ID. (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getEmailAction'] to see the possible values for this operation
+     *
+     * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \InvalidArgumentException
+     * @return array of \DocSpring\Model\EmailAction|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function getEmailActionWithHttpInfo($template_id, $email_action_id, string $contentType = self::contentTypes['getEmailAction'][0])
+    {
+        $request = $this->getEmailActionRequest($template_id, $email_action_id, $contentType);
+
+        try {
+            $options = $this->createHttpClientOption();
+            try {
+                $response = $this->client->send($request, $options);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null,
+                    $e->getResponse() ? (string) $e->getResponse()->getBody() : null
+                );
+            } catch (ConnectException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    null,
+                    null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+
+            switch($statusCode) {
+                case 200:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\EmailAction',
+                        $request,
+                        $response,
+                    );
+                case 404:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 401:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 429:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+            }
+
+            
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        (string) $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    (string) $response->getBody()
+                );
+            }
+
+            return $this->handleResponseWithDataType(
+                '\DocSpring\Model\EmailAction',
+                $request,
+                $response,
+            );
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\EmailAction',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 404:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 429:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+            }
+        
+
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation getEmailActionAsync
+     *
+     * Get an email action
+     *
+     * @param  string $template_id The template's ID. (required)
+     * @param  string $email_action_id The email action's ID. (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getEmailAction'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getEmailActionAsync($template_id, $email_action_id, string $contentType = self::contentTypes['getEmailAction'][0])
+    {
+        return $this->getEmailActionAsyncWithHttpInfo($template_id, $email_action_id, $contentType)
+            ->then(
+                function ($response) {
+                    return $response[0];
+                }
+            );
+    }
+
+    /**
+     * Operation getEmailActionAsyncWithHttpInfo
+     *
+     * Get an email action
+     *
+     * @param  string $template_id The template's ID. (required)
+     * @param  string $email_action_id The email action's ID. (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getEmailAction'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getEmailActionAsyncWithHttpInfo($template_id, $email_action_id, string $contentType = self::contentTypes['getEmailAction'][0])
+    {
+        $returnType = '\DocSpring\Model\EmailAction';
+        $request = $this->getEmailActionRequest($template_id, $email_action_id, $contentType);
+
+        return $this->client
+            ->sendAsync($request, $this->createHttpClientOption())
+            ->then(
+                function ($response) use ($returnType) {
+                    if ($returnType === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ($returnType !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                },
+                function ($exception) {
+                    $response = $exception->getResponse();
+                    $statusCode = $response->getStatusCode();
+                    throw new ApiException(
+                        sprintf(
+                            '[%d] Error connecting to the API (%s)',
+                            $statusCode,
+                            $exception->getRequest()->getUri()
+                        ),
+                        $statusCode,
+                        $response->getHeaders(),
+                        (string) $response->getBody()
+                    );
+                }
+            );
+    }
+
+    /**
+     * Create request for operation 'getEmailAction'
+     *
+     * @param  string $template_id The template's ID. (required)
+     * @param  string $email_action_id The email action's ID. (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getEmailAction'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    public function getEmailActionRequest($template_id, $email_action_id, string $contentType = self::contentTypes['getEmailAction'][0])
+    {
+
+        // verify the required parameter 'template_id' is set
+        if ($template_id === null || (is_array($template_id) && count($template_id) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $template_id when calling getEmailAction'
+            );
+        }
+
+        // verify the required parameter 'email_action_id' is set
+        if ($email_action_id === null || (is_array($email_action_id) && count($email_action_id) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $email_action_id when calling getEmailAction'
+            );
+        }
+
+
+        $resourcePath = '/templates/{template_id}/email_actions/{email_action_id}';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = '';
+        $multipart = false;
+
+
+
+        // path params
+        if ($template_id !== null) {
+            $resourcePath = str_replace(
+                '{template_id}',
+                ObjectSerializer::toPathValue($template_id),
+                $resourcePath
+            );
+        }
+        // path params
+        if ($email_action_id !== null) {
+            $resourcePath = str_replace(
+                '{email_action_id}',
+                ObjectSerializer::toPathValue($email_action_id),
+                $resourcePath
+            );
+        }
+
+
+        $headers = $this->headerSelector->selectHeaders(
+            ['application/json', ],
+            $contentType,
+            $multipart
+        );
+
+        // for model (json/xml)
+        if (count($formParams) > 0) {
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
+                    foreach ($formParamValueItems as $formParamValueItem) {
+                        $multipartContents[] = [
+                            'name' => $formParamName,
+                            'contents' => $formParamValueItem
+                        ];
+                    }
+                }
+                // for HTTP post (form)
+                $httpBody = new MultipartStream($multipartContents);
+
+            } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
+                # if Content-Type contains "application/json", json_encode the form parameters
+                try {
+                    $httpBody = json_encode($formParams, JSON_THROW_ON_ERROR);
+                } catch (\JsonException $e) {
+                    throw new \InvalidArgumentException('json_encode error: ' . $e->getMessage(), 0, $e);
+                }
+            } else {
+                // for HTTP post (form)
+                $httpBody = ObjectSerializer::buildQuery($formParams);
+            }
+        }
+
+        // this endpoint requires HTTP basic authentication
+        if (!empty($this->config->getUsername()) || !(empty($this->config->getPassword()))) {
+            $headers['Authorization'] = 'Basic ' . base64_encode($this->config->getUsername() . ":" . $this->config->getPassword());
+        }
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        if ($this->config->getValidateRequests()) {
+            \DocSpring\RequestValidator::validateRequest('getEmailAction', $queryParams, count($formParams) > 0 ? $formParams : ($httpBody === '' ? null : $httpBody));
+        }
+
+        $operationHost = $this->config->getHost();
+        $query = ObjectSerializer::buildQuery($queryParams);
+        return new Request(
+            'GET',
+            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
+            $headers,
+            $httpBody
+        );
+    }
+
+    /**
+     * Operation getEmailDomain
+     *
+     * Get an email domain
+     *
+     * @param  string $email_domain_id The email domain's ID. (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getEmailDomain'] to see the possible values for this operation
+     *
+     * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \InvalidArgumentException
+     * @return \DocSpring\Model\EmailDomain|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
+     */
+    public function getEmailDomain($email_domain_id, string $contentType = self::contentTypes['getEmailDomain'][0])
+    {
+        list($response) = $this->getEmailDomainWithHttpInfo($email_domain_id, $contentType);
+        return $response;
+    }
+
+    /**
+     * Operation getEmailDomainWithHttpInfo
+     *
+     * Get an email domain
+     *
+     * @param  string $email_domain_id The email domain's ID. (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getEmailDomain'] to see the possible values for this operation
+     *
+     * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \InvalidArgumentException
+     * @return array of \DocSpring\Model\EmailDomain|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function getEmailDomainWithHttpInfo($email_domain_id, string $contentType = self::contentTypes['getEmailDomain'][0])
+    {
+        $request = $this->getEmailDomainRequest($email_domain_id, $contentType);
+
+        try {
+            $options = $this->createHttpClientOption();
+            try {
+                $response = $this->client->send($request, $options);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null,
+                    $e->getResponse() ? (string) $e->getResponse()->getBody() : null
+                );
+            } catch (ConnectException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    null,
+                    null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+
+            switch($statusCode) {
+                case 200:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\EmailDomain',
+                        $request,
+                        $response,
+                    );
+                case 404:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 401:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 429:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+            }
+
+            
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        (string) $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    (string) $response->getBody()
+                );
+            }
+
+            return $this->handleResponseWithDataType(
+                '\DocSpring\Model\EmailDomain',
+                $request,
+                $response,
+            );
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\EmailDomain',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 404:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 429:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+            }
+        
+
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation getEmailDomainAsync
+     *
+     * Get an email domain
+     *
+     * @param  string $email_domain_id The email domain's ID. (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getEmailDomain'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getEmailDomainAsync($email_domain_id, string $contentType = self::contentTypes['getEmailDomain'][0])
+    {
+        return $this->getEmailDomainAsyncWithHttpInfo($email_domain_id, $contentType)
+            ->then(
+                function ($response) {
+                    return $response[0];
+                }
+            );
+    }
+
+    /**
+     * Operation getEmailDomainAsyncWithHttpInfo
+     *
+     * Get an email domain
+     *
+     * @param  string $email_domain_id The email domain's ID. (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getEmailDomain'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getEmailDomainAsyncWithHttpInfo($email_domain_id, string $contentType = self::contentTypes['getEmailDomain'][0])
+    {
+        $returnType = '\DocSpring\Model\EmailDomain';
+        $request = $this->getEmailDomainRequest($email_domain_id, $contentType);
+
+        return $this->client
+            ->sendAsync($request, $this->createHttpClientOption())
+            ->then(
+                function ($response) use ($returnType) {
+                    if ($returnType === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ($returnType !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                },
+                function ($exception) {
+                    $response = $exception->getResponse();
+                    $statusCode = $response->getStatusCode();
+                    throw new ApiException(
+                        sprintf(
+                            '[%d] Error connecting to the API (%s)',
+                            $statusCode,
+                            $exception->getRequest()->getUri()
+                        ),
+                        $statusCode,
+                        $response->getHeaders(),
+                        (string) $response->getBody()
+                    );
+                }
+            );
+    }
+
+    /**
+     * Create request for operation 'getEmailDomain'
+     *
+     * @param  string $email_domain_id The email domain's ID. (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getEmailDomain'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    public function getEmailDomainRequest($email_domain_id, string $contentType = self::contentTypes['getEmailDomain'][0])
+    {
+
+        // verify the required parameter 'email_domain_id' is set
+        if ($email_domain_id === null || (is_array($email_domain_id) && count($email_domain_id) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $email_domain_id when calling getEmailDomain'
+            );
+        }
+
+
+        $resourcePath = '/email_domains/{email_domain_id}';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = '';
+        $multipart = false;
+
+
+
+        // path params
+        if ($email_domain_id !== null) {
+            $resourcePath = str_replace(
+                '{email_domain_id}',
+                ObjectSerializer::toPathValue($email_domain_id),
+                $resourcePath
+            );
+        }
+
+
+        $headers = $this->headerSelector->selectHeaders(
+            ['application/json', ],
+            $contentType,
+            $multipart
+        );
+
+        // for model (json/xml)
+        if (count($formParams) > 0) {
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
+                    foreach ($formParamValueItems as $formParamValueItem) {
+                        $multipartContents[] = [
+                            'name' => $formParamName,
+                            'contents' => $formParamValueItem
+                        ];
+                    }
+                }
+                // for HTTP post (form)
+                $httpBody = new MultipartStream($multipartContents);
+
+            } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
+                # if Content-Type contains "application/json", json_encode the form parameters
+                try {
+                    $httpBody = json_encode($formParams, JSON_THROW_ON_ERROR);
+                } catch (\JsonException $e) {
+                    throw new \InvalidArgumentException('json_encode error: ' . $e->getMessage(), 0, $e);
+                }
+            } else {
+                // for HTTP post (form)
+                $httpBody = ObjectSerializer::buildQuery($formParams);
+            }
+        }
+
+        // this endpoint requires HTTP basic authentication
+        if (!empty($this->config->getUsername()) || !(empty($this->config->getPassword()))) {
+            $headers['Authorization'] = 'Basic ' . base64_encode($this->config->getUsername() . ":" . $this->config->getPassword());
+        }
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        if ($this->config->getValidateRequests()) {
+            \DocSpring\RequestValidator::validateRequest('getEmailDomain', $queryParams, count($formParams) > 0 ? $formParams : ($httpBody === '' ? null : $httpBody));
         }
 
         $operationHost = $this->config->getHost();
@@ -9798,7 +13432,7 @@ class Client
      * Get a template
      *
      * @param  string $template_id The template's ID. (required)
-     * @param  string|null $version A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `draft`. (optional)
+     * @param  string|null $version A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` (the newest published version, or the draft when none has been published) or `draft`. Default `draft`. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getTemplate'] to see the possible values for this operation
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
@@ -9817,7 +13451,7 @@ class Client
      * Get a template
      *
      * @param  string $template_id The template's ID. (required)
-     * @param  string|null $version A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `draft`. (optional)
+     * @param  string|null $version A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` (the newest published version, or the draft when none has been published) or `draft`. Default `draft`. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getTemplate'] to see the possible values for this operation
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
@@ -9959,7 +13593,7 @@ class Client
      * Get a template
      *
      * @param  string $template_id The template's ID. (required)
-     * @param  string|null $version A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `draft`. (optional)
+     * @param  string|null $version A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` (the newest published version, or the draft when none has been published) or `draft`. Default `draft`. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getTemplate'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
@@ -9981,7 +13615,7 @@ class Client
      * Get a template
      *
      * @param  string $template_id The template's ID. (required)
-     * @param  string|null $version A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `draft`. (optional)
+     * @param  string|null $version A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` (the newest published version, or the draft when none has been published) or `draft`. Default `draft`. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getTemplate'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
@@ -10032,7 +13666,7 @@ class Client
      * Create request for operation 'getTemplate'
      *
      * @param  string $template_id The template's ID. (required)
-     * @param  string|null $version A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `draft`. (optional)
+     * @param  string|null $version A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` (the newest published version, or the draft when none has been published) or `draft`. Default `draft`. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getTemplate'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
@@ -10149,7 +13783,7 @@ class Client
      * Compare a version of a template with the one before it
      *
      * @param  string $template_id The template's ID. (required)
-     * @param  string|null $version A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `draft`. (optional)
+     * @param  string|null $version A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` (the newest published version, or the draft when none has been published) or `draft`. Default `draft`. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getTemplateDiff'] to see the possible values for this operation
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
@@ -10168,7 +13802,7 @@ class Client
      * Compare a version of a template with the one before it
      *
      * @param  string $template_id The template's ID. (required)
-     * @param  string|null $version A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `draft`. (optional)
+     * @param  string|null $version A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` (the newest published version, or the draft when none has been published) or `draft`. Default `draft`. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getTemplateDiff'] to see the possible values for this operation
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
@@ -10310,7 +13944,7 @@ class Client
      * Compare a version of a template with the one before it
      *
      * @param  string $template_id The template's ID. (required)
-     * @param  string|null $version A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `draft`. (optional)
+     * @param  string|null $version A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` (the newest published version, or the draft when none has been published) or `draft`. Default `draft`. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getTemplateDiff'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
@@ -10332,7 +13966,7 @@ class Client
      * Compare a version of a template with the one before it
      *
      * @param  string $template_id The template's ID. (required)
-     * @param  string|null $version A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `draft`. (optional)
+     * @param  string|null $version A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` (the newest published version, or the draft when none has been published) or `draft`. Default `draft`. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getTemplateDiff'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
@@ -10383,7 +14017,7 @@ class Client
      * Create request for operation 'getTemplateDiff'
      *
      * @param  string $template_id The template's ID. (required)
-     * @param  string|null $version A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `draft`. (optional)
+     * @param  string|null $version A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` (the newest published version, or the draft when none has been published) or `draft`. Default `draft`. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getTemplateDiff'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
@@ -10501,7 +14135,7 @@ class Client
      *
      * @param  string $template_id The template's ID. (required)
      * @param  \DocSpring\Model\ModelCodeLanguage $lang The language to generate the code in. (required)
-     * @param  string|null $version The template version: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `latest` (the draft when no version has been published), the version a submission uses by default. (optional)
+     * @param  string|null $version The template version: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` (the newest published version, or the draft when none has been published) or `draft`. Default `latest`, the version a submission uses by default. (optional)
      * @param  bool|null $just_types Return only the types (interfaces, classes or structs), without the code that converts JSON to and from them. Default false. JavaScript has no types, PHP has no types-only code, and Rust's code is only types (serde converts the JSON), so theirs is the same either way. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getTemplateModelCode'] to see the possible values for this operation
      *
@@ -10522,7 +14156,7 @@ class Client
      *
      * @param  string $template_id The template's ID. (required)
      * @param  \DocSpring\Model\ModelCodeLanguage $lang The language to generate the code in. (required)
-     * @param  string|null $version The template version: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `latest` (the draft when no version has been published), the version a submission uses by default. (optional)
+     * @param  string|null $version The template version: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` (the newest published version, or the draft when none has been published) or `draft`. Default `latest`, the version a submission uses by default. (optional)
      * @param  bool|null $just_types Return only the types (interfaces, classes or structs), without the code that converts JSON to and from them. Default false. JavaScript has no types, PHP has no types-only code, and Rust's code is only types (serde converts the JSON), so theirs is the same either way. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getTemplateModelCode'] to see the possible values for this operation
      *
@@ -10666,7 +14300,7 @@ class Client
      *
      * @param  string $template_id The template's ID. (required)
      * @param  \DocSpring\Model\ModelCodeLanguage $lang The language to generate the code in. (required)
-     * @param  string|null $version The template version: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `latest` (the draft when no version has been published), the version a submission uses by default. (optional)
+     * @param  string|null $version The template version: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` (the newest published version, or the draft when none has been published) or `draft`. Default `latest`, the version a submission uses by default. (optional)
      * @param  bool|null $just_types Return only the types (interfaces, classes or structs), without the code that converts JSON to and from them. Default false. JavaScript has no types, PHP has no types-only code, and Rust's code is only types (serde converts the JSON), so theirs is the same either way. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getTemplateModelCode'] to see the possible values for this operation
      *
@@ -10690,7 +14324,7 @@ class Client
      *
      * @param  string $template_id The template's ID. (required)
      * @param  \DocSpring\Model\ModelCodeLanguage $lang The language to generate the code in. (required)
-     * @param  string|null $version The template version: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `latest` (the draft when no version has been published), the version a submission uses by default. (optional)
+     * @param  string|null $version The template version: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` (the newest published version, or the draft when none has been published) or `draft`. Default `latest`, the version a submission uses by default. (optional)
      * @param  bool|null $just_types Return only the types (interfaces, classes or structs), without the code that converts JSON to and from them. Default false. JavaScript has no types, PHP has no types-only code, and Rust's code is only types (serde converts the JSON), so theirs is the same either way. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getTemplateModelCode'] to see the possible values for this operation
      *
@@ -10743,7 +14377,7 @@ class Client
      *
      * @param  string $template_id The template's ID. (required)
      * @param  \DocSpring\Model\ModelCodeLanguage $lang The language to generate the code in. (required)
-     * @param  string|null $version The template version: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `latest` (the draft when no version has been published), the version a submission uses by default. (optional)
+     * @param  string|null $version The template version: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` (the newest published version, or the draft when none has been published) or `draft`. Default `latest`, the version a submission uses by default. (optional)
      * @param  bool|null $just_types Return only the types (interfaces, classes or structs), without the code that converts JSON to and from them. Default false. JavaScript has no types, PHP has no types-only code, and Rust's code is only types (serde converts the JSON), so theirs is the same either way. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getTemplateModelCode'] to see the possible values for this operation
      *
@@ -10887,7 +14521,7 @@ class Client
      * Get images of a template's pages
      *
      * @param  string $template_id The template's ID. (required)
-     * @param  string|null $version A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `draft`. (optional)
+     * @param  string|null $version A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` (the newest published version, or the draft when none has been published) or `draft`. Default `draft`. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getTemplatePageImages'] to see the possible values for this operation
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
@@ -10906,7 +14540,7 @@ class Client
      * Get images of a template's pages
      *
      * @param  string $template_id The template's ID. (required)
-     * @param  string|null $version A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `draft`. (optional)
+     * @param  string|null $version A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` (the newest published version, or the draft when none has been published) or `draft`. Default `draft`. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getTemplatePageImages'] to see the possible values for this operation
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
@@ -11048,7 +14682,7 @@ class Client
      * Get images of a template's pages
      *
      * @param  string $template_id The template's ID. (required)
-     * @param  string|null $version A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `draft`. (optional)
+     * @param  string|null $version A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` (the newest published version, or the draft when none has been published) or `draft`. Default `draft`. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getTemplatePageImages'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
@@ -11070,7 +14704,7 @@ class Client
      * Get images of a template's pages
      *
      * @param  string $template_id The template's ID. (required)
-     * @param  string|null $version A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `draft`. (optional)
+     * @param  string|null $version A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` (the newest published version, or the draft when none has been published) or `draft`. Default `draft`. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getTemplatePageImages'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
@@ -11121,7 +14755,7 @@ class Client
      * Create request for operation 'getTemplatePageImages'
      *
      * @param  string $template_id The template's ID. (required)
-     * @param  string|null $version A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `draft`. (optional)
+     * @param  string|null $version A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` (the newest published version, or the draft when none has been published) or `draft`. Default `draft`. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getTemplatePageImages'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
@@ -11566,7 +15200,7 @@ class Client
      * Get the JSON Schema of a template's submission data
      *
      * @param  string $template_id The template's ID. (required)
-     * @param  string|null $version The template version: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `latest` (the draft when no version has been published), the version a submission uses by default. (optional)
+     * @param  string|null $version The template version: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` (the newest published version, or the draft when none has been published) or `draft`. Default `latest`, the version a submission uses by default. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getTemplateSchema'] to see the possible values for this operation
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
@@ -11585,7 +15219,7 @@ class Client
      * Get the JSON Schema of a template's submission data
      *
      * @param  string $template_id The template's ID. (required)
-     * @param  string|null $version The template version: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `latest` (the draft when no version has been published), the version a submission uses by default. (optional)
+     * @param  string|null $version The template version: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` (the newest published version, or the draft when none has been published) or `draft`. Default `latest`, the version a submission uses by default. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getTemplateSchema'] to see the possible values for this operation
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
@@ -11713,7 +15347,7 @@ class Client
      * Get the JSON Schema of a template's submission data
      *
      * @param  string $template_id The template's ID. (required)
-     * @param  string|null $version The template version: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `latest` (the draft when no version has been published), the version a submission uses by default. (optional)
+     * @param  string|null $version The template version: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` (the newest published version, or the draft when none has been published) or `draft`. Default `latest`, the version a submission uses by default. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getTemplateSchema'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
@@ -11735,7 +15369,7 @@ class Client
      * Get the JSON Schema of a template's submission data
      *
      * @param  string $template_id The template's ID. (required)
-     * @param  string|null $version The template version: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `latest` (the draft when no version has been published), the version a submission uses by default. (optional)
+     * @param  string|null $version The template version: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` (the newest published version, or the draft when none has been published) or `draft`. Default `latest`, the version a submission uses by default. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getTemplateSchema'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
@@ -11786,7 +15420,7 @@ class Client
      * Create request for operation 'getTemplateSchema'
      *
      * @param  string $template_id The template's ID. (required)
-     * @param  string|null $version The template version: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `latest` (the draft when no version has been published), the version a submission uses by default. (optional)
+     * @param  string|null $version The template version: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` (the newest published version, or the draft when none has been published) or `draft`. Default `latest`, the version a submission uses by default. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getTemplateSchema'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
@@ -12207,6 +15841,324 @@ class Client
 
         if ($this->config->getValidateRequests()) {
             \DocSpring\RequestValidator::validateRequest('getWebhook', $queryParams, count($formParams) > 0 ? $formParams : ($httpBody === '' ? null : $httpBody));
+        }
+
+        $operationHost = $this->config->getHost();
+        $query = ObjectSerializer::buildQuery($queryParams);
+        return new Request(
+            'GET',
+            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
+            $headers,
+            $httpBody
+        );
+    }
+
+    /**
+     * Operation listAccountEmailActions
+     *
+     * List account email actions
+     *
+     * @param  int|null $limit How many items to return (1-100, default 50). (optional, default to 50)
+     * @param  string|null $cursor The previous page's `next_cursor`, to get the next page. It's the ID of that page's last item, so get the next page before you delete or change the items on this one. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['listAccountEmailActions'] to see the possible values for this operation
+     *
+     * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \InvalidArgumentException
+     * @return \DocSpring\Model\EmailActionList|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
+     */
+    public function listAccountEmailActions($limit = 50, $cursor = null, string $contentType = self::contentTypes['listAccountEmailActions'][0])
+    {
+        list($response) = $this->listAccountEmailActionsWithHttpInfo($limit, $cursor, $contentType);
+        return $response;
+    }
+
+    /**
+     * Operation listAccountEmailActionsWithHttpInfo
+     *
+     * List account email actions
+     *
+     * @param  int|null $limit How many items to return (1-100, default 50). (optional, default to 50)
+     * @param  string|null $cursor The previous page's `next_cursor`, to get the next page. It's the ID of that page's last item, so get the next page before you delete or change the items on this one. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['listAccountEmailActions'] to see the possible values for this operation
+     *
+     * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \InvalidArgumentException
+     * @return array of \DocSpring\Model\EmailActionList|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function listAccountEmailActionsWithHttpInfo($limit = 50, $cursor = null, string $contentType = self::contentTypes['listAccountEmailActions'][0])
+    {
+        $request = $this->listAccountEmailActionsRequest($limit, $cursor, $contentType);
+
+        try {
+            $options = $this->createHttpClientOption();
+            try {
+                $response = $this->client->send($request, $options);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null,
+                    $e->getResponse() ? (string) $e->getResponse()->getBody() : null
+                );
+            } catch (ConnectException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    null,
+                    null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+
+            switch($statusCode) {
+                case 200:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\EmailActionList',
+                        $request,
+                        $response,
+                    );
+                case 401:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 429:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+            }
+
+            
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        (string) $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    (string) $response->getBody()
+                );
+            }
+
+            return $this->handleResponseWithDataType(
+                '\DocSpring\Model\EmailActionList',
+                $request,
+                $response,
+            );
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\EmailActionList',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 429:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+            }
+        
+
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation listAccountEmailActionsAsync
+     *
+     * List account email actions
+     *
+     * @param  int|null $limit How many items to return (1-100, default 50). (optional, default to 50)
+     * @param  string|null $cursor The previous page's `next_cursor`, to get the next page. It's the ID of that page's last item, so get the next page before you delete or change the items on this one. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['listAccountEmailActions'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function listAccountEmailActionsAsync($limit = 50, $cursor = null, string $contentType = self::contentTypes['listAccountEmailActions'][0])
+    {
+        return $this->listAccountEmailActionsAsyncWithHttpInfo($limit, $cursor, $contentType)
+            ->then(
+                function ($response) {
+                    return $response[0];
+                }
+            );
+    }
+
+    /**
+     * Operation listAccountEmailActionsAsyncWithHttpInfo
+     *
+     * List account email actions
+     *
+     * @param  int|null $limit How many items to return (1-100, default 50). (optional, default to 50)
+     * @param  string|null $cursor The previous page's `next_cursor`, to get the next page. It's the ID of that page's last item, so get the next page before you delete or change the items on this one. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['listAccountEmailActions'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function listAccountEmailActionsAsyncWithHttpInfo($limit = 50, $cursor = null, string $contentType = self::contentTypes['listAccountEmailActions'][0])
+    {
+        $returnType = '\DocSpring\Model\EmailActionList';
+        $request = $this->listAccountEmailActionsRequest($limit, $cursor, $contentType);
+
+        return $this->client
+            ->sendAsync($request, $this->createHttpClientOption())
+            ->then(
+                function ($response) use ($returnType) {
+                    if ($returnType === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ($returnType !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                },
+                function ($exception) {
+                    $response = $exception->getResponse();
+                    $statusCode = $response->getStatusCode();
+                    throw new ApiException(
+                        sprintf(
+                            '[%d] Error connecting to the API (%s)',
+                            $statusCode,
+                            $exception->getRequest()->getUri()
+                        ),
+                        $statusCode,
+                        $response->getHeaders(),
+                        (string) $response->getBody()
+                    );
+                }
+            );
+    }
+
+    /**
+     * Create request for operation 'listAccountEmailActions'
+     *
+     * @param  int|null $limit How many items to return (1-100, default 50). (optional, default to 50)
+     * @param  string|null $cursor The previous page's `next_cursor`, to get the next page. It's the ID of that page's last item, so get the next page before you delete or change the items on this one. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['listAccountEmailActions'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    public function listAccountEmailActionsRequest($limit = 50, $cursor = null, string $contentType = self::contentTypes['listAccountEmailActions'][0])
+    {
+
+
+
+
+        $resourcePath = '/email_actions';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = '';
+        $multipart = false;
+
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $limit,
+            'limit', // param base name
+            'integer', // openApiType
+            'form', // style
+            true, // explode
+            false // required
+        ) ?? []);
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $cursor,
+            'cursor', // param base name
+            'string', // openApiType
+            'form', // style
+            true, // explode
+            false // required
+        ) ?? []);
+
+
+
+
+        $headers = $this->headerSelector->selectHeaders(
+            ['application/json', ],
+            $contentType,
+            $multipart
+        );
+
+        // for model (json/xml)
+        if (count($formParams) > 0) {
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
+                    foreach ($formParamValueItems as $formParamValueItem) {
+                        $multipartContents[] = [
+                            'name' => $formParamName,
+                            'contents' => $formParamValueItem
+                        ];
+                    }
+                }
+                // for HTTP post (form)
+                $httpBody = new MultipartStream($multipartContents);
+
+            } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
+                # if Content-Type contains "application/json", json_encode the form parameters
+                try {
+                    $httpBody = json_encode($formParams, JSON_THROW_ON_ERROR);
+                } catch (\JsonException $e) {
+                    throw new \InvalidArgumentException('json_encode error: ' . $e->getMessage(), 0, $e);
+                }
+            } else {
+                // for HTTP post (form)
+                $httpBody = ObjectSerializer::buildQuery($formParams);
+            }
+        }
+
+        // this endpoint requires HTTP basic authentication
+        if (!empty($this->config->getUsername()) || !(empty($this->config->getPassword()))) {
+            $headers['Authorization'] = 'Basic ' . base64_encode($this->config->getUsername() . ":" . $this->config->getPassword());
+        }
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        if ($this->config->getValidateRequests()) {
+            \DocSpring\RequestValidator::validateRequest('listAccountEmailActions', $queryParams, count($formParams) > 0 ? $formParams : ($httpBody === '' ? null : $httpBody));
         }
 
         $operationHost = $this->config->getHost();
@@ -12871,6 +16823,676 @@ class Client
 
         if ($this->config->getValidateRequests()) {
             \DocSpring\RequestValidator::validateRequest('listCustomFiles', $queryParams, count($formParams) > 0 ? $formParams : ($httpBody === '' ? null : $httpBody));
+        }
+
+        $operationHost = $this->config->getHost();
+        $query = ObjectSerializer::buildQuery($queryParams);
+        return new Request(
+            'GET',
+            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
+            $headers,
+            $httpBody
+        );
+    }
+
+    /**
+     * Operation listEmailActions
+     *
+     * List email actions
+     *
+     * @param  string $template_id The template's ID. (required)
+     * @param  int|null $limit How many items to return (1-100, default 50). (optional, default to 50)
+     * @param  string|null $cursor The previous page's `next_cursor`, to get the next page. It's the ID of that page's last item, so get the next page before you delete or change the items on this one. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['listEmailActions'] to see the possible values for this operation
+     *
+     * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \InvalidArgumentException
+     * @return \DocSpring\Model\EmailActionList|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
+     */
+    public function listEmailActions($template_id, $limit = 50, $cursor = null, string $contentType = self::contentTypes['listEmailActions'][0])
+    {
+        list($response) = $this->listEmailActionsWithHttpInfo($template_id, $limit, $cursor, $contentType);
+        return $response;
+    }
+
+    /**
+     * Operation listEmailActionsWithHttpInfo
+     *
+     * List email actions
+     *
+     * @param  string $template_id The template's ID. (required)
+     * @param  int|null $limit How many items to return (1-100, default 50). (optional, default to 50)
+     * @param  string|null $cursor The previous page's `next_cursor`, to get the next page. It's the ID of that page's last item, so get the next page before you delete or change the items on this one. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['listEmailActions'] to see the possible values for this operation
+     *
+     * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \InvalidArgumentException
+     * @return array of \DocSpring\Model\EmailActionList|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function listEmailActionsWithHttpInfo($template_id, $limit = 50, $cursor = null, string $contentType = self::contentTypes['listEmailActions'][0])
+    {
+        $request = $this->listEmailActionsRequest($template_id, $limit, $cursor, $contentType);
+
+        try {
+            $options = $this->createHttpClientOption();
+            try {
+                $response = $this->client->send($request, $options);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null,
+                    $e->getResponse() ? (string) $e->getResponse()->getBody() : null
+                );
+            } catch (ConnectException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    null,
+                    null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+
+            switch($statusCode) {
+                case 200:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\EmailActionList',
+                        $request,
+                        $response,
+                    );
+                case 404:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 401:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 429:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+            }
+
+            
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        (string) $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    (string) $response->getBody()
+                );
+            }
+
+            return $this->handleResponseWithDataType(
+                '\DocSpring\Model\EmailActionList',
+                $request,
+                $response,
+            );
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\EmailActionList',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 404:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 429:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+            }
+        
+
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation listEmailActionsAsync
+     *
+     * List email actions
+     *
+     * @param  string $template_id The template's ID. (required)
+     * @param  int|null $limit How many items to return (1-100, default 50). (optional, default to 50)
+     * @param  string|null $cursor The previous page's `next_cursor`, to get the next page. It's the ID of that page's last item, so get the next page before you delete or change the items on this one. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['listEmailActions'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function listEmailActionsAsync($template_id, $limit = 50, $cursor = null, string $contentType = self::contentTypes['listEmailActions'][0])
+    {
+        return $this->listEmailActionsAsyncWithHttpInfo($template_id, $limit, $cursor, $contentType)
+            ->then(
+                function ($response) {
+                    return $response[0];
+                }
+            );
+    }
+
+    /**
+     * Operation listEmailActionsAsyncWithHttpInfo
+     *
+     * List email actions
+     *
+     * @param  string $template_id The template's ID. (required)
+     * @param  int|null $limit How many items to return (1-100, default 50). (optional, default to 50)
+     * @param  string|null $cursor The previous page's `next_cursor`, to get the next page. It's the ID of that page's last item, so get the next page before you delete or change the items on this one. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['listEmailActions'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function listEmailActionsAsyncWithHttpInfo($template_id, $limit = 50, $cursor = null, string $contentType = self::contentTypes['listEmailActions'][0])
+    {
+        $returnType = '\DocSpring\Model\EmailActionList';
+        $request = $this->listEmailActionsRequest($template_id, $limit, $cursor, $contentType);
+
+        return $this->client
+            ->sendAsync($request, $this->createHttpClientOption())
+            ->then(
+                function ($response) use ($returnType) {
+                    if ($returnType === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ($returnType !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                },
+                function ($exception) {
+                    $response = $exception->getResponse();
+                    $statusCode = $response->getStatusCode();
+                    throw new ApiException(
+                        sprintf(
+                            '[%d] Error connecting to the API (%s)',
+                            $statusCode,
+                            $exception->getRequest()->getUri()
+                        ),
+                        $statusCode,
+                        $response->getHeaders(),
+                        (string) $response->getBody()
+                    );
+                }
+            );
+    }
+
+    /**
+     * Create request for operation 'listEmailActions'
+     *
+     * @param  string $template_id The template's ID. (required)
+     * @param  int|null $limit How many items to return (1-100, default 50). (optional, default to 50)
+     * @param  string|null $cursor The previous page's `next_cursor`, to get the next page. It's the ID of that page's last item, so get the next page before you delete or change the items on this one. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['listEmailActions'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    public function listEmailActionsRequest($template_id, $limit = 50, $cursor = null, string $contentType = self::contentTypes['listEmailActions'][0])
+    {
+
+        // verify the required parameter 'template_id' is set
+        if ($template_id === null || (is_array($template_id) && count($template_id) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $template_id when calling listEmailActions'
+            );
+        }
+
+
+
+
+        $resourcePath = '/templates/{template_id}/email_actions';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = '';
+        $multipart = false;
+
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $limit,
+            'limit', // param base name
+            'integer', // openApiType
+            'form', // style
+            true, // explode
+            false // required
+        ) ?? []);
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $cursor,
+            'cursor', // param base name
+            'string', // openApiType
+            'form', // style
+            true, // explode
+            false // required
+        ) ?? []);
+
+
+        // path params
+        if ($template_id !== null) {
+            $resourcePath = str_replace(
+                '{template_id}',
+                ObjectSerializer::toPathValue($template_id),
+                $resourcePath
+            );
+        }
+
+
+        $headers = $this->headerSelector->selectHeaders(
+            ['application/json', ],
+            $contentType,
+            $multipart
+        );
+
+        // for model (json/xml)
+        if (count($formParams) > 0) {
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
+                    foreach ($formParamValueItems as $formParamValueItem) {
+                        $multipartContents[] = [
+                            'name' => $formParamName,
+                            'contents' => $formParamValueItem
+                        ];
+                    }
+                }
+                // for HTTP post (form)
+                $httpBody = new MultipartStream($multipartContents);
+
+            } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
+                # if Content-Type contains "application/json", json_encode the form parameters
+                try {
+                    $httpBody = json_encode($formParams, JSON_THROW_ON_ERROR);
+                } catch (\JsonException $e) {
+                    throw new \InvalidArgumentException('json_encode error: ' . $e->getMessage(), 0, $e);
+                }
+            } else {
+                // for HTTP post (form)
+                $httpBody = ObjectSerializer::buildQuery($formParams);
+            }
+        }
+
+        // this endpoint requires HTTP basic authentication
+        if (!empty($this->config->getUsername()) || !(empty($this->config->getPassword()))) {
+            $headers['Authorization'] = 'Basic ' . base64_encode($this->config->getUsername() . ":" . $this->config->getPassword());
+        }
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        if ($this->config->getValidateRequests()) {
+            \DocSpring\RequestValidator::validateRequest('listEmailActions', $queryParams, count($formParams) > 0 ? $formParams : ($httpBody === '' ? null : $httpBody));
+        }
+
+        $operationHost = $this->config->getHost();
+        $query = ObjectSerializer::buildQuery($queryParams);
+        return new Request(
+            'GET',
+            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
+            $headers,
+            $httpBody
+        );
+    }
+
+    /**
+     * Operation listEmailDomains
+     *
+     * List email domains
+     *
+     * @param  int|null $limit How many items to return (1-100, default 50). (optional, default to 50)
+     * @param  string|null $cursor The previous page's `next_cursor`, to get the next page. It's the ID of that page's last item, so get the next page before you delete or change the items on this one. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['listEmailDomains'] to see the possible values for this operation
+     *
+     * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \InvalidArgumentException
+     * @return \DocSpring\Model\EmailDomainList|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
+     */
+    public function listEmailDomains($limit = 50, $cursor = null, string $contentType = self::contentTypes['listEmailDomains'][0])
+    {
+        list($response) = $this->listEmailDomainsWithHttpInfo($limit, $cursor, $contentType);
+        return $response;
+    }
+
+    /**
+     * Operation listEmailDomainsWithHttpInfo
+     *
+     * List email domains
+     *
+     * @param  int|null $limit How many items to return (1-100, default 50). (optional, default to 50)
+     * @param  string|null $cursor The previous page's `next_cursor`, to get the next page. It's the ID of that page's last item, so get the next page before you delete or change the items on this one. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['listEmailDomains'] to see the possible values for this operation
+     *
+     * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \InvalidArgumentException
+     * @return array of \DocSpring\Model\EmailDomainList|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function listEmailDomainsWithHttpInfo($limit = 50, $cursor = null, string $contentType = self::contentTypes['listEmailDomains'][0])
+    {
+        $request = $this->listEmailDomainsRequest($limit, $cursor, $contentType);
+
+        try {
+            $options = $this->createHttpClientOption();
+            try {
+                $response = $this->client->send($request, $options);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null,
+                    $e->getResponse() ? (string) $e->getResponse()->getBody() : null
+                );
+            } catch (ConnectException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    null,
+                    null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+
+            switch($statusCode) {
+                case 200:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\EmailDomainList',
+                        $request,
+                        $response,
+                    );
+                case 401:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 429:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+            }
+
+            
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        (string) $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    (string) $response->getBody()
+                );
+            }
+
+            return $this->handleResponseWithDataType(
+                '\DocSpring\Model\EmailDomainList',
+                $request,
+                $response,
+            );
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\EmailDomainList',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 429:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+            }
+        
+
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation listEmailDomainsAsync
+     *
+     * List email domains
+     *
+     * @param  int|null $limit How many items to return (1-100, default 50). (optional, default to 50)
+     * @param  string|null $cursor The previous page's `next_cursor`, to get the next page. It's the ID of that page's last item, so get the next page before you delete or change the items on this one. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['listEmailDomains'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function listEmailDomainsAsync($limit = 50, $cursor = null, string $contentType = self::contentTypes['listEmailDomains'][0])
+    {
+        return $this->listEmailDomainsAsyncWithHttpInfo($limit, $cursor, $contentType)
+            ->then(
+                function ($response) {
+                    return $response[0];
+                }
+            );
+    }
+
+    /**
+     * Operation listEmailDomainsAsyncWithHttpInfo
+     *
+     * List email domains
+     *
+     * @param  int|null $limit How many items to return (1-100, default 50). (optional, default to 50)
+     * @param  string|null $cursor The previous page's `next_cursor`, to get the next page. It's the ID of that page's last item, so get the next page before you delete or change the items on this one. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['listEmailDomains'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function listEmailDomainsAsyncWithHttpInfo($limit = 50, $cursor = null, string $contentType = self::contentTypes['listEmailDomains'][0])
+    {
+        $returnType = '\DocSpring\Model\EmailDomainList';
+        $request = $this->listEmailDomainsRequest($limit, $cursor, $contentType);
+
+        return $this->client
+            ->sendAsync($request, $this->createHttpClientOption())
+            ->then(
+                function ($response) use ($returnType) {
+                    if ($returnType === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ($returnType !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                },
+                function ($exception) {
+                    $response = $exception->getResponse();
+                    $statusCode = $response->getStatusCode();
+                    throw new ApiException(
+                        sprintf(
+                            '[%d] Error connecting to the API (%s)',
+                            $statusCode,
+                            $exception->getRequest()->getUri()
+                        ),
+                        $statusCode,
+                        $response->getHeaders(),
+                        (string) $response->getBody()
+                    );
+                }
+            );
+    }
+
+    /**
+     * Create request for operation 'listEmailDomains'
+     *
+     * @param  int|null $limit How many items to return (1-100, default 50). (optional, default to 50)
+     * @param  string|null $cursor The previous page's `next_cursor`, to get the next page. It's the ID of that page's last item, so get the next page before you delete or change the items on this one. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['listEmailDomains'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    public function listEmailDomainsRequest($limit = 50, $cursor = null, string $contentType = self::contentTypes['listEmailDomains'][0])
+    {
+
+
+
+
+        $resourcePath = '/email_domains';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = '';
+        $multipart = false;
+
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $limit,
+            'limit', // param base name
+            'integer', // openApiType
+            'form', // style
+            true, // explode
+            false // required
+        ) ?? []);
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $cursor,
+            'cursor', // param base name
+            'string', // openApiType
+            'form', // style
+            true, // explode
+            false // required
+        ) ?? []);
+
+
+
+
+        $headers = $this->headerSelector->selectHeaders(
+            ['application/json', ],
+            $contentType,
+            $multipart
+        );
+
+        // for model (json/xml)
+        if (count($formParams) > 0) {
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
+                    foreach ($formParamValueItems as $formParamValueItem) {
+                        $multipartContents[] = [
+                            'name' => $formParamName,
+                            'contents' => $formParamValueItem
+                        ];
+                    }
+                }
+                // for HTTP post (form)
+                $httpBody = new MultipartStream($multipartContents);
+
+            } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
+                # if Content-Type contains "application/json", json_encode the form parameters
+                try {
+                    $httpBody = json_encode($formParams, JSON_THROW_ON_ERROR);
+                } catch (\JsonException $e) {
+                    throw new \InvalidArgumentException('json_encode error: ' . $e->getMessage(), 0, $e);
+                }
+            } else {
+                // for HTTP post (form)
+                $httpBody = ObjectSerializer::buildQuery($formParams);
+            }
+        }
+
+        // this endpoint requires HTTP basic authentication
+        if (!empty($this->config->getUsername()) || !(empty($this->config->getPassword()))) {
+            $headers['Authorization'] = 'Basic ' . base64_encode($this->config->getUsername() . ":" . $this->config->getPassword());
+        }
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        if ($this->config->getValidateRequests()) {
+            \DocSpring\RequestValidator::validateRequest('listEmailDomains', $queryParams, count($formParams) > 0 ? $formParams : ($httpBody === '' ? null : $httpBody));
         }
 
         $operationHost = $this->config->getHost();
@@ -13673,7 +18295,7 @@ class Client
      * List a template's fields
      *
      * @param  string $template_id The template's ID. (required)
-     * @param  string|null $version A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `draft`. (optional)
+     * @param  string|null $version A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` (the newest published version, or the draft when none has been published) or `draft`. Default `draft`. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['listTemplateFields'] to see the possible values for this operation
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
@@ -13692,7 +18314,7 @@ class Client
      * List a template's fields
      *
      * @param  string $template_id The template's ID. (required)
-     * @param  string|null $version A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `draft`. (optional)
+     * @param  string|null $version A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` (the newest published version, or the draft when none has been published) or `draft`. Default `draft`. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['listTemplateFields'] to see the possible values for this operation
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
@@ -13834,7 +18456,7 @@ class Client
      * List a template's fields
      *
      * @param  string $template_id The template's ID. (required)
-     * @param  string|null $version A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `draft`. (optional)
+     * @param  string|null $version A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` (the newest published version, or the draft when none has been published) or `draft`. Default `draft`. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['listTemplateFields'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
@@ -13856,7 +18478,7 @@ class Client
      * List a template's fields
      *
      * @param  string $template_id The template's ID. (required)
-     * @param  string|null $version A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `draft`. (optional)
+     * @param  string|null $version A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` (the newest published version, or the draft when none has been published) or `draft`. Default `draft`. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['listTemplateFields'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
@@ -13907,7 +18529,7 @@ class Client
      * Create request for operation 'listTemplateFields'
      *
      * @param  string $template_id The template's ID. (required)
-     * @param  string|null $version A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `draft`. (optional)
+     * @param  string|null $version A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` (the newest published version, or the draft when none has been published) or `draft`. Default `draft`. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['listTemplateFields'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
@@ -14479,7 +19101,7 @@ class Client
      *
      * List templates
      *
-     * @param  string|null $query Only list templates whose name contains this text (ignoring case). (optional)
+     * @param  string|null $query Only list templates whose name contains this text (ignoring case). `%` and `_` match themselves. (optional)
      * @param  string|null $parent_folder_id Only list the templates in this folder (not in its subfolders). (optional)
      * @param  int|null $limit How many items to return (1-100, default 50). (optional, default to 50)
      * @param  string|null $cursor The previous page's `next_cursor`, to get the next page. It's the ID of that page's last item, so get the next page before you delete or change the items on this one. (optional)
@@ -14500,7 +19122,7 @@ class Client
      *
      * List templates
      *
-     * @param  string|null $query Only list templates whose name contains this text (ignoring case). (optional)
+     * @param  string|null $query Only list templates whose name contains this text (ignoring case). `%` and `_` match themselves. (optional)
      * @param  string|null $parent_folder_id Only list the templates in this folder (not in its subfolders). (optional)
      * @param  int|null $limit How many items to return (1-100, default 50). (optional, default to 50)
      * @param  string|null $cursor The previous page's `next_cursor`, to get the next page. It's the ID of that page's last item, so get the next page before you delete or change the items on this one. (optional)
@@ -14630,7 +19252,7 @@ class Client
      *
      * List templates
      *
-     * @param  string|null $query Only list templates whose name contains this text (ignoring case). (optional)
+     * @param  string|null $query Only list templates whose name contains this text (ignoring case). `%` and `_` match themselves. (optional)
      * @param  string|null $parent_folder_id Only list the templates in this folder (not in its subfolders). (optional)
      * @param  int|null $limit How many items to return (1-100, default 50). (optional, default to 50)
      * @param  string|null $cursor The previous page's `next_cursor`, to get the next page. It's the ID of that page's last item, so get the next page before you delete or change the items on this one. (optional)
@@ -14654,7 +19276,7 @@ class Client
      *
      * List templates
      *
-     * @param  string|null $query Only list templates whose name contains this text (ignoring case). (optional)
+     * @param  string|null $query Only list templates whose name contains this text (ignoring case). `%` and `_` match themselves. (optional)
      * @param  string|null $parent_folder_id Only list the templates in this folder (not in its subfolders). (optional)
      * @param  int|null $limit How many items to return (1-100, default 50). (optional, default to 50)
      * @param  string|null $cursor The previous page's `next_cursor`, to get the next page. It's the ID of that page's last item, so get the next page before you delete or change the items on this one. (optional)
@@ -14707,7 +19329,7 @@ class Client
     /**
      * Create request for operation 'listTemplates'
      *
-     * @param  string|null $query Only list templates whose name contains this text (ignoring case). (optional)
+     * @param  string|null $query Only list templates whose name contains this text (ignoring case). `%` and `_` match themselves. (optional)
      * @param  string|null $parent_folder_id Only list the templates in this folder (not in its subfolders). (optional)
      * @param  int|null $limit How many items to return (1-100, default 50). (optional, default to 50)
      * @param  string|null $cursor The previous page's `next_cursor`, to get the next page. It's the ID of that page's last item, so get the next page before you delete or change the items on this one. (optional)
@@ -15250,15 +19872,16 @@ class Client
      *
      * @param  string $folder_id The folder's ID. (required)
      * @param  \DocSpring\Model\MoveFolderRequest $body Where to move the folder. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['moveFolder'] to see the possible values for this operation
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return \DocSpring\Model\Folder|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
      */
-    public function moveFolder($folder_id, $body, string $contentType = self::contentTypes['moveFolder'][0])
+    public function moveFolder($folder_id, $body, $idempotency_key = null, string $contentType = self::contentTypes['moveFolder'][0])
     {
-        list($response) = $this->moveFolderWithHttpInfo($folder_id, $body, $contentType);
+        list($response) = $this->moveFolderWithHttpInfo($folder_id, $body, $idempotency_key, $contentType);
         return $response;
     }
 
@@ -15269,15 +19892,16 @@ class Client
      *
      * @param  string $folder_id The folder's ID. (required)
      * @param  \DocSpring\Model\MoveFolderRequest $body Where to move the folder. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['moveFolder'] to see the possible values for this operation
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return array of \DocSpring\Model\Folder|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function moveFolderWithHttpInfo($folder_id, $body, string $contentType = self::contentTypes['moveFolder'][0])
+    public function moveFolderWithHttpInfo($folder_id, $body, $idempotency_key = null, string $contentType = self::contentTypes['moveFolder'][0])
     {
-        $request = $this->moveFolderRequest($folder_id, $body, $contentType);
+        $request = $this->moveFolderRequest($folder_id, $body, $idempotency_key, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -15411,14 +20035,15 @@ class Client
      *
      * @param  string $folder_id The folder's ID. (required)
      * @param  \DocSpring\Model\MoveFolderRequest $body Where to move the folder. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['moveFolder'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function moveFolderAsync($folder_id, $body, string $contentType = self::contentTypes['moveFolder'][0])
+    public function moveFolderAsync($folder_id, $body, $idempotency_key = null, string $contentType = self::contentTypes['moveFolder'][0])
     {
-        return $this->moveFolderAsyncWithHttpInfo($folder_id, $body, $contentType)
+        return $this->moveFolderAsyncWithHttpInfo($folder_id, $body, $idempotency_key, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -15433,15 +20058,16 @@ class Client
      *
      * @param  string $folder_id The folder's ID. (required)
      * @param  \DocSpring\Model\MoveFolderRequest $body Where to move the folder. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['moveFolder'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function moveFolderAsyncWithHttpInfo($folder_id, $body, string $contentType = self::contentTypes['moveFolder'][0])
+    public function moveFolderAsyncWithHttpInfo($folder_id, $body, $idempotency_key = null, string $contentType = self::contentTypes['moveFolder'][0])
     {
         $returnType = '\DocSpring\Model\Folder';
-        $request = $this->moveFolderRequest($folder_id, $body, $contentType);
+        $request = $this->moveFolderRequest($folder_id, $body, $idempotency_key, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -15484,12 +20110,13 @@ class Client
      *
      * @param  string $folder_id The folder's ID. (required)
      * @param  \DocSpring\Model\MoveFolderRequest $body Where to move the folder. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['moveFolder'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function moveFolderRequest($folder_id, $body, string $contentType = self::contentTypes['moveFolder'][0])
+    public function moveFolderRequest($folder_id, $body, $idempotency_key = null, string $contentType = self::contentTypes['moveFolder'][0])
     {
 
         // verify the required parameter 'folder_id' is set
@@ -15507,6 +20134,7 @@ class Client
         }
 
 
+
         $resourcePath = '/folders/{folder_id}/move';
         $formParams = [];
         $queryParams = [];
@@ -15515,6 +20143,10 @@ class Client
         $multipart = false;
 
 
+        // header params
+        if ($idempotency_key !== null) {
+            $headerParams['Idempotency-Key'] = ObjectSerializer::toHeaderValue($idempotency_key);
+        }
 
         // path params
         if ($folder_id !== null) {
@@ -15609,15 +20241,16 @@ class Client
      *
      * @param  string $template_id The template's ID. (required)
      * @param  \DocSpring\Model\MoveTemplateRequest $body Where to move the template. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['moveTemplate'] to see the possible values for this operation
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return \DocSpring\Model\Template|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
      */
-    public function moveTemplate($template_id, $body, string $contentType = self::contentTypes['moveTemplate'][0])
+    public function moveTemplate($template_id, $body, $idempotency_key = null, string $contentType = self::contentTypes['moveTemplate'][0])
     {
-        list($response) = $this->moveTemplateWithHttpInfo($template_id, $body, $contentType);
+        list($response) = $this->moveTemplateWithHttpInfo($template_id, $body, $idempotency_key, $contentType);
         return $response;
     }
 
@@ -15628,15 +20261,16 @@ class Client
      *
      * @param  string $template_id The template's ID. (required)
      * @param  \DocSpring\Model\MoveTemplateRequest $body Where to move the template. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['moveTemplate'] to see the possible values for this operation
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return array of \DocSpring\Model\Template|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function moveTemplateWithHttpInfo($template_id, $body, string $contentType = self::contentTypes['moveTemplate'][0])
+    public function moveTemplateWithHttpInfo($template_id, $body, $idempotency_key = null, string $contentType = self::contentTypes['moveTemplate'][0])
     {
-        $request = $this->moveTemplateRequest($template_id, $body, $contentType);
+        $request = $this->moveTemplateRequest($template_id, $body, $idempotency_key, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -15770,14 +20404,15 @@ class Client
      *
      * @param  string $template_id The template's ID. (required)
      * @param  \DocSpring\Model\MoveTemplateRequest $body Where to move the template. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['moveTemplate'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function moveTemplateAsync($template_id, $body, string $contentType = self::contentTypes['moveTemplate'][0])
+    public function moveTemplateAsync($template_id, $body, $idempotency_key = null, string $contentType = self::contentTypes['moveTemplate'][0])
     {
-        return $this->moveTemplateAsyncWithHttpInfo($template_id, $body, $contentType)
+        return $this->moveTemplateAsyncWithHttpInfo($template_id, $body, $idempotency_key, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -15792,15 +20427,16 @@ class Client
      *
      * @param  string $template_id The template's ID. (required)
      * @param  \DocSpring\Model\MoveTemplateRequest $body Where to move the template. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['moveTemplate'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function moveTemplateAsyncWithHttpInfo($template_id, $body, string $contentType = self::contentTypes['moveTemplate'][0])
+    public function moveTemplateAsyncWithHttpInfo($template_id, $body, $idempotency_key = null, string $contentType = self::contentTypes['moveTemplate'][0])
     {
         $returnType = '\DocSpring\Model\Template';
-        $request = $this->moveTemplateRequest($template_id, $body, $contentType);
+        $request = $this->moveTemplateRequest($template_id, $body, $idempotency_key, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -15843,12 +20479,13 @@ class Client
      *
      * @param  string $template_id The template's ID. (required)
      * @param  \DocSpring\Model\MoveTemplateRequest $body Where to move the template. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['moveTemplate'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function moveTemplateRequest($template_id, $body, string $contentType = self::contentTypes['moveTemplate'][0])
+    public function moveTemplateRequest($template_id, $body, $idempotency_key = null, string $contentType = self::contentTypes['moveTemplate'][0])
     {
 
         // verify the required parameter 'template_id' is set
@@ -15866,6 +20503,7 @@ class Client
         }
 
 
+
         $resourcePath = '/templates/{template_id}/move';
         $formParams = [];
         $queryParams = [];
@@ -15874,6 +20512,10 @@ class Client
         $multipart = false;
 
 
+        // header params
+        if ($idempotency_key !== null) {
+            $headerParams['Idempotency-Key'] = ObjectSerializer::toHeaderValue($idempotency_key);
+        }
 
         // path params
         if ($template_id !== null) {
@@ -15968,15 +20610,16 @@ class Client
      *
      * @param  string $template_id The template's ID. (required)
      * @param  \DocSpring\Model\PublishTemplateVersionRequest $body The version to publish. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['publishTemplateVersion'] to see the possible values for this operation
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return \DocSpring\Model\TemplateVersion|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
      */
-    public function publishTemplateVersion($template_id, $body, string $contentType = self::contentTypes['publishTemplateVersion'][0])
+    public function publishTemplateVersion($template_id, $body, $idempotency_key = null, string $contentType = self::contentTypes['publishTemplateVersion'][0])
     {
-        list($response) = $this->publishTemplateVersionWithHttpInfo($template_id, $body, $contentType);
+        list($response) = $this->publishTemplateVersionWithHttpInfo($template_id, $body, $idempotency_key, $contentType);
         return $response;
     }
 
@@ -15987,15 +20630,16 @@ class Client
      *
      * @param  string $template_id The template's ID. (required)
      * @param  \DocSpring\Model\PublishTemplateVersionRequest $body The version to publish. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['publishTemplateVersion'] to see the possible values for this operation
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return array of \DocSpring\Model\TemplateVersion|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function publishTemplateVersionWithHttpInfo($template_id, $body, string $contentType = self::contentTypes['publishTemplateVersion'][0])
+    public function publishTemplateVersionWithHttpInfo($template_id, $body, $idempotency_key = null, string $contentType = self::contentTypes['publishTemplateVersion'][0])
     {
-        $request = $this->publishTemplateVersionRequest($template_id, $body, $contentType);
+        $request = $this->publishTemplateVersionRequest($template_id, $body, $idempotency_key, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -16143,14 +20787,15 @@ class Client
      *
      * @param  string $template_id The template's ID. (required)
      * @param  \DocSpring\Model\PublishTemplateVersionRequest $body The version to publish. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['publishTemplateVersion'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function publishTemplateVersionAsync($template_id, $body, string $contentType = self::contentTypes['publishTemplateVersion'][0])
+    public function publishTemplateVersionAsync($template_id, $body, $idempotency_key = null, string $contentType = self::contentTypes['publishTemplateVersion'][0])
     {
-        return $this->publishTemplateVersionAsyncWithHttpInfo($template_id, $body, $contentType)
+        return $this->publishTemplateVersionAsyncWithHttpInfo($template_id, $body, $idempotency_key, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -16165,15 +20810,16 @@ class Client
      *
      * @param  string $template_id The template's ID. (required)
      * @param  \DocSpring\Model\PublishTemplateVersionRequest $body The version to publish. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['publishTemplateVersion'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function publishTemplateVersionAsyncWithHttpInfo($template_id, $body, string $contentType = self::contentTypes['publishTemplateVersion'][0])
+    public function publishTemplateVersionAsyncWithHttpInfo($template_id, $body, $idempotency_key = null, string $contentType = self::contentTypes['publishTemplateVersion'][0])
     {
         $returnType = '\DocSpring\Model\TemplateVersion';
-        $request = $this->publishTemplateVersionRequest($template_id, $body, $contentType);
+        $request = $this->publishTemplateVersionRequest($template_id, $body, $idempotency_key, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -16216,12 +20862,13 @@ class Client
      *
      * @param  string $template_id The template's ID. (required)
      * @param  \DocSpring\Model\PublishTemplateVersionRequest $body The version to publish. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['publishTemplateVersion'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function publishTemplateVersionRequest($template_id, $body, string $contentType = self::contentTypes['publishTemplateVersion'][0])
+    public function publishTemplateVersionRequest($template_id, $body, $idempotency_key = null, string $contentType = self::contentTypes['publishTemplateVersion'][0])
     {
 
         // verify the required parameter 'template_id' is set
@@ -16239,6 +20886,7 @@ class Client
         }
 
 
+
         $resourcePath = '/templates/{template_id}/publish_version';
         $formParams = [];
         $queryParams = [];
@@ -16247,6 +20895,10 @@ class Client
         $multipart = false;
 
 
+        // header params
+        if ($idempotency_key !== null) {
+            $headerParams['Idempotency-Key'] = ObjectSerializer::toHeaderValue($idempotency_key);
+        }
 
         // path params
         if ($template_id !== null) {
@@ -16341,15 +20993,16 @@ class Client
      *
      * @param  string $template_id The template's ID. (required)
      * @param  \DocSpring\Model\RemoveTemplateFieldsRequest $body The fields to remove from the template's draft. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['removeTemplateFields'] to see the possible values for this operation
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return \DocSpring\Model\TemplateFields|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
      */
-    public function removeTemplateFields($template_id, $body, string $contentType = self::contentTypes['removeTemplateFields'][0])
+    public function removeTemplateFields($template_id, $body, $idempotency_key = null, string $contentType = self::contentTypes['removeTemplateFields'][0])
     {
-        list($response) = $this->removeTemplateFieldsWithHttpInfo($template_id, $body, $contentType);
+        list($response) = $this->removeTemplateFieldsWithHttpInfo($template_id, $body, $idempotency_key, $contentType);
         return $response;
     }
 
@@ -16360,15 +21013,16 @@ class Client
      *
      * @param  string $template_id The template's ID. (required)
      * @param  \DocSpring\Model\RemoveTemplateFieldsRequest $body The fields to remove from the template's draft. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['removeTemplateFields'] to see the possible values for this operation
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return array of \DocSpring\Model\TemplateFields|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function removeTemplateFieldsWithHttpInfo($template_id, $body, string $contentType = self::contentTypes['removeTemplateFields'][0])
+    public function removeTemplateFieldsWithHttpInfo($template_id, $body, $idempotency_key = null, string $contentType = self::contentTypes['removeTemplateFields'][0])
     {
-        $request = $this->removeTemplateFieldsRequest($template_id, $body, $contentType);
+        $request = $this->removeTemplateFieldsRequest($template_id, $body, $idempotency_key, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -16502,14 +21156,15 @@ class Client
      *
      * @param  string $template_id The template's ID. (required)
      * @param  \DocSpring\Model\RemoveTemplateFieldsRequest $body The fields to remove from the template's draft. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['removeTemplateFields'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function removeTemplateFieldsAsync($template_id, $body, string $contentType = self::contentTypes['removeTemplateFields'][0])
+    public function removeTemplateFieldsAsync($template_id, $body, $idempotency_key = null, string $contentType = self::contentTypes['removeTemplateFields'][0])
     {
-        return $this->removeTemplateFieldsAsyncWithHttpInfo($template_id, $body, $contentType)
+        return $this->removeTemplateFieldsAsyncWithHttpInfo($template_id, $body, $idempotency_key, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -16524,15 +21179,16 @@ class Client
      *
      * @param  string $template_id The template's ID. (required)
      * @param  \DocSpring\Model\RemoveTemplateFieldsRequest $body The fields to remove from the template's draft. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['removeTemplateFields'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function removeTemplateFieldsAsyncWithHttpInfo($template_id, $body, string $contentType = self::contentTypes['removeTemplateFields'][0])
+    public function removeTemplateFieldsAsyncWithHttpInfo($template_id, $body, $idempotency_key = null, string $contentType = self::contentTypes['removeTemplateFields'][0])
     {
         $returnType = '\DocSpring\Model\TemplateFields';
-        $request = $this->removeTemplateFieldsRequest($template_id, $body, $contentType);
+        $request = $this->removeTemplateFieldsRequest($template_id, $body, $idempotency_key, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -16575,12 +21231,13 @@ class Client
      *
      * @param  string $template_id The template's ID. (required)
      * @param  \DocSpring\Model\RemoveTemplateFieldsRequest $body The fields to remove from the template's draft. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['removeTemplateFields'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function removeTemplateFieldsRequest($template_id, $body, string $contentType = self::contentTypes['removeTemplateFields'][0])
+    public function removeTemplateFieldsRequest($template_id, $body, $idempotency_key = null, string $contentType = self::contentTypes['removeTemplateFields'][0])
     {
 
         // verify the required parameter 'template_id' is set
@@ -16598,6 +21255,7 @@ class Client
         }
 
 
+
         $resourcePath = '/templates/{template_id}/fields/remove';
         $formParams = [];
         $queryParams = [];
@@ -16606,6 +21264,10 @@ class Client
         $multipart = false;
 
 
+        // header params
+        if ($idempotency_key !== null) {
+            $headerParams['Idempotency-Key'] = ObjectSerializer::toHeaderValue($idempotency_key);
+        }
 
         // path params
         if ($template_id !== null) {
@@ -16700,15 +21362,16 @@ class Client
      *
      * @param  string $folder_id The folder's ID. (required)
      * @param  \DocSpring\Model\RenameFolderRequest $body The folder's new name. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['renameFolder'] to see the possible values for this operation
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return \DocSpring\Model\Folder|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
      */
-    public function renameFolder($folder_id, $body, string $contentType = self::contentTypes['renameFolder'][0])
+    public function renameFolder($folder_id, $body, $idempotency_key = null, string $contentType = self::contentTypes['renameFolder'][0])
     {
-        list($response) = $this->renameFolderWithHttpInfo($folder_id, $body, $contentType);
+        list($response) = $this->renameFolderWithHttpInfo($folder_id, $body, $idempotency_key, $contentType);
         return $response;
     }
 
@@ -16719,15 +21382,16 @@ class Client
      *
      * @param  string $folder_id The folder's ID. (required)
      * @param  \DocSpring\Model\RenameFolderRequest $body The folder's new name. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['renameFolder'] to see the possible values for this operation
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return array of \DocSpring\Model\Folder|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function renameFolderWithHttpInfo($folder_id, $body, string $contentType = self::contentTypes['renameFolder'][0])
+    public function renameFolderWithHttpInfo($folder_id, $body, $idempotency_key = null, string $contentType = self::contentTypes['renameFolder'][0])
     {
-        $request = $this->renameFolderRequest($folder_id, $body, $contentType);
+        $request = $this->renameFolderRequest($folder_id, $body, $idempotency_key, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -16861,14 +21525,15 @@ class Client
      *
      * @param  string $folder_id The folder's ID. (required)
      * @param  \DocSpring\Model\RenameFolderRequest $body The folder's new name. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['renameFolder'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function renameFolderAsync($folder_id, $body, string $contentType = self::contentTypes['renameFolder'][0])
+    public function renameFolderAsync($folder_id, $body, $idempotency_key = null, string $contentType = self::contentTypes['renameFolder'][0])
     {
-        return $this->renameFolderAsyncWithHttpInfo($folder_id, $body, $contentType)
+        return $this->renameFolderAsyncWithHttpInfo($folder_id, $body, $idempotency_key, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -16883,15 +21548,16 @@ class Client
      *
      * @param  string $folder_id The folder's ID. (required)
      * @param  \DocSpring\Model\RenameFolderRequest $body The folder's new name. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['renameFolder'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function renameFolderAsyncWithHttpInfo($folder_id, $body, string $contentType = self::contentTypes['renameFolder'][0])
+    public function renameFolderAsyncWithHttpInfo($folder_id, $body, $idempotency_key = null, string $contentType = self::contentTypes['renameFolder'][0])
     {
         $returnType = '\DocSpring\Model\Folder';
-        $request = $this->renameFolderRequest($folder_id, $body, $contentType);
+        $request = $this->renameFolderRequest($folder_id, $body, $idempotency_key, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -16934,12 +21600,13 @@ class Client
      *
      * @param  string $folder_id The folder's ID. (required)
      * @param  \DocSpring\Model\RenameFolderRequest $body The folder's new name. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['renameFolder'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function renameFolderRequest($folder_id, $body, string $contentType = self::contentTypes['renameFolder'][0])
+    public function renameFolderRequest($folder_id, $body, $idempotency_key = null, string $contentType = self::contentTypes['renameFolder'][0])
     {
 
         // verify the required parameter 'folder_id' is set
@@ -16957,6 +21624,7 @@ class Client
         }
 
 
+
         $resourcePath = '/folders/{folder_id}/rename';
         $formParams = [];
         $queryParams = [];
@@ -16965,6 +21633,10 @@ class Client
         $multipart = false;
 
 
+        // header params
+        if ($idempotency_key !== null) {
+            $headerParams['Idempotency-Key'] = ObjectSerializer::toHeaderValue($idempotency_key);
+        }
 
         // path params
         if ($folder_id !== null) {
@@ -17059,15 +21731,16 @@ class Client
      *
      * @param  string $template_id The template's ID. (required)
      * @param  \DocSpring\Model\ReorderTemplateFieldsRequest $body The new order of the fields in the template's draft. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['reorderTemplateFields'] to see the possible values for this operation
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return \DocSpring\Model\TemplateFields|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
      */
-    public function reorderTemplateFields($template_id, $body, string $contentType = self::contentTypes['reorderTemplateFields'][0])
+    public function reorderTemplateFields($template_id, $body, $idempotency_key = null, string $contentType = self::contentTypes['reorderTemplateFields'][0])
     {
-        list($response) = $this->reorderTemplateFieldsWithHttpInfo($template_id, $body, $contentType);
+        list($response) = $this->reorderTemplateFieldsWithHttpInfo($template_id, $body, $idempotency_key, $contentType);
         return $response;
     }
 
@@ -17078,15 +21751,16 @@ class Client
      *
      * @param  string $template_id The template's ID. (required)
      * @param  \DocSpring\Model\ReorderTemplateFieldsRequest $body The new order of the fields in the template's draft. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['reorderTemplateFields'] to see the possible values for this operation
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return array of \DocSpring\Model\TemplateFields|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function reorderTemplateFieldsWithHttpInfo($template_id, $body, string $contentType = self::contentTypes['reorderTemplateFields'][0])
+    public function reorderTemplateFieldsWithHttpInfo($template_id, $body, $idempotency_key = null, string $contentType = self::contentTypes['reorderTemplateFields'][0])
     {
-        $request = $this->reorderTemplateFieldsRequest($template_id, $body, $contentType);
+        $request = $this->reorderTemplateFieldsRequest($template_id, $body, $idempotency_key, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -17220,14 +21894,15 @@ class Client
      *
      * @param  string $template_id The template's ID. (required)
      * @param  \DocSpring\Model\ReorderTemplateFieldsRequest $body The new order of the fields in the template's draft. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['reorderTemplateFields'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function reorderTemplateFieldsAsync($template_id, $body, string $contentType = self::contentTypes['reorderTemplateFields'][0])
+    public function reorderTemplateFieldsAsync($template_id, $body, $idempotency_key = null, string $contentType = self::contentTypes['reorderTemplateFields'][0])
     {
-        return $this->reorderTemplateFieldsAsyncWithHttpInfo($template_id, $body, $contentType)
+        return $this->reorderTemplateFieldsAsyncWithHttpInfo($template_id, $body, $idempotency_key, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -17242,15 +21917,16 @@ class Client
      *
      * @param  string $template_id The template's ID. (required)
      * @param  \DocSpring\Model\ReorderTemplateFieldsRequest $body The new order of the fields in the template's draft. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['reorderTemplateFields'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function reorderTemplateFieldsAsyncWithHttpInfo($template_id, $body, string $contentType = self::contentTypes['reorderTemplateFields'][0])
+    public function reorderTemplateFieldsAsyncWithHttpInfo($template_id, $body, $idempotency_key = null, string $contentType = self::contentTypes['reorderTemplateFields'][0])
     {
         $returnType = '\DocSpring\Model\TemplateFields';
-        $request = $this->reorderTemplateFieldsRequest($template_id, $body, $contentType);
+        $request = $this->reorderTemplateFieldsRequest($template_id, $body, $idempotency_key, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -17293,12 +21969,13 @@ class Client
      *
      * @param  string $template_id The template's ID. (required)
      * @param  \DocSpring\Model\ReorderTemplateFieldsRequest $body The new order of the fields in the template's draft. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['reorderTemplateFields'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function reorderTemplateFieldsRequest($template_id, $body, string $contentType = self::contentTypes['reorderTemplateFields'][0])
+    public function reorderTemplateFieldsRequest($template_id, $body, $idempotency_key = null, string $contentType = self::contentTypes['reorderTemplateFields'][0])
     {
 
         // verify the required parameter 'template_id' is set
@@ -17316,6 +21993,7 @@ class Client
         }
 
 
+
         $resourcePath = '/templates/{template_id}/fields/reorder';
         $formParams = [];
         $queryParams = [];
@@ -17324,6 +22002,10 @@ class Client
         $multipart = false;
 
 
+        // header params
+        if ($idempotency_key !== null) {
+            $headerParams['Idempotency-Key'] = ObjectSerializer::toHeaderValue($idempotency_key);
+        }
 
         // path params
         if ($template_id !== null) {
@@ -17418,15 +22100,16 @@ class Client
      *
      * @param  string $template_id The template's ID. (required)
      * @param  \DocSpring\Model\RestoreTemplateVersionRequest $body The version to restore. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['restoreTemplateVersion'] to see the possible values for this operation
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return \DocSpring\Model\Template|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
      */
-    public function restoreTemplateVersion($template_id, $body, string $contentType = self::contentTypes['restoreTemplateVersion'][0])
+    public function restoreTemplateVersion($template_id, $body, $idempotency_key = null, string $contentType = self::contentTypes['restoreTemplateVersion'][0])
     {
-        list($response) = $this->restoreTemplateVersionWithHttpInfo($template_id, $body, $contentType);
+        list($response) = $this->restoreTemplateVersionWithHttpInfo($template_id, $body, $idempotency_key, $contentType);
         return $response;
     }
 
@@ -17437,15 +22120,16 @@ class Client
      *
      * @param  string $template_id The template's ID. (required)
      * @param  \DocSpring\Model\RestoreTemplateVersionRequest $body The version to restore. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['restoreTemplateVersion'] to see the possible values for this operation
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return array of \DocSpring\Model\Template|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function restoreTemplateVersionWithHttpInfo($template_id, $body, string $contentType = self::contentTypes['restoreTemplateVersion'][0])
+    public function restoreTemplateVersionWithHttpInfo($template_id, $body, $idempotency_key = null, string $contentType = self::contentTypes['restoreTemplateVersion'][0])
     {
-        $request = $this->restoreTemplateVersionRequest($template_id, $body, $contentType);
+        $request = $this->restoreTemplateVersionRequest($template_id, $body, $idempotency_key, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -17593,14 +22277,15 @@ class Client
      *
      * @param  string $template_id The template's ID. (required)
      * @param  \DocSpring\Model\RestoreTemplateVersionRequest $body The version to restore. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['restoreTemplateVersion'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function restoreTemplateVersionAsync($template_id, $body, string $contentType = self::contentTypes['restoreTemplateVersion'][0])
+    public function restoreTemplateVersionAsync($template_id, $body, $idempotency_key = null, string $contentType = self::contentTypes['restoreTemplateVersion'][0])
     {
-        return $this->restoreTemplateVersionAsyncWithHttpInfo($template_id, $body, $contentType)
+        return $this->restoreTemplateVersionAsyncWithHttpInfo($template_id, $body, $idempotency_key, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -17615,15 +22300,16 @@ class Client
      *
      * @param  string $template_id The template's ID. (required)
      * @param  \DocSpring\Model\RestoreTemplateVersionRequest $body The version to restore. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['restoreTemplateVersion'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function restoreTemplateVersionAsyncWithHttpInfo($template_id, $body, string $contentType = self::contentTypes['restoreTemplateVersion'][0])
+    public function restoreTemplateVersionAsyncWithHttpInfo($template_id, $body, $idempotency_key = null, string $contentType = self::contentTypes['restoreTemplateVersion'][0])
     {
         $returnType = '\DocSpring\Model\Template';
-        $request = $this->restoreTemplateVersionRequest($template_id, $body, $contentType);
+        $request = $this->restoreTemplateVersionRequest($template_id, $body, $idempotency_key, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -17666,12 +22352,13 @@ class Client
      *
      * @param  string $template_id The template's ID. (required)
      * @param  \DocSpring\Model\RestoreTemplateVersionRequest $body The version to restore. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['restoreTemplateVersion'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function restoreTemplateVersionRequest($template_id, $body, string $contentType = self::contentTypes['restoreTemplateVersion'][0])
+    public function restoreTemplateVersionRequest($template_id, $body, $idempotency_key = null, string $contentType = self::contentTypes['restoreTemplateVersion'][0])
     {
 
         // verify the required parameter 'template_id' is set
@@ -17689,6 +22376,7 @@ class Client
         }
 
 
+
         $resourcePath = '/templates/{template_id}/restore_version';
         $formParams = [];
         $queryParams = [];
@@ -17697,6 +22385,10 @@ class Client
         $multipart = false;
 
 
+        // header params
+        if ($idempotency_key !== null) {
+            $headerParams['Idempotency-Key'] = ObjectSerializer::toHeaderValue($idempotency_key);
+        }
 
         // path params
         if ($template_id !== null) {
@@ -17772,6 +22464,735 @@ class Client
 
         if ($this->config->getValidateRequests()) {
             \DocSpring\RequestValidator::validateRequest('restoreTemplateVersion', $queryParams, count($formParams) > 0 ? $formParams : ($httpBody === '' ? null : $httpBody));
+        }
+
+        $operationHost = $this->config->getHost();
+        $query = ObjectSerializer::buildQuery($queryParams);
+        return new Request(
+            'POST',
+            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
+            $headers,
+            $httpBody
+        );
+    }
+
+    /**
+     * Operation sendAccountEmailActionTestEmail
+     *
+     * Send a test email for an account email action
+     *
+     * @param  string $email_action_id The account email action's ID. (required)
+     * @param  \DocSpring\Model\SendAccountEmailActionTestEmailRequest|null $body Which template the test email is for. (optional)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['sendAccountEmailActionTestEmail'] to see the possible values for this operation
+     *
+     * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \InvalidArgumentException
+     * @return \DocSpring\Model\EmailActionTestEmail|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
+     */
+    public function sendAccountEmailActionTestEmail($email_action_id, $body = null, $idempotency_key = null, string $contentType = self::contentTypes['sendAccountEmailActionTestEmail'][0])
+    {
+        list($response) = $this->sendAccountEmailActionTestEmailWithHttpInfo($email_action_id, $body, $idempotency_key, $contentType);
+        return $response;
+    }
+
+    /**
+     * Operation sendAccountEmailActionTestEmailWithHttpInfo
+     *
+     * Send a test email for an account email action
+     *
+     * @param  string $email_action_id The account email action's ID. (required)
+     * @param  \DocSpring\Model\SendAccountEmailActionTestEmailRequest|null $body Which template the test email is for. (optional)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['sendAccountEmailActionTestEmail'] to see the possible values for this operation
+     *
+     * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \InvalidArgumentException
+     * @return array of \DocSpring\Model\EmailActionTestEmail|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function sendAccountEmailActionTestEmailWithHttpInfo($email_action_id, $body = null, $idempotency_key = null, string $contentType = self::contentTypes['sendAccountEmailActionTestEmail'][0])
+    {
+        $request = $this->sendAccountEmailActionTestEmailRequest($email_action_id, $body, $idempotency_key, $contentType);
+
+        try {
+            $options = $this->createHttpClientOption();
+            try {
+                $response = $this->client->send($request, $options);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null,
+                    $e->getResponse() ? (string) $e->getResponse()->getBody() : null
+                );
+            } catch (ConnectException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    null,
+                    null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+
+            switch($statusCode) {
+                case 200:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\EmailActionTestEmail',
+                        $request,
+                        $response,
+                    );
+                case 422:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 409:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 401:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 429:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+            }
+
+            
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        (string) $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    (string) $response->getBody()
+                );
+            }
+
+            return $this->handleResponseWithDataType(
+                '\DocSpring\Model\EmailActionTestEmail',
+                $request,
+                $response,
+            );
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\EmailActionTestEmail',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 422:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 409:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 429:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+            }
+        
+
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation sendAccountEmailActionTestEmailAsync
+     *
+     * Send a test email for an account email action
+     *
+     * @param  string $email_action_id The account email action's ID. (required)
+     * @param  \DocSpring\Model\SendAccountEmailActionTestEmailRequest|null $body Which template the test email is for. (optional)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['sendAccountEmailActionTestEmail'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function sendAccountEmailActionTestEmailAsync($email_action_id, $body = null, $idempotency_key = null, string $contentType = self::contentTypes['sendAccountEmailActionTestEmail'][0])
+    {
+        return $this->sendAccountEmailActionTestEmailAsyncWithHttpInfo($email_action_id, $body, $idempotency_key, $contentType)
+            ->then(
+                function ($response) {
+                    return $response[0];
+                }
+            );
+    }
+
+    /**
+     * Operation sendAccountEmailActionTestEmailAsyncWithHttpInfo
+     *
+     * Send a test email for an account email action
+     *
+     * @param  string $email_action_id The account email action's ID. (required)
+     * @param  \DocSpring\Model\SendAccountEmailActionTestEmailRequest|null $body Which template the test email is for. (optional)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['sendAccountEmailActionTestEmail'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function sendAccountEmailActionTestEmailAsyncWithHttpInfo($email_action_id, $body = null, $idempotency_key = null, string $contentType = self::contentTypes['sendAccountEmailActionTestEmail'][0])
+    {
+        $returnType = '\DocSpring\Model\EmailActionTestEmail';
+        $request = $this->sendAccountEmailActionTestEmailRequest($email_action_id, $body, $idempotency_key, $contentType);
+
+        return $this->client
+            ->sendAsync($request, $this->createHttpClientOption())
+            ->then(
+                function ($response) use ($returnType) {
+                    if ($returnType === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ($returnType !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                },
+                function ($exception) {
+                    $response = $exception->getResponse();
+                    $statusCode = $response->getStatusCode();
+                    throw new ApiException(
+                        sprintf(
+                            '[%d] Error connecting to the API (%s)',
+                            $statusCode,
+                            $exception->getRequest()->getUri()
+                        ),
+                        $statusCode,
+                        $response->getHeaders(),
+                        (string) $response->getBody()
+                    );
+                }
+            );
+    }
+
+    /**
+     * Create request for operation 'sendAccountEmailActionTestEmail'
+     *
+     * @param  string $email_action_id The account email action's ID. (required)
+     * @param  \DocSpring\Model\SendAccountEmailActionTestEmailRequest|null $body Which template the test email is for. (optional)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['sendAccountEmailActionTestEmail'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    public function sendAccountEmailActionTestEmailRequest($email_action_id, $body = null, $idempotency_key = null, string $contentType = self::contentTypes['sendAccountEmailActionTestEmail'][0])
+    {
+
+        // verify the required parameter 'email_action_id' is set
+        if ($email_action_id === null || (is_array($email_action_id) && count($email_action_id) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $email_action_id when calling sendAccountEmailActionTestEmail'
+            );
+        }
+
+
+
+
+        $resourcePath = '/email_actions/{email_action_id}/test_email';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = '';
+        $multipart = false;
+
+
+        // header params
+        if ($idempotency_key !== null) {
+            $headerParams['Idempotency-Key'] = ObjectSerializer::toHeaderValue($idempotency_key);
+        }
+
+        // path params
+        if ($email_action_id !== null) {
+            $resourcePath = str_replace(
+                '{email_action_id}',
+                ObjectSerializer::toPathValue($email_action_id),
+                $resourcePath
+            );
+        }
+
+
+        $headers = $this->headerSelector->selectHeaders(
+            ['application/json', ],
+            $contentType,
+            $multipart
+        );
+
+        // for model (json/xml)
+        if (isset($body)) {
+            if (stripos($headers['Content-Type'], 'application/json') !== false) {
+                # if Content-Type contains "application/json", json_encode the body
+                try {
+                    $httpBody = json_encode(ObjectSerializer::sanitizeForSerialization($body), JSON_THROW_ON_ERROR);
+                } catch (\JsonException $e) {
+                    throw new \InvalidArgumentException('json_encode error: ' . $e->getMessage(), 0, $e);
+                }
+            } else {
+                $httpBody = $body;
+            }
+        } elseif (count($formParams) > 0) {
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
+                    foreach ($formParamValueItems as $formParamValueItem) {
+                        $multipartContents[] = [
+                            'name' => $formParamName,
+                            'contents' => $formParamValueItem
+                        ];
+                    }
+                }
+                // for HTTP post (form)
+                $httpBody = new MultipartStream($multipartContents);
+
+            } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
+                # if Content-Type contains "application/json", json_encode the form parameters
+                try {
+                    $httpBody = json_encode($formParams, JSON_THROW_ON_ERROR);
+                } catch (\JsonException $e) {
+                    throw new \InvalidArgumentException('json_encode error: ' . $e->getMessage(), 0, $e);
+                }
+            } else {
+                // for HTTP post (form)
+                $httpBody = ObjectSerializer::buildQuery($formParams);
+            }
+        }
+
+        // this endpoint requires HTTP basic authentication
+        if (!empty($this->config->getUsername()) || !(empty($this->config->getPassword()))) {
+            $headers['Authorization'] = 'Basic ' . base64_encode($this->config->getUsername() . ":" . $this->config->getPassword());
+        }
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        if ($this->config->getValidateRequests()) {
+            \DocSpring\RequestValidator::validateRequest('sendAccountEmailActionTestEmail', $queryParams, count($formParams) > 0 ? $formParams : ($httpBody === '' ? null : $httpBody));
+        }
+
+        $operationHost = $this->config->getHost();
+        $query = ObjectSerializer::buildQuery($queryParams);
+        return new Request(
+            'POST',
+            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
+            $headers,
+            $httpBody
+        );
+    }
+
+    /**
+     * Operation sendEmailActionTestEmail
+     *
+     * Send a test email
+     *
+     * @param  string $template_id The template's ID. (required)
+     * @param  string $email_action_id The email action's ID. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['sendEmailActionTestEmail'] to see the possible values for this operation
+     *
+     * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \InvalidArgumentException
+     * @return \DocSpring\Model\EmailActionTestEmail|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
+     */
+    public function sendEmailActionTestEmail($template_id, $email_action_id, $idempotency_key = null, string $contentType = self::contentTypes['sendEmailActionTestEmail'][0])
+    {
+        list($response) = $this->sendEmailActionTestEmailWithHttpInfo($template_id, $email_action_id, $idempotency_key, $contentType);
+        return $response;
+    }
+
+    /**
+     * Operation sendEmailActionTestEmailWithHttpInfo
+     *
+     * Send a test email
+     *
+     * @param  string $template_id The template's ID. (required)
+     * @param  string $email_action_id The email action's ID. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['sendEmailActionTestEmail'] to see the possible values for this operation
+     *
+     * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \InvalidArgumentException
+     * @return array of \DocSpring\Model\EmailActionTestEmail|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function sendEmailActionTestEmailWithHttpInfo($template_id, $email_action_id, $idempotency_key = null, string $contentType = self::contentTypes['sendEmailActionTestEmail'][0])
+    {
+        $request = $this->sendEmailActionTestEmailRequest($template_id, $email_action_id, $idempotency_key, $contentType);
+
+        try {
+            $options = $this->createHttpClientOption();
+            try {
+                $response = $this->client->send($request, $options);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null,
+                    $e->getResponse() ? (string) $e->getResponse()->getBody() : null
+                );
+            } catch (ConnectException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    null,
+                    null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+
+            switch($statusCode) {
+                case 200:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\EmailActionTestEmail',
+                        $request,
+                        $response,
+                    );
+                case 409:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 403:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 401:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 429:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+            }
+
+            
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        (string) $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    (string) $response->getBody()
+                );
+            }
+
+            return $this->handleResponseWithDataType(
+                '\DocSpring\Model\EmailActionTestEmail',
+                $request,
+                $response,
+            );
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\EmailActionTestEmail',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 409:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 403:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 429:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+            }
+        
+
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation sendEmailActionTestEmailAsync
+     *
+     * Send a test email
+     *
+     * @param  string $template_id The template's ID. (required)
+     * @param  string $email_action_id The email action's ID. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['sendEmailActionTestEmail'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function sendEmailActionTestEmailAsync($template_id, $email_action_id, $idempotency_key = null, string $contentType = self::contentTypes['sendEmailActionTestEmail'][0])
+    {
+        return $this->sendEmailActionTestEmailAsyncWithHttpInfo($template_id, $email_action_id, $idempotency_key, $contentType)
+            ->then(
+                function ($response) {
+                    return $response[0];
+                }
+            );
+    }
+
+    /**
+     * Operation sendEmailActionTestEmailAsyncWithHttpInfo
+     *
+     * Send a test email
+     *
+     * @param  string $template_id The template's ID. (required)
+     * @param  string $email_action_id The email action's ID. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['sendEmailActionTestEmail'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function sendEmailActionTestEmailAsyncWithHttpInfo($template_id, $email_action_id, $idempotency_key = null, string $contentType = self::contentTypes['sendEmailActionTestEmail'][0])
+    {
+        $returnType = '\DocSpring\Model\EmailActionTestEmail';
+        $request = $this->sendEmailActionTestEmailRequest($template_id, $email_action_id, $idempotency_key, $contentType);
+
+        return $this->client
+            ->sendAsync($request, $this->createHttpClientOption())
+            ->then(
+                function ($response) use ($returnType) {
+                    if ($returnType === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ($returnType !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                },
+                function ($exception) {
+                    $response = $exception->getResponse();
+                    $statusCode = $response->getStatusCode();
+                    throw new ApiException(
+                        sprintf(
+                            '[%d] Error connecting to the API (%s)',
+                            $statusCode,
+                            $exception->getRequest()->getUri()
+                        ),
+                        $statusCode,
+                        $response->getHeaders(),
+                        (string) $response->getBody()
+                    );
+                }
+            );
+    }
+
+    /**
+     * Create request for operation 'sendEmailActionTestEmail'
+     *
+     * @param  string $template_id The template's ID. (required)
+     * @param  string $email_action_id The email action's ID. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['sendEmailActionTestEmail'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    public function sendEmailActionTestEmailRequest($template_id, $email_action_id, $idempotency_key = null, string $contentType = self::contentTypes['sendEmailActionTestEmail'][0])
+    {
+
+        // verify the required parameter 'template_id' is set
+        if ($template_id === null || (is_array($template_id) && count($template_id) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $template_id when calling sendEmailActionTestEmail'
+            );
+        }
+
+        // verify the required parameter 'email_action_id' is set
+        if ($email_action_id === null || (is_array($email_action_id) && count($email_action_id) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $email_action_id when calling sendEmailActionTestEmail'
+            );
+        }
+
+
+
+        $resourcePath = '/templates/{template_id}/email_actions/{email_action_id}/test_email';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = '';
+        $multipart = false;
+
+
+        // header params
+        if ($idempotency_key !== null) {
+            $headerParams['Idempotency-Key'] = ObjectSerializer::toHeaderValue($idempotency_key);
+        }
+
+        // path params
+        if ($template_id !== null) {
+            $resourcePath = str_replace(
+                '{template_id}',
+                ObjectSerializer::toPathValue($template_id),
+                $resourcePath
+            );
+        }
+        // path params
+        if ($email_action_id !== null) {
+            $resourcePath = str_replace(
+                '{email_action_id}',
+                ObjectSerializer::toPathValue($email_action_id),
+                $resourcePath
+            );
+        }
+
+
+        $headers = $this->headerSelector->selectHeaders(
+            ['application/json', ],
+            $contentType,
+            $multipart
+        );
+
+        // for model (json/xml)
+        if (count($formParams) > 0) {
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
+                    foreach ($formParamValueItems as $formParamValueItem) {
+                        $multipartContents[] = [
+                            'name' => $formParamName,
+                            'contents' => $formParamValueItem
+                        ];
+                    }
+                }
+                // for HTTP post (form)
+                $httpBody = new MultipartStream($multipartContents);
+
+            } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
+                # if Content-Type contains "application/json", json_encode the form parameters
+                try {
+                    $httpBody = json_encode($formParams, JSON_THROW_ON_ERROR);
+                } catch (\JsonException $e) {
+                    throw new \InvalidArgumentException('json_encode error: ' . $e->getMessage(), 0, $e);
+                }
+            } else {
+                // for HTTP post (form)
+                $httpBody = ObjectSerializer::buildQuery($formParams);
+            }
+        }
+
+        // this endpoint requires HTTP basic authentication
+        if (!empty($this->config->getUsername()) || !(empty($this->config->getPassword()))) {
+            $headers['Authorization'] = 'Basic ' . base64_encode($this->config->getUsername() . ":" . $this->config->getPassword());
+        }
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        if ($this->config->getValidateRequests()) {
+            \DocSpring\RequestValidator::validateRequest('sendEmailActionTestEmail', $queryParams, count($formParams) > 0 ? $formParams : ($httpBody === '' ? null : $httpBody));
         }
 
         $operationHost = $this->config->getHost();
@@ -18073,21 +23494,1141 @@ class Client
     }
 
     /**
+     * Operation updateAccountEmailAction
+     *
+     * Update an account email action
+     *
+     * @param  string $email_action_id The account email action's ID. (required)
+     * @param  \DocSpring\Model\UpdateAccountEmailActionRequest $body The settings to change. Properties left out keep their values. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['updateAccountEmailAction'] to see the possible values for this operation
+     *
+     * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \InvalidArgumentException
+     * @return \DocSpring\Model\EmailAction|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
+     */
+    public function updateAccountEmailAction($email_action_id, $body, $idempotency_key = null, string $contentType = self::contentTypes['updateAccountEmailAction'][0])
+    {
+        list($response) = $this->updateAccountEmailActionWithHttpInfo($email_action_id, $body, $idempotency_key, $contentType);
+        return $response;
+    }
+
+    /**
+     * Operation updateAccountEmailActionWithHttpInfo
+     *
+     * Update an account email action
+     *
+     * @param  string $email_action_id The account email action's ID. (required)
+     * @param  \DocSpring\Model\UpdateAccountEmailActionRequest $body The settings to change. Properties left out keep their values. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['updateAccountEmailAction'] to see the possible values for this operation
+     *
+     * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \InvalidArgumentException
+     * @return array of \DocSpring\Model\EmailAction|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function updateAccountEmailActionWithHttpInfo($email_action_id, $body, $idempotency_key = null, string $contentType = self::contentTypes['updateAccountEmailAction'][0])
+    {
+        $request = $this->updateAccountEmailActionRequest($email_action_id, $body, $idempotency_key, $contentType);
+
+        try {
+            $options = $this->createHttpClientOption();
+            try {
+                $response = $this->client->send($request, $options);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null,
+                    $e->getResponse() ? (string) $e->getResponse()->getBody() : null
+                );
+            } catch (ConnectException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    null,
+                    null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+
+            switch($statusCode) {
+                case 200:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\EmailAction',
+                        $request,
+                        $response,
+                    );
+                case 401:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 429:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+            }
+
+            
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        (string) $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    (string) $response->getBody()
+                );
+            }
+
+            return $this->handleResponseWithDataType(
+                '\DocSpring\Model\EmailAction',
+                $request,
+                $response,
+            );
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\EmailAction',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 429:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+            }
+        
+
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation updateAccountEmailActionAsync
+     *
+     * Update an account email action
+     *
+     * @param  string $email_action_id The account email action's ID. (required)
+     * @param  \DocSpring\Model\UpdateAccountEmailActionRequest $body The settings to change. Properties left out keep their values. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['updateAccountEmailAction'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function updateAccountEmailActionAsync($email_action_id, $body, $idempotency_key = null, string $contentType = self::contentTypes['updateAccountEmailAction'][0])
+    {
+        return $this->updateAccountEmailActionAsyncWithHttpInfo($email_action_id, $body, $idempotency_key, $contentType)
+            ->then(
+                function ($response) {
+                    return $response[0];
+                }
+            );
+    }
+
+    /**
+     * Operation updateAccountEmailActionAsyncWithHttpInfo
+     *
+     * Update an account email action
+     *
+     * @param  string $email_action_id The account email action's ID. (required)
+     * @param  \DocSpring\Model\UpdateAccountEmailActionRequest $body The settings to change. Properties left out keep their values. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['updateAccountEmailAction'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function updateAccountEmailActionAsyncWithHttpInfo($email_action_id, $body, $idempotency_key = null, string $contentType = self::contentTypes['updateAccountEmailAction'][0])
+    {
+        $returnType = '\DocSpring\Model\EmailAction';
+        $request = $this->updateAccountEmailActionRequest($email_action_id, $body, $idempotency_key, $contentType);
+
+        return $this->client
+            ->sendAsync($request, $this->createHttpClientOption())
+            ->then(
+                function ($response) use ($returnType) {
+                    if ($returnType === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ($returnType !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                },
+                function ($exception) {
+                    $response = $exception->getResponse();
+                    $statusCode = $response->getStatusCode();
+                    throw new ApiException(
+                        sprintf(
+                            '[%d] Error connecting to the API (%s)',
+                            $statusCode,
+                            $exception->getRequest()->getUri()
+                        ),
+                        $statusCode,
+                        $response->getHeaders(),
+                        (string) $response->getBody()
+                    );
+                }
+            );
+    }
+
+    /**
+     * Create request for operation 'updateAccountEmailAction'
+     *
+     * @param  string $email_action_id The account email action's ID. (required)
+     * @param  \DocSpring\Model\UpdateAccountEmailActionRequest $body The settings to change. Properties left out keep their values. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['updateAccountEmailAction'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    public function updateAccountEmailActionRequest($email_action_id, $body, $idempotency_key = null, string $contentType = self::contentTypes['updateAccountEmailAction'][0])
+    {
+
+        // verify the required parameter 'email_action_id' is set
+        if ($email_action_id === null || (is_array($email_action_id) && count($email_action_id) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $email_action_id when calling updateAccountEmailAction'
+            );
+        }
+
+        // verify the required parameter 'body' is set
+        if ($body === null || (is_array($body) && count($body) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $body when calling updateAccountEmailAction'
+            );
+        }
+
+
+
+        $resourcePath = '/email_actions/{email_action_id}';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = '';
+        $multipart = false;
+
+
+        // header params
+        if ($idempotency_key !== null) {
+            $headerParams['Idempotency-Key'] = ObjectSerializer::toHeaderValue($idempotency_key);
+        }
+
+        // path params
+        if ($email_action_id !== null) {
+            $resourcePath = str_replace(
+                '{email_action_id}',
+                ObjectSerializer::toPathValue($email_action_id),
+                $resourcePath
+            );
+        }
+
+
+        $headers = $this->headerSelector->selectHeaders(
+            ['application/json', ],
+            $contentType,
+            $multipart
+        );
+
+        // for model (json/xml)
+        if (isset($body)) {
+            if (stripos($headers['Content-Type'], 'application/json') !== false) {
+                # if Content-Type contains "application/json", json_encode the body
+                try {
+                    $httpBody = json_encode(ObjectSerializer::sanitizeForSerialization($body), JSON_THROW_ON_ERROR);
+                } catch (\JsonException $e) {
+                    throw new \InvalidArgumentException('json_encode error: ' . $e->getMessage(), 0, $e);
+                }
+            } else {
+                $httpBody = $body;
+            }
+        } elseif (count($formParams) > 0) {
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
+                    foreach ($formParamValueItems as $formParamValueItem) {
+                        $multipartContents[] = [
+                            'name' => $formParamName,
+                            'contents' => $formParamValueItem
+                        ];
+                    }
+                }
+                // for HTTP post (form)
+                $httpBody = new MultipartStream($multipartContents);
+
+            } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
+                # if Content-Type contains "application/json", json_encode the form parameters
+                try {
+                    $httpBody = json_encode($formParams, JSON_THROW_ON_ERROR);
+                } catch (\JsonException $e) {
+                    throw new \InvalidArgumentException('json_encode error: ' . $e->getMessage(), 0, $e);
+                }
+            } else {
+                // for HTTP post (form)
+                $httpBody = ObjectSerializer::buildQuery($formParams);
+            }
+        }
+
+        // this endpoint requires HTTP basic authentication
+        if (!empty($this->config->getUsername()) || !(empty($this->config->getPassword()))) {
+            $headers['Authorization'] = 'Basic ' . base64_encode($this->config->getUsername() . ":" . $this->config->getPassword());
+        }
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        if ($this->config->getValidateRequests()) {
+            \DocSpring\RequestValidator::validateRequest('updateAccountEmailAction', $queryParams, count($formParams) > 0 ? $formParams : ($httpBody === '' ? null : $httpBody));
+        }
+
+        $operationHost = $this->config->getHost();
+        $query = ObjectSerializer::buildQuery($queryParams);
+        return new Request(
+            'PUT',
+            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
+            $headers,
+            $httpBody
+        );
+    }
+
+    /**
+     * Operation updateEmailAction
+     *
+     * Update an email action
+     *
+     * @param  string $template_id The template's ID. (required)
+     * @param  string $email_action_id The email action's ID. (required)
+     * @param  \DocSpring\Model\UpdateEmailActionRequest $body The settings to change. Properties left out keep their values. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['updateEmailAction'] to see the possible values for this operation
+     *
+     * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \InvalidArgumentException
+     * @return \DocSpring\Model\EmailAction|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
+     */
+    public function updateEmailAction($template_id, $email_action_id, $body, $idempotency_key = null, string $contentType = self::contentTypes['updateEmailAction'][0])
+    {
+        list($response) = $this->updateEmailActionWithHttpInfo($template_id, $email_action_id, $body, $idempotency_key, $contentType);
+        return $response;
+    }
+
+    /**
+     * Operation updateEmailActionWithHttpInfo
+     *
+     * Update an email action
+     *
+     * @param  string $template_id The template's ID. (required)
+     * @param  string $email_action_id The email action's ID. (required)
+     * @param  \DocSpring\Model\UpdateEmailActionRequest $body The settings to change. Properties left out keep their values. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['updateEmailAction'] to see the possible values for this operation
+     *
+     * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \InvalidArgumentException
+     * @return array of \DocSpring\Model\EmailAction|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function updateEmailActionWithHttpInfo($template_id, $email_action_id, $body, $idempotency_key = null, string $contentType = self::contentTypes['updateEmailAction'][0])
+    {
+        $request = $this->updateEmailActionRequest($template_id, $email_action_id, $body, $idempotency_key, $contentType);
+
+        try {
+            $options = $this->createHttpClientOption();
+            try {
+                $response = $this->client->send($request, $options);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null,
+                    $e->getResponse() ? (string) $e->getResponse()->getBody() : null
+                );
+            } catch (ConnectException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    null,
+                    null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+
+            switch($statusCode) {
+                case 200:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\EmailAction',
+                        $request,
+                        $response,
+                    );
+                case 422:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 409:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 401:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 429:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+            }
+
+            
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        (string) $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    (string) $response->getBody()
+                );
+            }
+
+            return $this->handleResponseWithDataType(
+                '\DocSpring\Model\EmailAction',
+                $request,
+                $response,
+            );
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\EmailAction',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 422:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 409:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 429:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+            }
+        
+
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation updateEmailActionAsync
+     *
+     * Update an email action
+     *
+     * @param  string $template_id The template's ID. (required)
+     * @param  string $email_action_id The email action's ID. (required)
+     * @param  \DocSpring\Model\UpdateEmailActionRequest $body The settings to change. Properties left out keep their values. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['updateEmailAction'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function updateEmailActionAsync($template_id, $email_action_id, $body, $idempotency_key = null, string $contentType = self::contentTypes['updateEmailAction'][0])
+    {
+        return $this->updateEmailActionAsyncWithHttpInfo($template_id, $email_action_id, $body, $idempotency_key, $contentType)
+            ->then(
+                function ($response) {
+                    return $response[0];
+                }
+            );
+    }
+
+    /**
+     * Operation updateEmailActionAsyncWithHttpInfo
+     *
+     * Update an email action
+     *
+     * @param  string $template_id The template's ID. (required)
+     * @param  string $email_action_id The email action's ID. (required)
+     * @param  \DocSpring\Model\UpdateEmailActionRequest $body The settings to change. Properties left out keep their values. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['updateEmailAction'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function updateEmailActionAsyncWithHttpInfo($template_id, $email_action_id, $body, $idempotency_key = null, string $contentType = self::contentTypes['updateEmailAction'][0])
+    {
+        $returnType = '\DocSpring\Model\EmailAction';
+        $request = $this->updateEmailActionRequest($template_id, $email_action_id, $body, $idempotency_key, $contentType);
+
+        return $this->client
+            ->sendAsync($request, $this->createHttpClientOption())
+            ->then(
+                function ($response) use ($returnType) {
+                    if ($returnType === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ($returnType !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                },
+                function ($exception) {
+                    $response = $exception->getResponse();
+                    $statusCode = $response->getStatusCode();
+                    throw new ApiException(
+                        sprintf(
+                            '[%d] Error connecting to the API (%s)',
+                            $statusCode,
+                            $exception->getRequest()->getUri()
+                        ),
+                        $statusCode,
+                        $response->getHeaders(),
+                        (string) $response->getBody()
+                    );
+                }
+            );
+    }
+
+    /**
+     * Create request for operation 'updateEmailAction'
+     *
+     * @param  string $template_id The template's ID. (required)
+     * @param  string $email_action_id The email action's ID. (required)
+     * @param  \DocSpring\Model\UpdateEmailActionRequest $body The settings to change. Properties left out keep their values. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['updateEmailAction'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    public function updateEmailActionRequest($template_id, $email_action_id, $body, $idempotency_key = null, string $contentType = self::contentTypes['updateEmailAction'][0])
+    {
+
+        // verify the required parameter 'template_id' is set
+        if ($template_id === null || (is_array($template_id) && count($template_id) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $template_id when calling updateEmailAction'
+            );
+        }
+
+        // verify the required parameter 'email_action_id' is set
+        if ($email_action_id === null || (is_array($email_action_id) && count($email_action_id) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $email_action_id when calling updateEmailAction'
+            );
+        }
+
+        // verify the required parameter 'body' is set
+        if ($body === null || (is_array($body) && count($body) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $body when calling updateEmailAction'
+            );
+        }
+
+
+
+        $resourcePath = '/templates/{template_id}/email_actions/{email_action_id}';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = '';
+        $multipart = false;
+
+
+        // header params
+        if ($idempotency_key !== null) {
+            $headerParams['Idempotency-Key'] = ObjectSerializer::toHeaderValue($idempotency_key);
+        }
+
+        // path params
+        if ($template_id !== null) {
+            $resourcePath = str_replace(
+                '{template_id}',
+                ObjectSerializer::toPathValue($template_id),
+                $resourcePath
+            );
+        }
+        // path params
+        if ($email_action_id !== null) {
+            $resourcePath = str_replace(
+                '{email_action_id}',
+                ObjectSerializer::toPathValue($email_action_id),
+                $resourcePath
+            );
+        }
+
+
+        $headers = $this->headerSelector->selectHeaders(
+            ['application/json', ],
+            $contentType,
+            $multipart
+        );
+
+        // for model (json/xml)
+        if (isset($body)) {
+            if (stripos($headers['Content-Type'], 'application/json') !== false) {
+                # if Content-Type contains "application/json", json_encode the body
+                try {
+                    $httpBody = json_encode(ObjectSerializer::sanitizeForSerialization($body), JSON_THROW_ON_ERROR);
+                } catch (\JsonException $e) {
+                    throw new \InvalidArgumentException('json_encode error: ' . $e->getMessage(), 0, $e);
+                }
+            } else {
+                $httpBody = $body;
+            }
+        } elseif (count($formParams) > 0) {
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
+                    foreach ($formParamValueItems as $formParamValueItem) {
+                        $multipartContents[] = [
+                            'name' => $formParamName,
+                            'contents' => $formParamValueItem
+                        ];
+                    }
+                }
+                // for HTTP post (form)
+                $httpBody = new MultipartStream($multipartContents);
+
+            } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
+                # if Content-Type contains "application/json", json_encode the form parameters
+                try {
+                    $httpBody = json_encode($formParams, JSON_THROW_ON_ERROR);
+                } catch (\JsonException $e) {
+                    throw new \InvalidArgumentException('json_encode error: ' . $e->getMessage(), 0, $e);
+                }
+            } else {
+                // for HTTP post (form)
+                $httpBody = ObjectSerializer::buildQuery($formParams);
+            }
+        }
+
+        // this endpoint requires HTTP basic authentication
+        if (!empty($this->config->getUsername()) || !(empty($this->config->getPassword()))) {
+            $headers['Authorization'] = 'Basic ' . base64_encode($this->config->getUsername() . ":" . $this->config->getPassword());
+        }
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        if ($this->config->getValidateRequests()) {
+            \DocSpring\RequestValidator::validateRequest('updateEmailAction', $queryParams, count($formParams) > 0 ? $formParams : ($httpBody === '' ? null : $httpBody));
+        }
+
+        $operationHost = $this->config->getHost();
+        $query = ObjectSerializer::buildQuery($queryParams);
+        return new Request(
+            'PUT',
+            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
+            $headers,
+            $httpBody
+        );
+    }
+
+    /**
+     * Operation updateEmailActionCustomization
+     *
+     * Customize an account email action for a template
+     *
+     * @param  string $template_id The template's ID. (required)
+     * @param  string $email_action_id The ID of one of your account's email actions that sends for the template. (required)
+     * @param  \DocSpring\Model\UpdateEmailActionCustomizationRequest $body The template's changes to the account email action, replacing any it had. Each setting you send is changed for this template, and the ones you leave out follow the account email action. `enabled: false` stops it sending for this template; left out, it sends. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['updateEmailActionCustomization'] to see the possible values for this operation
+     *
+     * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \InvalidArgumentException
+     * @return \DocSpring\Model\EmailAction|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
+     */
+    public function updateEmailActionCustomization($template_id, $email_action_id, $body, $idempotency_key = null, string $contentType = self::contentTypes['updateEmailActionCustomization'][0])
+    {
+        list($response) = $this->updateEmailActionCustomizationWithHttpInfo($template_id, $email_action_id, $body, $idempotency_key, $contentType);
+        return $response;
+    }
+
+    /**
+     * Operation updateEmailActionCustomizationWithHttpInfo
+     *
+     * Customize an account email action for a template
+     *
+     * @param  string $template_id The template's ID. (required)
+     * @param  string $email_action_id The ID of one of your account's email actions that sends for the template. (required)
+     * @param  \DocSpring\Model\UpdateEmailActionCustomizationRequest $body The template's changes to the account email action, replacing any it had. Each setting you send is changed for this template, and the ones you leave out follow the account email action. `enabled: false` stops it sending for this template; left out, it sends. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['updateEmailActionCustomization'] to see the possible values for this operation
+     *
+     * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \InvalidArgumentException
+     * @return array of \DocSpring\Model\EmailAction|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function updateEmailActionCustomizationWithHttpInfo($template_id, $email_action_id, $body, $idempotency_key = null, string $contentType = self::contentTypes['updateEmailActionCustomization'][0])
+    {
+        $request = $this->updateEmailActionCustomizationRequest($template_id, $email_action_id, $body, $idempotency_key, $contentType);
+
+        try {
+            $options = $this->createHttpClientOption();
+            try {
+                $response = $this->client->send($request, $options);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null,
+                    $e->getResponse() ? (string) $e->getResponse()->getBody() : null
+                );
+            } catch (ConnectException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    null,
+                    null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+
+            switch($statusCode) {
+                case 200:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\EmailAction',
+                        $request,
+                        $response,
+                    );
+                case 422:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 409:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 401:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 429:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+            }
+
+            
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        (string) $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    (string) $response->getBody()
+                );
+            }
+
+            return $this->handleResponseWithDataType(
+                '\DocSpring\Model\EmailAction',
+                $request,
+                $response,
+            );
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\EmailAction',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 422:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 409:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 429:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+            }
+        
+
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation updateEmailActionCustomizationAsync
+     *
+     * Customize an account email action for a template
+     *
+     * @param  string $template_id The template's ID. (required)
+     * @param  string $email_action_id The ID of one of your account's email actions that sends for the template. (required)
+     * @param  \DocSpring\Model\UpdateEmailActionCustomizationRequest $body The template's changes to the account email action, replacing any it had. Each setting you send is changed for this template, and the ones you leave out follow the account email action. `enabled: false` stops it sending for this template; left out, it sends. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['updateEmailActionCustomization'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function updateEmailActionCustomizationAsync($template_id, $email_action_id, $body, $idempotency_key = null, string $contentType = self::contentTypes['updateEmailActionCustomization'][0])
+    {
+        return $this->updateEmailActionCustomizationAsyncWithHttpInfo($template_id, $email_action_id, $body, $idempotency_key, $contentType)
+            ->then(
+                function ($response) {
+                    return $response[0];
+                }
+            );
+    }
+
+    /**
+     * Operation updateEmailActionCustomizationAsyncWithHttpInfo
+     *
+     * Customize an account email action for a template
+     *
+     * @param  string $template_id The template's ID. (required)
+     * @param  string $email_action_id The ID of one of your account's email actions that sends for the template. (required)
+     * @param  \DocSpring\Model\UpdateEmailActionCustomizationRequest $body The template's changes to the account email action, replacing any it had. Each setting you send is changed for this template, and the ones you leave out follow the account email action. `enabled: false` stops it sending for this template; left out, it sends. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['updateEmailActionCustomization'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function updateEmailActionCustomizationAsyncWithHttpInfo($template_id, $email_action_id, $body, $idempotency_key = null, string $contentType = self::contentTypes['updateEmailActionCustomization'][0])
+    {
+        $returnType = '\DocSpring\Model\EmailAction';
+        $request = $this->updateEmailActionCustomizationRequest($template_id, $email_action_id, $body, $idempotency_key, $contentType);
+
+        return $this->client
+            ->sendAsync($request, $this->createHttpClientOption())
+            ->then(
+                function ($response) use ($returnType) {
+                    if ($returnType === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ($returnType !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                },
+                function ($exception) {
+                    $response = $exception->getResponse();
+                    $statusCode = $response->getStatusCode();
+                    throw new ApiException(
+                        sprintf(
+                            '[%d] Error connecting to the API (%s)',
+                            $statusCode,
+                            $exception->getRequest()->getUri()
+                        ),
+                        $statusCode,
+                        $response->getHeaders(),
+                        (string) $response->getBody()
+                    );
+                }
+            );
+    }
+
+    /**
+     * Create request for operation 'updateEmailActionCustomization'
+     *
+     * @param  string $template_id The template's ID. (required)
+     * @param  string $email_action_id The ID of one of your account's email actions that sends for the template. (required)
+     * @param  \DocSpring\Model\UpdateEmailActionCustomizationRequest $body The template's changes to the account email action, replacing any it had. Each setting you send is changed for this template, and the ones you leave out follow the account email action. `enabled: false` stops it sending for this template; left out, it sends. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['updateEmailActionCustomization'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    public function updateEmailActionCustomizationRequest($template_id, $email_action_id, $body, $idempotency_key = null, string $contentType = self::contentTypes['updateEmailActionCustomization'][0])
+    {
+
+        // verify the required parameter 'template_id' is set
+        if ($template_id === null || (is_array($template_id) && count($template_id) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $template_id when calling updateEmailActionCustomization'
+            );
+        }
+
+        // verify the required parameter 'email_action_id' is set
+        if ($email_action_id === null || (is_array($email_action_id) && count($email_action_id) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $email_action_id when calling updateEmailActionCustomization'
+            );
+        }
+
+        // verify the required parameter 'body' is set
+        if ($body === null || (is_array($body) && count($body) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $body when calling updateEmailActionCustomization'
+            );
+        }
+
+
+
+        $resourcePath = '/templates/{template_id}/email_actions/{email_action_id}/customization';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = '';
+        $multipart = false;
+
+
+        // header params
+        if ($idempotency_key !== null) {
+            $headerParams['Idempotency-Key'] = ObjectSerializer::toHeaderValue($idempotency_key);
+        }
+
+        // path params
+        if ($template_id !== null) {
+            $resourcePath = str_replace(
+                '{template_id}',
+                ObjectSerializer::toPathValue($template_id),
+                $resourcePath
+            );
+        }
+        // path params
+        if ($email_action_id !== null) {
+            $resourcePath = str_replace(
+                '{email_action_id}',
+                ObjectSerializer::toPathValue($email_action_id),
+                $resourcePath
+            );
+        }
+
+
+        $headers = $this->headerSelector->selectHeaders(
+            ['application/json', ],
+            $contentType,
+            $multipart
+        );
+
+        // for model (json/xml)
+        if (isset($body)) {
+            if (stripos($headers['Content-Type'], 'application/json') !== false) {
+                # if Content-Type contains "application/json", json_encode the body
+                try {
+                    $httpBody = json_encode(ObjectSerializer::sanitizeForSerialization($body), JSON_THROW_ON_ERROR);
+                } catch (\JsonException $e) {
+                    throw new \InvalidArgumentException('json_encode error: ' . $e->getMessage(), 0, $e);
+                }
+            } else {
+                $httpBody = $body;
+            }
+        } elseif (count($formParams) > 0) {
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
+                    foreach ($formParamValueItems as $formParamValueItem) {
+                        $multipartContents[] = [
+                            'name' => $formParamName,
+                            'contents' => $formParamValueItem
+                        ];
+                    }
+                }
+                // for HTTP post (form)
+                $httpBody = new MultipartStream($multipartContents);
+
+            } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
+                # if Content-Type contains "application/json", json_encode the form parameters
+                try {
+                    $httpBody = json_encode($formParams, JSON_THROW_ON_ERROR);
+                } catch (\JsonException $e) {
+                    throw new \InvalidArgumentException('json_encode error: ' . $e->getMessage(), 0, $e);
+                }
+            } else {
+                // for HTTP post (form)
+                $httpBody = ObjectSerializer::buildQuery($formParams);
+            }
+        }
+
+        // this endpoint requires HTTP basic authentication
+        if (!empty($this->config->getUsername()) || !(empty($this->config->getPassword()))) {
+            $headers['Authorization'] = 'Basic ' . base64_encode($this->config->getUsername() . ":" . $this->config->getPassword());
+        }
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        if ($this->config->getValidateRequests()) {
+            \DocSpring\RequestValidator::validateRequest('updateEmailActionCustomization', $queryParams, count($formParams) > 0 ? $formParams : ($httpBody === '' ? null : $httpBody));
+        }
+
+        $operationHost = $this->config->getHost();
+        $query = ObjectSerializer::buildQuery($queryParams);
+        return new Request(
+            'PUT',
+            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
+            $headers,
+            $httpBody
+        );
+    }
+
+    /**
      * Operation updateSignatureRequest
      *
      * Update a signature request
      *
      * @param  string $signature_request_id The signature request's ID. (required)
      * @param  \DocSpring\Model\UpdateSignatureRequestRequest $body The settings to change. Properties left out keep their values. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['updateSignatureRequest'] to see the possible values for this operation
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return \DocSpring\Model\SignatureRequest|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
      */
-    public function updateSignatureRequest($signature_request_id, $body, string $contentType = self::contentTypes['updateSignatureRequest'][0])
+    public function updateSignatureRequest($signature_request_id, $body, $idempotency_key = null, string $contentType = self::contentTypes['updateSignatureRequest'][0])
     {
-        list($response) = $this->updateSignatureRequestWithHttpInfo($signature_request_id, $body, $contentType);
+        list($response) = $this->updateSignatureRequestWithHttpInfo($signature_request_id, $body, $idempotency_key, $contentType);
         return $response;
     }
 
@@ -18098,15 +24639,16 @@ class Client
      *
      * @param  string $signature_request_id The signature request's ID. (required)
      * @param  \DocSpring\Model\UpdateSignatureRequestRequest $body The settings to change. Properties left out keep their values. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['updateSignatureRequest'] to see the possible values for this operation
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return array of \DocSpring\Model\SignatureRequest|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function updateSignatureRequestWithHttpInfo($signature_request_id, $body, string $contentType = self::contentTypes['updateSignatureRequest'][0])
+    public function updateSignatureRequestWithHttpInfo($signature_request_id, $body, $idempotency_key = null, string $contentType = self::contentTypes['updateSignatureRequest'][0])
     {
-        $request = $this->updateSignatureRequestRequest($signature_request_id, $body, $contentType);
+        $request = $this->updateSignatureRequestRequest($signature_request_id, $body, $idempotency_key, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -18254,14 +24796,15 @@ class Client
      *
      * @param  string $signature_request_id The signature request's ID. (required)
      * @param  \DocSpring\Model\UpdateSignatureRequestRequest $body The settings to change. Properties left out keep their values. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['updateSignatureRequest'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function updateSignatureRequestAsync($signature_request_id, $body, string $contentType = self::contentTypes['updateSignatureRequest'][0])
+    public function updateSignatureRequestAsync($signature_request_id, $body, $idempotency_key = null, string $contentType = self::contentTypes['updateSignatureRequest'][0])
     {
-        return $this->updateSignatureRequestAsyncWithHttpInfo($signature_request_id, $body, $contentType)
+        return $this->updateSignatureRequestAsyncWithHttpInfo($signature_request_id, $body, $idempotency_key, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -18276,15 +24819,16 @@ class Client
      *
      * @param  string $signature_request_id The signature request's ID. (required)
      * @param  \DocSpring\Model\UpdateSignatureRequestRequest $body The settings to change. Properties left out keep their values. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['updateSignatureRequest'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function updateSignatureRequestAsyncWithHttpInfo($signature_request_id, $body, string $contentType = self::contentTypes['updateSignatureRequest'][0])
+    public function updateSignatureRequestAsyncWithHttpInfo($signature_request_id, $body, $idempotency_key = null, string $contentType = self::contentTypes['updateSignatureRequest'][0])
     {
         $returnType = '\DocSpring\Model\SignatureRequest';
-        $request = $this->updateSignatureRequestRequest($signature_request_id, $body, $contentType);
+        $request = $this->updateSignatureRequestRequest($signature_request_id, $body, $idempotency_key, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -18327,12 +24871,13 @@ class Client
      *
      * @param  string $signature_request_id The signature request's ID. (required)
      * @param  \DocSpring\Model\UpdateSignatureRequestRequest $body The settings to change. Properties left out keep their values. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['updateSignatureRequest'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function updateSignatureRequestRequest($signature_request_id, $body, string $contentType = self::contentTypes['updateSignatureRequest'][0])
+    public function updateSignatureRequestRequest($signature_request_id, $body, $idempotency_key = null, string $contentType = self::contentTypes['updateSignatureRequest'][0])
     {
 
         // verify the required parameter 'signature_request_id' is set
@@ -18350,6 +24895,7 @@ class Client
         }
 
 
+
         $resourcePath = '/signature_requests/{signature_request_id}';
         $formParams = [];
         $queryParams = [];
@@ -18358,6 +24904,10 @@ class Client
         $multipart = false;
 
 
+        // header params
+        if ($idempotency_key !== null) {
+            $headerParams['Idempotency-Key'] = ObjectSerializer::toHeaderValue($idempotency_key);
+        }
 
         // path params
         if ($signature_request_id !== null) {
@@ -18452,15 +25002,16 @@ class Client
      *
      * @param  string $template_id The template's ID. (required)
      * @param  \DocSpring\Model\UpdateTemplateRequest $body The settings to change. Properties left out keep their values. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['updateTemplate'] to see the possible values for this operation
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return \DocSpring\Model\Template|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
      */
-    public function updateTemplate($template_id, $body, string $contentType = self::contentTypes['updateTemplate'][0])
+    public function updateTemplate($template_id, $body, $idempotency_key = null, string $contentType = self::contentTypes['updateTemplate'][0])
     {
-        list($response) = $this->updateTemplateWithHttpInfo($template_id, $body, $contentType);
+        list($response) = $this->updateTemplateWithHttpInfo($template_id, $body, $idempotency_key, $contentType);
         return $response;
     }
 
@@ -18471,15 +25022,16 @@ class Client
      *
      * @param  string $template_id The template's ID. (required)
      * @param  \DocSpring\Model\UpdateTemplateRequest $body The settings to change. Properties left out keep their values. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['updateTemplate'] to see the possible values for this operation
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return array of \DocSpring\Model\Template|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function updateTemplateWithHttpInfo($template_id, $body, string $contentType = self::contentTypes['updateTemplate'][0])
+    public function updateTemplateWithHttpInfo($template_id, $body, $idempotency_key = null, string $contentType = self::contentTypes['updateTemplate'][0])
     {
-        $request = $this->updateTemplateRequest($template_id, $body, $contentType);
+        $request = $this->updateTemplateRequest($template_id, $body, $idempotency_key, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -18627,14 +25179,15 @@ class Client
      *
      * @param  string $template_id The template's ID. (required)
      * @param  \DocSpring\Model\UpdateTemplateRequest $body The settings to change. Properties left out keep their values. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['updateTemplate'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function updateTemplateAsync($template_id, $body, string $contentType = self::contentTypes['updateTemplate'][0])
+    public function updateTemplateAsync($template_id, $body, $idempotency_key = null, string $contentType = self::contentTypes['updateTemplate'][0])
     {
-        return $this->updateTemplateAsyncWithHttpInfo($template_id, $body, $contentType)
+        return $this->updateTemplateAsyncWithHttpInfo($template_id, $body, $idempotency_key, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -18649,15 +25202,16 @@ class Client
      *
      * @param  string $template_id The template's ID. (required)
      * @param  \DocSpring\Model\UpdateTemplateRequest $body The settings to change. Properties left out keep their values. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['updateTemplate'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function updateTemplateAsyncWithHttpInfo($template_id, $body, string $contentType = self::contentTypes['updateTemplate'][0])
+    public function updateTemplateAsyncWithHttpInfo($template_id, $body, $idempotency_key = null, string $contentType = self::contentTypes['updateTemplate'][0])
     {
         $returnType = '\DocSpring\Model\Template';
-        $request = $this->updateTemplateRequest($template_id, $body, $contentType);
+        $request = $this->updateTemplateRequest($template_id, $body, $idempotency_key, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -18700,12 +25254,13 @@ class Client
      *
      * @param  string $template_id The template's ID. (required)
      * @param  \DocSpring\Model\UpdateTemplateRequest $body The settings to change. Properties left out keep their values. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['updateTemplate'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function updateTemplateRequest($template_id, $body, string $contentType = self::contentTypes['updateTemplate'][0])
+    public function updateTemplateRequest($template_id, $body, $idempotency_key = null, string $contentType = self::contentTypes['updateTemplate'][0])
     {
 
         // verify the required parameter 'template_id' is set
@@ -18723,6 +25278,7 @@ class Client
         }
 
 
+
         $resourcePath = '/templates/{template_id}';
         $formParams = [];
         $queryParams = [];
@@ -18731,6 +25287,10 @@ class Client
         $multipart = false;
 
 
+        // header params
+        if ($idempotency_key !== null) {
+            $headerParams['Idempotency-Key'] = ObjectSerializer::toHeaderValue($idempotency_key);
+        }
 
         // path params
         if ($template_id !== null) {
@@ -18826,15 +25386,16 @@ class Client
      * @param  string $template_id The template's ID. (required)
      * @param  \DocSpring\Model\UpdateTemplateDocumentRequest $body The new PDF, or a Word template's new Word document, as one of `cache_id`, `document_url` and `document_base64`. (required)
      * @param  bool|null $wait Wait until the PDF has been processed, a `document_url`'s PDF or Word document downloaded, and an OpenDocument file converted, before responding. Default true on sync.api hosts. (optional)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['updateTemplateDocument'] to see the possible values for this operation
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return \DocSpring\Model\Template|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
      */
-    public function updateTemplateDocument($template_id, $body, $wait = null, string $contentType = self::contentTypes['updateTemplateDocument'][0])
+    public function updateTemplateDocument($template_id, $body, $wait = null, $idempotency_key = null, string $contentType = self::contentTypes['updateTemplateDocument'][0])
     {
-        list($response) = $this->updateTemplateDocumentWithHttpInfo($template_id, $body, $wait, $contentType);
+        list($response) = $this->updateTemplateDocumentWithHttpInfo($template_id, $body, $wait, $idempotency_key, $contentType);
         return $response;
     }
 
@@ -18846,15 +25407,16 @@ class Client
      * @param  string $template_id The template's ID. (required)
      * @param  \DocSpring\Model\UpdateTemplateDocumentRequest $body The new PDF, or a Word template's new Word document, as one of `cache_id`, `document_url` and `document_base64`. (required)
      * @param  bool|null $wait Wait until the PDF has been processed, a `document_url`'s PDF or Word document downloaded, and an OpenDocument file converted, before responding. Default true on sync.api hosts. (optional)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['updateTemplateDocument'] to see the possible values for this operation
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return array of \DocSpring\Model\Template|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function updateTemplateDocumentWithHttpInfo($template_id, $body, $wait = null, string $contentType = self::contentTypes['updateTemplateDocument'][0])
+    public function updateTemplateDocumentWithHttpInfo($template_id, $body, $wait = null, $idempotency_key = null, string $contentType = self::contentTypes['updateTemplateDocument'][0])
     {
-        $request = $this->updateTemplateDocumentRequest($template_id, $body, $wait, $contentType);
+        $request = $this->updateTemplateDocumentRequest($template_id, $body, $wait, $idempotency_key, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -19017,14 +25579,15 @@ class Client
      * @param  string $template_id The template's ID. (required)
      * @param  \DocSpring\Model\UpdateTemplateDocumentRequest $body The new PDF, or a Word template's new Word document, as one of `cache_id`, `document_url` and `document_base64`. (required)
      * @param  bool|null $wait Wait until the PDF has been processed, a `document_url`'s PDF or Word document downloaded, and an OpenDocument file converted, before responding. Default true on sync.api hosts. (optional)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['updateTemplateDocument'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function updateTemplateDocumentAsync($template_id, $body, $wait = null, string $contentType = self::contentTypes['updateTemplateDocument'][0])
+    public function updateTemplateDocumentAsync($template_id, $body, $wait = null, $idempotency_key = null, string $contentType = self::contentTypes['updateTemplateDocument'][0])
     {
-        return $this->updateTemplateDocumentAsyncWithHttpInfo($template_id, $body, $wait, $contentType)
+        return $this->updateTemplateDocumentAsyncWithHttpInfo($template_id, $body, $wait, $idempotency_key, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -19040,15 +25603,16 @@ class Client
      * @param  string $template_id The template's ID. (required)
      * @param  \DocSpring\Model\UpdateTemplateDocumentRequest $body The new PDF, or a Word template's new Word document, as one of `cache_id`, `document_url` and `document_base64`. (required)
      * @param  bool|null $wait Wait until the PDF has been processed, a `document_url`'s PDF or Word document downloaded, and an OpenDocument file converted, before responding. Default true on sync.api hosts. (optional)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['updateTemplateDocument'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function updateTemplateDocumentAsyncWithHttpInfo($template_id, $body, $wait = null, string $contentType = self::contentTypes['updateTemplateDocument'][0])
+    public function updateTemplateDocumentAsyncWithHttpInfo($template_id, $body, $wait = null, $idempotency_key = null, string $contentType = self::contentTypes['updateTemplateDocument'][0])
     {
         $returnType = '\DocSpring\Model\Template';
-        $request = $this->updateTemplateDocumentRequest($template_id, $body, $wait, $contentType);
+        $request = $this->updateTemplateDocumentRequest($template_id, $body, $wait, $idempotency_key, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -19092,12 +25656,13 @@ class Client
      * @param  string $template_id The template's ID. (required)
      * @param  \DocSpring\Model\UpdateTemplateDocumentRequest $body The new PDF, or a Word template's new Word document, as one of `cache_id`, `document_url` and `document_base64`. (required)
      * @param  bool|null $wait Wait until the PDF has been processed, a `document_url`'s PDF or Word document downloaded, and an OpenDocument file converted, before responding. Default true on sync.api hosts. (optional)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['updateTemplateDocument'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function updateTemplateDocumentRequest($template_id, $body, $wait = null, string $contentType = self::contentTypes['updateTemplateDocument'][0])
+    public function updateTemplateDocumentRequest($template_id, $body, $wait = null, $idempotency_key = null, string $contentType = self::contentTypes['updateTemplateDocument'][0])
     {
 
         // verify the required parameter 'template_id' is set
@@ -19113,6 +25678,7 @@ class Client
                 'Missing the required parameter $body when calling updateTemplateDocument'
             );
         }
+
 
 
 
@@ -19133,6 +25699,10 @@ class Client
             false // required
         ) ?? []);
 
+        // header params
+        if ($idempotency_key !== null) {
+            $headerParams['Idempotency-Key'] = ObjectSerializer::toHeaderValue($idempotency_key);
+        }
 
         // path params
         if ($template_id !== null) {
@@ -19227,15 +25797,16 @@ class Client
      *
      * @param  string $template_id The template's ID. (required)
      * @param  \DocSpring\Model\UpdateTemplateFieldsRequest $body The fields to change in the template's draft. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['updateTemplateFields'] to see the possible values for this operation
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return \DocSpring\Model\TemplateFields|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
      */
-    public function updateTemplateFields($template_id, $body, string $contentType = self::contentTypes['updateTemplateFields'][0])
+    public function updateTemplateFields($template_id, $body, $idempotency_key = null, string $contentType = self::contentTypes['updateTemplateFields'][0])
     {
-        list($response) = $this->updateTemplateFieldsWithHttpInfo($template_id, $body, $contentType);
+        list($response) = $this->updateTemplateFieldsWithHttpInfo($template_id, $body, $idempotency_key, $contentType);
         return $response;
     }
 
@@ -19246,15 +25817,16 @@ class Client
      *
      * @param  string $template_id The template's ID. (required)
      * @param  \DocSpring\Model\UpdateTemplateFieldsRequest $body The fields to change in the template's draft. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['updateTemplateFields'] to see the possible values for this operation
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return array of \DocSpring\Model\TemplateFields|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function updateTemplateFieldsWithHttpInfo($template_id, $body, string $contentType = self::contentTypes['updateTemplateFields'][0])
+    public function updateTemplateFieldsWithHttpInfo($template_id, $body, $idempotency_key = null, string $contentType = self::contentTypes['updateTemplateFields'][0])
     {
-        $request = $this->updateTemplateFieldsRequest($template_id, $body, $contentType);
+        $request = $this->updateTemplateFieldsRequest($template_id, $body, $idempotency_key, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -19388,14 +25960,15 @@ class Client
      *
      * @param  string $template_id The template's ID. (required)
      * @param  \DocSpring\Model\UpdateTemplateFieldsRequest $body The fields to change in the template's draft. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['updateTemplateFields'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function updateTemplateFieldsAsync($template_id, $body, string $contentType = self::contentTypes['updateTemplateFields'][0])
+    public function updateTemplateFieldsAsync($template_id, $body, $idempotency_key = null, string $contentType = self::contentTypes['updateTemplateFields'][0])
     {
-        return $this->updateTemplateFieldsAsyncWithHttpInfo($template_id, $body, $contentType)
+        return $this->updateTemplateFieldsAsyncWithHttpInfo($template_id, $body, $idempotency_key, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -19410,15 +25983,16 @@ class Client
      *
      * @param  string $template_id The template's ID. (required)
      * @param  \DocSpring\Model\UpdateTemplateFieldsRequest $body The fields to change in the template's draft. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['updateTemplateFields'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function updateTemplateFieldsAsyncWithHttpInfo($template_id, $body, string $contentType = self::contentTypes['updateTemplateFields'][0])
+    public function updateTemplateFieldsAsyncWithHttpInfo($template_id, $body, $idempotency_key = null, string $contentType = self::contentTypes['updateTemplateFields'][0])
     {
         $returnType = '\DocSpring\Model\TemplateFields';
-        $request = $this->updateTemplateFieldsRequest($template_id, $body, $contentType);
+        $request = $this->updateTemplateFieldsRequest($template_id, $body, $idempotency_key, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -19461,12 +26035,13 @@ class Client
      *
      * @param  string $template_id The template's ID. (required)
      * @param  \DocSpring\Model\UpdateTemplateFieldsRequest $body The fields to change in the template's draft. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['updateTemplateFields'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function updateTemplateFieldsRequest($template_id, $body, string $contentType = self::contentTypes['updateTemplateFields'][0])
+    public function updateTemplateFieldsRequest($template_id, $body, $idempotency_key = null, string $contentType = self::contentTypes['updateTemplateFields'][0])
     {
 
         // verify the required parameter 'template_id' is set
@@ -19484,6 +26059,7 @@ class Client
         }
 
 
+
         $resourcePath = '/templates/{template_id}/fields';
         $formParams = [];
         $queryParams = [];
@@ -19492,6 +26068,10 @@ class Client
         $multipart = false;
 
 
+        // header params
+        if ($idempotency_key !== null) {
+            $headerParams['Idempotency-Key'] = ObjectSerializer::toHeaderValue($idempotency_key);
+        }
 
         // path params
         if ($template_id !== null) {
@@ -19586,15 +26166,16 @@ class Client
      *
      * @param  string $webhook_id The webhook's ID. (required)
      * @param  \DocSpring\Model\UpdateWebhookRequest $body The settings to change. Properties left out keep their values. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['updateWebhook'] to see the possible values for this operation
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return \DocSpring\Model\Webhook|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
      */
-    public function updateWebhook($webhook_id, $body, string $contentType = self::contentTypes['updateWebhook'][0])
+    public function updateWebhook($webhook_id, $body, $idempotency_key = null, string $contentType = self::contentTypes['updateWebhook'][0])
     {
-        list($response) = $this->updateWebhookWithHttpInfo($webhook_id, $body, $contentType);
+        list($response) = $this->updateWebhookWithHttpInfo($webhook_id, $body, $idempotency_key, $contentType);
         return $response;
     }
 
@@ -19605,15 +26186,16 @@ class Client
      *
      * @param  string $webhook_id The webhook's ID. (required)
      * @param  \DocSpring\Model\UpdateWebhookRequest $body The settings to change. Properties left out keep their values. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['updateWebhook'] to see the possible values for this operation
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return array of \DocSpring\Model\Webhook|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function updateWebhookWithHttpInfo($webhook_id, $body, string $contentType = self::contentTypes['updateWebhook'][0])
+    public function updateWebhookWithHttpInfo($webhook_id, $body, $idempotency_key = null, string $contentType = self::contentTypes['updateWebhook'][0])
     {
-        $request = $this->updateWebhookRequest($webhook_id, $body, $contentType);
+        $request = $this->updateWebhookRequest($webhook_id, $body, $idempotency_key, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -19761,14 +26343,15 @@ class Client
      *
      * @param  string $webhook_id The webhook's ID. (required)
      * @param  \DocSpring\Model\UpdateWebhookRequest $body The settings to change. Properties left out keep their values. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['updateWebhook'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function updateWebhookAsync($webhook_id, $body, string $contentType = self::contentTypes['updateWebhook'][0])
+    public function updateWebhookAsync($webhook_id, $body, $idempotency_key = null, string $contentType = self::contentTypes['updateWebhook'][0])
     {
-        return $this->updateWebhookAsyncWithHttpInfo($webhook_id, $body, $contentType)
+        return $this->updateWebhookAsyncWithHttpInfo($webhook_id, $body, $idempotency_key, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -19783,15 +26366,16 @@ class Client
      *
      * @param  string $webhook_id The webhook's ID. (required)
      * @param  \DocSpring\Model\UpdateWebhookRequest $body The settings to change. Properties left out keep their values. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['updateWebhook'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function updateWebhookAsyncWithHttpInfo($webhook_id, $body, string $contentType = self::contentTypes['updateWebhook'][0])
+    public function updateWebhookAsyncWithHttpInfo($webhook_id, $body, $idempotency_key = null, string $contentType = self::contentTypes['updateWebhook'][0])
     {
         $returnType = '\DocSpring\Model\Webhook';
-        $request = $this->updateWebhookRequest($webhook_id, $body, $contentType);
+        $request = $this->updateWebhookRequest($webhook_id, $body, $idempotency_key, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -19834,12 +26418,13 @@ class Client
      *
      * @param  string $webhook_id The webhook's ID. (required)
      * @param  \DocSpring\Model\UpdateWebhookRequest $body The settings to change. Properties left out keep their values. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['updateWebhook'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function updateWebhookRequest($webhook_id, $body, string $contentType = self::contentTypes['updateWebhook'][0])
+    public function updateWebhookRequest($webhook_id, $body, $idempotency_key = null, string $contentType = self::contentTypes['updateWebhook'][0])
     {
 
         // verify the required parameter 'webhook_id' is set
@@ -19857,6 +26442,7 @@ class Client
         }
 
 
+
         $resourcePath = '/webhooks/{webhook_id}';
         $formParams = [];
         $queryParams = [];
@@ -19865,6 +26451,10 @@ class Client
         $multipart = false;
 
 
+        // header params
+        if ($idempotency_key !== null) {
+            $headerParams['Idempotency-Key'] = ObjectSerializer::toHeaderValue($idempotency_key);
+        }
 
         // path params
         if ($webhook_id !== null) {
@@ -19968,15 +26558,16 @@ class Client
      * @param  \DocSpring\Model\FieldSetupNaming|null $field_naming With `detect_fields`, how the fields are named. `ai` (the default) names them and sets their types and settings with AI; `preserve` keeps the names of the PDF's form fields, and AI only names the fields it detected. `preserve` needs `field_source` `auto` or `pdf_form_fields`. (optional)
      * @param  \DocSpring\Model\FieldSetupLogic|null $field_logic With `detect_fields`, whether AI reads the whole form once the fields are named and sets up conditional logic and required fields (`ai`) or not (`none`). Default: your account's template settings. (optional)
      * @param  \DocSpring\Model\OutputFormat|null $output_format What each submission of a Word template makes unless its request sets `output_formats`: `docx` (a Word document), `odt` (an OpenDocument file, converted from the Word document) or `pdf`. Required when `document` is a Word document. (optional)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['uploadTemplate'] to see the possible values for this operation
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return \DocSpring\Model\Template|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
      */
-    public function uploadTemplate($document, $wait = null, $name = null, $description = null, $parent_folder_id = null, $ai_field_naming_language = null, $detect_fields = null, $field_source = null, $field_naming = null, $field_logic = null, $output_format = null, string $contentType = self::contentTypes['uploadTemplate'][0])
+    public function uploadTemplate($document, $wait = null, $name = null, $description = null, $parent_folder_id = null, $ai_field_naming_language = null, $detect_fields = null, $field_source = null, $field_naming = null, $field_logic = null, $output_format = null, $idempotency_key = null, string $contentType = self::contentTypes['uploadTemplate'][0])
     {
-        list($response) = $this->uploadTemplateWithHttpInfo($document, $wait, $name, $description, $parent_folder_id, $ai_field_naming_language, $detect_fields, $field_source, $field_naming, $field_logic, $output_format, $contentType);
+        list($response) = $this->uploadTemplateWithHttpInfo($document, $wait, $name, $description, $parent_folder_id, $ai_field_naming_language, $detect_fields, $field_source, $field_naming, $field_logic, $output_format, $idempotency_key, $contentType);
         return $response;
     }
 
@@ -19996,15 +26587,16 @@ class Client
      * @param  \DocSpring\Model\FieldSetupNaming|null $field_naming With `detect_fields`, how the fields are named. `ai` (the default) names them and sets their types and settings with AI; `preserve` keeps the names of the PDF's form fields, and AI only names the fields it detected. `preserve` needs `field_source` `auto` or `pdf_form_fields`. (optional)
      * @param  \DocSpring\Model\FieldSetupLogic|null $field_logic With `detect_fields`, whether AI reads the whole form once the fields are named and sets up conditional logic and required fields (`ai`) or not (`none`). Default: your account's template settings. (optional)
      * @param  \DocSpring\Model\OutputFormat|null $output_format What each submission of a Word template makes unless its request sets `output_formats`: `docx` (a Word document), `odt` (an OpenDocument file, converted from the Word document) or `pdf`. Required when `document` is a Word document. (optional)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['uploadTemplate'] to see the possible values for this operation
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return array of \DocSpring\Model\Template|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function uploadTemplateWithHttpInfo($document, $wait = null, $name = null, $description = null, $parent_folder_id = null, $ai_field_naming_language = null, $detect_fields = null, $field_source = null, $field_naming = null, $field_logic = null, $output_format = null, string $contentType = self::contentTypes['uploadTemplate'][0])
+    public function uploadTemplateWithHttpInfo($document, $wait = null, $name = null, $description = null, $parent_folder_id = null, $ai_field_naming_language = null, $detect_fields = null, $field_source = null, $field_naming = null, $field_logic = null, $output_format = null, $idempotency_key = null, string $contentType = self::contentTypes['uploadTemplate'][0])
     {
-        $request = $this->uploadTemplateRequest($document, $wait, $name, $description, $parent_folder_id, $ai_field_naming_language, $detect_fields, $field_source, $field_naming, $field_logic, $output_format, $contentType);
+        $request = $this->uploadTemplateRequest($document, $wait, $name, $description, $parent_folder_id, $ai_field_naming_language, $detect_fields, $field_source, $field_naming, $field_logic, $output_format, $idempotency_key, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -20161,14 +26753,15 @@ class Client
      * @param  \DocSpring\Model\FieldSetupNaming|null $field_naming With `detect_fields`, how the fields are named. `ai` (the default) names them and sets their types and settings with AI; `preserve` keeps the names of the PDF's form fields, and AI only names the fields it detected. `preserve` needs `field_source` `auto` or `pdf_form_fields`. (optional)
      * @param  \DocSpring\Model\FieldSetupLogic|null $field_logic With `detect_fields`, whether AI reads the whole form once the fields are named and sets up conditional logic and required fields (`ai`) or not (`none`). Default: your account's template settings. (optional)
      * @param  \DocSpring\Model\OutputFormat|null $output_format What each submission of a Word template makes unless its request sets `output_formats`: `docx` (a Word document), `odt` (an OpenDocument file, converted from the Word document) or `pdf`. Required when `document` is a Word document. (optional)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['uploadTemplate'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function uploadTemplateAsync($document, $wait = null, $name = null, $description = null, $parent_folder_id = null, $ai_field_naming_language = null, $detect_fields = null, $field_source = null, $field_naming = null, $field_logic = null, $output_format = null, string $contentType = self::contentTypes['uploadTemplate'][0])
+    public function uploadTemplateAsync($document, $wait = null, $name = null, $description = null, $parent_folder_id = null, $ai_field_naming_language = null, $detect_fields = null, $field_source = null, $field_naming = null, $field_logic = null, $output_format = null, $idempotency_key = null, string $contentType = self::contentTypes['uploadTemplate'][0])
     {
-        return $this->uploadTemplateAsyncWithHttpInfo($document, $wait, $name, $description, $parent_folder_id, $ai_field_naming_language, $detect_fields, $field_source, $field_naming, $field_logic, $output_format, $contentType)
+        return $this->uploadTemplateAsyncWithHttpInfo($document, $wait, $name, $description, $parent_folder_id, $ai_field_naming_language, $detect_fields, $field_source, $field_naming, $field_logic, $output_format, $idempotency_key, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -20192,15 +26785,16 @@ class Client
      * @param  \DocSpring\Model\FieldSetupNaming|null $field_naming With `detect_fields`, how the fields are named. `ai` (the default) names them and sets their types and settings with AI; `preserve` keeps the names of the PDF's form fields, and AI only names the fields it detected. `preserve` needs `field_source` `auto` or `pdf_form_fields`. (optional)
      * @param  \DocSpring\Model\FieldSetupLogic|null $field_logic With `detect_fields`, whether AI reads the whole form once the fields are named and sets up conditional logic and required fields (`ai`) or not (`none`). Default: your account's template settings. (optional)
      * @param  \DocSpring\Model\OutputFormat|null $output_format What each submission of a Word template makes unless its request sets `output_formats`: `docx` (a Word document), `odt` (an OpenDocument file, converted from the Word document) or `pdf`. Required when `document` is a Word document. (optional)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['uploadTemplate'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function uploadTemplateAsyncWithHttpInfo($document, $wait = null, $name = null, $description = null, $parent_folder_id = null, $ai_field_naming_language = null, $detect_fields = null, $field_source = null, $field_naming = null, $field_logic = null, $output_format = null, string $contentType = self::contentTypes['uploadTemplate'][0])
+    public function uploadTemplateAsyncWithHttpInfo($document, $wait = null, $name = null, $description = null, $parent_folder_id = null, $ai_field_naming_language = null, $detect_fields = null, $field_source = null, $field_naming = null, $field_logic = null, $output_format = null, $idempotency_key = null, string $contentType = self::contentTypes['uploadTemplate'][0])
     {
         $returnType = '\DocSpring\Model\Template';
-        $request = $this->uploadTemplateRequest($document, $wait, $name, $description, $parent_folder_id, $ai_field_naming_language, $detect_fields, $field_source, $field_naming, $field_logic, $output_format, $contentType);
+        $request = $this->uploadTemplateRequest($document, $wait, $name, $description, $parent_folder_id, $ai_field_naming_language, $detect_fields, $field_source, $field_naming, $field_logic, $output_format, $idempotency_key, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -20252,12 +26846,13 @@ class Client
      * @param  \DocSpring\Model\FieldSetupNaming|null $field_naming With `detect_fields`, how the fields are named. `ai` (the default) names them and sets their types and settings with AI; `preserve` keeps the names of the PDF's form fields, and AI only names the fields it detected. `preserve` needs `field_source` `auto` or `pdf_form_fields`. (optional)
      * @param  \DocSpring\Model\FieldSetupLogic|null $field_logic With `detect_fields`, whether AI reads the whole form once the fields are named and sets up conditional logic and required fields (`ai`) or not (`none`). Default: your account's template settings. (optional)
      * @param  \DocSpring\Model\OutputFormat|null $output_format What each submission of a Word template makes unless its request sets `output_formats`: `docx` (a Word document), `odt` (an OpenDocument file, converted from the Word document) or `pdf`. Required when `document` is a Word document. (optional)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['uploadTemplate'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function uploadTemplateRequest($document, $wait = null, $name = null, $description = null, $parent_folder_id = null, $ai_field_naming_language = null, $detect_fields = null, $field_source = null, $field_naming = null, $field_logic = null, $output_format = null, string $contentType = self::contentTypes['uploadTemplate'][0])
+    public function uploadTemplateRequest($document, $wait = null, $name = null, $description = null, $parent_folder_id = null, $ai_field_naming_language = null, $detect_fields = null, $field_source = null, $field_naming = null, $field_logic = null, $output_format = null, $idempotency_key = null, string $contentType = self::contentTypes['uploadTemplate'][0])
     {
 
         // verify the required parameter 'document' is set
@@ -20266,6 +26861,7 @@ class Client
                 'Missing the required parameter $document when calling uploadTemplate'
             );
         }
+
 
 
 
@@ -20295,6 +26891,10 @@ class Client
             false // required
         ) ?? []);
 
+        // header params
+        if ($idempotency_key !== null) {
+            $headerParams['Idempotency-Key'] = ObjectSerializer::toHeaderValue($idempotency_key);
+        }
 
 
         // form params
@@ -20391,15 +26991,16 @@ class Client
      * @param  \SplFileObject $document The new PDF, or the new Word document (.docx or .odt) of a Word template. (required)
      * @param  bool|null $wait Wait until the PDF has been processed, a `document_url`'s PDF or Word document downloaded, and an OpenDocument file converted, before responding. Default true on sync.api hosts. (optional)
      * @param  bool|null $reimport_fields Replace all of the template's fields with the fillable fields in the new PDF, once DocSpring has processed it (`document.field_reimport_state`). As on a first upload, the default typeface, font size, bold and color are taken from the PDF's fields; the template's other settings are kept. If the PDF has no fillable fields, the template keeps its fields. A locked template can't re-import its fields. Only for PDF templates: a Word template adds a field for each new tag. (optional)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['uploadTemplateDocument'] to see the possible values for this operation
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return \DocSpring\Model\Template|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
      */
-    public function uploadTemplateDocument($template_id, $document, $wait = null, $reimport_fields = null, string $contentType = self::contentTypes['uploadTemplateDocument'][0])
+    public function uploadTemplateDocument($template_id, $document, $wait = null, $reimport_fields = null, $idempotency_key = null, string $contentType = self::contentTypes['uploadTemplateDocument'][0])
     {
-        list($response) = $this->uploadTemplateDocumentWithHttpInfo($template_id, $document, $wait, $reimport_fields, $contentType);
+        list($response) = $this->uploadTemplateDocumentWithHttpInfo($template_id, $document, $wait, $reimport_fields, $idempotency_key, $contentType);
         return $response;
     }
 
@@ -20412,15 +27013,16 @@ class Client
      * @param  \SplFileObject $document The new PDF, or the new Word document (.docx or .odt) of a Word template. (required)
      * @param  bool|null $wait Wait until the PDF has been processed, a `document_url`'s PDF or Word document downloaded, and an OpenDocument file converted, before responding. Default true on sync.api hosts. (optional)
      * @param  bool|null $reimport_fields Replace all of the template's fields with the fillable fields in the new PDF, once DocSpring has processed it (`document.field_reimport_state`). As on a first upload, the default typeface, font size, bold and color are taken from the PDF's fields; the template's other settings are kept. If the PDF has no fillable fields, the template keeps its fields. A locked template can't re-import its fields. Only for PDF templates: a Word template adds a field for each new tag. (optional)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['uploadTemplateDocument'] to see the possible values for this operation
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return array of \DocSpring\Model\Template|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function uploadTemplateDocumentWithHttpInfo($template_id, $document, $wait = null, $reimport_fields = null, string $contentType = self::contentTypes['uploadTemplateDocument'][0])
+    public function uploadTemplateDocumentWithHttpInfo($template_id, $document, $wait = null, $reimport_fields = null, $idempotency_key = null, string $contentType = self::contentTypes['uploadTemplateDocument'][0])
     {
-        $request = $this->uploadTemplateDocumentRequest($template_id, $document, $wait, $reimport_fields, $contentType);
+        $request = $this->uploadTemplateDocumentRequest($template_id, $document, $wait, $reimport_fields, $idempotency_key, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -20570,14 +27172,15 @@ class Client
      * @param  \SplFileObject $document The new PDF, or the new Word document (.docx or .odt) of a Word template. (required)
      * @param  bool|null $wait Wait until the PDF has been processed, a `document_url`'s PDF or Word document downloaded, and an OpenDocument file converted, before responding. Default true on sync.api hosts. (optional)
      * @param  bool|null $reimport_fields Replace all of the template's fields with the fillable fields in the new PDF, once DocSpring has processed it (`document.field_reimport_state`). As on a first upload, the default typeface, font size, bold and color are taken from the PDF's fields; the template's other settings are kept. If the PDF has no fillable fields, the template keeps its fields. A locked template can't re-import its fields. Only for PDF templates: a Word template adds a field for each new tag. (optional)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['uploadTemplateDocument'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function uploadTemplateDocumentAsync($template_id, $document, $wait = null, $reimport_fields = null, string $contentType = self::contentTypes['uploadTemplateDocument'][0])
+    public function uploadTemplateDocumentAsync($template_id, $document, $wait = null, $reimport_fields = null, $idempotency_key = null, string $contentType = self::contentTypes['uploadTemplateDocument'][0])
     {
-        return $this->uploadTemplateDocumentAsyncWithHttpInfo($template_id, $document, $wait, $reimport_fields, $contentType)
+        return $this->uploadTemplateDocumentAsyncWithHttpInfo($template_id, $document, $wait, $reimport_fields, $idempotency_key, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -20594,15 +27197,16 @@ class Client
      * @param  \SplFileObject $document The new PDF, or the new Word document (.docx or .odt) of a Word template. (required)
      * @param  bool|null $wait Wait until the PDF has been processed, a `document_url`'s PDF or Word document downloaded, and an OpenDocument file converted, before responding. Default true on sync.api hosts. (optional)
      * @param  bool|null $reimport_fields Replace all of the template's fields with the fillable fields in the new PDF, once DocSpring has processed it (`document.field_reimport_state`). As on a first upload, the default typeface, font size, bold and color are taken from the PDF's fields; the template's other settings are kept. If the PDF has no fillable fields, the template keeps its fields. A locked template can't re-import its fields. Only for PDF templates: a Word template adds a field for each new tag. (optional)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['uploadTemplateDocument'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function uploadTemplateDocumentAsyncWithHttpInfo($template_id, $document, $wait = null, $reimport_fields = null, string $contentType = self::contentTypes['uploadTemplateDocument'][0])
+    public function uploadTemplateDocumentAsyncWithHttpInfo($template_id, $document, $wait = null, $reimport_fields = null, $idempotency_key = null, string $contentType = self::contentTypes['uploadTemplateDocument'][0])
     {
         $returnType = '\DocSpring\Model\Template';
-        $request = $this->uploadTemplateDocumentRequest($template_id, $document, $wait, $reimport_fields, $contentType);
+        $request = $this->uploadTemplateDocumentRequest($template_id, $document, $wait, $reimport_fields, $idempotency_key, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -20647,12 +27251,13 @@ class Client
      * @param  \SplFileObject $document The new PDF, or the new Word document (.docx or .odt) of a Word template. (required)
      * @param  bool|null $wait Wait until the PDF has been processed, a `document_url`'s PDF or Word document downloaded, and an OpenDocument file converted, before responding. Default true on sync.api hosts. (optional)
      * @param  bool|null $reimport_fields Replace all of the template's fields with the fillable fields in the new PDF, once DocSpring has processed it (`document.field_reimport_state`). As on a first upload, the default typeface, font size, bold and color are taken from the PDF's fields; the template's other settings are kept. If the PDF has no fillable fields, the template keeps its fields. A locked template can't re-import its fields. Only for PDF templates: a Word template adds a field for each new tag. (optional)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['uploadTemplateDocument'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function uploadTemplateDocumentRequest($template_id, $document, $wait = null, $reimport_fields = null, string $contentType = self::contentTypes['uploadTemplateDocument'][0])
+    public function uploadTemplateDocumentRequest($template_id, $document, $wait = null, $reimport_fields = null, $idempotency_key = null, string $contentType = self::contentTypes['uploadTemplateDocument'][0])
     {
 
         // verify the required parameter 'template_id' is set
@@ -20668,6 +27273,7 @@ class Client
                 'Missing the required parameter $document when calling uploadTemplateDocument'
             );
         }
+
 
 
 
@@ -20689,6 +27295,10 @@ class Client
             false // required
         ) ?? []);
 
+        // header params
+        if ($idempotency_key !== null) {
+            $headerParams['Idempotency-Key'] = ObjectSerializer::toHeaderValue($idempotency_key);
+        }
 
         // path params
         if ($template_id !== null) {
@@ -20783,16 +27393,17 @@ class Client
      *
      * @param  string $template_id The template's ID. (required)
      * @param  \DocSpring\Model\ValidateSubmissionRequest $body The submission's data and settings. (required)
-     * @param  string|null $version The template version to use: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `latest` (the draft when no version has been published). (optional)
+     * @param  string|null $version The template version to use: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` (the newest published version, or the draft when none has been published) or `draft`. Default `latest`. (optional)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['validateSubmission'] to see the possible values for this operation
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return \DocSpring\Model\SubmissionValidation|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
      */
-    public function validateSubmission($template_id, $body, $version = null, string $contentType = self::contentTypes['validateSubmission'][0])
+    public function validateSubmission($template_id, $body, $version = null, $idempotency_key = null, string $contentType = self::contentTypes['validateSubmission'][0])
     {
-        list($response) = $this->validateSubmissionWithHttpInfo($template_id, $body, $version, $contentType);
+        list($response) = $this->validateSubmissionWithHttpInfo($template_id, $body, $version, $idempotency_key, $contentType);
         return $response;
     }
 
@@ -20803,16 +27414,17 @@ class Client
      *
      * @param  string $template_id The template's ID. (required)
      * @param  \DocSpring\Model\ValidateSubmissionRequest $body The submission's data and settings. (required)
-     * @param  string|null $version The template version to use: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `latest` (the draft when no version has been published). (optional)
+     * @param  string|null $version The template version to use: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` (the newest published version, or the draft when none has been published) or `draft`. Default `latest`. (optional)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['validateSubmission'] to see the possible values for this operation
      *
      * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return array of \DocSpring\Model\SubmissionValidation|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function validateSubmissionWithHttpInfo($template_id, $body, $version = null, string $contentType = self::contentTypes['validateSubmission'][0])
+    public function validateSubmissionWithHttpInfo($template_id, $body, $version = null, $idempotency_key = null, string $contentType = self::contentTypes['validateSubmission'][0])
     {
-        $request = $this->validateSubmissionRequest($template_id, $body, $version, $contentType);
+        $request = $this->validateSubmissionRequest($template_id, $body, $version, $idempotency_key, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -20946,15 +27558,16 @@ class Client
      *
      * @param  string $template_id The template's ID. (required)
      * @param  \DocSpring\Model\ValidateSubmissionRequest $body The submission's data and settings. (required)
-     * @param  string|null $version The template version to use: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `latest` (the draft when no version has been published). (optional)
+     * @param  string|null $version The template version to use: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` (the newest published version, or the draft when none has been published) or `draft`. Default `latest`. (optional)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['validateSubmission'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function validateSubmissionAsync($template_id, $body, $version = null, string $contentType = self::contentTypes['validateSubmission'][0])
+    public function validateSubmissionAsync($template_id, $body, $version = null, $idempotency_key = null, string $contentType = self::contentTypes['validateSubmission'][0])
     {
-        return $this->validateSubmissionAsyncWithHttpInfo($template_id, $body, $version, $contentType)
+        return $this->validateSubmissionAsyncWithHttpInfo($template_id, $body, $version, $idempotency_key, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -20969,16 +27582,17 @@ class Client
      *
      * @param  string $template_id The template's ID. (required)
      * @param  \DocSpring\Model\ValidateSubmissionRequest $body The submission's data and settings. (required)
-     * @param  string|null $version The template version to use: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `latest` (the draft when no version has been published). (optional)
+     * @param  string|null $version The template version to use: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` (the newest published version, or the draft when none has been published) or `draft`. Default `latest`. (optional)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['validateSubmission'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function validateSubmissionAsyncWithHttpInfo($template_id, $body, $version = null, string $contentType = self::contentTypes['validateSubmission'][0])
+    public function validateSubmissionAsyncWithHttpInfo($template_id, $body, $version = null, $idempotency_key = null, string $contentType = self::contentTypes['validateSubmission'][0])
     {
         $returnType = '\DocSpring\Model\SubmissionValidation';
-        $request = $this->validateSubmissionRequest($template_id, $body, $version, $contentType);
+        $request = $this->validateSubmissionRequest($template_id, $body, $version, $idempotency_key, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -21021,13 +27635,14 @@ class Client
      *
      * @param  string $template_id The template's ID. (required)
      * @param  \DocSpring\Model\ValidateSubmissionRequest $body The submission's data and settings. (required)
-     * @param  string|null $version The template version to use: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `latest` (the draft when no version has been published). (optional)
+     * @param  string|null $version The template version to use: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` (the newest published version, or the draft when none has been published) or `draft`. Default `latest`. (optional)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['validateSubmission'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function validateSubmissionRequest($template_id, $body, $version = null, string $contentType = self::contentTypes['validateSubmission'][0])
+    public function validateSubmissionRequest($template_id, $body, $version = null, $idempotency_key = null, string $contentType = self::contentTypes['validateSubmission'][0])
     {
 
         // verify the required parameter 'template_id' is set
@@ -21043,6 +27658,7 @@ class Client
                 'Missing the required parameter $body when calling validateSubmission'
             );
         }
+
 
 
 
@@ -21063,6 +27679,10 @@ class Client
             false // required
         ) ?? []);
 
+        // header params
+        if ($idempotency_key !== null) {
+            $headerParams['Idempotency-Key'] = ObjectSerializer::toHeaderValue($idempotency_key);
+        }
 
         // path params
         if ($template_id !== null) {
@@ -21138,6 +27758,324 @@ class Client
 
         if ($this->config->getValidateRequests()) {
             \DocSpring\RequestValidator::validateRequest('validateSubmission', $queryParams, count($formParams) > 0 ? $formParams : ($httpBody === '' ? null : $httpBody));
+        }
+
+        $operationHost = $this->config->getHost();
+        $query = ObjectSerializer::buildQuery($queryParams);
+        return new Request(
+            'POST',
+            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
+            $headers,
+            $httpBody
+        );
+    }
+
+    /**
+     * Operation verifyEmailDomain
+     *
+     * Verify an email domain
+     *
+     * @param  string $email_domain_id The email domain's ID. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['verifyEmailDomain'] to see the possible values for this operation
+     *
+     * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \InvalidArgumentException
+     * @return \DocSpring\Model\EmailDomain|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse
+     */
+    public function verifyEmailDomain($email_domain_id, $idempotency_key = null, string $contentType = self::contentTypes['verifyEmailDomain'][0])
+    {
+        list($response) = $this->verifyEmailDomainWithHttpInfo($email_domain_id, $idempotency_key, $contentType);
+        return $response;
+    }
+
+    /**
+     * Operation verifyEmailDomainWithHttpInfo
+     *
+     * Verify an email domain
+     *
+     * @param  string $email_domain_id The email domain's ID. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['verifyEmailDomain'] to see the possible values for this operation
+     *
+     * @throws \DocSpring\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \InvalidArgumentException
+     * @return array of \DocSpring\Model\EmailDomain|\DocSpring\Model\ErrorResponse|\DocSpring\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function verifyEmailDomainWithHttpInfo($email_domain_id, $idempotency_key = null, string $contentType = self::contentTypes['verifyEmailDomain'][0])
+    {
+        $request = $this->verifyEmailDomainRequest($email_domain_id, $idempotency_key, $contentType);
+
+        try {
+            $options = $this->createHttpClientOption();
+            try {
+                $response = $this->client->send($request, $options);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null,
+                    $e->getResponse() ? (string) $e->getResponse()->getBody() : null
+                );
+            } catch (ConnectException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    null,
+                    null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+
+            switch($statusCode) {
+                case 200:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\EmailDomain',
+                        $request,
+                        $response,
+                    );
+                case 401:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 429:
+                    return $this->handleResponseWithDataType(
+                        '\DocSpring\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+            }
+
+            
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        (string) $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    (string) $response->getBody()
+                );
+            }
+
+            return $this->handleResponseWithDataType(
+                '\DocSpring\Model\EmailDomain',
+                $request,
+                $response,
+            );
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\EmailDomain',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 429:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\DocSpring\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+            }
+        
+
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation verifyEmailDomainAsync
+     *
+     * Verify an email domain
+     *
+     * @param  string $email_domain_id The email domain's ID. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['verifyEmailDomain'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function verifyEmailDomainAsync($email_domain_id, $idempotency_key = null, string $contentType = self::contentTypes['verifyEmailDomain'][0])
+    {
+        return $this->verifyEmailDomainAsyncWithHttpInfo($email_domain_id, $idempotency_key, $contentType)
+            ->then(
+                function ($response) {
+                    return $response[0];
+                }
+            );
+    }
+
+    /**
+     * Operation verifyEmailDomainAsyncWithHttpInfo
+     *
+     * Verify an email domain
+     *
+     * @param  string $email_domain_id The email domain's ID. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['verifyEmailDomain'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function verifyEmailDomainAsyncWithHttpInfo($email_domain_id, $idempotency_key = null, string $contentType = self::contentTypes['verifyEmailDomain'][0])
+    {
+        $returnType = '\DocSpring\Model\EmailDomain';
+        $request = $this->verifyEmailDomainRequest($email_domain_id, $idempotency_key, $contentType);
+
+        return $this->client
+            ->sendAsync($request, $this->createHttpClientOption())
+            ->then(
+                function ($response) use ($returnType) {
+                    if ($returnType === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ($returnType !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                },
+                function ($exception) {
+                    $response = $exception->getResponse();
+                    $statusCode = $response->getStatusCode();
+                    throw new ApiException(
+                        sprintf(
+                            '[%d] Error connecting to the API (%s)',
+                            $statusCode,
+                            $exception->getRequest()->getUri()
+                        ),
+                        $statusCode,
+                        $response->getHeaders(),
+                        (string) $response->getBody()
+                    );
+                }
+            );
+    }
+
+    /**
+     * Create request for operation 'verifyEmailDomain'
+     *
+     * @param  string $email_domain_id The email domain's ID. (required)
+     * @param  string|null $idempotency_key A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['verifyEmailDomain'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    public function verifyEmailDomainRequest($email_domain_id, $idempotency_key = null, string $contentType = self::contentTypes['verifyEmailDomain'][0])
+    {
+
+        // verify the required parameter 'email_domain_id' is set
+        if ($email_domain_id === null || (is_array($email_domain_id) && count($email_domain_id) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $email_domain_id when calling verifyEmailDomain'
+            );
+        }
+
+
+
+        $resourcePath = '/email_domains/{email_domain_id}/verify';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = '';
+        $multipart = false;
+
+
+        // header params
+        if ($idempotency_key !== null) {
+            $headerParams['Idempotency-Key'] = ObjectSerializer::toHeaderValue($idempotency_key);
+        }
+
+        // path params
+        if ($email_domain_id !== null) {
+            $resourcePath = str_replace(
+                '{email_domain_id}',
+                ObjectSerializer::toPathValue($email_domain_id),
+                $resourcePath
+            );
+        }
+
+
+        $headers = $this->headerSelector->selectHeaders(
+            ['application/json', ],
+            $contentType,
+            $multipart
+        );
+
+        // for model (json/xml)
+        if (count($formParams) > 0) {
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
+                    foreach ($formParamValueItems as $formParamValueItem) {
+                        $multipartContents[] = [
+                            'name' => $formParamName,
+                            'contents' => $formParamValueItem
+                        ];
+                    }
+                }
+                // for HTTP post (form)
+                $httpBody = new MultipartStream($multipartContents);
+
+            } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
+                # if Content-Type contains "application/json", json_encode the form parameters
+                try {
+                    $httpBody = json_encode($formParams, JSON_THROW_ON_ERROR);
+                } catch (\JsonException $e) {
+                    throw new \InvalidArgumentException('json_encode error: ' . $e->getMessage(), 0, $e);
+                }
+            } else {
+                // for HTTP post (form)
+                $httpBody = ObjectSerializer::buildQuery($formParams);
+            }
+        }
+
+        // this endpoint requires HTTP basic authentication
+        if (!empty($this->config->getUsername()) || !(empty($this->config->getPassword()))) {
+            $headers['Authorization'] = 'Basic ' . base64_encode($this->config->getUsername() . ":" . $this->config->getPassword());
+        }
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        if ($this->config->getValidateRequests()) {
+            \DocSpring\RequestValidator::validateRequest('verifyEmailDomain', $queryParams, count($formParams) > 0 ? $formParams : ($httpBody === '' ? null : $httpBody));
         }
 
         $operationHost = $this->config->getHost();

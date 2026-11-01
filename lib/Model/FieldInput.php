@@ -3180,7 +3180,7 @@ class FieldInput implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets string_condition_type
      *
-     * @param \DocSpring\Model\StringConditionType|null $string_condition_type String fields with check or shape display: how the value is compared with `condition`: `equals`, `contains`, `starts_with`, `ends_with`, or `regex`, where `condition` is a regular expression the value must match.
+     * @param \DocSpring\Model\StringConditionType|null $string_condition_type String fields with check or shape display: how the value is compared with `condition`: `equals`, `contains`, `starts_with`, `ends_with`, or `regex`, where `condition` is a regular expression (RE2 syntax) the value must match; each has a `not_` form that prints when it doesn't match (`not_equals`, `not_regex`, ...). `blank` prints when the value is empty or only spaces and line breaks, and `not_blank` when it isn't; they ignore `condition`.
      *
      * @return self
      */

@@ -55,6 +55,10 @@ class SignatureRequestEventType
 
     public const ALL_COMPLETED = 'all_completed';
 
+    public const EMAIL_BOUNCED = 'email_bounced';
+
+    public const EMAIL_MARKED_AS_SPAM = 'email_marked_as_spam';
+
     /**
      * Gets allowable values of the enum
      * @return string[]
@@ -67,7 +71,9 @@ class SignatureRequestEventType
             self::ACCEPTED_TERMS,
             self::DECLINE_REQUEST,
             self::SIGN_REQUEST,
-            self::ALL_COMPLETED
+            self::ALL_COMPLETED,
+            self::EMAIL_BOUNCED,
+            self::EMAIL_MARKED_AS_SPAM
         ];
     }
 }

@@ -35,7 +35,7 @@ use \DocSpring\ObjectSerializer;
  * SubmissionAction Class Doc Comment
  *
  * @category Class
- * @description An upload of a PDF to your storage, such as an S3 bucket.
+ * @description An upload of a PDF to your storage, such as an S3 bucket, or an email action's email.
  * @package  DocSpring
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -60,6 +60,7 @@ class SubmissionAction implements ModelInterface, ArrayAccess, \JsonSerializable
     protected static $openAPITypes = [
         'id' => 'string',
         'integration_id' => 'string',
+        'email_action_id' => 'string',
         'state' => '\DocSpring\Model\SubmissionActionState',
         'action_type' => '\DocSpring\Model\SubmissionActionType',
         'result_data' => 'array<string,mixed>',
@@ -76,6 +77,7 @@ class SubmissionAction implements ModelInterface, ArrayAccess, \JsonSerializable
     protected static $openAPIFormats = [
         'id' => null,
         'integration_id' => null,
+        'email_action_id' => null,
         'state' => null,
         'action_type' => null,
         'result_data' => null,
@@ -90,6 +92,7 @@ class SubmissionAction implements ModelInterface, ArrayAccess, \JsonSerializable
     protected static array $openAPINullables = [
         'id' => false,
         'integration_id' => true,
+        'email_action_id' => true,
         'state' => false,
         'action_type' => false,
         'result_data' => false,
@@ -184,6 +187,7 @@ class SubmissionAction implements ModelInterface, ArrayAccess, \JsonSerializable
     protected static $attributeMap = [
         'id' => 'id',
         'integration_id' => 'integration_id',
+        'email_action_id' => 'email_action_id',
         'state' => 'state',
         'action_type' => 'action_type',
         'result_data' => 'result_data',
@@ -198,6 +202,7 @@ class SubmissionAction implements ModelInterface, ArrayAccess, \JsonSerializable
     protected static $setters = [
         'id' => 'setId',
         'integration_id' => 'setIntegrationId',
+        'email_action_id' => 'setEmailActionId',
         'state' => 'setState',
         'action_type' => 'setActionType',
         'result_data' => 'setResultData',
@@ -212,6 +217,7 @@ class SubmissionAction implements ModelInterface, ArrayAccess, \JsonSerializable
     protected static $getters = [
         'id' => 'getId',
         'integration_id' => 'getIntegrationId',
+        'email_action_id' => 'getEmailActionId',
         'state' => 'getState',
         'action_type' => 'getActionType',
         'result_data' => 'getResultData',
@@ -277,6 +283,7 @@ class SubmissionAction implements ModelInterface, ArrayAccess, \JsonSerializable
     {
         $this->setIfExists('id', $data ?? [], null);
         $this->setIfExists('integration_id', $data ?? [], null);
+        $this->setIfExists('email_action_id', $data ?? [], null);
         $this->setIfExists('state', $data ?? [], null);
         $this->setIfExists('action_type', $data ?? [], null);
         $this->setIfExists('result_data', $data ?? [], null);
@@ -315,6 +322,9 @@ class SubmissionAction implements ModelInterface, ArrayAccess, \JsonSerializable
         }
         if ($this->container['integration_id'] === null && !$this->isNullableSetToNull('integration_id')) {
             $invalidProperties[] = "'integration_id' is required";
+        }
+        if ($this->container['email_action_id'] === null && !$this->isNullableSetToNull('email_action_id')) {
+            $invalidProperties[] = "'email_action_id' is required";
         }
         if ($this->container['state'] === null) {
             $invalidProperties[] = "'state' can't be null";
@@ -405,6 +415,40 @@ class SubmissionAction implements ModelInterface, ArrayAccess, \JsonSerializable
     }
 
     /**
+     * Gets email_action_id
+     *
+     * @return string|null
+     */
+    public function getEmailActionId()
+    {
+        return $this->container['email_action_id'];
+    }
+
+    /**
+     * Sets email_action_id
+     *
+     * @param string|null $email_action_id The ID of the email action that sent the email. Null for an upload, or once the email action is deleted.
+     *
+     * @return self
+     */
+    public function setEmailActionId($email_action_id)
+    {
+        if (is_null($email_action_id)) {
+            array_push($this->openAPINullablesSetToNull, 'email_action_id');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('email_action_id', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['email_action_id'] = $email_action_id;
+
+        return $this;
+    }
+
+    /**
      * Gets state
      *
      * @return \DocSpring\Model\SubmissionActionState
@@ -417,7 +461,7 @@ class SubmissionAction implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets state
      *
-     * @param \DocSpring\Model\SubmissionActionState $state `pending` until the upload has run, then `processed`. `failed`: your storage rejected it. `error`: it failed in DocSpring.
+     * @param \DocSpring\Model\SubmissionActionState $state `pending` until the upload or email has run, then `processed`. `failed`: your storage or the email service rejected it. `error`: it failed in DocSpring.
      *
      * @return self
      */
@@ -444,7 +488,7 @@ class SubmissionAction implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets action_type
      *
-     * @param \DocSpring\Model\SubmissionActionType $action_type The kind of storage, such as `aws_s3_upload` for an S3 bucket.
+     * @param \DocSpring\Model\SubmissionActionType $action_type The kind of storage, such as `aws_s3_upload` for an S3 bucket, or `email` for an email action's email.
      *
      * @return self
      */
@@ -471,7 +515,7 @@ class SubmissionAction implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets result_data
      *
-     * @param array<string,mixed> $result_data Where the PDF was uploaded, such as the S3 bucket and key.
+     * @param array<string,mixed> $result_data Where the PDF was uploaded, such as the S3 bucket and key. For an email: its `subject`, `recipients`, each with its `address`, `kind` (`to`, `cc` or `bcc`), `source`, `field` or `metadata` when the address came from one, and `status` (`sent`, `delivered`, `bounced`, `complained`, `skipped` and others), `sent_at`, `delivery`, and `files` (the files it sent: `pdf`, `docx`, `odt`). An email whose submission didn't meet the email action's `send_when` conditions has only `skipped`, `conditions_not_met`, and its state is `processed`. An email whose submission made none of the files the email action sends has `skipped`, `no_files` and the action's `file_formats`, and its state is `processed` too. When the submission's data is left out (a batch, or a webhook without submission data), the subject and the addresses that came from fields or metadata are null.
      *
      * @return self
      */

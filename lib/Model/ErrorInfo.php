@@ -65,7 +65,10 @@ class ErrorInfo implements ModelInterface, ArrayAccess, \JsonSerializable
         'submission_id' => 'string',
         'submission_batch_id' => 'string',
         'combined_pdf_id' => 'string',
-        'template_id' => 'string'
+        'template_id' => 'string',
+        'folder_id' => 'string',
+        'custom_file_id' => 'string',
+        'webhook_id' => 'string'
     ];
 
     /**
@@ -83,7 +86,10 @@ class ErrorInfo implements ModelInterface, ArrayAccess, \JsonSerializable
         'submission_id' => null,
         'submission_batch_id' => null,
         'combined_pdf_id' => null,
-        'template_id' => null
+        'template_id' => null,
+        'folder_id' => null,
+        'custom_file_id' => null,
+        'webhook_id' => null
     ];
 
     /**
@@ -99,7 +105,10 @@ class ErrorInfo implements ModelInterface, ArrayAccess, \JsonSerializable
         'submission_id' => false,
         'submission_batch_id' => false,
         'combined_pdf_id' => false,
-        'template_id' => false
+        'template_id' => false,
+        'folder_id' => false,
+        'custom_file_id' => false,
+        'webhook_id' => false
     ];
 
     /**
@@ -195,7 +204,10 @@ class ErrorInfo implements ModelInterface, ArrayAccess, \JsonSerializable
         'submission_id' => 'submission_id',
         'submission_batch_id' => 'submission_batch_id',
         'combined_pdf_id' => 'combined_pdf_id',
-        'template_id' => 'template_id'
+        'template_id' => 'template_id',
+        'folder_id' => 'folder_id',
+        'custom_file_id' => 'custom_file_id',
+        'webhook_id' => 'webhook_id'
     ];
 
     /**
@@ -211,7 +223,10 @@ class ErrorInfo implements ModelInterface, ArrayAccess, \JsonSerializable
         'submission_id' => 'setSubmissionId',
         'submission_batch_id' => 'setSubmissionBatchId',
         'combined_pdf_id' => 'setCombinedPdfId',
-        'template_id' => 'setTemplateId'
+        'template_id' => 'setTemplateId',
+        'folder_id' => 'setFolderId',
+        'custom_file_id' => 'setCustomFileId',
+        'webhook_id' => 'setWebhookId'
     ];
 
     /**
@@ -227,7 +242,10 @@ class ErrorInfo implements ModelInterface, ArrayAccess, \JsonSerializable
         'submission_id' => 'getSubmissionId',
         'submission_batch_id' => 'getSubmissionBatchId',
         'combined_pdf_id' => 'getCombinedPdfId',
-        'template_id' => 'getTemplateId'
+        'template_id' => 'getTemplateId',
+        'folder_id' => 'getFolderId',
+        'custom_file_id' => 'getCustomFileId',
+        'webhook_id' => 'getWebhookId'
     ];
 
     /**
@@ -295,6 +313,9 @@ class ErrorInfo implements ModelInterface, ArrayAccess, \JsonSerializable
         $this->setIfExists('submission_batch_id', $data ?? [], null);
         $this->setIfExists('combined_pdf_id', $data ?? [], null);
         $this->setIfExists('template_id', $data ?? [], null);
+        $this->setIfExists('folder_id', $data ?? [], null);
+        $this->setIfExists('custom_file_id', $data ?? [], null);
+        $this->setIfExists('webhook_id', $data ?? [], null);
     }
 
     /**
@@ -364,7 +385,7 @@ class ErrorInfo implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets code
      *
-     * @param \DocSpring\Model\ErrorCode $code A machine-readable error code. Clients should handle codes they don't know: new codes can be added. `invalid_data`: a submission's data doesn't match its template's fields. The submission is still recorded. `insufficient_credits` (402): your credit balance can't cover a live PDF. The record was saved and waits for credits in the `insufficient_credits` state: its ID is in `submission_id`, `submission_batch_id` or `combined_pdf_id`. `upgrade_required` (403): your plan doesn't include this, such as more templates, another active integration (webhooks count) or the embedded template editor. `account_suspended` (403): the account is suspended, so it can't create submissions. `polling_timeout`: on a sync.api host, the files weren't ready in time. The record was created and is still being processed: its ID is in `submission_id`, `submission_batch_id`, `combined_pdf_id` or `template_id`. Without one of these IDs, the request itself got no answer in time, and the record may or may not have been created. `idempotency_key_in_use` (409): a request with the same Idempotency-Key is still being processed. Send the request again in a few seconds; when the first request has already created its record, its ID is in `submission_id`, `submission_batch_id` or `combined_pdf_id`. `idempotency_key_reused` (422): the Idempotency-Key was already used for a different request.
+     * @param \DocSpring\Model\ErrorCode $code A machine-readable error code. Clients should handle codes they don't know: new codes can be added. `invalid_data`: a submission's data doesn't match its template's fields. The submission is still recorded. `insufficient_credits` (402): your credit balance can't cover a live PDF. The record was saved and waits for credits in the `insufficient_credits` state: its ID is in `submission_id`, `submission_batch_id` or `combined_pdf_id`. `insufficient_credits_to_send` (402): your credit balance can't cover a live signature request that DocSpring would email, so nothing was saved. Add credits and send the request again. `upgrade_required` (403): your plan doesn't include this, such as more templates, another active integration (webhooks count), the embedded template editor, email actions, or live signature requests before your account's first payment. `account_suspended` (403): the account is suspended, so it can't create submissions. `polling_timeout`: on a sync.api host, the files weren't ready in time. The record was created and is still being processed: its ID is in `submission_id`, `submission_batch_id`, `combined_pdf_id` or `template_id`. Without one of these IDs, the request itself got no answer in time, and the record may or may not have been created. `idempotency_key_in_use` (409): the first request with the same Idempotency-Key is still being processed, and the response has a `Retry-After` header: send the request again then. Without the header, the first request was processed but its response is no longer kept. When the first request created a record, its ID is in `submission_id`, `submission_batch_id`, `combined_pdf_id`, `template_id`, `folder_id`, `custom_file_id` or `webhook_id`. `idempotency_key_reused` (422): the Idempotency-Key was already used for a different request. `rate_limited` (429): too many API requests. Wait for the `Retry-After` header's seconds. `daily_email_limit_reached` (429): a submission that DocSpring would email would take your account over its daily email limit, so nothing was saved. Send it again after the `Retry-After` header's seconds (midnight UTC), or send the signing links yourself (`send_email: false`).
      *
      * @return self
      */
@@ -479,7 +500,7 @@ class ErrorInfo implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets submission_id
      *
-     * @param string|null $submission_id When a submission's data fails validation, the submission is still recorded (state `invalid_data`) so you can see it in the dashboard. This is its ID. With `insufficient_credits`, the submission that waits for credits. With `polling_timeout` or `idempotency_key_in_use`, the submission that's still being processed.
+     * @param string|null $submission_id When a submission's data fails validation, the submission is still recorded (state `invalid_data`) so you can see it in the dashboard. This is its ID. With `insufficient_credits`, the submission that waits for credits. With `polling_timeout`, the submission that's still being processed. With `idempotency_key_in_use`, the submission the first request with the key created.
      *
      * @return self
      */
@@ -506,7 +527,7 @@ class ErrorInfo implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets submission_batch_id
      *
-     * @param string|null $submission_batch_id The ID of the recorded batch, when items in a batch fail validation. With `insufficient_credits`, the batch whose submissions wait for credits. With `polling_timeout` or `idempotency_key_in_use`, the batch that's still being processed.
+     * @param string|null $submission_batch_id The ID of the recorded batch, when items in a batch fail validation. With `insufficient_credits`, the batch whose submissions wait for credits. With `polling_timeout`, the batch that's still being processed. With `idempotency_key_in_use`, the batch the first request with the key created.
      *
      * @return self
      */
@@ -533,7 +554,7 @@ class ErrorInfo implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets combined_pdf_id
      *
-     * @param string|null $combined_pdf_id With `insufficient_credits`, the combined PDF that waits for credits. With `polling_timeout` or `idempotency_key_in_use`, the combined PDF that's still being processed.
+     * @param string|null $combined_pdf_id With `insufficient_credits`, the combined PDF that waits for credits. With `polling_timeout`, the combined PDF that's still being processed. With `idempotency_key_in_use`, the combined PDF the first request with the key created.
      *
      * @return self
      */
@@ -560,7 +581,7 @@ class ErrorInfo implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets template_id
      *
-     * @param string|null $template_id With `polling_timeout`, the template whose PDF is still being processed.
+     * @param string|null $template_id With `polling_timeout`, the template whose PDF is still being processed. With `idempotency_key_in_use`, the template the first request with the key created.
      *
      * @return self
      */
@@ -570,6 +591,87 @@ class ErrorInfo implements ModelInterface, ArrayAccess, \JsonSerializable
             throw new \InvalidArgumentException('non-nullable template_id cannot be null');
         }
         $this->container['template_id'] = $template_id;
+
+        return $this;
+    }
+
+    /**
+     * Gets folder_id
+     *
+     * @return string|null
+     */
+    public function getFolderId()
+    {
+        return $this->container['folder_id'];
+    }
+
+    /**
+     * Sets folder_id
+     *
+     * @param string|null $folder_id With `idempotency_key_in_use`, the folder the first request with the key created.
+     *
+     * @return self
+     */
+    public function setFolderId($folder_id)
+    {
+        if (is_null($folder_id)) {
+            throw new \InvalidArgumentException('non-nullable folder_id cannot be null');
+        }
+        $this->container['folder_id'] = $folder_id;
+
+        return $this;
+    }
+
+    /**
+     * Gets custom_file_id
+     *
+     * @return string|null
+     */
+    public function getCustomFileId()
+    {
+        return $this->container['custom_file_id'];
+    }
+
+    /**
+     * Sets custom_file_id
+     *
+     * @param string|null $custom_file_id With `idempotency_key_in_use`, the custom file the first request with the key created.
+     *
+     * @return self
+     */
+    public function setCustomFileId($custom_file_id)
+    {
+        if (is_null($custom_file_id)) {
+            throw new \InvalidArgumentException('non-nullable custom_file_id cannot be null');
+        }
+        $this->container['custom_file_id'] = $custom_file_id;
+
+        return $this;
+    }
+
+    /**
+     * Gets webhook_id
+     *
+     * @return string|null
+     */
+    public function getWebhookId()
+    {
+        return $this->container['webhook_id'];
+    }
+
+    /**
+     * Sets webhook_id
+     *
+     * @param string|null $webhook_id With `idempotency_key_in_use`, the webhook the first request with the key created.
+     *
+     * @return self
+     */
+    public function setWebhookId($webhook_id)
+    {
+        if (is_null($webhook_id)) {
+            throw new \InvalidArgumentException('non-nullable webhook_id cannot be null');
+        }
+        $this->container['webhook_id'] = $webhook_id;
 
         return $this;
     }

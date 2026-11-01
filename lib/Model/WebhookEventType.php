@@ -49,11 +49,15 @@ class WebhookEventType
 
     public const SUBMISSION_DECLINED = 'submission.declined';
 
+    public const SIGNATURE_REQUEST_SENT = 'signature_request.sent';
+
     public const SIGNATURE_REQUEST_VIEWED = 'signature_request.viewed';
 
     public const SIGNATURE_REQUEST_COMPLETED = 'signature_request.completed';
 
     public const SIGNATURE_REQUEST_DECLINED = 'signature_request.declined';
+
+    public const SIGNATURE_REQUEST_EMAIL_BOUNCED = 'signature_request.email_bounced';
 
     public const COMBINED_PDF_PROCESSED = 'combined_pdf.processed';
 
@@ -103,9 +107,11 @@ class WebhookEventType
             self::SUBMISSION_PROCESSED,
             self::SUBMISSION_FAILED,
             self::SUBMISSION_DECLINED,
+            self::SIGNATURE_REQUEST_SENT,
             self::SIGNATURE_REQUEST_VIEWED,
             self::SIGNATURE_REQUEST_COMPLETED,
             self::SIGNATURE_REQUEST_DECLINED,
+            self::SIGNATURE_REQUEST_EMAIL_BOUNCED,
             self::COMBINED_PDF_PROCESSED,
             self::COMBINED_PDF_FAILED,
             self::SUBMISSION_BATCH_PROCESSED,

@@ -152,6 +152,42 @@ class SignatureRequestTest extends TestCase
     }
 
     /**
+     * Test attribute "send_email"
+     */
+    public function testPropertySendEmail()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * Test attribute "signing_step"
+     */
+    public function testPropertySigningStep()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * Test attribute "sent_at"
+     */
+    public function testPropertySentAt()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * Test attribute "email_status"
+     */
+    public function testPropertyEmailStatus()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
      * Test attribute "state"
      */
     public function testPropertyState()

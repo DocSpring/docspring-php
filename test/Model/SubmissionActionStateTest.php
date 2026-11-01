@@ -34,7 +34,7 @@ use PHPUnit\Framework\TestCase;
  * SubmissionActionStateTest Class Doc Comment
  *
  * @category    Class
- * @description Where a submission action (an upload to your storage) is.
+ * @description Where a submission action (an upload to your storage, or an email) is.
  * @package     DocSpring
  * @author      OpenAPI Generator team
  * @link        https://openapi-generator.tech

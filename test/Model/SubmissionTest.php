@@ -269,6 +269,15 @@ class SubmissionTest extends TestCase
     }
 
     /**
+     * Test attribute "signing_order"
+     */
+    public function testPropertySigningOrder()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
      * Test attribute "actions"
      */
     public function testPropertyActions()

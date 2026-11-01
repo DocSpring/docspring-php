@@ -83,6 +83,13 @@ class UpdateTemplateRequest implements ModelInterface, ArrayAccess, \JsonSeriali
         'public_submissions' => 'bool',
         'public_web_form' => 'bool',
         'redirect_url' => 'string',
+        'signature_request_email_attachments' => '\DocSpring\Model\SignatureRequestEmailAttachments',
+        'signature_request_from_address' => 'string',
+        'signature_request_include_signing_token' => 'bool',
+        'signature_request_from_name' => 'string',
+        'signature_request_notification_emails' => 'string[]',
+        'signature_request_reply_to' => 'string',
+        'signature_request_signing_url' => 'string',
         'slack_webhook_url' => 'string',
         'defaults' => '\DocSpring\Model\TemplateDefaultsInput',
         'field_dependencies' => '\DocSpring\Model\TemplateFieldDependencyInput[]',
@@ -94,7 +101,8 @@ class UpdateTemplateRequest implements ModelInterface, ArrayAccess, \JsonSeriali
         'header_html' => 'string',
         'footer_html' => 'string',
         'html_engine_options' => '\DocSpring\Model\HtmlEngineOptionsInput',
-        'html_escape_data' => 'bool'
+        'html_escape_data' => 'bool',
+        'layout' => 'array<string,mixed>'
     ];
 
     /**
@@ -130,6 +138,13 @@ class UpdateTemplateRequest implements ModelInterface, ArrayAccess, \JsonSeriali
         'public_submissions' => null,
         'public_web_form' => null,
         'redirect_url' => null,
+        'signature_request_email_attachments' => null,
+        'signature_request_from_address' => null,
+        'signature_request_include_signing_token' => null,
+        'signature_request_from_name' => null,
+        'signature_request_notification_emails' => null,
+        'signature_request_reply_to' => null,
+        'signature_request_signing_url' => null,
         'slack_webhook_url' => null,
         'defaults' => null,
         'field_dependencies' => null,
@@ -141,7 +156,8 @@ class UpdateTemplateRequest implements ModelInterface, ArrayAccess, \JsonSeriali
         'header_html' => null,
         'footer_html' => null,
         'html_engine_options' => null,
-        'html_escape_data' => null
+        'html_escape_data' => null,
+        'layout' => null
     ];
 
     /**
@@ -175,6 +191,13 @@ class UpdateTemplateRequest implements ModelInterface, ArrayAccess, \JsonSeriali
         'public_submissions' => false,
         'public_web_form' => false,
         'redirect_url' => true,
+        'signature_request_email_attachments' => true,
+        'signature_request_from_address' => true,
+        'signature_request_include_signing_token' => false,
+        'signature_request_from_name' => true,
+        'signature_request_notification_emails' => false,
+        'signature_request_reply_to' => true,
+        'signature_request_signing_url' => true,
         'slack_webhook_url' => true,
         'defaults' => false,
         'field_dependencies' => false,
@@ -186,7 +209,8 @@ class UpdateTemplateRequest implements ModelInterface, ArrayAccess, \JsonSeriali
         'header_html' => true,
         'footer_html' => true,
         'html_engine_options' => true,
-        'html_escape_data' => false
+        'html_escape_data' => false,
+        'layout' => true
     ];
 
     /**
@@ -300,6 +324,13 @@ class UpdateTemplateRequest implements ModelInterface, ArrayAccess, \JsonSeriali
         'public_submissions' => 'public_submissions',
         'public_web_form' => 'public_web_form',
         'redirect_url' => 'redirect_url',
+        'signature_request_email_attachments' => 'signature_request_email_attachments',
+        'signature_request_from_address' => 'signature_request_from_address',
+        'signature_request_include_signing_token' => 'signature_request_include_signing_token',
+        'signature_request_from_name' => 'signature_request_from_name',
+        'signature_request_notification_emails' => 'signature_request_notification_emails',
+        'signature_request_reply_to' => 'signature_request_reply_to',
+        'signature_request_signing_url' => 'signature_request_signing_url',
         'slack_webhook_url' => 'slack_webhook_url',
         'defaults' => 'defaults',
         'field_dependencies' => 'field_dependencies',
@@ -311,7 +342,8 @@ class UpdateTemplateRequest implements ModelInterface, ArrayAccess, \JsonSeriali
         'header_html' => 'header_html',
         'footer_html' => 'footer_html',
         'html_engine_options' => 'html_engine_options',
-        'html_escape_data' => 'html_escape_data'
+        'html_escape_data' => 'html_escape_data',
+        'layout' => 'layout'
     ];
 
     /**
@@ -345,6 +377,13 @@ class UpdateTemplateRequest implements ModelInterface, ArrayAccess, \JsonSeriali
         'public_submissions' => 'setPublicSubmissions',
         'public_web_form' => 'setPublicWebForm',
         'redirect_url' => 'setRedirectUrl',
+        'signature_request_email_attachments' => 'setSignatureRequestEmailAttachments',
+        'signature_request_from_address' => 'setSignatureRequestFromAddress',
+        'signature_request_include_signing_token' => 'setSignatureRequestIncludeSigningToken',
+        'signature_request_from_name' => 'setSignatureRequestFromName',
+        'signature_request_notification_emails' => 'setSignatureRequestNotificationEmails',
+        'signature_request_reply_to' => 'setSignatureRequestReplyTo',
+        'signature_request_signing_url' => 'setSignatureRequestSigningUrl',
         'slack_webhook_url' => 'setSlackWebhookUrl',
         'defaults' => 'setDefaults',
         'field_dependencies' => 'setFieldDependencies',
@@ -356,7 +395,8 @@ class UpdateTemplateRequest implements ModelInterface, ArrayAccess, \JsonSeriali
         'header_html' => 'setHeaderHtml',
         'footer_html' => 'setFooterHtml',
         'html_engine_options' => 'setHtmlEngineOptions',
-        'html_escape_data' => 'setHtmlEscapeData'
+        'html_escape_data' => 'setHtmlEscapeData',
+        'layout' => 'setLayout'
     ];
 
     /**
@@ -390,6 +430,13 @@ class UpdateTemplateRequest implements ModelInterface, ArrayAccess, \JsonSeriali
         'public_submissions' => 'getPublicSubmissions',
         'public_web_form' => 'getPublicWebForm',
         'redirect_url' => 'getRedirectUrl',
+        'signature_request_email_attachments' => 'getSignatureRequestEmailAttachments',
+        'signature_request_from_address' => 'getSignatureRequestFromAddress',
+        'signature_request_include_signing_token' => 'getSignatureRequestIncludeSigningToken',
+        'signature_request_from_name' => 'getSignatureRequestFromName',
+        'signature_request_notification_emails' => 'getSignatureRequestNotificationEmails',
+        'signature_request_reply_to' => 'getSignatureRequestReplyTo',
+        'signature_request_signing_url' => 'getSignatureRequestSigningUrl',
         'slack_webhook_url' => 'getSlackWebhookUrl',
         'defaults' => 'getDefaults',
         'field_dependencies' => 'getFieldDependencies',
@@ -401,7 +448,8 @@ class UpdateTemplateRequest implements ModelInterface, ArrayAccess, \JsonSeriali
         'header_html' => 'getHeaderHtml',
         'footer_html' => 'getFooterHtml',
         'html_engine_options' => 'getHtmlEngineOptions',
-        'html_escape_data' => 'getHtmlEscapeData'
+        'html_escape_data' => 'getHtmlEscapeData',
+        'layout' => 'getLayout'
     ];
 
     /**
@@ -486,6 +534,13 @@ class UpdateTemplateRequest implements ModelInterface, ArrayAccess, \JsonSeriali
         $this->setIfExists('public_submissions', $data ?? [], null);
         $this->setIfExists('public_web_form', $data ?? [], null);
         $this->setIfExists('redirect_url', $data ?? [], null);
+        $this->setIfExists('signature_request_email_attachments', $data ?? [], null);
+        $this->setIfExists('signature_request_from_address', $data ?? [], null);
+        $this->setIfExists('signature_request_include_signing_token', $data ?? [], null);
+        $this->setIfExists('signature_request_from_name', $data ?? [], null);
+        $this->setIfExists('signature_request_notification_emails', $data ?? [], null);
+        $this->setIfExists('signature_request_reply_to', $data ?? [], null);
+        $this->setIfExists('signature_request_signing_url', $data ?? [], null);
         $this->setIfExists('slack_webhook_url', $data ?? [], null);
         $this->setIfExists('defaults', $data ?? [], null);
         $this->setIfExists('field_dependencies', $data ?? [], null);
@@ -498,6 +553,7 @@ class UpdateTemplateRequest implements ModelInterface, ArrayAccess, \JsonSeriali
         $this->setIfExists('footer_html', $data ?? [], null);
         $this->setIfExists('html_engine_options', $data ?? [], null);
         $this->setIfExists('html_escape_data', $data ?? [], null);
+        $this->setIfExists('layout', $data ?? [], null);
     }
 
     /**
@@ -616,7 +672,7 @@ class UpdateTemplateRequest implements ModelInterface, ArrayAccess, \JsonSeriali
     /**
      * Sets output_format
      *
-     * @param \DocSpring\Model\OutputFormat|null $output_format What each submission makes unless its request sets `output_formats`: `docx` (a Word document), `odt` (an OpenDocument file, converted from the Word document) or `pdf`. A Word template's is chosen when it's created; PDF and HTML templates always make PDFs. A Word template that encrypts its PDFs makes PDFs, because Word documents and OpenDocument files can't be password-protected.
+     * @param \DocSpring\Model\OutputFormat|null $output_format What each submission makes unless its request sets `output_formats`: `docx` (a Word document), `odt` (an OpenDocument file, converted from the Word document) or `pdf`. A Word template's is chosen when it's created; other templates always make PDFs. A Word template that encrypts its PDFs makes PDFs, because Word documents and OpenDocument files can't be password-protected.
      *
      * @return self
      */
@@ -866,7 +922,7 @@ class UpdateTemplateRequest implements ModelInterface, ArrayAccess, \JsonSeriali
     /**
      * Sets embed_domains
      *
-     * @param string[]|null $embed_domains The sites that can embed the template's live signature requests and its embedded template editor: a host such as `app.example.com`, with an optional leading wildcard (`*.example.com`), port (`localhost:3000`) or scheme (`https://app.example.com`; without one, `http` and `https` both work). Browsers open a live signature request in a frame only on these sites (and DocSpring's), so with an empty list it can't be embedded anywhere; a test signature request can be embedded on any site. The embedded template editor loads only for a page on one of these sites (by its Referer or Origin header), and on any site when the list is empty. Forms embedded on a page (Visual Forms JS and the simple form) aren't restricted.
+     * @param string[]|null $embed_domains The sites that can embed the template's live signature requests and its embedded template editor: a host such as `app.example.com`, with an optional leading wildcard (`*.example.com`), port (`localhost:3000`) or scheme (`https://app.example.com`; without one, `http` and `https` both work), without a path. Browsers open a live signature request in a frame only on these sites (and DocSpring's), so with an empty list it can't be embedded anywhere; a test signature request can be embedded on any site. The embedded template editor loads only for a page on one of these sites (by its Referer or Origin header), and on any site when the list is empty. Forms embedded on a page (Visual Forms JS and the simple form) aren't restricted.
      *
      * @return self
      */
@@ -1246,6 +1302,231 @@ class UpdateTemplateRequest implements ModelInterface, ArrayAccess, \JsonSeriali
     }
 
     /**
+     * Gets signature_request_email_attachments
+     *
+     * @return \DocSpring\Model\SignatureRequestEmailAttachments|null
+     */
+    public function getSignatureRequestEmailAttachments()
+    {
+        return $this->container['signature_request_email_attachments'];
+    }
+
+    /**
+     * Sets signature_request_email_attachments
+     *
+     * @param \DocSpring\Model\SignatureRequestEmailAttachments|null $signature_request_email_attachments How DocSpring's completed emails send the signed PDF to your signers and CCs: `attachment` (attached, or a download link when it's too big to attach) or `link` (a download link). Null uses your account's rule: a link if your account has signed a BAA, otherwise attached. PDF templates only. A signature request uses the value it had when the request was created.
+     *
+     * @return self
+     */
+    public function setSignatureRequestEmailAttachments($signature_request_email_attachments)
+    {
+        if (is_null($signature_request_email_attachments)) {
+            array_push($this->openAPINullablesSetToNull, 'signature_request_email_attachments');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('signature_request_email_attachments', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['signature_request_email_attachments'] = $signature_request_email_attachments;
+
+        return $this;
+    }
+
+    /**
+     * Gets signature_request_from_address
+     *
+     * @return string|null
+     */
+    public function getSignatureRequestFromAddress()
+    {
+        return $this->container['signature_request_from_address'];
+    }
+
+    /**
+     * Sets signature_request_from_address
+     *
+     * @param string|null $signature_request_from_address The address DocSpring's emails to your signers come from: an address at one of your verified email domains, on the Growth plan or higher. Null sends them from DocSpring's shared address, with "via DocSpring" after the sender name. PDF templates only.
+     *
+     * @return self
+     */
+    public function setSignatureRequestFromAddress($signature_request_from_address)
+    {
+        if (is_null($signature_request_from_address)) {
+            array_push($this->openAPINullablesSetToNull, 'signature_request_from_address');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('signature_request_from_address', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['signature_request_from_address'] = $signature_request_from_address;
+
+        return $this;
+    }
+
+    /**
+     * Gets signature_request_include_signing_token
+     *
+     * @return bool|null
+     */
+    public function getSignatureRequestIncludeSigningToken()
+    {
+        return $this->container['signature_request_include_signing_token'];
+    }
+
+    /**
+     * Sets signature_request_include_signing_token
+     *
+     * @param bool|null $signature_request_include_signing_token Puts a signing token in `signature_request_signing_url`, as `{{ token_id }}` and `{{ token_secret }}`, so your page can open the signing form without creating a token itself. The email then carries a credential: anyone who has it can open the form and sign. PDF templates only.
+     *
+     * @return self
+     */
+    public function setSignatureRequestIncludeSigningToken($signature_request_include_signing_token)
+    {
+        if (is_null($signature_request_include_signing_token)) {
+            throw new \InvalidArgumentException('non-nullable signature_request_include_signing_token cannot be null');
+        }
+        $this->container['signature_request_include_signing_token'] = $signature_request_include_signing_token;
+
+        return $this;
+    }
+
+    /**
+     * Gets signature_request_from_name
+     *
+     * @return string|null
+     */
+    public function getSignatureRequestFromName()
+    {
+        return $this->container['signature_request_from_name'];
+    }
+
+    /**
+     * Sets signature_request_from_name
+     *
+     * @param string|null $signature_request_from_name The sender name on the emails DocSpring sends your signers, as in "Acme via DocSpring". It can't contain an email address, a website or quotes. Null uses your account's name. PDF templates only.
+     *
+     * @return self
+     */
+    public function setSignatureRequestFromName($signature_request_from_name)
+    {
+        if (is_null($signature_request_from_name)) {
+            array_push($this->openAPINullablesSetToNull, 'signature_request_from_name');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('signature_request_from_name', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['signature_request_from_name'] = $signature_request_from_name;
+
+        return $this;
+    }
+
+    /**
+     * Gets signature_request_notification_emails
+     *
+     * @return string[]|null
+     */
+    public function getSignatureRequestNotificationEmails()
+    {
+        return $this->container['signature_request_notification_emails'];
+    }
+
+    /**
+     * Sets signature_request_notification_emails
+     *
+     * @param string[]|null $signature_request_notification_emails Who DocSpring tells when a signature request's document is completed or declined, or an email bounces or can't be sent: members of your DocSpring team or addresses at your verified email domains. Empty means your account's owner. A submission's `notification_emails` replaces them. PDF templates only.
+     *
+     * @return self
+     */
+    public function setSignatureRequestNotificationEmails($signature_request_notification_emails)
+    {
+        if (is_null($signature_request_notification_emails)) {
+            throw new \InvalidArgumentException('non-nullable signature_request_notification_emails cannot be null');
+        }
+
+        $this->container['signature_request_notification_emails'] = $signature_request_notification_emails;
+
+        return $this;
+    }
+
+    /**
+     * Gets signature_request_reply_to
+     *
+     * @return string|null
+     */
+    public function getSignatureRequestReplyTo()
+    {
+        return $this->container['signature_request_reply_to'];
+    }
+
+    /**
+     * Sets signature_request_reply_to
+     *
+     * @param string|null $signature_request_reply_to Where your signers' replies to DocSpring's emails go: a member of your DocSpring team or an address at one of your verified email domains. Null means your account's owner. A submission's `reply_to` replaces it. PDF templates only.
+     *
+     * @return self
+     */
+    public function setSignatureRequestReplyTo($signature_request_reply_to)
+    {
+        if (is_null($signature_request_reply_to)) {
+            array_push($this->openAPINullablesSetToNull, 'signature_request_reply_to');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('signature_request_reply_to', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['signature_request_reply_to'] = $signature_request_reply_to;
+
+        return $this;
+    }
+
+    /**
+     * Gets signature_request_signing_url
+     *
+     * @return string|null
+     */
+    public function getSignatureRequestSigningUrl()
+    {
+        return $this->container['signature_request_signing_url'];
+    }
+
+    /**
+     * Sets signature_request_signing_url
+     *
+     * @param string|null $signature_request_signing_url A page on your own site that the button in DocSpring's email to a signer opens, instead of DocSpring's signing page: an https URL on one of your verified email domains or a subdomain of one, on the Growth plan or higher. It must include `{{ signature_request_id }}`. Your page authenticates the signer, creates a token for the signature request, and opens the signing form with it. Null links to DocSpring's signing page. PDF templates only.
+     *
+     * @return self
+     */
+    public function setSignatureRequestSigningUrl($signature_request_signing_url)
+    {
+        if (is_null($signature_request_signing_url)) {
+            array_push($this->openAPINullablesSetToNull, 'signature_request_signing_url');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('signature_request_signing_url', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['signature_request_signing_url'] = $signature_request_signing_url;
+
+        return $this;
+    }
+
+    /**
      * Gets slack_webhook_url
      *
      * @return string|null
@@ -1434,7 +1715,7 @@ class UpdateTemplateRequest implements ModelInterface, ArrayAccess, \JsonSeriali
     /**
      * Sets html
      *
-     * @param string|null $html The HTML of an HTML template, as a Liquid template. Null for PDF and Word templates.
+     * @param string|null $html The HTML of an HTML template, as a Liquid template. Null for other templates.
      *
      * @return self
      */
@@ -1604,7 +1885,7 @@ class UpdateTemplateRequest implements ModelInterface, ArrayAccess, \JsonSeriali
     /**
      * Sets html_escape_data
      *
-     * @param bool|null $html_escape_data Whether an HTML template HTML-escapes the values it prints. When true, `{{ value }}` prints a value as text, so a `<` or `&` in it is printed as that character, and `{{ value | raw }}` prints a value as HTML. New HTML templates default to true. Templates created before October 2026, or with API v1, default to false, which prints every value as HTML. Null for PDF templates.
+     * @param bool|null $html_escape_data Whether an HTML template HTML-escapes the values it prints. When true, `{{ value }}` prints a value as text, so a `<` or `&` in it is printed as that character, and `{{ value | raw }}` prints a value as HTML. New HTML templates default to true. Templates created before October 2026, or with API v1, default to false, which prints every value as HTML. Null for other templates.
      *
      * @return self
      */
@@ -1614,6 +1895,40 @@ class UpdateTemplateRequest implements ModelInterface, ArrayAccess, \JsonSeriali
             throw new \InvalidArgumentException('non-nullable html_escape_data cannot be null');
         }
         $this->container['html_escape_data'] = $html_escape_data;
+
+        return $this;
+    }
+
+    /**
+     * Gets layout
+     *
+     * @return array<string,mixed>|null
+     */
+    public function getLayout()
+    {
+        return $this->container['layout'];
+    }
+
+    /**
+     * Sets layout
+     *
+     * @param array<string,mixed>|null $layout A page design's layout: its page setup, its sections and the elements placed in them, in the Page Designer layout format (https://docspring.com/docs/page-designer/layout-format/). Its JSON Schema is at https://docspring.com/schemas/page-designer/layout.v1.json. Null for other templates. Setting it replaces the whole layout, and DocSpring adds a field for each value it reads. Left out when a page design is created, it starts with an empty page.
+     *
+     * @return self
+     */
+    public function setLayout($layout)
+    {
+        if (is_null($layout)) {
+            array_push($this->openAPINullablesSetToNull, 'layout');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('layout', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['layout'] = $layout;
 
         return $this;
     }

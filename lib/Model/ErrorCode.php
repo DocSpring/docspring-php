@@ -51,6 +51,8 @@ class ErrorCode
 
     public const INSUFFICIENT_CREDITS = 'insufficient_credits';
 
+    public const INSUFFICIENT_CREDITS_TO_SEND = 'insufficient_credits_to_send';
+
     public const FORBIDDEN = 'forbidden';
 
     public const UPGRADE_REQUIRED = 'upgrade_required';
@@ -74,6 +76,8 @@ class ErrorCode
     public const INVALID_DATA = 'invalid_data';
 
     public const RATE_LIMITED = 'rate_limited';
+
+    public const DAILY_EMAIL_LIMIT_REACHED = 'daily_email_limit_reached';
 
     public const INTERNAL_ERROR = 'internal_error';
 
@@ -100,6 +104,7 @@ class ErrorCode
             self::UNAUTHORIZED,
             self::PAYMENT_REQUIRED,
             self::INSUFFICIENT_CREDITS,
+            self::INSUFFICIENT_CREDITS_TO_SEND,
             self::FORBIDDEN,
             self::UPGRADE_REQUIRED,
             self::ACCOUNT_SUSPENDED,
@@ -112,6 +117,7 @@ class ErrorCode
             self::VALIDATION_FAILED,
             self::INVALID_DATA,
             self::RATE_LIMITED,
+            self::DAILY_EMAIL_LIMIT_REACHED,
             self::INTERNAL_ERROR,
             self::BAD_GATEWAY,
             self::SERVICE_UNAVAILABLE,

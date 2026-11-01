@@ -150,4 +150,31 @@ class ErrorInfoTest extends TestCase
         // TODO: implement
         self::markTestIncomplete('Not implemented');
     }
+
+    /**
+     * Test attribute "folder_id"
+     */
+    public function testPropertyFolderId()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * Test attribute "custom_file_id"
+     */
+    public function testPropertyCustomFileId()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * Test attribute "webhook_id"
+     */
+    public function testPropertyWebhookId()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
 }

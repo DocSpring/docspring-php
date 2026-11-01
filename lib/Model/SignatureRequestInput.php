@@ -72,7 +72,9 @@ class SignatureRequestInput implements ModelInterface, ArrayAccess, \JsonSeriali
         'auth_username_hash' => 'string',
         'auth_phone_number_hash' => 'string',
         'ignore_unknown_fields' => 'bool',
-        'prefilled_values_editable' => 'bool'
+        'prefilled_values_editable' => 'bool',
+        'send_email' => 'bool',
+        'signing_step' => 'int'
     ];
 
     /**
@@ -97,7 +99,9 @@ class SignatureRequestInput implements ModelInterface, ArrayAccess, \JsonSeriali
         'auth_username_hash' => null,
         'auth_phone_number_hash' => null,
         'ignore_unknown_fields' => null,
-        'prefilled_values_editable' => null
+        'prefilled_values_editable' => null,
+        'send_email' => null,
+        'signing_step' => null
     ];
 
     /**
@@ -120,7 +124,9 @@ class SignatureRequestInput implements ModelInterface, ArrayAccess, \JsonSeriali
         'auth_username_hash' => true,
         'auth_phone_number_hash' => true,
         'ignore_unknown_fields' => false,
-        'prefilled_values_editable' => false
+        'prefilled_values_editable' => false,
+        'send_email' => false,
+        'signing_step' => false
     ];
 
     /**
@@ -223,7 +229,9 @@ class SignatureRequestInput implements ModelInterface, ArrayAccess, \JsonSeriali
         'auth_username_hash' => 'auth_username_hash',
         'auth_phone_number_hash' => 'auth_phone_number_hash',
         'ignore_unknown_fields' => 'ignore_unknown_fields',
-        'prefilled_values_editable' => 'prefilled_values_editable'
+        'prefilled_values_editable' => 'prefilled_values_editable',
+        'send_email' => 'send_email',
+        'signing_step' => 'signing_step'
     ];
 
     /**
@@ -246,7 +254,9 @@ class SignatureRequestInput implements ModelInterface, ArrayAccess, \JsonSeriali
         'auth_username_hash' => 'setAuthUsernameHash',
         'auth_phone_number_hash' => 'setAuthPhoneNumberHash',
         'ignore_unknown_fields' => 'setIgnoreUnknownFields',
-        'prefilled_values_editable' => 'setPrefilledValuesEditable'
+        'prefilled_values_editable' => 'setPrefilledValuesEditable',
+        'send_email' => 'setSendEmail',
+        'signing_step' => 'setSigningStep'
     ];
 
     /**
@@ -269,7 +279,9 @@ class SignatureRequestInput implements ModelInterface, ArrayAccess, \JsonSeriali
         'auth_username_hash' => 'getAuthUsernameHash',
         'auth_phone_number_hash' => 'getAuthPhoneNumberHash',
         'ignore_unknown_fields' => 'getIgnoreUnknownFields',
-        'prefilled_values_editable' => 'getPrefilledValuesEditable'
+        'prefilled_values_editable' => 'getPrefilledValuesEditable',
+        'send_email' => 'getSendEmail',
+        'signing_step' => 'getSigningStep'
     ];
 
     /**
@@ -344,6 +356,8 @@ class SignatureRequestInput implements ModelInterface, ArrayAccess, \JsonSeriali
         $this->setIfExists('auth_phone_number_hash', $data ?? [], null);
         $this->setIfExists('ignore_unknown_fields', $data ?? [], null);
         $this->setIfExists('prefilled_values_editable', $data ?? [], null);
+        $this->setIfExists('send_email', $data ?? [], null);
+        $this->setIfExists('signing_step', $data ?? [], null);
     }
 
     /**
@@ -375,9 +389,6 @@ class SignatureRequestInput implements ModelInterface, ArrayAccess, \JsonSeriali
 
         if ($this->container['fields'] === null) {
             $invalidProperties[] = "'fields' can't be null";
-        }
-        if ($this->container['auth_type'] === null) {
-            $invalidProperties[] = "'auth_type' can't be null";
         }
         return $invalidProperties;
     }
@@ -441,7 +452,7 @@ class SignatureRequestInput implements ModelInterface, ArrayAccess, \JsonSeriali
     /**
      * Sets email
      *
-     * @param string|null $email Their email address.
+     * @param string|null $email Their email address. Null when they have none.
      *
      * @return self
      */
@@ -547,7 +558,7 @@ class SignatureRequestInput implements ModelInterface, ArrayAccess, \JsonSeriali
     /**
      * Gets auth_type
      *
-     * @return \DocSpring\Model\SignatureRequestAuthType
+     * @return \DocSpring\Model\SignatureRequestAuthType|null
      */
     public function getAuthType()
     {
@@ -557,7 +568,7 @@ class SignatureRequestInput implements ModelInterface, ArrayAccess, \JsonSeriali
     /**
      * Sets auth_type
      *
-     * @param \DocSpring\Model\SignatureRequestAuthType $auth_type How your app authenticated the person before it showed them the signature request.
+     * @param \DocSpring\Model\SignatureRequestAuthType|null $auth_type How your app authenticated the person before it showed them the signature request.
      *
      * @return self
      */
@@ -852,6 +863,60 @@ class SignatureRequestInput implements ModelInterface, ArrayAccess, \JsonSeriali
             throw new \InvalidArgumentException('non-nullable prefilled_values_editable cannot be null');
         }
         $this->container['prefilled_values_editable'] = $prefilled_values_editable;
+
+        return $this;
+    }
+
+    /**
+     * Gets send_email
+     *
+     * @return bool|null
+     */
+    public function getSendEmail()
+    {
+        return $this->container['send_email'];
+    }
+
+    /**
+     * Sets send_email
+     *
+     * @param bool|null $send_email Whether DocSpring emails this person their signing link. Default: the submission's `send_email`. Set it to false for someone who signs in your app (embedded signing) or whose link you send yourself. When DocSpring emails them, `email` is required and `auth_type` is `email_link` (the default). Otherwise `auth_type` is required.
+     *
+     * @return self
+     */
+    public function setSendEmail($send_email)
+    {
+        if (is_null($send_email)) {
+            throw new \InvalidArgumentException('non-nullable send_email cannot be null');
+        }
+        $this->container['send_email'] = $send_email;
+
+        return $this;
+    }
+
+    /**
+     * Gets signing_step
+     *
+     * @return int|null
+     */
+    public function getSigningStep()
+    {
+        return $this->container['signing_step'];
+    }
+
+    /**
+     * Sets signing_step
+     *
+     * @param int|null $signing_step When this person signs, with `signing_order: sequential`: everyone in step 1 first, then step 2, and so on. People in the same step sign in any order. Only the order of the numbers matters. Either every signature request has a `signing_step` or none does; without them, each person is a step of their own, in the order of `signature_requests`.
+     *
+     * @return self
+     */
+    public function setSigningStep($signing_step)
+    {
+        if (is_null($signing_step)) {
+            throw new \InvalidArgumentException('non-nullable signing_step cannot be null');
+        }
+        $this->container['signing_step'] = $signing_step;
 
         return $this;
     }

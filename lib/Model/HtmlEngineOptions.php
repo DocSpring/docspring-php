@@ -471,7 +471,7 @@ class HtmlEngineOptions implements ModelInterface, ArrayAccess, \JsonSerializabl
     /**
      * Sets scale
      *
-     * @param float $scale How much to scale the page, such as `0.8`. `1` prints it at its normal size.
+     * @param float $scale How much to scale the page, from 0.1 to 2, such as `0.8`. `1` prints it at its normal size.
      *
      * @return self
      */

@@ -304,6 +304,10 @@ final class RequestValidator
                 $details[] = self::detail($location, "{$pointer}/" . self::escape($name), 'required', 'is required');
             }
         }
+        // Only an update's body has minProperties, and it's always 1 (api_clients/scripts/extract_request_schemas)
+        if (isset($schema->minProperties) && count(get_object_vars($data)) < $schema->minProperties) {
+            $details[] = self::detail($location, $pointer, 'minProperties', 'must have at least one property to change');
+        }
 
         $properties = $schema->properties ?? new \stdClass();
         $additional = property_exists($schema, 'additionalProperties') ? $schema->additionalProperties : null;
@@ -370,7 +374,8 @@ final class RequestValidator
     }
 
     // Patterns are ECMA-262 regexps, as OpenAPI says: ^ and $ are the start and end of the value, not of a line. The
-    // API's patterns only use ^ as the first character and $ as the last (api_clients/scripts/extract_request_schemas).
+    // API's patterns only use ^ as the first character and $ as the last, and \d is their only class escape
+    // (api_clients/scripts/extract_request_schemas).
     private static function pattern(string $pattern): string
     {
         if (!isset(self::$patterns[$pattern])) {
@@ -379,6 +384,12 @@ final class RequestValidator
             if (preg_match('/(?<!\\\\)(?:\\\\\\\\)*\\$$/D', $anchored)) {
                 $anchored = substr($anchored, 0, -1) . '\\z';
             }
+            // ECMA-262's \d is 0-9, but /u makes PCRE's \d any Unicode digit
+            $anchored = preg_replace_callback(
+                '/\\\\./s',
+                fn (array $escape): string => $escape[0] === '\\d' ? '[0-9]' : $escape[0],
+                $anchored
+            );
             self::$patterns[$pattern] = "\x01" . $anchored . "\x01u";
         }
         return self::$patterns[$pattern];

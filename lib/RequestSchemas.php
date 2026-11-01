@@ -454,10 +454,17 @@ final class RequestSchemas
                     "type": "string",
                     "enum": [
                       "equals",
+                      "not_equals",
                       "contains",
+                      "not_contains",
                       "starts_with",
+                      "not_starts_with",
                       "ends_with",
-                      "regex"
+                      "not_ends_with",
+                      "regex",
+                      "not_regex",
+                      "blank",
+                      "not_blank"
                     ]
                   },
                   "number_condition_type": {
@@ -642,20 +649,250 @@ final class RequestSchemas
           "properties": {
             "name": {
               "type": "string",
-              "minLength": 1,
-              "maxLength": 512
+              "maxLength": 512,
+              "pattern": "[^ \t\n\u000b\f\r   -     　]",
+              "x-pattern-message": "can't be blank"
             },
             "parent_folder_id": {
               "type": [
                 "string",
                 "null"
               ],
-              "minLength": 1
+              "pattern": "[^ \t\n\u000b\f\r   -     　]",
+              "x-pattern-message": "can't be blank"
             },
             "version": {
               "type": "string",
-              "pattern": "^\\d+(\\.\\d+(\\.\\d+)?)?$",
+              "pattern": "^(0|[1-9]\\d*)(\\.(0|[1-9]\\d*)){0,2}$",
               "x-pattern-message": "must be a published version like 1.2.3 or 1"
+            }
+          },
+          "additionalProperties": false
+        }
+      }
+    },
+    "createAccountEmailAction": {
+      "body": {
+        "mediaType": "application/json",
+        "required": true,
+        "schema": {
+          "type": "object",
+          "properties": {
+            "template_ids": {
+              "type": "array",
+              "maxItems": 500,
+              "items": {
+                "type": "string",
+                "maxLength": 255,
+                "pattern": "[^ \t\n\u000b\f\r   -     　]",
+                "x-pattern-message": "can't be blank"
+              }
+            },
+            "folder_ids": {
+              "type": "array",
+              "maxItems": 500,
+              "items": {
+                "type": "string",
+                "maxLength": 255,
+                "pattern": "[^ \t\n\u000b\f\r   -     　]",
+                "x-pattern-message": "can't be blank"
+              }
+            },
+            "name": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 512
+            },
+            "enabled": {
+              "type": "boolean"
+            },
+            "to": {
+              "type": "array",
+              "maxItems": 10,
+              "items": {
+                "type": "string",
+                "maxLength": 512
+              }
+            },
+            "cc": {
+              "type": "array",
+              "maxItems": 10,
+              "items": {
+                "type": "string",
+                "maxLength": 512
+              }
+            },
+            "bcc": {
+              "type": "array",
+              "maxItems": 10,
+              "items": {
+                "type": "string",
+                "maxLength": 512
+              }
+            },
+            "from_name": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 64
+            },
+            "from_address": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 254
+            },
+            "reply_to": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 254
+            },
+            "subject": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 200
+            },
+            "message": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 2000
+            },
+            "file_name": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 200
+            },
+            "file_formats": {
+              "type": "string",
+              "enum": [
+                "docx",
+                "odt",
+                "pdf",
+                "all"
+              ]
+            },
+            "delivery": {
+              "type": "string",
+              "enum": [
+                "attachment",
+                "link"
+              ]
+            },
+            "max_attachment_mb": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 25
+            },
+            "submission_type": {
+              "type": "string",
+              "enum": [
+                "live",
+                "test",
+                "all"
+              ]
+            },
+            "send_when": {
+              "type": [
+                "object",
+                "null"
+              ],
+              "required": [
+                "conditions"
+              ],
+              "properties": {
+                "match": {
+                  "type": "string",
+                  "enum": [
+                    "all",
+                    "any"
+                  ]
+                },
+                "conditions": {
+                  "type": "array",
+                  "items": {
+                    "oneOf": [
+                      {
+                        "$ref": "#/components/schemas/FieldPresenceCondition"
+                      },
+                      {
+                        "$ref": "#/components/schemas/FieldEqualsCondition"
+                      },
+                      {
+                        "$ref": "#/components/schemas/FieldInCondition"
+                      },
+                      {
+                        "$ref": "#/components/schemas/FieldComparisonCondition"
+                      },
+                      {
+                        "$ref": "#/components/schemas/FieldRangeCondition"
+                      }
+                    ],
+                    "discriminator": {
+                      "propertyName": "operator",
+                      "mapping": [
+                        [
+                          "present",
+                          "#/components/schemas/FieldPresenceCondition"
+                        ],
+                        [
+                          "blank",
+                          "#/components/schemas/FieldPresenceCondition"
+                        ],
+                        [
+                          "equals",
+                          "#/components/schemas/FieldEqualsCondition"
+                        ],
+                        [
+                          "not_equals",
+                          "#/components/schemas/FieldEqualsCondition"
+                        ],
+                        [
+                          "in",
+                          "#/components/schemas/FieldInCondition"
+                        ],
+                        [
+                          "gt",
+                          "#/components/schemas/FieldComparisonCondition"
+                        ],
+                        [
+                          "gte",
+                          "#/components/schemas/FieldComparisonCondition"
+                        ],
+                        [
+                          "lt",
+                          "#/components/schemas/FieldComparisonCondition"
+                        ],
+                        [
+                          "lte",
+                          "#/components/schemas/FieldComparisonCondition"
+                        ],
+                        [
+                          "range",
+                          "#/components/schemas/FieldRangeCondition"
+                        ]
+                      ]
+                    }
+                  },
+                  "minItems": 1,
+                  "maxItems": 20
+                }
+              },
+              "additionalProperties": false
+            },
+            "failure_notifications_enabled": {
+              "type": "boolean"
             }
           },
           "additionalProperties": false
@@ -760,10 +997,238 @@ final class RequestSchemas
           "properties": {
             "cache_id": {
               "type": "string",
-              "minLength": 1,
-              "maxLength": 255
+              "maxLength": 255,
+              "pattern": "[^ \t\n\u000b\f\r   -     　]",
+              "x-pattern-message": "can't be blank"
             }
           },
+          "additionalProperties": false
+        }
+      }
+    },
+    "createEmailAction": {
+      "body": {
+        "mediaType": "application/json",
+        "required": true,
+        "schema": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 512
+            },
+            "enabled": {
+              "type": "boolean"
+            },
+            "to": {
+              "type": "array",
+              "maxItems": 10,
+              "items": {
+                "type": "string",
+                "maxLength": 512
+              }
+            },
+            "cc": {
+              "type": "array",
+              "maxItems": 10,
+              "items": {
+                "type": "string",
+                "maxLength": 512
+              }
+            },
+            "bcc": {
+              "type": "array",
+              "maxItems": 10,
+              "items": {
+                "type": "string",
+                "maxLength": 512
+              }
+            },
+            "from_name": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 64
+            },
+            "from_address": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 254
+            },
+            "reply_to": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 254
+            },
+            "subject": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 200
+            },
+            "message": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 2000
+            },
+            "file_name": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 200
+            },
+            "file_formats": {
+              "type": "string",
+              "enum": [
+                "docx",
+                "odt",
+                "pdf",
+                "all"
+              ]
+            },
+            "delivery": {
+              "type": "string",
+              "enum": [
+                "attachment",
+                "link"
+              ]
+            },
+            "max_attachment_mb": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 25
+            },
+            "submission_type": {
+              "type": "string",
+              "enum": [
+                "live",
+                "test",
+                "all"
+              ]
+            },
+            "send_when": {
+              "type": [
+                "object",
+                "null"
+              ],
+              "required": [
+                "conditions"
+              ],
+              "properties": {
+                "match": {
+                  "type": "string",
+                  "enum": [
+                    "all",
+                    "any"
+                  ]
+                },
+                "conditions": {
+                  "type": "array",
+                  "items": {
+                    "oneOf": [
+                      {
+                        "$ref": "#/components/schemas/FieldPresenceCondition"
+                      },
+                      {
+                        "$ref": "#/components/schemas/FieldEqualsCondition"
+                      },
+                      {
+                        "$ref": "#/components/schemas/FieldInCondition"
+                      },
+                      {
+                        "$ref": "#/components/schemas/FieldComparisonCondition"
+                      },
+                      {
+                        "$ref": "#/components/schemas/FieldRangeCondition"
+                      }
+                    ],
+                    "discriminator": {
+                      "propertyName": "operator",
+                      "mapping": [
+                        [
+                          "present",
+                          "#/components/schemas/FieldPresenceCondition"
+                        ],
+                        [
+                          "blank",
+                          "#/components/schemas/FieldPresenceCondition"
+                        ],
+                        [
+                          "equals",
+                          "#/components/schemas/FieldEqualsCondition"
+                        ],
+                        [
+                          "not_equals",
+                          "#/components/schemas/FieldEqualsCondition"
+                        ],
+                        [
+                          "in",
+                          "#/components/schemas/FieldInCondition"
+                        ],
+                        [
+                          "gt",
+                          "#/components/schemas/FieldComparisonCondition"
+                        ],
+                        [
+                          "gte",
+                          "#/components/schemas/FieldComparisonCondition"
+                        ],
+                        [
+                          "lt",
+                          "#/components/schemas/FieldComparisonCondition"
+                        ],
+                        [
+                          "lte",
+                          "#/components/schemas/FieldComparisonCondition"
+                        ],
+                        [
+                          "range",
+                          "#/components/schemas/FieldRangeCondition"
+                        ]
+                      ]
+                    }
+                  },
+                  "minItems": 1,
+                  "maxItems": 20
+                }
+              },
+              "additionalProperties": false
+            },
+            "failure_notifications_enabled": {
+              "type": "boolean"
+            }
+          },
+          "additionalProperties": false
+        }
+      }
+    },
+    "createEmailDomain": {
+      "body": {
+        "mediaType": "application/json",
+        "required": true,
+        "schema": {
+          "type": "object",
+          "properties": {
+            "domain": {
+              "type": "string",
+              "maxLength": 253
+            }
+          },
+          "required": [
+            "domain"
+          ],
           "additionalProperties": false
         }
       }
@@ -787,7 +1252,8 @@ final class RequestSchemas
                 "string",
                 "null"
               ],
-              "minLength": 1
+              "pattern": "[^ \t\n\u000b\f\r   -     　]",
+              "x-pattern-message": "can't be blank"
             }
           },
           "required": [
@@ -872,7 +1338,7 @@ final class RequestSchemas
           "required": false,
           "schema": {
             "type": "string",
-            "pattern": "^(\\d+(\\.\\d+(\\.\\d+)?)?|latest|draft)$",
+            "pattern": "^((0|[1-9]\\d*)(\\.(0|[1-9]\\d*)){0,2}|latest|draft)$",
             "x-pattern-message": "must be a version like 1.2.3 or 1, or latest or draft"
           }
         },
@@ -954,7 +1420,9 @@ final class RequestSchemas
                       "string",
                       "null"
                     ],
-                    "maxLength": 254
+                    "maxLength": 254,
+                    "pattern": "^[^ \t\n\u000b\f\r@]+@[^ \t\n\u000b\f\r@]+$",
+                    "x-pattern-message": "must be an email address, like name@example.com"
                   },
                   "fields": {
                     "type": "array",
@@ -1037,13 +1505,82 @@ final class RequestSchemas
                   },
                   "prefilled_values_editable": {
                     "type": "boolean"
+                  },
+                  "send_email": {
+                    "type": "boolean"
+                  },
+                  "signing_step": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 100
                   }
                 },
                 "required": [
-                  "fields",
-                  "auth_type"
+                  "fields"
                 ],
                 "additionalProperties": false
+              }
+            },
+            "send_email": {
+              "type": "boolean"
+            },
+            "signing_order": {
+              "type": "string",
+              "enum": [
+                "parallel",
+                "sequential"
+              ]
+            },
+            "email_subject": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200
+            },
+            "email_message": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2000
+            },
+            "cc": {
+              "type": "array",
+              "maxItems": 10,
+              "uniqueItems": true,
+              "items": {
+                "type": "string"
+              }
+            },
+            "reply_to": {
+              "type": "string"
+            },
+            "notification_emails": {
+              "type": "array",
+              "maxItems": 10,
+              "uniqueItems": true,
+              "items": {
+                "type": "string"
+              }
+            },
+            "notify_when_signed": {
+              "type": "boolean"
+            },
+            "reminders": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "interval_days",
+                "max_count"
+              ],
+              "properties": {
+                "interval_days": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 30
+                },
+                "max_count": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 10
+                }
               }
             }
           },
@@ -1070,11 +1607,13 @@ final class RequestSchemas
               "type": "object"
             },
             "template_id": {
-              "type": "string"
+              "type": "string",
+              "pattern": "[^ \t\n\u000b\f\r   -     　]",
+              "x-pattern-message": "can't be blank"
             },
             "template_version": {
               "type": "string",
-              "pattern": "^(\\d+(\\.\\d+(\\.\\d+)?)?|latest|draft)$",
+              "pattern": "^((0|[1-9]\\d*)(\\.(0|[1-9]\\d*)){0,2}|latest|draft)$",
               "x-pattern-message": "must be a version like 1.2.3 or 1, or latest or draft"
             },
             "test": {
@@ -1149,11 +1688,13 @@ final class RequestSchemas
                     "type": "string"
                   },
                   "template_id": {
-                    "type": "string"
+                    "type": "string",
+                    "pattern": "[^ \t\n\u000b\f\r   -     　]",
+                    "x-pattern-message": "can't be blank"
                   },
                   "template_version": {
                     "type": "string",
-                    "pattern": "^(\\d+(\\.\\d+(\\.\\d+)?)?|latest|draft)$",
+                    "pattern": "^((0|[1-9]\\d*)(\\.(0|[1-9]\\d*)){0,2}|latest|draft)$",
                     "x-pattern-message": "must be a version like 1.2.3 or 1, or latest or draft"
                   }
                 },
@@ -1185,8 +1726,9 @@ final class RequestSchemas
           "properties": {
             "name": {
               "type": "string",
-              "minLength": 1,
-              "maxLength": 512
+              "maxLength": 512,
+              "pattern": "[^ \t\n\u000b\f\r   -     　]",
+              "x-pattern-message": "can't be blank"
             },
             "description": {
               "type": [
@@ -1199,7 +1741,8 @@ final class RequestSchemas
               "enum": [
                 "pdf",
                 "html",
-                "docx"
+                "docx",
+                "page_designer"
               ]
             },
             "output_format": {
@@ -1215,7 +1758,8 @@ final class RequestSchemas
                 "string",
                 "null"
               ],
-              "minLength": 1
+              "pattern": "[^ \t\n\u000b\f\r   -     　]",
+              "x-pattern-message": "can't be blank"
             },
             "locked": {
               "type": "boolean"
@@ -1309,6 +1853,54 @@ final class RequestSchemas
                 "null"
               ],
               "format": "uri"
+            },
+            "signature_request_email_attachments": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "enum": [
+                "attachment",
+                "link",
+                null
+              ]
+            },
+            "signature_request_from_address": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "signature_request_include_signing_token": {
+              "type": "boolean"
+            },
+            "signature_request_from_name": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 64
+            },
+            "signature_request_notification_emails": {
+              "type": "array",
+              "maxItems": 10,
+              "uniqueItems": true,
+              "items": {
+                "type": "string"
+              }
+            },
+            "signature_request_reply_to": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "signature_request_signing_url": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 2048
             },
             "slack_webhook_url": {
               "type": [
@@ -1711,7 +2303,8 @@ final class RequestSchemas
                 },
                 "scale": {
                   "type": "number",
-                  "exclusiveMinimum": 0
+                  "minimum": 0.1,
+                  "maximum": 2
                 },
                 "landscape": {
                   "type": "boolean"
@@ -1737,10 +2330,17 @@ final class RequestSchemas
             "html_escape_data": {
               "type": "boolean"
             },
+            "layout": {
+              "type": [
+                "object",
+                "null"
+              ]
+            },
             "cache_id": {
               "type": "string",
-              "minLength": 1,
-              "maxLength": 255
+              "maxLength": 255,
+              "pattern": "[^ \t\n\u000b\f\r   -     　]",
+              "x-pattern-message": "can't be blank"
             },
             "document_url": {
               "type": "string",
@@ -1756,7 +2356,9 @@ final class RequestSchemas
             "filename": {
               "type": "string",
               "minLength": 1,
-              "maxLength": 255
+              "maxLength": 255,
+              "pattern": "^[^/\\\\]*$",
+              "x-pattern-message": "can't contain a slash (/ or \\)"
             },
             "detect_fields": {
               "type": "boolean"
@@ -1797,7 +2399,7 @@ final class RequestSchemas
           "required": false,
           "schema": {
             "type": "string",
-            "pattern": "^(\\d+(\\.\\d+(\\.\\d+)?)?|latest|draft)$",
+            "pattern": "^((0|[1-9]\\d*)(\\.(0|[1-9]\\d*)){0,2}|latest|draft)$",
             "x-pattern-message": "must be a version like 1.2.3 or 1, or latest or draft"
           }
         }
@@ -1850,9 +2452,11 @@ final class RequestSchemas
                   "submission.processed",
                   "submission.failed",
                   "submission.declined",
+                  "signature_request.sent",
                   "signature_request.viewed",
                   "signature_request.completed",
                   "signature_request.declined",
+                  "signature_request.email_bounced",
                   "combined_pdf.processed",
                   "combined_pdf.failed",
                   "submission_batch.processed",
@@ -1890,21 +2494,27 @@ final class RequestSchemas
               "type": "array",
               "uniqueItems": true,
               "items": {
-                "type": "string"
+                "type": "string",
+                "pattern": "[^ \t\n\u000b\f\r   -     　]",
+                "x-pattern-message": "can't be blank"
               }
             },
             "template_ids": {
               "type": "array",
               "uniqueItems": true,
               "items": {
-                "type": "string"
+                "type": "string",
+                "pattern": "[^ \t\n\u000b\f\r   -     　]",
+                "x-pattern-message": "can't be blank"
               }
             },
             "folder_ids": {
               "type": "array",
               "uniqueItems": true,
               "items": {
-                "type": "string"
+                "type": "string",
+                "pattern": "[^ \t\n\u000b\f\r   -     　]",
+                "x-pattern-message": "can't be blank"
               }
             },
             "include_submission_data": {
@@ -1931,7 +2541,11 @@ final class RequestSchemas
         }
       }
     },
+    "deleteAccountEmailAction": {},
     "deleteCustomFile": {},
+    "deleteEmailAction": {},
+    "deleteEmailActionCustomization": {},
+    "deleteEmailDomain": {},
     "deleteFolder": {},
     "deleteTemplate": {
       "query": {
@@ -1939,7 +2553,7 @@ final class RequestSchemas
           "required": false,
           "schema": {
             "type": "string",
-            "pattern": "^(\\d+\\.\\d+\\.\\d+|draft)$",
+            "pattern": "^((0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)|draft)$",
             "x-pattern-message": "must be a full version like 1.2.3, or draft"
           }
         }
@@ -1986,8 +2600,11 @@ final class RequestSchemas
       }
     },
     "generateSubmissionPreview": {},
+    "getAccountEmailAction": {},
     "getCombinedPdf": {},
     "getCustomFile": {},
+    "getEmailAction": {},
+    "getEmailDomain": {},
     "getFolder": {},
     "getPresignUrl": {},
     "getSignatureRequest": {},
@@ -2008,7 +2625,7 @@ final class RequestSchemas
           "required": false,
           "schema": {
             "type": "string",
-            "pattern": "^(\\d+(\\.\\d+(\\.\\d+)?)?|latest|draft)$",
+            "pattern": "^((0|[1-9]\\d*)(\\.(0|[1-9]\\d*)){0,2}|latest|draft)$",
             "x-pattern-message": "must be a version like 1.2.3 or 1, or latest or draft"
           }
         }
@@ -2020,7 +2637,7 @@ final class RequestSchemas
           "required": false,
           "schema": {
             "type": "string",
-            "pattern": "^(\\d+(\\.\\d+(\\.\\d+)?)?|latest|draft)$",
+            "pattern": "^((0|[1-9]\\d*)(\\.(0|[1-9]\\d*)){0,2}|latest|draft)$",
             "x-pattern-message": "must be a version like 1.2.3 or 1, or latest or draft"
           }
         }
@@ -2032,7 +2649,7 @@ final class RequestSchemas
           "required": false,
           "schema": {
             "type": "string",
-            "pattern": "^(\\d+(\\.\\d+(\\.\\d+)?)?|latest|draft)$",
+            "pattern": "^((0|[1-9]\\d*)(\\.(0|[1-9]\\d*)){0,2}|latest|draft)$",
             "x-pattern-message": "must be a version like 1.2.3 or 1, or latest or draft"
           }
         },
@@ -2068,7 +2685,7 @@ final class RequestSchemas
           "required": false,
           "schema": {
             "type": "string",
-            "pattern": "^(\\d+(\\.\\d+(\\.\\d+)?)?|latest|draft)$",
+            "pattern": "^((0|[1-9]\\d*)(\\.(0|[1-9]\\d*)){0,2}|latest|draft)$",
             "x-pattern-message": "must be a version like 1.2.3 or 1, or latest or draft"
           }
         }
@@ -2081,13 +2698,33 @@ final class RequestSchemas
           "required": false,
           "schema": {
             "type": "string",
-            "pattern": "^(\\d+(\\.\\d+(\\.\\d+)?)?|latest|draft)$",
+            "pattern": "^((0|[1-9]\\d*)(\\.(0|[1-9]\\d*)){0,2}|latest|draft)$",
             "x-pattern-message": "must be a version like 1.2.3 or 1, or latest or draft"
           }
         }
       }
     },
     "getWebhook": {},
+    "listAccountEmailActions": {
+      "query": {
+        "limit": {
+          "required": false,
+          "schema": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100
+          }
+        },
+        "cursor": {
+          "required": false,
+          "schema": {
+            "type": "string",
+            "pattern": "[^ \t\n\u000b\f\r   -     　]",
+            "x-pattern-message": "can't be blank"
+          }
+        }
+      }
+    },
     "listCombinedPdfs": {
       "query": {
         "limit": {
@@ -2101,7 +2738,9 @@ final class RequestSchemas
         "cursor": {
           "required": false,
           "schema": {
-            "type": "string"
+            "type": "string",
+            "pattern": "[^ \t\n\u000b\f\r   -     　]",
+            "x-pattern-message": "can't be blank"
           }
         }
       }
@@ -2119,7 +2758,49 @@ final class RequestSchemas
         "cursor": {
           "required": false,
           "schema": {
-            "type": "string"
+            "type": "string",
+            "pattern": "[^ \t\n\u000b\f\r   -     　]",
+            "x-pattern-message": "can't be blank"
+          }
+        }
+      }
+    },
+    "listEmailActions": {
+      "query": {
+        "limit": {
+          "required": false,
+          "schema": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100
+          }
+        },
+        "cursor": {
+          "required": false,
+          "schema": {
+            "type": "string",
+            "pattern": "[^ \t\n\u000b\f\r   -     　]",
+            "x-pattern-message": "can't be blank"
+          }
+        }
+      }
+    },
+    "listEmailDomains": {
+      "query": {
+        "limit": {
+          "required": false,
+          "schema": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100
+          }
+        },
+        "cursor": {
+          "required": false,
+          "schema": {
+            "type": "string",
+            "pattern": "[^ \t\n\u000b\f\r   -     　]",
+            "x-pattern-message": "can't be blank"
           }
         }
       }
@@ -2129,7 +2810,9 @@ final class RequestSchemas
         "parent_folder_id": {
           "required": false,
           "schema": {
-            "type": "string"
+            "type": "string",
+            "pattern": "[^ \t\n\u000b\f\r   -     　]",
+            "x-pattern-message": "can't be blank"
           }
         },
         "limit": {
@@ -2143,7 +2826,9 @@ final class RequestSchemas
         "cursor": {
           "required": false,
           "schema": {
-            "type": "string"
+            "type": "string",
+            "pattern": "[^ \t\n\u000b\f\r   -     　]",
+            "x-pattern-message": "can't be blank"
           }
         }
       }
@@ -2153,7 +2838,9 @@ final class RequestSchemas
         "template_id": {
           "required": false,
           "schema": {
-            "type": "string"
+            "type": "string",
+            "pattern": "[^ \t\n\u000b\f\r   -     　]",
+            "x-pattern-message": "can't be blank"
           }
         },
         "test": {
@@ -2193,7 +2880,9 @@ final class RequestSchemas
         "cursor": {
           "required": false,
           "schema": {
-            "type": "string"
+            "type": "string",
+            "pattern": "[^ \t\n\u000b\f\r   -     　]",
+            "x-pattern-message": "can't be blank"
           }
         },
         "state": {
@@ -2231,7 +2920,7 @@ final class RequestSchemas
           "required": false,
           "schema": {
             "type": "string",
-            "pattern": "^(\\d+(\\.\\d+(\\.\\d+)?)?|latest|draft)$",
+            "pattern": "^((0|[1-9]\\d*)(\\.(0|[1-9]\\d*)){0,2}|latest|draft)$",
             "x-pattern-message": "must be a version like 1.2.3 or 1, or latest or draft"
           }
         }
@@ -2276,7 +2965,9 @@ final class RequestSchemas
         "cursor": {
           "required": false,
           "schema": {
-            "type": "string"
+            "type": "string",
+            "pattern": "[^ \t\n\u000b\f\r   -     　]",
+            "x-pattern-message": "can't be blank"
           }
         },
         "state": {
@@ -2313,13 +3004,17 @@ final class RequestSchemas
         "query": {
           "required": false,
           "schema": {
-            "type": "string"
+            "type": "string",
+            "pattern": "[^ \t\n\u000b\f\r   -     　]",
+            "x-pattern-message": "can't be blank"
           }
         },
         "parent_folder_id": {
           "required": false,
           "schema": {
-            "type": "string"
+            "type": "string",
+            "pattern": "[^ \t\n\u000b\f\r   -     　]",
+            "x-pattern-message": "can't be blank"
           }
         },
         "limit": {
@@ -2333,7 +3028,9 @@ final class RequestSchemas
         "cursor": {
           "required": false,
           "schema": {
-            "type": "string"
+            "type": "string",
+            "pattern": "[^ \t\n\u000b\f\r   -     　]",
+            "x-pattern-message": "can't be blank"
           }
         }
       }
@@ -2348,9 +3045,11 @@ final class RequestSchemas
               "submission.processed",
               "submission.failed",
               "submission.declined",
+              "signature_request.sent",
               "signature_request.viewed",
               "signature_request.completed",
               "signature_request.declined",
+              "signature_request.email_bounced",
               "combined_pdf.processed",
               "combined_pdf.failed",
               "submission_batch.processed",
@@ -2386,19 +3085,25 @@ final class RequestSchemas
         "template_id": {
           "required": false,
           "schema": {
-            "type": "string"
+            "type": "string",
+            "pattern": "[^ \t\n\u000b\f\r   -     　]",
+            "x-pattern-message": "can't be blank"
           }
         },
         "folder_id": {
           "required": false,
           "schema": {
-            "type": "string"
+            "type": "string",
+            "pattern": "[^ \t\n\u000b\f\r   -     　]",
+            "x-pattern-message": "can't be blank"
           }
         },
         "api_token_id": {
           "required": false,
           "schema": {
-            "type": "string"
+            "type": "string",
+            "pattern": "[^ \t\n\u000b\f\r   -     　]",
+            "x-pattern-message": "can't be blank"
           }
         },
         "limit": {
@@ -2412,7 +3117,9 @@ final class RequestSchemas
         "cursor": {
           "required": false,
           "schema": {
-            "type": "string"
+            "type": "string",
+            "pattern": "[^ \t\n\u000b\f\r   -     　]",
+            "x-pattern-message": "can't be blank"
           }
         }
       }
@@ -2429,7 +3136,8 @@ final class RequestSchemas
                 "string",
                 "null"
               ],
-              "minLength": 1
+              "pattern": "[^ \t\n\u000b\f\r   -     　]",
+              "x-pattern-message": "can't be blank"
             }
           },
           "required": [
@@ -2454,7 +3162,8 @@ final class RequestSchemas
                 "string",
                 "null"
               ],
-              "minLength": 1
+              "pattern": "[^ \t\n\u000b\f\r   -     　]",
+              "x-pattern-message": "can't be blank"
             }
           },
           "additionalProperties": false
@@ -2567,7 +3276,7 @@ final class RequestSchemas
           "properties": {
             "version": {
               "type": "string",
-              "pattern": "^\\d+(\\.\\d+(\\.\\d+)?)?$",
+              "pattern": "^(0|[1-9]\\d*)(\\.(0|[1-9]\\d*)){0,2}$",
               "x-pattern-message": "must be a published version like 1.2.3 or 1"
             }
           },
@@ -2575,7 +3284,662 @@ final class RequestSchemas
         }
       }
     },
+    "sendAccountEmailActionTestEmail": {
+      "body": {
+        "mediaType": "application/json",
+        "required": false,
+        "schema": {
+          "type": "object",
+          "properties": {
+            "template_id": {
+              "type": "string",
+              "maxLength": 255,
+              "pattern": "[^ \t\n\u000b\f\r   -     　]",
+              "x-pattern-message": "can't be blank"
+            }
+          },
+          "additionalProperties": false
+        }
+      }
+    },
+    "sendEmailActionTestEmail": {},
     "testAuthentication": {},
+    "updateAccountEmailAction": {
+      "body": {
+        "mediaType": "application/json",
+        "required": true,
+        "schema": {
+          "type": "object",
+          "properties": {
+            "template_ids": {
+              "type": "array",
+              "maxItems": 500,
+              "items": {
+                "type": "string",
+                "maxLength": 255,
+                "pattern": "[^ \t\n\u000b\f\r   -     　]",
+                "x-pattern-message": "can't be blank"
+              }
+            },
+            "folder_ids": {
+              "type": "array",
+              "maxItems": 500,
+              "items": {
+                "type": "string",
+                "maxLength": 255,
+                "pattern": "[^ \t\n\u000b\f\r   -     　]",
+                "x-pattern-message": "can't be blank"
+              }
+            },
+            "name": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 512
+            },
+            "enabled": {
+              "type": "boolean"
+            },
+            "to": {
+              "type": "array",
+              "maxItems": 10,
+              "items": {
+                "type": "string",
+                "maxLength": 512
+              }
+            },
+            "cc": {
+              "type": "array",
+              "maxItems": 10,
+              "items": {
+                "type": "string",
+                "maxLength": 512
+              }
+            },
+            "bcc": {
+              "type": "array",
+              "maxItems": 10,
+              "items": {
+                "type": "string",
+                "maxLength": 512
+              }
+            },
+            "from_name": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 64
+            },
+            "from_address": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 254
+            },
+            "reply_to": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 254
+            },
+            "subject": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 200
+            },
+            "message": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 2000
+            },
+            "file_name": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 200
+            },
+            "file_formats": {
+              "type": "string",
+              "enum": [
+                "docx",
+                "odt",
+                "pdf",
+                "all"
+              ]
+            },
+            "delivery": {
+              "type": "string",
+              "enum": [
+                "attachment",
+                "link"
+              ]
+            },
+            "max_attachment_mb": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 25
+            },
+            "submission_type": {
+              "type": "string",
+              "enum": [
+                "live",
+                "test",
+                "all"
+              ]
+            },
+            "send_when": {
+              "type": [
+                "object",
+                "null"
+              ],
+              "required": [
+                "conditions"
+              ],
+              "properties": {
+                "match": {
+                  "type": "string",
+                  "enum": [
+                    "all",
+                    "any"
+                  ]
+                },
+                "conditions": {
+                  "type": "array",
+                  "items": {
+                    "oneOf": [
+                      {
+                        "$ref": "#/components/schemas/FieldPresenceCondition"
+                      },
+                      {
+                        "$ref": "#/components/schemas/FieldEqualsCondition"
+                      },
+                      {
+                        "$ref": "#/components/schemas/FieldInCondition"
+                      },
+                      {
+                        "$ref": "#/components/schemas/FieldComparisonCondition"
+                      },
+                      {
+                        "$ref": "#/components/schemas/FieldRangeCondition"
+                      }
+                    ],
+                    "discriminator": {
+                      "propertyName": "operator",
+                      "mapping": [
+                        [
+                          "present",
+                          "#/components/schemas/FieldPresenceCondition"
+                        ],
+                        [
+                          "blank",
+                          "#/components/schemas/FieldPresenceCondition"
+                        ],
+                        [
+                          "equals",
+                          "#/components/schemas/FieldEqualsCondition"
+                        ],
+                        [
+                          "not_equals",
+                          "#/components/schemas/FieldEqualsCondition"
+                        ],
+                        [
+                          "in",
+                          "#/components/schemas/FieldInCondition"
+                        ],
+                        [
+                          "gt",
+                          "#/components/schemas/FieldComparisonCondition"
+                        ],
+                        [
+                          "gte",
+                          "#/components/schemas/FieldComparisonCondition"
+                        ],
+                        [
+                          "lt",
+                          "#/components/schemas/FieldComparisonCondition"
+                        ],
+                        [
+                          "lte",
+                          "#/components/schemas/FieldComparisonCondition"
+                        ],
+                        [
+                          "range",
+                          "#/components/schemas/FieldRangeCondition"
+                        ]
+                      ]
+                    }
+                  },
+                  "minItems": 1,
+                  "maxItems": 20
+                }
+              },
+              "additionalProperties": false
+            },
+            "failure_notifications_enabled": {
+              "type": "boolean"
+            }
+          },
+          "minProperties": 1,
+          "additionalProperties": false
+        }
+      }
+    },
+    "updateEmailAction": {
+      "body": {
+        "mediaType": "application/json",
+        "required": true,
+        "schema": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 512
+            },
+            "enabled": {
+              "type": "boolean"
+            },
+            "to": {
+              "type": "array",
+              "maxItems": 10,
+              "items": {
+                "type": "string",
+                "maxLength": 512
+              }
+            },
+            "cc": {
+              "type": "array",
+              "maxItems": 10,
+              "items": {
+                "type": "string",
+                "maxLength": 512
+              }
+            },
+            "bcc": {
+              "type": "array",
+              "maxItems": 10,
+              "items": {
+                "type": "string",
+                "maxLength": 512
+              }
+            },
+            "from_name": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 64
+            },
+            "from_address": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 254
+            },
+            "reply_to": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 254
+            },
+            "subject": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 200
+            },
+            "message": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 2000
+            },
+            "file_name": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 200
+            },
+            "file_formats": {
+              "type": "string",
+              "enum": [
+                "docx",
+                "odt",
+                "pdf",
+                "all"
+              ]
+            },
+            "delivery": {
+              "type": "string",
+              "enum": [
+                "attachment",
+                "link"
+              ]
+            },
+            "max_attachment_mb": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 25
+            },
+            "submission_type": {
+              "type": "string",
+              "enum": [
+                "live",
+                "test",
+                "all"
+              ]
+            },
+            "send_when": {
+              "type": [
+                "object",
+                "null"
+              ],
+              "required": [
+                "conditions"
+              ],
+              "properties": {
+                "match": {
+                  "type": "string",
+                  "enum": [
+                    "all",
+                    "any"
+                  ]
+                },
+                "conditions": {
+                  "type": "array",
+                  "items": {
+                    "oneOf": [
+                      {
+                        "$ref": "#/components/schemas/FieldPresenceCondition"
+                      },
+                      {
+                        "$ref": "#/components/schemas/FieldEqualsCondition"
+                      },
+                      {
+                        "$ref": "#/components/schemas/FieldInCondition"
+                      },
+                      {
+                        "$ref": "#/components/schemas/FieldComparisonCondition"
+                      },
+                      {
+                        "$ref": "#/components/schemas/FieldRangeCondition"
+                      }
+                    ],
+                    "discriminator": {
+                      "propertyName": "operator",
+                      "mapping": [
+                        [
+                          "present",
+                          "#/components/schemas/FieldPresenceCondition"
+                        ],
+                        [
+                          "blank",
+                          "#/components/schemas/FieldPresenceCondition"
+                        ],
+                        [
+                          "equals",
+                          "#/components/schemas/FieldEqualsCondition"
+                        ],
+                        [
+                          "not_equals",
+                          "#/components/schemas/FieldEqualsCondition"
+                        ],
+                        [
+                          "in",
+                          "#/components/schemas/FieldInCondition"
+                        ],
+                        [
+                          "gt",
+                          "#/components/schemas/FieldComparisonCondition"
+                        ],
+                        [
+                          "gte",
+                          "#/components/schemas/FieldComparisonCondition"
+                        ],
+                        [
+                          "lt",
+                          "#/components/schemas/FieldComparisonCondition"
+                        ],
+                        [
+                          "lte",
+                          "#/components/schemas/FieldComparisonCondition"
+                        ],
+                        [
+                          "range",
+                          "#/components/schemas/FieldRangeCondition"
+                        ]
+                      ]
+                    }
+                  },
+                  "minItems": 1,
+                  "maxItems": 20
+                }
+              },
+              "additionalProperties": false
+            },
+            "failure_notifications_enabled": {
+              "type": "boolean"
+            }
+          },
+          "minProperties": 1,
+          "additionalProperties": false
+        }
+      }
+    },
+    "updateEmailActionCustomization": {
+      "body": {
+        "mediaType": "application/json",
+        "required": true,
+        "schema": {
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "type": "boolean"
+            },
+            "to": {
+              "type": "array",
+              "maxItems": 10,
+              "items": {
+                "type": "string",
+                "maxLength": 512
+              }
+            },
+            "cc": {
+              "type": "array",
+              "maxItems": 10,
+              "items": {
+                "type": "string",
+                "maxLength": 512
+              }
+            },
+            "bcc": {
+              "type": "array",
+              "maxItems": 10,
+              "items": {
+                "type": "string",
+                "maxLength": 512
+              }
+            },
+            "from_name": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 64
+            },
+            "from_address": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 254
+            },
+            "reply_to": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 254
+            },
+            "subject": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 200
+            },
+            "message": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 2000
+            },
+            "file_name": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 200
+            },
+            "file_formats": {
+              "type": "string",
+              "enum": [
+                "docx",
+                "odt",
+                "pdf",
+                "all"
+              ]
+            },
+            "delivery": {
+              "type": "string",
+              "enum": [
+                "attachment",
+                "link"
+              ]
+            },
+            "max_attachment_mb": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 25
+            },
+            "submission_type": {
+              "type": "string",
+              "enum": [
+                "live",
+                "test",
+                "all"
+              ]
+            },
+            "send_when": {
+              "type": [
+                "object",
+                "null"
+              ],
+              "required": [
+                "conditions"
+              ],
+              "properties": {
+                "match": {
+                  "type": "string",
+                  "enum": [
+                    "all",
+                    "any"
+                  ]
+                },
+                "conditions": {
+                  "type": "array",
+                  "items": {
+                    "oneOf": [
+                      {
+                        "$ref": "#/components/schemas/FieldPresenceCondition"
+                      },
+                      {
+                        "$ref": "#/components/schemas/FieldEqualsCondition"
+                      },
+                      {
+                        "$ref": "#/components/schemas/FieldInCondition"
+                      },
+                      {
+                        "$ref": "#/components/schemas/FieldComparisonCondition"
+                      },
+                      {
+                        "$ref": "#/components/schemas/FieldRangeCondition"
+                      }
+                    ],
+                    "discriminator": {
+                      "propertyName": "operator",
+                      "mapping": [
+                        [
+                          "present",
+                          "#/components/schemas/FieldPresenceCondition"
+                        ],
+                        [
+                          "blank",
+                          "#/components/schemas/FieldPresenceCondition"
+                        ],
+                        [
+                          "equals",
+                          "#/components/schemas/FieldEqualsCondition"
+                        ],
+                        [
+                          "not_equals",
+                          "#/components/schemas/FieldEqualsCondition"
+                        ],
+                        [
+                          "in",
+                          "#/components/schemas/FieldInCondition"
+                        ],
+                        [
+                          "gt",
+                          "#/components/schemas/FieldComparisonCondition"
+                        ],
+                        [
+                          "gte",
+                          "#/components/schemas/FieldComparisonCondition"
+                        ],
+                        [
+                          "lt",
+                          "#/components/schemas/FieldComparisonCondition"
+                        ],
+                        [
+                          "lte",
+                          "#/components/schemas/FieldComparisonCondition"
+                        ],
+                        [
+                          "range",
+                          "#/components/schemas/FieldRangeCondition"
+                        ]
+                      ]
+                    }
+                  },
+                  "minItems": 1,
+                  "maxItems": 20
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
+        }
+      }
+    },
     "updateSignatureRequest": {
       "body": {
         "mediaType": "application/json",
@@ -2647,6 +4011,7 @@ final class RequestSchemas
               ]
             }
           },
+          "minProperties": 1,
           "additionalProperties": false
         }
       }
@@ -2660,8 +4025,9 @@ final class RequestSchemas
           "properties": {
             "name": {
               "type": "string",
-              "minLength": 1,
-              "maxLength": 512
+              "maxLength": 512,
+              "pattern": "[^ \t\n\u000b\f\r   -     　]",
+              "x-pattern-message": "can't be blank"
             },
             "description": {
               "type": [
@@ -2682,7 +4048,8 @@ final class RequestSchemas
                 "string",
                 "null"
               ],
-              "minLength": 1
+              "pattern": "[^ \t\n\u000b\f\r   -     　]",
+              "x-pattern-message": "can't be blank"
             },
             "locked": {
               "type": "boolean"
@@ -2776,6 +4143,54 @@ final class RequestSchemas
                 "null"
               ],
               "format": "uri"
+            },
+            "signature_request_email_attachments": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "enum": [
+                "attachment",
+                "link",
+                null
+              ]
+            },
+            "signature_request_from_address": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "signature_request_include_signing_token": {
+              "type": "boolean"
+            },
+            "signature_request_from_name": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 64
+            },
+            "signature_request_notification_emails": {
+              "type": "array",
+              "maxItems": 10,
+              "uniqueItems": true,
+              "items": {
+                "type": "string"
+              }
+            },
+            "signature_request_reply_to": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "signature_request_signing_url": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 2048
             },
             "slack_webhook_url": {
               "type": [
@@ -3220,7 +4635,8 @@ final class RequestSchemas
                 },
                 "scale": {
                   "type": "number",
-                  "exclusiveMinimum": 0
+                  "minimum": 0.1,
+                  "maximum": 2
                 },
                 "landscape": {
                   "type": "boolean"
@@ -3245,8 +4661,15 @@ final class RequestSchemas
             },
             "html_escape_data": {
               "type": "boolean"
+            },
+            "layout": {
+              "type": [
+                "object",
+                "null"
+              ]
             }
           },
+          "minProperties": 1,
           "additionalProperties": false
         }
       }
@@ -3268,8 +4691,9 @@ final class RequestSchemas
           "properties": {
             "cache_id": {
               "type": "string",
-              "minLength": 1,
-              "maxLength": 255
+              "maxLength": 255,
+              "pattern": "[^ \t\n\u000b\f\r   -     　]",
+              "x-pattern-message": "can't be blank"
             },
             "document_url": {
               "type": "string",
@@ -3285,7 +4709,9 @@ final class RequestSchemas
             "filename": {
               "type": "string",
               "minLength": 1,
-              "maxLength": 255
+              "maxLength": 255,
+              "pattern": "^[^/\\\\]*$",
+              "x-pattern-message": "can't contain a slash (/ or \\)"
             },
             "reimport_fields": {
               "type": "boolean"
@@ -3741,10 +5167,17 @@ final class RequestSchemas
                     "type": "string",
                     "enum": [
                       "equals",
+                      "not_equals",
                       "contains",
+                      "not_contains",
                       "starts_with",
+                      "not_starts_with",
                       "ends_with",
-                      "regex"
+                      "not_ends_with",
+                      "regex",
+                      "not_regex",
+                      "blank",
+                      "not_blank"
                     ]
                   },
                   "number_condition_type": {
@@ -3951,9 +5384,11 @@ final class RequestSchemas
                   "submission.processed",
                   "submission.failed",
                   "submission.declined",
+                  "signature_request.sent",
                   "signature_request.viewed",
                   "signature_request.completed",
                   "signature_request.declined",
+                  "signature_request.email_bounced",
                   "combined_pdf.processed",
                   "combined_pdf.failed",
                   "submission_batch.processed",
@@ -3991,21 +5426,27 @@ final class RequestSchemas
               "type": "array",
               "uniqueItems": true,
               "items": {
-                "type": "string"
+                "type": "string",
+                "pattern": "[^ \t\n\u000b\f\r   -     　]",
+                "x-pattern-message": "can't be blank"
               }
             },
             "template_ids": {
               "type": "array",
               "uniqueItems": true,
               "items": {
-                "type": "string"
+                "type": "string",
+                "pattern": "[^ \t\n\u000b\f\r   -     　]",
+                "x-pattern-message": "can't be blank"
               }
             },
             "folder_ids": {
               "type": "array",
               "uniqueItems": true,
               "items": {
-                "type": "string"
+                "type": "string",
+                "pattern": "[^ \t\n\u000b\f\r   -     　]",
+                "x-pattern-message": "can't be blank"
               }
             },
             "include_submission_data": {
@@ -4024,6 +5465,7 @@ final class RequestSchemas
               }
             }
           },
+          "minProperties": 1,
           "additionalProperties": false
         }
       }
@@ -4052,15 +5494,17 @@ final class RequestSchemas
             },
             "name": {
               "type": "string",
-              "minLength": 1,
-              "maxLength": 512
+              "maxLength": 512,
+              "pattern": "[^ \t\n\u000b\f\r   -     　]",
+              "x-pattern-message": "can't be blank"
             },
             "description": {
               "type": "string"
             },
             "parent_folder_id": {
               "type": "string",
-              "minLength": 1
+              "pattern": "[^ \t\n\u000b\f\r   -     　]",
+              "x-pattern-message": "can't be blank"
             },
             "ai_field_naming_language": {
               "type": "string",
@@ -4144,7 +5588,7 @@ final class RequestSchemas
           "required": false,
           "schema": {
             "type": "string",
-            "pattern": "^(\\d+(\\.\\d+(\\.\\d+)?)?|latest|draft)$",
+            "pattern": "^((0|[1-9]\\d*)(\\.(0|[1-9]\\d*)){0,2}|latest|draft)$",
             "x-pattern-message": "must be a version like 1.2.3 or 1, or latest or draft"
           }
         }
@@ -4220,7 +5664,9 @@ final class RequestSchemas
                       "string",
                       "null"
                     ],
-                    "maxLength": 254
+                    "maxLength": 254,
+                    "pattern": "^[^ \t\n\u000b\f\r@]+@[^ \t\n\u000b\f\r@]+$",
+                    "x-pattern-message": "must be an email address, like name@example.com"
                   },
                   "fields": {
                     "type": "array",
@@ -4303,33 +5749,111 @@ final class RequestSchemas
                   },
                   "prefilled_values_editable": {
                     "type": "boolean"
+                  },
+                  "send_email": {
+                    "type": "boolean"
+                  },
+                  "signing_step": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 100
                   }
                 },
                 "required": [
-                  "fields",
-                  "auth_type"
+                  "fields"
                 ],
                 "additionalProperties": false
+              }
+            },
+            "send_email": {
+              "type": "boolean"
+            },
+            "signing_order": {
+              "type": "string",
+              "enum": [
+                "parallel",
+                "sequential"
+              ]
+            },
+            "email_subject": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200
+            },
+            "email_message": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2000
+            },
+            "cc": {
+              "type": "array",
+              "maxItems": 10,
+              "uniqueItems": true,
+              "items": {
+                "type": "string"
+              }
+            },
+            "reply_to": {
+              "type": "string"
+            },
+            "notification_emails": {
+              "type": "array",
+              "maxItems": 10,
+              "uniqueItems": true,
+              "items": {
+                "type": "string"
+              }
+            },
+            "notify_when_signed": {
+              "type": "boolean"
+            },
+            "reminders": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "interval_days",
+                "max_count"
+              ],
+              "properties": {
+                "interval_days": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 30
+                },
+                "max_count": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 10
+                }
               }
             }
           },
           "additionalProperties": false
         }
       }
-    }
+    },
+    "verifyEmailDomain": {}
   },
   "routes": {
     "DELETE /combined_pdfs/{combined_pdf_id}": "expireCombinedPdf",
     "DELETE /custom_files/{custom_file_id}": "deleteCustomFile",
+    "DELETE /email_actions/{email_action_id}": "deleteAccountEmailAction",
+    "DELETE /email_domains/{email_domain_id}": "deleteEmailDomain",
     "DELETE /folders/{folder_id}": "deleteFolder",
     "DELETE /submissions/{submission_id}": "expireSubmission",
     "DELETE /templates/{template_id}": "deleteTemplate",
+    "DELETE /templates/{template_id}/email_actions/{email_action_id}": "deleteEmailAction",
+    "DELETE /templates/{template_id}/email_actions/{email_action_id}/customization": "deleteEmailActionCustomization",
     "DELETE /webhooks/{webhook_id}": "deleteWebhook",
     "GET /authentication": "testAuthentication",
     "GET /combined_pdfs": "listCombinedPdfs",
     "GET /combined_pdfs/{combined_pdf_id}": "getCombinedPdf",
     "GET /custom_files": "listCustomFiles",
     "GET /custom_files/{custom_file_id}": "getCustomFile",
+    "GET /email_actions": "listAccountEmailActions",
+    "GET /email_actions/{email_action_id}": "getAccountEmailAction",
+    "GET /email_domains": "listEmailDomains",
+    "GET /email_domains/{email_domain_id}": "getEmailDomain",
     "GET /folders": "listFolders",
     "GET /folders/{folder_id}": "getFolder",
     "GET /signature_requests/{signature_request_id}": "getSignatureRequest",
@@ -4339,6 +5863,8 @@ final class RequestSchemas
     "GET /templates": "listTemplates",
     "GET /templates/{template_id}": "getTemplate",
     "GET /templates/{template_id}/diff": "getTemplateDiff",
+    "GET /templates/{template_id}/email_actions": "listEmailActions",
+    "GET /templates/{template_id}/email_actions/{email_action_id}": "getEmailAction",
     "GET /templates/{template_id}/fields": "listTemplateFields",
     "GET /templates/{template_id}/model_code": "getTemplateModelCode",
     "GET /templates/{template_id}/page_images": "getTemplatePageImages",
@@ -4350,6 +5876,10 @@ final class RequestSchemas
     "GET /webhooks/{webhook_id}": "getWebhook",
     "POST /combined_pdfs": "createCombinedPdf",
     "POST /custom_files": "createCustomFileFromUpload",
+    "POST /email_actions": "createAccountEmailAction",
+    "POST /email_actions/{email_action_id}/test_email": "sendAccountEmailActionTestEmail",
+    "POST /email_domains": "createEmailDomain",
+    "POST /email_domains/{email_domain_id}/verify": "verifyEmailDomain",
     "POST /folders": "createFolder",
     "POST /folders/{folder_id}/move": "moveFolder",
     "POST /folders/{folder_id}/rename": "renameFolder",
@@ -4361,6 +5891,8 @@ final class RequestSchemas
     "POST /templates": "createTemplate",
     "POST /templates/upload": "uploadTemplate",
     "POST /templates/{template_id}/copy": "copyTemplate",
+    "POST /templates/{template_id}/email_actions": "createEmailAction",
+    "POST /templates/{template_id}/email_actions/{email_action_id}/test_email": "sendEmailActionTestEmail",
     "POST /templates/{template_id}/fields": "addTemplateFields",
     "POST /templates/{template_id}/fields/remove": "removeTemplateFields",
     "POST /templates/{template_id}/fields/reorder": "reorderTemplateFields",
@@ -4371,10 +5903,13 @@ final class RequestSchemas
     "POST /templates/{template_id}/submissions": "createSubmission",
     "POST /templates/{template_id}/submissions/validate": "validateSubmission",
     "POST /webhooks": "createWebhook",
+    "PUT /email_actions/{email_action_id}": "updateAccountEmailAction",
     "PUT /signature_requests/{signature_request_id}": "updateSignatureRequest",
     "PUT /templates/{template_id}": "updateTemplate",
     "PUT /templates/{template_id}/document": "updateTemplateDocument",
     "PUT /templates/{template_id}/document/upload": "uploadTemplateDocument",
+    "PUT /templates/{template_id}/email_actions/{email_action_id}": "updateEmailAction",
+    "PUT /templates/{template_id}/email_actions/{email_action_id}/customization": "updateEmailActionCustomization",
     "PUT /templates/{template_id}/fields": "updateTemplateFields",
     "PUT /webhooks/{webhook_id}": "updateWebhook"
   },
@@ -4393,7 +5928,8 @@ final class RequestSchemas
           },
           "id": {
             "type": "string",
-            "minLength": 1
+            "pattern": "[^ \t\n\u000b\f\r   -     　]",
+            "x-pattern-message": "can't be blank"
           }
         },
         "additionalProperties": false,
@@ -4416,7 +5952,8 @@ final class RequestSchemas
           },
           "id": {
             "type": "string",
-            "minLength": 1
+            "pattern": "[^ \t\n\u000b\f\r   -     　]",
+            "x-pattern-message": "can't be blank"
           }
         },
         "additionalProperties": false,
@@ -4841,10 +6378,17 @@ final class RequestSchemas
             "type": "string",
             "enum": [
               "equals",
+              "not_equals",
               "contains",
+              "not_contains",
               "starts_with",
+              "not_starts_with",
               "ends_with",
-              "regex"
+              "not_ends_with",
+              "regex",
+              "not_regex",
+              "blank",
+              "not_blank"
             ]
           },
           "number_condition_type": {
@@ -5038,7 +6582,8 @@ final class RequestSchemas
           },
           "id": {
             "type": "string",
-            "minLength": 1
+            "pattern": "[^ \t\n\u000b\f\r   -     　]",
+            "x-pattern-message": "can't be blank"
           }
         },
         "additionalProperties": false,
@@ -5061,11 +6606,12 @@ final class RequestSchemas
           },
           "id": {
             "type": "string",
-            "minLength": 1
+            "pattern": "[^ \t\n\u000b\f\r   -     　]",
+            "x-pattern-message": "can't be blank"
           },
           "template_version": {
             "type": "string",
-            "pattern": "^(\\d+(\\.\\d+(\\.\\d+)?)?|latest|draft)$",
+            "pattern": "^((0|[1-9]\\d*)(\\.(0|[1-9]\\d*)){0,2}|latest|draft)$",
             "x-pattern-message": "must be a version like 1.2.3 or 1, or latest or draft"
           },
           "processed": {

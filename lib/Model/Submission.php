@@ -79,6 +79,7 @@ class Submission implements ModelInterface, ArrayAccess, \JsonSerializable
         'updated_at' => '\DateTime',
         'has_password' => 'bool',
         'signature_requests' => '\DocSpring\Model\SignatureRequest[]',
+        'signing_order' => '\DocSpring\Model\SigningOrder',
         'actions' => '\DocSpring\Model\SubmissionAction[]',
         'truncated_text' => 'array<string,string[]>',
         'output_formats' => '\DocSpring\Model\OutputFormat[]',
@@ -114,6 +115,7 @@ class Submission implements ModelInterface, ArrayAccess, \JsonSerializable
         'updated_at' => 'date-time',
         'has_password' => null,
         'signature_requests' => null,
+        'signing_order' => null,
         'actions' => null,
         'truncated_text' => null,
         'output_formats' => null,
@@ -147,6 +149,7 @@ class Submission implements ModelInterface, ArrayAccess, \JsonSerializable
         'updated_at' => false,
         'has_password' => false,
         'signature_requests' => false,
+        'signing_order' => false,
         'actions' => false,
         'truncated_text' => true,
         'output_formats' => false,
@@ -260,6 +263,7 @@ class Submission implements ModelInterface, ArrayAccess, \JsonSerializable
         'updated_at' => 'updated_at',
         'has_password' => 'has_password',
         'signature_requests' => 'signature_requests',
+        'signing_order' => 'signing_order',
         'actions' => 'actions',
         'truncated_text' => 'truncated_text',
         'output_formats' => 'output_formats',
@@ -293,6 +297,7 @@ class Submission implements ModelInterface, ArrayAccess, \JsonSerializable
         'updated_at' => 'setUpdatedAt',
         'has_password' => 'setHasPassword',
         'signature_requests' => 'setSignatureRequests',
+        'signing_order' => 'setSigningOrder',
         'actions' => 'setActions',
         'truncated_text' => 'setTruncatedText',
         'output_formats' => 'setOutputFormats',
@@ -326,6 +331,7 @@ class Submission implements ModelInterface, ArrayAccess, \JsonSerializable
         'updated_at' => 'getUpdatedAt',
         'has_password' => 'getHasPassword',
         'signature_requests' => 'getSignatureRequests',
+        'signing_order' => 'getSigningOrder',
         'actions' => 'getActions',
         'truncated_text' => 'getTruncatedText',
         'output_formats' => 'getOutputFormats',
@@ -410,6 +416,7 @@ class Submission implements ModelInterface, ArrayAccess, \JsonSerializable
         $this->setIfExists('updated_at', $data ?? [], null);
         $this->setIfExists('has_password', $data ?? [], null);
         $this->setIfExists('signature_requests', $data ?? [], null);
+        $this->setIfExists('signing_order', $data ?? [], null);
         $this->setIfExists('actions', $data ?? [], null);
         $this->setIfExists('truncated_text', $data ?? [], null);
         $this->setIfExists('output_formats', $data ?? [], null);
@@ -505,6 +512,9 @@ class Submission implements ModelInterface, ArrayAccess, \JsonSerializable
         }
         if ($this->container['signature_requests'] === null) {
             $invalidProperties[] = "'signature_requests' can't be null";
+        }
+        if ($this->container['signing_order'] === null) {
+            $invalidProperties[] = "'signing_order' can't be null";
         }
         if ($this->container['actions'] === null) {
             $invalidProperties[] = "'actions' can't be null";
@@ -756,7 +766,7 @@ class Submission implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets test
      *
-     * @param bool $test Test PDFs have a watermark and are free. Live PDFs use credits. Submissions made with a test API token are always test submissions.
+     * @param bool $test Test PDFs have a watermark and are free. Live PDFs use credits. Submissions made with a test API token are always test submissions, and the demo API token's are always live.
      *
      * @return self
      */
@@ -1150,6 +1160,33 @@ class Submission implements ModelInterface, ArrayAccess, \JsonSerializable
     }
 
     /**
+     * Gets signing_order
+     *
+     * @return \DocSpring\Model\SigningOrder
+     */
+    public function getSigningOrder()
+    {
+        return $this->container['signing_order'];
+    }
+
+    /**
+     * Sets signing_order
+     *
+     * @param \DocSpring\Model\SigningOrder $signing_order `parallel`: everyone can sign at once. `sequential`: people sign one step at a time (each signature request's `signing_step`).
+     *
+     * @return self
+     */
+    public function setSigningOrder($signing_order)
+    {
+        if (is_null($signing_order)) {
+            throw new \InvalidArgumentException('non-nullable signing_order cannot be null');
+        }
+        $this->container['signing_order'] = $signing_order;
+
+        return $this;
+    }
+
+    /**
      * Gets actions
      *
      * @return \DocSpring\Model\SubmissionAction[]
@@ -1162,7 +1199,7 @@ class Submission implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets actions
      *
-     * @param \DocSpring\Model\SubmissionAction[] $actions The uploads of the submission's PDF to your storage (account integrations).
+     * @param \DocSpring\Model\SubmissionAction[] $actions The uploads of the submission's PDF to your storage (account integrations), and the emails its template's email actions sent.
      *
      * @return self
      */

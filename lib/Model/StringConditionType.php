@@ -45,13 +45,27 @@ class StringConditionType
      */
     public const EQUALS = 'equals';
 
+    public const NOT_EQUALS = 'not_equals';
+
     public const CONTAINS = 'contains';
+
+    public const NOT_CONTAINS = 'not_contains';
 
     public const STARTS_WITH = 'starts_with';
 
+    public const NOT_STARTS_WITH = 'not_starts_with';
+
     public const ENDS_WITH = 'ends_with';
 
+    public const NOT_ENDS_WITH = 'not_ends_with';
+
     public const REGEX = 'regex';
+
+    public const NOT_REGEX = 'not_regex';
+
+    public const BLANK = 'blank';
+
+    public const NOT_BLANK = 'not_blank';
 
     /**
      * Gets allowable values of the enum
@@ -61,10 +75,17 @@ class StringConditionType
     {
         return [
             self::EQUALS,
+            self::NOT_EQUALS,
             self::CONTAINS,
+            self::NOT_CONTAINS,
             self::STARTS_WITH,
+            self::NOT_STARTS_WITH,
             self::ENDS_WITH,
-            self::REGEX
+            self::NOT_ENDS_WITH,
+            self::REGEX,
+            self::NOT_REGEX,
+            self::BLANK,
+            self::NOT_BLANK
         ];
     }
 }

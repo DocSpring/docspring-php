@@ -395,7 +395,7 @@ class CreateSubmissionBatchRequest implements ModelInterface, ArrayAccess, \Json
     /**
      * Sets template_version
      *
-     * @param string|null $template_version The template version to use: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `latest` (the draft when no version has been published).
+     * @param string|null $template_version The template version to use: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` (the newest published version, or the draft when none has been published) or `draft`. Default `latest`.
      *
      * @return self
      */
@@ -477,7 +477,7 @@ class CreateSubmissionBatchRequest implements ModelInterface, ArrayAccess, \Json
     /**
      * Sets submissions
      *
-     * @param \DocSpring\Model\SubmissionInput[] $submissions Up to 50 submissions. Each one takes the properties of POST /templates/{template_id}/submissions except `signature_requests`, plus `template_id` and `template_version` when it uses a different template from the batch.
+     * @param \DocSpring\Model\SubmissionInput[] $submissions Up to 50 submissions. Each one takes the properties of POST /templates/{template_id}/submissions except `signature_requests` and the options for DocSpring's emails to signers (`send_email`, `signing_order`, `email_subject`, `email_message`, `cc`, `reply_to`, `notification_emails`, `notify_when_signed` and `reminders`), plus `template_id` and `template_version` when it uses a different template from the batch.
      *
      * @return self
      */

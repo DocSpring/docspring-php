@@ -696,7 +696,7 @@ class SubmissionSummary implements ModelInterface, ArrayAccess, \JsonSerializabl
     /**
      * Sets test
      *
-     * @param bool $test Test PDFs have a watermark and are free. Live PDFs use credits. Submissions made with a test API token are always test submissions.
+     * @param bool $test Test PDFs have a watermark and are free. Live PDFs use credits. Submissions made with a test API token are always test submissions, and the demo API token's are always live.
      *
      * @return self
      */

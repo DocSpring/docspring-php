@@ -305,6 +305,69 @@ class UpdateTemplateRequestTest extends TestCase
     }
 
     /**
+     * Test attribute "signature_request_email_attachments"
+     */
+    public function testPropertySignatureRequestEmailAttachments()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * Test attribute "signature_request_from_address"
+     */
+    public function testPropertySignatureRequestFromAddress()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * Test attribute "signature_request_include_signing_token"
+     */
+    public function testPropertySignatureRequestIncludeSigningToken()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * Test attribute "signature_request_from_name"
+     */
+    public function testPropertySignatureRequestFromName()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * Test attribute "signature_request_notification_emails"
+     */
+    public function testPropertySignatureRequestNotificationEmails()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * Test attribute "signature_request_reply_to"
+     */
+    public function testPropertySignatureRequestReplyTo()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * Test attribute "signature_request_signing_url"
+     */
+    public function testPropertySignatureRequestSigningUrl()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
      * Test attribute "slack_webhook_url"
      */
     public function testPropertySlackWebhookUrl()
@@ -407,6 +470,15 @@ class UpdateTemplateRequestTest extends TestCase
      * Test attribute "html_escape_data"
      */
     public function testPropertyHtmlEscapeData()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * Test attribute "layout"
+     */
+    public function testPropertyLayout()
     {
         // TODO: implement
         self::markTestIncomplete('Not implemented');

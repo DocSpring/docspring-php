@@ -213,4 +213,22 @@ class SignatureRequestInputTest extends TestCase
         // TODO: implement
         self::markTestIncomplete('Not implemented');
     }
+
+    /**
+     * Test attribute "send_email"
+     */
+    public function testPropertySendEmail()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * Test attribute "signing_step"
+     */
+    public function testPropertySigningStep()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
 }

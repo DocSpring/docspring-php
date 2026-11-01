@@ -96,6 +96,18 @@ class ClientTest extends TestCase
     }
 
     /**
+     * Test case for createAccountEmailAction
+     *
+     * Create an account email action.
+     *
+     */
+    public function testCreateAccountEmailAction()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
      * Test case for createCombinedPdf
      *
      * Combine PDFs.
@@ -114,6 +126,30 @@ class ClientTest extends TestCase
      *
      */
     public function testCreateCustomFileFromUpload()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * Test case for createEmailAction
+     *
+     * Create an email action.
+     *
+     */
+    public function testCreateEmailAction()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * Test case for createEmailDomain
+     *
+     * Add an email domain.
+     *
+     */
+    public function testCreateEmailDomain()
     {
         // TODO: implement
         self::markTestIncomplete('Not implemented');
@@ -216,12 +252,60 @@ class ClientTest extends TestCase
     }
 
     /**
+     * Test case for deleteAccountEmailAction
+     *
+     * Delete an account email action.
+     *
+     */
+    public function testDeleteAccountEmailAction()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
      * Test case for deleteCustomFile
      *
      * Delete a custom file.
      *
      */
     public function testDeleteCustomFile()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * Test case for deleteEmailAction
+     *
+     * Delete an email action.
+     *
+     */
+    public function testDeleteEmailAction()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * Test case for deleteEmailActionCustomization
+     *
+     * Reset an account email action's customization.
+     *
+     */
+    public function testDeleteEmailActionCustomization()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * Test case for deleteEmailDomain
+     *
+     * Remove an email domain.
+     *
+     */
+    public function testDeleteEmailDomain()
     {
         // TODO: implement
         self::markTestIncomplete('Not implemented');
@@ -312,6 +396,18 @@ class ClientTest extends TestCase
     }
 
     /**
+     * Test case for getAccountEmailAction
+     *
+     * Get an account email action.
+     *
+     */
+    public function testGetAccountEmailAction()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
      * Test case for getCombinedPdf
      *
      * Get a combined PDF.
@@ -330,6 +426,30 @@ class ClientTest extends TestCase
      *
      */
     public function testGetCustomFile()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * Test case for getEmailAction
+     *
+     * Get an email action.
+     *
+     */
+    public function testGetEmailAction()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * Test case for getEmailDomain
+     *
+     * Get an email domain.
+     *
+     */
+    public function testGetEmailDomain()
     {
         // TODO: implement
         self::markTestIncomplete('Not implemented');
@@ -480,6 +600,18 @@ class ClientTest extends TestCase
     }
 
     /**
+     * Test case for listAccountEmailActions
+     *
+     * List account email actions.
+     *
+     */
+    public function testListAccountEmailActions()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
      * Test case for listCombinedPdfs
      *
      * List combined PDFs.
@@ -498,6 +630,30 @@ class ClientTest extends TestCase
      *
      */
     public function testListCustomFiles()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * Test case for listEmailActions
+     *
+     * List email actions.
+     *
+     */
+    public function testListEmailActions()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * Test case for listEmailDomains
+     *
+     * List email domains.
+     *
+     */
+    public function testListEmailDomains()
     {
         // TODO: implement
         self::markTestIncomplete('Not implemented');
@@ -660,12 +816,72 @@ class ClientTest extends TestCase
     }
 
     /**
+     * Test case for sendAccountEmailActionTestEmail
+     *
+     * Send a test email for an account email action.
+     *
+     */
+    public function testSendAccountEmailActionTestEmail()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * Test case for sendEmailActionTestEmail
+     *
+     * Send a test email.
+     *
+     */
+    public function testSendEmailActionTestEmail()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
      * Test case for testAuthentication
      *
      * Test authentication.
      *
      */
     public function testTestAuthentication()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * Test case for updateAccountEmailAction
+     *
+     * Update an account email action.
+     *
+     */
+    public function testUpdateAccountEmailAction()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * Test case for updateEmailAction
+     *
+     * Update an email action.
+     *
+     */
+    public function testUpdateEmailAction()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * Test case for updateEmailActionCustomization
+     *
+     * Customize an account email action for a template.
+     *
+     */
+    public function testUpdateEmailActionCustomization()
     {
         // TODO: implement
         self::markTestIncomplete('Not implemented');
@@ -762,6 +978,18 @@ class ClientTest extends TestCase
      *
      */
     public function testValidateSubmission()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * Test case for verifyEmailDomain
+     *
+     * Verify an email domain.
+     *
+     */
+    public function testVerifyEmailDomain()
     {
         // TODO: implement
         self::markTestIncomplete('Not implemented');

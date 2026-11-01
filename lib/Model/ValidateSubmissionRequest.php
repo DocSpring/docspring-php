@@ -68,7 +68,16 @@ class ValidateSubmissionRequest implements ModelInterface, ArrayAccess, \JsonSer
         'field_overrides' => 'array<string,\DocSpring\Model\FieldOverride>',
         'html' => 'string',
         'css' => 'string',
-        'signature_requests' => '\DocSpring\Model\SignatureRequestInput[]'
+        'signature_requests' => '\DocSpring\Model\SignatureRequestInput[]',
+        'send_email' => 'bool',
+        'signing_order' => '\DocSpring\Model\SigningOrder',
+        'email_subject' => 'string',
+        'email_message' => 'string',
+        'cc' => 'string[]',
+        'reply_to' => 'string',
+        'notification_emails' => 'string[]',
+        'notify_when_signed' => 'bool',
+        'reminders' => '\DocSpring\Model\SignatureRequestReminders'
     ];
 
     /**
@@ -89,7 +98,16 @@ class ValidateSubmissionRequest implements ModelInterface, ArrayAccess, \JsonSer
         'field_overrides' => null,
         'html' => null,
         'css' => null,
-        'signature_requests' => null
+        'signature_requests' => null,
+        'send_email' => null,
+        'signing_order' => null,
+        'email_subject' => null,
+        'email_message' => null,
+        'cc' => null,
+        'reply_to' => null,
+        'notification_emails' => null,
+        'notify_when_signed' => null,
+        'reminders' => null
     ];
 
     /**
@@ -108,7 +126,16 @@ class ValidateSubmissionRequest implements ModelInterface, ArrayAccess, \JsonSer
         'field_overrides' => false,
         'html' => false,
         'css' => false,
-        'signature_requests' => false
+        'signature_requests' => false,
+        'send_email' => false,
+        'signing_order' => false,
+        'email_subject' => false,
+        'email_message' => false,
+        'cc' => false,
+        'reply_to' => false,
+        'notification_emails' => false,
+        'notify_when_signed' => false,
+        'reminders' => false
     ];
 
     /**
@@ -207,7 +234,16 @@ class ValidateSubmissionRequest implements ModelInterface, ArrayAccess, \JsonSer
         'field_overrides' => 'field_overrides',
         'html' => 'html',
         'css' => 'css',
-        'signature_requests' => 'signature_requests'
+        'signature_requests' => 'signature_requests',
+        'send_email' => 'send_email',
+        'signing_order' => 'signing_order',
+        'email_subject' => 'email_subject',
+        'email_message' => 'email_message',
+        'cc' => 'cc',
+        'reply_to' => 'reply_to',
+        'notification_emails' => 'notification_emails',
+        'notify_when_signed' => 'notify_when_signed',
+        'reminders' => 'reminders'
     ];
 
     /**
@@ -226,7 +262,16 @@ class ValidateSubmissionRequest implements ModelInterface, ArrayAccess, \JsonSer
         'field_overrides' => 'setFieldOverrides',
         'html' => 'setHtml',
         'css' => 'setCss',
-        'signature_requests' => 'setSignatureRequests'
+        'signature_requests' => 'setSignatureRequests',
+        'send_email' => 'setSendEmail',
+        'signing_order' => 'setSigningOrder',
+        'email_subject' => 'setEmailSubject',
+        'email_message' => 'setEmailMessage',
+        'cc' => 'setCc',
+        'reply_to' => 'setReplyTo',
+        'notification_emails' => 'setNotificationEmails',
+        'notify_when_signed' => 'setNotifyWhenSigned',
+        'reminders' => 'setReminders'
     ];
 
     /**
@@ -245,7 +290,16 @@ class ValidateSubmissionRequest implements ModelInterface, ArrayAccess, \JsonSer
         'field_overrides' => 'getFieldOverrides',
         'html' => 'getHtml',
         'css' => 'getCss',
-        'signature_requests' => 'getSignatureRequests'
+        'signature_requests' => 'getSignatureRequests',
+        'send_email' => 'getSendEmail',
+        'signing_order' => 'getSigningOrder',
+        'email_subject' => 'getEmailSubject',
+        'email_message' => 'getEmailMessage',
+        'cc' => 'getCc',
+        'reply_to' => 'getReplyTo',
+        'notification_emails' => 'getNotificationEmails',
+        'notify_when_signed' => 'getNotifyWhenSigned',
+        'reminders' => 'getReminders'
     ];
 
     /**
@@ -316,6 +370,15 @@ class ValidateSubmissionRequest implements ModelInterface, ArrayAccess, \JsonSer
         $this->setIfExists('html', $data ?? [], null);
         $this->setIfExists('css', $data ?? [], null);
         $this->setIfExists('signature_requests', $data ?? [], null);
+        $this->setIfExists('send_email', $data ?? [], null);
+        $this->setIfExists('signing_order', $data ?? [], null);
+        $this->setIfExists('email_subject', $data ?? [], null);
+        $this->setIfExists('email_message', $data ?? [], null);
+        $this->setIfExists('cc', $data ?? [], null);
+        $this->setIfExists('reply_to', $data ?? [], null);
+        $this->setIfExists('notification_emails', $data ?? [], null);
+        $this->setIfExists('notify_when_signed', $data ?? [], null);
+        $this->setIfExists('reminders', $data ?? [], null);
     }
 
     /**
@@ -373,7 +436,7 @@ class ValidateSubmissionRequest implements ModelInterface, ArrayAccess, \JsonSer
     /**
      * Sets test
      *
-     * @param bool|null $test Test PDFs have a watermark and are free. Live PDFs use credits. Submissions made with a test API token are always test submissions.
+     * @param bool|null $test Test PDFs have a watermark and are free. Live PDFs use credits. Submissions made with a test API token are always test submissions, and the demo API token's are always live.
      *
      * @return self
      */
@@ -427,7 +490,7 @@ class ValidateSubmissionRequest implements ModelInterface, ArrayAccess, \JsonSer
     /**
      * Sets data
      *
-     * @param array<string,mixed>|null $data The values of the template's fields, by field name. Required for PDF and Word templates, unless `signature_requests` collects them (PDF templates only).
+     * @param array<string,mixed>|null $data The values of the template's fields, by field name. Required for PDF templates, Word templates and page designs, unless `signature_requests` collects them (PDF templates only).
      *
      * @return self
      */
@@ -536,7 +599,7 @@ class ValidateSubmissionRequest implements ModelInterface, ArrayAccess, \JsonSer
     /**
      * Sets expires_in
      *
-     * @param int|null $expires_in Seconds after the PDF is generated until the submission expires, up to 10 years (315360000). Default the template's expiration setting. A submission that isn't processed, such as one with invalid data, is kept for at least 48 hours.
+     * @param int|null $expires_in Seconds after the PDF is generated until the submission expires, up to 10 years (315360000). Default the template's expiration setting. A submission that isn't processed, such as one with invalid data, is kept for at least 48 hours. The demo API token's submissions expire within an hour: up to 3600, and that's their default.
      *
      * @return self
      */
@@ -654,6 +717,251 @@ class ValidateSubmissionRequest implements ModelInterface, ArrayAccess, \JsonSer
             throw new \InvalidArgumentException('non-nullable signature_requests cannot be null');
         }
         $this->container['signature_requests'] = $signature_requests;
+
+        return $this;
+    }
+
+    /**
+     * Gets send_email
+     *
+     * @return bool|null
+     */
+    public function getSendEmail()
+    {
+        return $this->container['send_email'];
+    }
+
+    /**
+     * Sets send_email
+     *
+     * @param bool|null $send_email Whether DocSpring emails the signers their signing links, and sends the reminders and the completed document. Default true. Each signature request's own `send_email` overrides it. A test submission only emails your DocSpring team: every other address is a 422. `true` needs `signature_requests`. DocSpring doesn't email the signers of a form library template: leave `send_email` out, and send them their links yourself.
+     *
+     * @return self
+     */
+    public function setSendEmail($send_email)
+    {
+        if (is_null($send_email)) {
+            throw new \InvalidArgumentException('non-nullable send_email cannot be null');
+        }
+        $this->container['send_email'] = $send_email;
+
+        return $this;
+    }
+
+    /**
+     * Gets signing_order
+     *
+     * @return \DocSpring\Model\SigningOrder|null
+     */
+    public function getSigningOrder()
+    {
+        return $this->container['signing_order'];
+    }
+
+    /**
+     * Sets signing_order
+     *
+     * @param \DocSpring\Model\SigningOrder|null $signing_order `parallel` (the default): everyone can sign at once. `sequential`: people sign one step at a time (`signing_step`), and DocSpring emails each step when the one before it is done. Needs `signature_requests`.
+     *
+     * @return self
+     */
+    public function setSigningOrder($signing_order)
+    {
+        if (is_null($signing_order)) {
+            throw new \InvalidArgumentException('non-nullable signing_order cannot be null');
+        }
+        $this->container['signing_order'] = $signing_order;
+
+        return $this;
+    }
+
+    /**
+     * Gets email_subject
+     *
+     * @return string|null
+     */
+    public function getEmailSubject()
+    {
+        return $this->container['email_subject'];
+    }
+
+    /**
+     * Sets email_subject
+     *
+     * @param string|null $email_subject The subject of the emails that ask people to sign. You can use `{{ signer.name }}`, `{{ signer.email }}`, `{{ document.name }}`, `{{ sender.name }}` and `{{ account.name }}`. Default "<sender> sent you <document> to sign" when you leave it out (a blank subject is a 422). Links and web addresses are shown as plain text (`example[.]com`).
+     *
+     * @return self
+     */
+    public function setEmailSubject($email_subject)
+    {
+        if (is_null($email_subject)) {
+            throw new \InvalidArgumentException('non-nullable email_subject cannot be null');
+        }
+        $this->container['email_subject'] = $email_subject;
+
+        return $this;
+    }
+
+    /**
+     * Gets email_message
+     *
+     * @return string|null
+     */
+    public function getEmailMessage()
+    {
+        return $this->container['email_message'];
+    }
+
+    /**
+     * Sets email_message
+     *
+     * @param string|null $email_message A message for the people who sign, shown above the signing button. It takes the same variables as `email_subject`. Links and web addresses are shown as plain text. Leave it out for none: a blank message is a 422.
+     *
+     * @return self
+     */
+    public function setEmailMessage($email_message)
+    {
+        if (is_null($email_message)) {
+            throw new \InvalidArgumentException('non-nullable email_message cannot be null');
+        }
+        $this->container['email_message'] = $email_message;
+
+        return $this;
+    }
+
+    /**
+     * Gets cc
+     *
+     * @return string[]|null
+     */
+    public function getCc()
+    {
+        return $this->container['cc'];
+    }
+
+    /**
+     * Sets cc
+     *
+     * @param string[]|null $cc People who get a copy of the completed document. They don't sign.
+     *
+     * @return self
+     */
+    public function setCc($cc)
+    {
+        if (is_null($cc)) {
+            throw new \InvalidArgumentException('non-nullable cc cannot be null');
+        }
+
+        $this->container['cc'] = $cc;
+
+        return $this;
+    }
+
+    /**
+     * Gets reply_to
+     *
+     * @return string|null
+     */
+    public function getReplyTo()
+    {
+        return $this->container['reply_to'];
+    }
+
+    /**
+     * Sets reply_to
+     *
+     * @param string|null $reply_to Where replies to the emails go: a member of your DocSpring team, or an address at one of your verified email domains. Leave it out for the template's reply-to address (the account owner when it has none).
+     *
+     * @return self
+     */
+    public function setReplyTo($reply_to)
+    {
+        if (is_null($reply_to)) {
+            throw new \InvalidArgumentException('non-nullable reply_to cannot be null');
+        }
+        $this->container['reply_to'] = $reply_to;
+
+        return $this;
+    }
+
+    /**
+     * Gets notification_emails
+     *
+     * @return string[]|null
+     */
+    public function getNotificationEmails()
+    {
+        return $this->container['notification_emails'];
+    }
+
+    /**
+     * Sets notification_emails
+     *
+     * @param string[]|null $notification_emails Who DocSpring tells when the document is completed or declined, or an email bounces or can't be sent: members of your DocSpring team or addresses at your verified email domains. Leave it out for the template's notification addresses (the account owner when it has none); an empty list means the account owner.
+     *
+     * @return self
+     */
+    public function setNotificationEmails($notification_emails)
+    {
+        if (is_null($notification_emails)) {
+            throw new \InvalidArgumentException('non-nullable notification_emails cannot be null');
+        }
+
+        $this->container['notification_emails'] = $notification_emails;
+
+        return $this;
+    }
+
+    /**
+     * Gets notify_when_signed
+     *
+     * @return bool|null
+     */
+    public function getNotifyWhenSigned()
+    {
+        return $this->container['notify_when_signed'];
+    }
+
+    /**
+     * Sets notify_when_signed
+     *
+     * @param bool|null $notify_when_signed Also email `notification_emails` each time someone signs. Default false.
+     *
+     * @return self
+     */
+    public function setNotifyWhenSigned($notify_when_signed)
+    {
+        if (is_null($notify_when_signed)) {
+            throw new \InvalidArgumentException('non-nullable notify_when_signed cannot be null');
+        }
+        $this->container['notify_when_signed'] = $notify_when_signed;
+
+        return $this;
+    }
+
+    /**
+     * Gets reminders
+     *
+     * @return \DocSpring\Model\SignatureRequestReminders|null
+     */
+    public function getReminders()
+    {
+        return $this->container['reminders'];
+    }
+
+    /**
+     * Sets reminders
+     *
+     * @param \DocSpring\Model\SignatureRequestReminders|null $reminders Remind people who haven't signed: every `interval_days` days, up to `max_count` times. Each reminder has a new signing link. Without it, DocSpring sends no reminders.
+     *
+     * @return self
+     */
+    public function setReminders($reminders)
+    {
+        if (is_null($reminders)) {
+            throw new \InvalidArgumentException('non-nullable reminders cannot be null');
+        }
+        $this->container['reminders'] = $reminders;
 
         return $this;
     }

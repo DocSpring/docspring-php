@@ -34,7 +34,7 @@ use PHPUnit\Framework\TestCase;
  * SubmissionActionTypeTest Class Doc Comment
  *
  * @category    Class
- * @description The kind of storage a submission action uploads the PDF to.
+ * @description The kind of storage a submission action uploads the PDF to, or `email`.
  * @package     DocSpring
  * @author      OpenAPI Generator team
  * @link        https://openapi-generator.tech

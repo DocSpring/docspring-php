@@ -1,0 +1,66 @@
+# Written by DocSpring/docspring's api_clients/scripts/generate from api_clients/github_workflows/php/release.yml:
+# change it there.
+#
+# Installs the package on every push and pull request. Packagist reads releases from this repository's tags, so a v*
+# tag (pushed by the monorepo's api_clients/scripts/release) is the release: this workflow checks the tag and waits
+# until Packagist serves it.
+name: Release
+
+on:
+  push:
+    branches: ['**']
+    tags: ['v*']
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      # The oldest PHP composer.json allows
+      - uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # 2.40.0
+        with:
+          php-version: '8.1'
+          tools: composer
+      - name: Check the tag matches the package version
+        if: github.ref_type == 'tag'
+        run: |
+          VERSION="$(jq -r .version composer.json)"
+          if [ "v$VERSION" != "$GITHUB_REF_NAME" ]; then
+            echo "::error::The tag is $GITHUB_REF_NAME, but the package version is $VERSION"
+            exit 1
+          fi
+      - run: composer validate --no-check-publish
+      # As a customer's project installs it: their composer resolves the runtime dependencies and ignores our
+      # composer.lock, whose dev tools are locked for the PHP that generated the SDK
+      - run: composer update --no-dev --no-interaction --no-progress
+      - name: Load the client
+        run: |
+          php -r 'require "vendor/autoload.php"; exit(class_exists(DocSpring\Api\Client::class) ? 0 : 1);' ||
+            { echo "::error::DocSpring\Api\Client doesn't load"; exit 1; }
+
+  verify:
+    needs: build
+    if: github.ref_type == 'tag'
+    runs-on: ubuntu-latest
+    # Packagist's CDN caches the package's file for up to 15 minutes
+    timeout-minutes: 25
+    steps:
+      - name: Wait until Packagist serves the version
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          for _ in $(seq 120); do
+            if curl -fsS https://repo.packagist.org/p2/docspring/docspring.json |
+              jq -e --arg version "$VERSION" '.packages["docspring/docspring"] | any(.version == $version)' > /dev/null; then
+              echo "Packagist serves docspring/docspring $VERSION"
+              exit 0
+            fi
+            sleep 10
+          done
+          echo "::error::Packagist doesn't serve docspring/docspring $VERSION after 20 minutes"
+          exit 1

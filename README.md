@@ -10,7 +10,7 @@ e-signatures.
 The code in this repository is generated from DocSpring's OpenAPI spec ([About this SDK](#about-this-sdk)). Issues and
 pull requests are welcome.
 
-Version 4.3.0. Requires PHP ^8.1.
+Version 4.4.0. Requires PHP ^8.1.
 
 ## Install and configure
 
@@ -105,8 +105,11 @@ PHP code for every method.
 | ------ | ----------- |
 | [`addTemplateFields`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#addtemplatefields) | Add fields to a template |
 | [`copyTemplate`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#copytemplate) | Copy a template |
+| [`createAccountEmailAction`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#createaccountemailaction) | Create an account email action |
 | [`createCombinedPdf`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#createcombinedpdf) | Combine PDFs |
 | [`createCustomFileFromUpload`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#createcustomfilefromupload) | Create a custom file from an upload |
+| [`createEmailAction`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#createemailaction) | Create an email action |
+| [`createEmailDomain`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#createemaildomain) | Add an email domain |
 | [`createFolder`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#createfolder) | Create a folder |
 | [`createSignatureRequestEvent`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#createsignaturerequestevent) | Record a signature request event |
 | [`createSignatureRequestToken`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#createsignaturerequesttoken) | Create a signature request token |
@@ -115,7 +118,11 @@ PHP code for every method.
 | [`createTemplate`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#createtemplate) | Create a template |
 | [`createTemplatePreview`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#createtemplatepreview) | Preview a template with data |
 | [`createWebhook`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#createwebhook) | Create a webhook |
+| [`deleteAccountEmailAction`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#deleteaccountemailaction) | Delete an account email action |
 | [`deleteCustomFile`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#deletecustomfile) | Delete a custom file |
+| [`deleteEmailAction`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#deleteemailaction) | Delete an email action |
+| [`deleteEmailActionCustomization`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#deleteemailactioncustomization) | Reset an account email action's customization |
+| [`deleteEmailDomain`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#deleteemaildomain) | Remove an email domain |
 | [`deleteFolder`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#deletefolder) | Delete a folder |
 | [`deleteTemplate`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#deletetemplate) | Delete a template |
 | [`deleteWebhook`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#deletewebhook) | Delete a webhook |
@@ -123,8 +130,11 @@ PHP code for every method.
 | [`expireSubmission`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#expiresubmission) | Expire a submission |
 | [`generateSubmissionFiles`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#generatesubmissionfiles) | Generate more files |
 | [`generateSubmissionPreview`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#generatesubmissionpreview) | Generate a preview PDF |
+| [`getAccountEmailAction`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#getaccountemailaction) | Get an account email action |
 | [`getCombinedPdf`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#getcombinedpdf) | Get a combined PDF |
 | [`getCustomFile`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#getcustomfile) | Get a custom file |
+| [`getEmailAction`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#getemailaction) | Get an email action |
+| [`getEmailDomain`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#getemaildomain) | Get an email domain |
 | [`getFolder`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#getfolder) | Get a folder |
 | [`getPresignUrl`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#getpresignurl) | Get a presigned URL to upload a file |
 | [`getSignatureRequest`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#getsignaturerequest) | Get a signature request |
@@ -137,8 +147,11 @@ PHP code for every method.
 | [`getTemplatePreview`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#gettemplatepreview) | Get a template preview |
 | [`getTemplateSchema`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#gettemplateschema) | Get the JSON Schema of a template's submission data |
 | [`getWebhook`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#getwebhook) | Get a webhook |
+| [`listAccountEmailActions`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#listaccountemailactions) | List account email actions |
 | [`listCombinedPdfs`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#listcombinedpdfs) | List combined PDFs |
 | [`listCustomFiles`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#listcustomfiles) | List custom files |
+| [`listEmailActions`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#listemailactions) | List email actions |
+| [`listEmailDomains`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#listemaildomains) | List email domains |
 | [`listFolders`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#listfolders) | List folders |
 | [`listSubmissions`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#listsubmissions) | List submissions |
 | [`listTemplateFields`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#listtemplatefields) | List a template's fields |
@@ -152,7 +165,12 @@ PHP code for every method.
 | [`renameFolder`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#renamefolder) | Rename a folder |
 | [`reorderTemplateFields`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#reordertemplatefields) | Reorder a template's fields |
 | [`restoreTemplateVersion`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#restoretemplateversion) | Restore a template version |
+| [`sendAccountEmailActionTestEmail`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#sendaccountemailactiontestemail) | Send a test email for an account email action |
+| [`sendEmailActionTestEmail`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#sendemailactiontestemail) | Send a test email |
 | [`testAuthentication`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#testauthentication) | Test authentication |
+| [`updateAccountEmailAction`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#updateaccountemailaction) | Update an account email action |
+| [`updateEmailAction`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#updateemailaction) | Update an email action |
+| [`updateEmailActionCustomization`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#updateemailactioncustomization) | Customize an account email action for a template |
 | [`updateSignatureRequest`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#updatesignaturerequest) | Update a signature request |
 | [`updateTemplate`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#updatetemplate) | Update a template |
 | [`updateTemplateDocument`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#updatetemplatedocument) | Replace a template's document |
@@ -161,6 +179,7 @@ PHP code for every method.
 | [`uploadTemplate`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#uploadtemplate) | Create a template from an uploaded PDF or Word document |
 | [`uploadTemplateDocument`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#uploadtemplatedocument) | Replace a template's document with an uploaded file |
 | [`validateSubmission`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#validatesubmission) | Check a submission without creating it |
+| [`verifyEmailDomain`](https://github.com/DocSpring/docspring-php/blob/main/docs/Api/Client.md#verifyemaildomain) | Verify an email domain |
 
 ## Errors
 

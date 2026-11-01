@@ -34,7 +34,7 @@ use PHPUnit\Framework\TestCase;
  * SubmissionActionTest Class Doc Comment
  *
  * @category    Class
- * @description An upload of a PDF to your storage, such as an S3 bucket.
+ * @description An upload of a PDF to your storage, such as an S3 bucket, or an email action's email.
  * @package     DocSpring
  * @author      OpenAPI Generator team
  * @link        https://openapi-generator.tech
@@ -92,6 +92,15 @@ class SubmissionActionTest extends TestCase
      * Test attribute "integration_id"
      */
     public function testPropertyIntegrationId()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * Test attribute "email_action_id"
+     */
+    public function testPropertyEmailActionId()
     {
         // TODO: implement
         self::markTestIncomplete('Not implemented');

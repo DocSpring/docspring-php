@@ -8,8 +8,11 @@ All URIs are relative to https://sync.api.docspring.com/api/v2, except if the op
 | ------------- | ------------- | ------------- |
 | [**addTemplateFields()**](Client.md#addTemplateFields) | **POST** /templates/{template_id}/fields | Add fields to a template |
 | [**copyTemplate()**](Client.md#copyTemplate) | **POST** /templates/{template_id}/copy | Copy a template |
+| [**createAccountEmailAction()**](Client.md#createAccountEmailAction) | **POST** /email_actions | Create an account email action |
 | [**createCombinedPdf()**](Client.md#createCombinedPdf) | **POST** /combined_pdfs | Combine PDFs |
 | [**createCustomFileFromUpload()**](Client.md#createCustomFileFromUpload) | **POST** /custom_files | Create a custom file from an upload |
+| [**createEmailAction()**](Client.md#createEmailAction) | **POST** /templates/{template_id}/email_actions | Create an email action |
+| [**createEmailDomain()**](Client.md#createEmailDomain) | **POST** /email_domains | Add an email domain |
 | [**createFolder()**](Client.md#createFolder) | **POST** /folders | Create a folder |
 | [**createSignatureRequestEvent()**](Client.md#createSignatureRequestEvent) | **POST** /signature_requests/{signature_request_id}/events | Record a signature request event |
 | [**createSignatureRequestToken()**](Client.md#createSignatureRequestToken) | **POST** /signature_requests/{signature_request_id}/tokens | Create a signature request token |
@@ -18,7 +21,11 @@ All URIs are relative to https://sync.api.docspring.com/api/v2, except if the op
 | [**createTemplate()**](Client.md#createTemplate) | **POST** /templates | Create a template |
 | [**createTemplatePreview()**](Client.md#createTemplatePreview) | **POST** /templates/{template_id}/previews | Preview a template with data |
 | [**createWebhook()**](Client.md#createWebhook) | **POST** /webhooks | Create a webhook |
+| [**deleteAccountEmailAction()**](Client.md#deleteAccountEmailAction) | **DELETE** /email_actions/{email_action_id} | Delete an account email action |
 | [**deleteCustomFile()**](Client.md#deleteCustomFile) | **DELETE** /custom_files/{custom_file_id} | Delete a custom file |
+| [**deleteEmailAction()**](Client.md#deleteEmailAction) | **DELETE** /templates/{template_id}/email_actions/{email_action_id} | Delete an email action |
+| [**deleteEmailActionCustomization()**](Client.md#deleteEmailActionCustomization) | **DELETE** /templates/{template_id}/email_actions/{email_action_id}/customization | Reset an account email action's customization |
+| [**deleteEmailDomain()**](Client.md#deleteEmailDomain) | **DELETE** /email_domains/{email_domain_id} | Remove an email domain |
 | [**deleteFolder()**](Client.md#deleteFolder) | **DELETE** /folders/{folder_id} | Delete a folder |
 | [**deleteTemplate()**](Client.md#deleteTemplate) | **DELETE** /templates/{template_id} | Delete a template |
 | [**deleteWebhook()**](Client.md#deleteWebhook) | **DELETE** /webhooks/{webhook_id} | Delete a webhook |
@@ -26,8 +33,11 @@ All URIs are relative to https://sync.api.docspring.com/api/v2, except if the op
 | [**expireSubmission()**](Client.md#expireSubmission) | **DELETE** /submissions/{submission_id} | Expire a submission |
 | [**generateSubmissionFiles()**](Client.md#generateSubmissionFiles) | **POST** /submissions/{submission_id}/generate_files | Generate more files |
 | [**generateSubmissionPreview()**](Client.md#generateSubmissionPreview) | **POST** /submissions/{submission_id}/generate_preview | Generate a preview PDF |
+| [**getAccountEmailAction()**](Client.md#getAccountEmailAction) | **GET** /email_actions/{email_action_id} | Get an account email action |
 | [**getCombinedPdf()**](Client.md#getCombinedPdf) | **GET** /combined_pdfs/{combined_pdf_id} | Get a combined PDF |
 | [**getCustomFile()**](Client.md#getCustomFile) | **GET** /custom_files/{custom_file_id} | Get a custom file |
+| [**getEmailAction()**](Client.md#getEmailAction) | **GET** /templates/{template_id}/email_actions/{email_action_id} | Get an email action |
+| [**getEmailDomain()**](Client.md#getEmailDomain) | **GET** /email_domains/{email_domain_id} | Get an email domain |
 | [**getFolder()**](Client.md#getFolder) | **GET** /folders/{folder_id} | Get a folder |
 | [**getPresignUrl()**](Client.md#getPresignUrl) | **GET** /uploads/presign | Get a presigned URL to upload a file |
 | [**getSignatureRequest()**](Client.md#getSignatureRequest) | **GET** /signature_requests/{signature_request_id} | Get a signature request |
@@ -40,8 +50,11 @@ All URIs are relative to https://sync.api.docspring.com/api/v2, except if the op
 | [**getTemplatePreview()**](Client.md#getTemplatePreview) | **GET** /templates/{template_id}/previews/{preview_id} | Get a template preview |
 | [**getTemplateSchema()**](Client.md#getTemplateSchema) | **GET** /templates/{template_id}/schema | Get the JSON Schema of a template's submission data |
 | [**getWebhook()**](Client.md#getWebhook) | **GET** /webhooks/{webhook_id} | Get a webhook |
+| [**listAccountEmailActions()**](Client.md#listAccountEmailActions) | **GET** /email_actions | List account email actions |
 | [**listCombinedPdfs()**](Client.md#listCombinedPdfs) | **GET** /combined_pdfs | List combined PDFs |
 | [**listCustomFiles()**](Client.md#listCustomFiles) | **GET** /custom_files | List custom files |
+| [**listEmailActions()**](Client.md#listEmailActions) | **GET** /templates/{template_id}/email_actions | List email actions |
+| [**listEmailDomains()**](Client.md#listEmailDomains) | **GET** /email_domains | List email domains |
 | [**listFolders()**](Client.md#listFolders) | **GET** /folders | List folders |
 | [**listSubmissions()**](Client.md#listSubmissions) | **GET** /submissions | List submissions |
 | [**listTemplateFields()**](Client.md#listTemplateFields) | **GET** /templates/{template_id}/fields | List a template's fields |
@@ -55,7 +68,12 @@ All URIs are relative to https://sync.api.docspring.com/api/v2, except if the op
 | [**renameFolder()**](Client.md#renameFolder) | **POST** /folders/{folder_id}/rename | Rename a folder |
 | [**reorderTemplateFields()**](Client.md#reorderTemplateFields) | **POST** /templates/{template_id}/fields/reorder | Reorder a template's fields |
 | [**restoreTemplateVersion()**](Client.md#restoreTemplateVersion) | **POST** /templates/{template_id}/restore_version | Restore a template version |
+| [**sendAccountEmailActionTestEmail()**](Client.md#sendAccountEmailActionTestEmail) | **POST** /email_actions/{email_action_id}/test_email | Send a test email for an account email action |
+| [**sendEmailActionTestEmail()**](Client.md#sendEmailActionTestEmail) | **POST** /templates/{template_id}/email_actions/{email_action_id}/test_email | Send a test email |
 | [**testAuthentication()**](Client.md#testAuthentication) | **GET** /authentication | Test authentication |
+| [**updateAccountEmailAction()**](Client.md#updateAccountEmailAction) | **PUT** /email_actions/{email_action_id} | Update an account email action |
+| [**updateEmailAction()**](Client.md#updateEmailAction) | **PUT** /templates/{template_id}/email_actions/{email_action_id} | Update an email action |
+| [**updateEmailActionCustomization()**](Client.md#updateEmailActionCustomization) | **PUT** /templates/{template_id}/email_actions/{email_action_id}/customization | Customize an account email action for a template |
 | [**updateSignatureRequest()**](Client.md#updateSignatureRequest) | **PUT** /signature_requests/{signature_request_id} | Update a signature request |
 | [**updateTemplate()**](Client.md#updateTemplate) | **PUT** /templates/{template_id} | Update a template |
 | [**updateTemplateDocument()**](Client.md#updateTemplateDocument) | **PUT** /templates/{template_id}/document | Replace a template's document |
@@ -64,17 +82,18 @@ All URIs are relative to https://sync.api.docspring.com/api/v2, except if the op
 | [**uploadTemplate()**](Client.md#uploadTemplate) | **POST** /templates/upload | Create a template from an uploaded PDF or Word document |
 | [**uploadTemplateDocument()**](Client.md#uploadTemplateDocument) | **PUT** /templates/{template_id}/document/upload | Replace a template's document with an uploaded file |
 | [**validateSubmission()**](Client.md#validateSubmission) | **POST** /templates/{template_id}/submissions/validate | Check a submission without creating it |
+| [**verifyEmailDomain()**](Client.md#verifyEmailDomain) | **POST** /email_domains/{email_domain_id}/verify | Verify an email domain |
 
 
 ## `addTemplateFields()`
 
 ```php
-addTemplateFields($template_id, $body): \DocSpring\Model\TemplateFields
+addTemplateFields($template_id, $body, $idempotency_key): \DocSpring\Model\TemplateFields
 ```
 
 Add fields to a template
 
-Adds fields to a template's draft and returns all of its fields. Publish a version for submissions of published versions to have them.
+Adds fields to a template's draft and returns all of its fields. Publish a version for submissions of published versions to have them. A field with the name of one of the template's fields shares its settings (`type`, `required`, `default`, ...), so a field that sets one to another value is refused: PUT /templates/{template_id}/fields changes them for every field with the name.
 
 ### Example
 
@@ -97,9 +116,10 @@ $apiInstance = new DocSpring\Api\Client(
 );
 $template_id = tpl_1234567890abcdef01; // string | The template's ID.
 $body = {"fields":[{"name":"email","page":1,"x":100,"y":300,"width":600,"height":80,"type":"email","required":true},{"name":"signature","page":1,"x":100,"y":400,"width":600,"height":150,"type":"signature","display_type":"image"}]}; // \DocSpring\Model\AddTemplateFieldsRequest | The fields to add to the template's draft.
+$idempotency_key = 'idempotency_key_example'; // string | A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
 
 try {
-    $result = $apiInstance->addTemplateFields($template_id, $body);
+    $result = $apiInstance->addTemplateFields($template_id, $body, $idempotency_key);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling Client->addTemplateFields: ', $e->getMessage(), PHP_EOL;
@@ -112,6 +132,7 @@ try {
 | ------------- | ------------- | ------------- | ------------- |
 | **template_id** | **string**| The template's ID. | |
 | **body** | [**\DocSpring\Model\AddTemplateFieldsRequest**](../Model/AddTemplateFieldsRequest.md)| The fields to add to the template's draft. | |
+| **idempotency_key** | **string**| A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. | [optional] |
 
 ### Return type
 
@@ -133,7 +154,7 @@ try {
 ## `copyTemplate()`
 
 ```php
-copyTemplate($template_id, $body): \DocSpring\Model\Template
+copyTemplate($template_id, $body, $idempotency_key): \DocSpring\Model\Template
 ```
 
 Copy a template
@@ -161,9 +182,10 @@ $apiInstance = new DocSpring\Api\Client(
 );
 $template_id = tpl_1234567890abcdef01; // string | The template's ID.
 $body = {"parent_folder_id":"fld_1234567890abcdef01"}; // \DocSpring\Model\CopyTemplateRequest | Settings for the copy.
+$idempotency_key = 'idempotency_key_example'; // string | A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
 
 try {
-    $result = $apiInstance->copyTemplate($template_id, $body);
+    $result = $apiInstance->copyTemplate($template_id, $body, $idempotency_key);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling Client->copyTemplate: ', $e->getMessage(), PHP_EOL;
@@ -176,10 +198,75 @@ try {
 | ------------- | ------------- | ------------- | ------------- |
 | **template_id** | **string**| The template's ID. | |
 | **body** | [**\DocSpring\Model\CopyTemplateRequest**](../Model/CopyTemplateRequest.md)| Settings for the copy. | [optional] |
+| **idempotency_key** | **string**| A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. | [optional] |
 
 ### Return type
 
 [**\DocSpring\Model\Template**](../Model/Template.md)
+
+### Authorization
+
+[api_token_basic](../../README.md#install-and-configure)
+
+### HTTP request headers
+
+- **Content-Type**: `application/json`
+- **Accept**: `application/json`
+
+[[Back to top]](#) [[Back to API list]](../../README.md#methods)
+[[Back to Model list]](../../README.md#methods)
+[[Back to README]](../../README.md)
+
+## `createAccountEmailAction()`
+
+```php
+createAccountEmailAction($body, $idempotency_key): \DocSpring\Model\EmailAction
+```
+
+Create an account email action
+
+Adds an email action to your account. It sends for every template, or only for the templates in `template_ids` and the templates in the folders in `folder_ids` (and the folders inside them). Each template can turn it off or change its settings for that template only (`PUT /templates/{template_id}/email_actions/{email_action_id}/customization`). Without a paid plan (Starter or higher), email actions only email your team: test submissions' emails go to your account's users, and live submissions' emails aren't sent.
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+// Configure HTTP basic authorization: api_token_basic
+$config = DocSpring\Configuration::getDefaultConfiguration()
+              ->setUsername('YOUR_USERNAME')
+              ->setPassword('YOUR_PASSWORD');
+
+
+$apiInstance = new DocSpring\Api\Client(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$body = {"name":"Records copy","to":["{{ data.tenant_email }}"],"bcc":["records@example.com"],"subject":"Your {{ template.name }}","folder_ids":["fld_1234567890abcdef01"]}; // \DocSpring\Model\CreateAccountEmailActionRequest | The account email action to create. Properties left out get their defaults, and it sends for every template unless it lists `template_ids` or `folder_ids`.
+$idempotency_key = 'idempotency_key_example'; // string | A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
+
+try {
+    $result = $apiInstance->createAccountEmailAction($body, $idempotency_key);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling Client->createAccountEmailAction: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **body** | [**\DocSpring\Model\CreateAccountEmailActionRequest**](../Model/CreateAccountEmailActionRequest.md)| The account email action to create. Properties left out get their defaults, and it sends for every template unless it lists `template_ids` or `folder_ids`. | |
+| **idempotency_key** | **string**| A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. | [optional] |
+
+### Return type
+
+[**\DocSpring\Model\EmailAction**](../Model/EmailAction.md)
 
 ### Authorization
 
@@ -225,7 +312,7 @@ $apiInstance = new DocSpring\Api\Client(
 );
 $body = {"source_pdfs":[{"type":"submission","id":"sub_1234567890abcdef01"},{"type":"template","id":"tpl_1234567890abcdef01"},{"type":"url","url":"https://example.com/terms.pdf"}],"metadata":{"user_id":42},"password":"secret","expires_in":3600}; // \DocSpring\Model\CreateCombinedPdfRequest | The PDFs to merge, and the combined PDF's settings.
 $wait = True; // bool | Wait until the PDF has been generated before responding. Default true on sync.api hosts.
-$idempotency_key = 'idempotency_key_example'; // string | A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of creating another combined PDF. Send a new key with each new combined PDF, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` means the first request is still being processed: send the request again in a few seconds.
+$idempotency_key = 'idempotency_key_example'; // string | A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
 
 try {
     $result = $apiInstance->createCombinedPdf($body, $wait, $idempotency_key);
@@ -241,7 +328,7 @@ try {
 | ------------- | ------------- | ------------- | ------------- |
 | **body** | [**\DocSpring\Model\CreateCombinedPdfRequest**](../Model/CreateCombinedPdfRequest.md)| The PDFs to merge, and the combined PDF's settings. | |
 | **wait** | **bool**| Wait until the PDF has been generated before responding. Default true on sync.api hosts. | [optional] |
-| **idempotency_key** | **string**| A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of creating another combined PDF. Send a new key with each new combined PDF, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` means the first request is still being processed: send the request again in a few seconds. | [optional] |
+| **idempotency_key** | **string**| A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. | [optional] |
 
 ### Return type
 
@@ -263,7 +350,7 @@ try {
 ## `createCustomFileFromUpload()`
 
 ```php
-createCustomFileFromUpload($body): \DocSpring\Model\CustomFile
+createCustomFileFromUpload($body, $idempotency_key): \DocSpring\Model\CustomFile
 ```
 
 Create a custom file from an upload
@@ -290,9 +377,10 @@ $apiInstance = new DocSpring\Api\Client(
     $config
 );
 $body = {"cache_id":"cfi_1234567890abcdef01.pdf"}; // \DocSpring\Model\CreateCustomFileFromUploadRequest | The uploaded file to create the custom file from.
+$idempotency_key = 'idempotency_key_example'; // string | A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
 
 try {
-    $result = $apiInstance->createCustomFileFromUpload($body);
+    $result = $apiInstance->createCustomFileFromUpload($body, $idempotency_key);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling Client->createCustomFileFromUpload: ', $e->getMessage(), PHP_EOL;
@@ -304,6 +392,7 @@ try {
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
 | **body** | [**\DocSpring\Model\CreateCustomFileFromUploadRequest**](../Model/CreateCustomFileFromUploadRequest.md)| The uploaded file to create the custom file from. | |
+| **idempotency_key** | **string**| A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. | [optional] |
 
 ### Return type
 
@@ -322,10 +411,140 @@ try {
 [[Back to Model list]](../../README.md#methods)
 [[Back to README]](../../README.md)
 
+## `createEmailAction()`
+
+```php
+createEmailAction($template_id, $body, $idempotency_key): \DocSpring\Model\EmailAction
+```
+
+Create an email action
+
+Adds an email action to a template's draft. From then on, each processed submission emails its PDF to the recipients in `to`, `cc` and `bcc`: addresses, and tags for the address in one of the submission's fields (`{{ data.tenant_email }}`) or in its metadata (`{{ metadata.agent_email }}`). With `send_when`, only the submissions whose values meet its conditions send one. Without a paid plan (Starter or higher), email actions only email your team: test submissions' emails go to your account's users, and live submissions' emails aren't sent.
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+// Configure HTTP basic authorization: api_token_basic
+$config = DocSpring\Configuration::getDefaultConfiguration()
+              ->setUsername('YOUR_USERNAME')
+              ->setPassword('YOUR_PASSWORD');
+
+
+$apiInstance = new DocSpring\Api\Client(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$template_id = 'template_id_example'; // string | The template's ID.
+$body = {"name":"Tenant copy","to":["{{ data.tenant_email }}"],"bcc":["records@example.com"],"reply_to":"jane@example.com","subject":"Your {{ template.name }}","message":"Hi,\n\nYour signed lease is attached.","file_name":"Lease {{ submission.id }}"}; // \DocSpring\Model\CreateEmailActionRequest | The email action to create. Properties left out get their defaults.
+$idempotency_key = 'idempotency_key_example'; // string | A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
+
+try {
+    $result = $apiInstance->createEmailAction($template_id, $body, $idempotency_key);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling Client->createEmailAction: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **template_id** | **string**| The template's ID. | |
+| **body** | [**\DocSpring\Model\CreateEmailActionRequest**](../Model/CreateEmailActionRequest.md)| The email action to create. Properties left out get their defaults. | |
+| **idempotency_key** | **string**| A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. | [optional] |
+
+### Return type
+
+[**\DocSpring\Model\EmailAction**](../Model/EmailAction.md)
+
+### Authorization
+
+[api_token_basic](../../README.md#install-and-configure)
+
+### HTTP request headers
+
+- **Content-Type**: `application/json`
+- **Accept**: `application/json`
+
+[[Back to top]](#) [[Back to API list]](../../README.md#methods)
+[[Back to Model list]](../../README.md#methods)
+[[Back to README]](../../README.md)
+
+## `createEmailDomain()`
+
+```php
+createEmailDomain($body, $idempotency_key): \DocSpring\Model\EmailDomain
+```
+
+Add an email domain
+
+Adds a domain for email actions to send from, and returns the DNS records to add to it. DocSpring checks for them every few minutes, and the domain is verified once its DKIM and DMARC records are found. Needs a paid monthly plan.
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+// Configure HTTP basic authorization: api_token_basic
+$config = DocSpring\Configuration::getDefaultConfiguration()
+              ->setUsername('YOUR_USERNAME')
+              ->setPassword('YOUR_PASSWORD');
+
+
+$apiInstance = new DocSpring\Api\Client(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$body = {"domain":"example.com"}; // \DocSpring\Model\CreateEmailDomainRequest | The domain to add.
+$idempotency_key = 'idempotency_key_example'; // string | A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
+
+try {
+    $result = $apiInstance->createEmailDomain($body, $idempotency_key);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling Client->createEmailDomain: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **body** | [**\DocSpring\Model\CreateEmailDomainRequest**](../Model/CreateEmailDomainRequest.md)| The domain to add. | |
+| **idempotency_key** | **string**| A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. | [optional] |
+
+### Return type
+
+[**\DocSpring\Model\EmailDomain**](../Model/EmailDomain.md)
+
+### Authorization
+
+[api_token_basic](../../README.md#install-and-configure)
+
+### HTTP request headers
+
+- **Content-Type**: `application/json`
+- **Accept**: `application/json`
+
+[[Back to top]](#) [[Back to API list]](../../README.md#methods)
+[[Back to Model list]](../../README.md#methods)
+[[Back to README]](../../README.md)
+
 ## `createFolder()`
 
 ```php
-createFolder($body): \DocSpring\Model\Folder
+createFolder($body, $idempotency_key): \DocSpring\Model\Folder
 ```
 
 Create a folder
@@ -352,9 +571,10 @@ $apiInstance = new DocSpring\Api\Client(
     $config
 );
 $body = {"name":"Folder 3","parent_folder_id":"fld_1234567890abcdef01"}; // \DocSpring\Model\CreateFolderRequest | The folder to create.
+$idempotency_key = 'idempotency_key_example'; // string | A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
 
 try {
-    $result = $apiInstance->createFolder($body);
+    $result = $apiInstance->createFolder($body, $idempotency_key);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling Client->createFolder: ', $e->getMessage(), PHP_EOL;
@@ -366,6 +586,7 @@ try {
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
 | **body** | [**\DocSpring\Model\CreateFolderRequest**](../Model/CreateFolderRequest.md)| The folder to create. | |
+| **idempotency_key** | **string**| A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. | [optional] |
 
 ### Return type
 
@@ -387,7 +608,7 @@ try {
 ## `createSignatureRequestEvent()`
 
 ```php
-createSignatureRequestEvent($signature_request_id, $body): \DocSpring\Model\SignatureRequestEvent
+createSignatureRequestEvent($signature_request_id, $body, $idempotency_key): \DocSpring\Model\SignatureRequestEvent
 ```
 
 Record a signature request event
@@ -415,9 +636,10 @@ $apiInstance = new DocSpring\Api\Client(
 );
 $signature_request_id = srq_1234567890abcdef01; // string | The signature request's ID.
 $body = {"event_type":"send_request","message_type":"email","message_recipient":"john@example.com","occurred_at":"2018-10-20T08:59:00Z"}; // \DocSpring\Model\CreateSignatureRequestEventRequest | The event to record.
+$idempotency_key = 'idempotency_key_example'; // string | A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
 
 try {
-    $result = $apiInstance->createSignatureRequestEvent($signature_request_id, $body);
+    $result = $apiInstance->createSignatureRequestEvent($signature_request_id, $body, $idempotency_key);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling Client->createSignatureRequestEvent: ', $e->getMessage(), PHP_EOL;
@@ -430,6 +652,7 @@ try {
 | ------------- | ------------- | ------------- | ------------- |
 | **signature_request_id** | **string**| The signature request's ID. | |
 | **body** | [**\DocSpring\Model\CreateSignatureRequestEventRequest**](../Model/CreateSignatureRequestEventRequest.md)| The event to record. | |
+| **idempotency_key** | **string**| A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. | [optional] |
 
 ### Return type
 
@@ -451,7 +674,7 @@ try {
 ## `createSignatureRequestToken()`
 
 ```php
-createSignatureRequestToken($signature_request_id, $body): \DocSpring\Model\SignatureRequestToken
+createSignatureRequestToken($signature_request_id, $body, $idempotency_key): \DocSpring\Model\SignatureRequestToken
 ```
 
 Create a signature request token
@@ -479,9 +702,10 @@ $apiInstance = new DocSpring\Api\Client(
 );
 $signature_request_id = srq_1234567890abcdef01; // string | The signature request's ID.
 $body = {"type":"email"}; // \DocSpring\Model\CreateSignatureRequestTokenRequest | The kind of link to make. Send no body for an `api` token.
+$idempotency_key = 'idempotency_key_example'; // string | A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
 
 try {
-    $result = $apiInstance->createSignatureRequestToken($signature_request_id, $body);
+    $result = $apiInstance->createSignatureRequestToken($signature_request_id, $body, $idempotency_key);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling Client->createSignatureRequestToken: ', $e->getMessage(), PHP_EOL;
@@ -494,6 +718,7 @@ try {
 | ------------- | ------------- | ------------- | ------------- |
 | **signature_request_id** | **string**| The signature request's ID. | |
 | **body** | [**\DocSpring\Model\CreateSignatureRequestTokenRequest**](../Model/CreateSignatureRequestTokenRequest.md)| The kind of link to make. Send no body for an `api` token. | [optional] |
+| **idempotency_key** | **string**| A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. | [optional] |
 
 ### Return type
 
@@ -520,7 +745,7 @@ createSubmission($template_id, $body, $version, $wait, $idempotency_key): \DocSp
 
 Generate a PDF
 
-Creates a submission: fills in a template with your data and generates a PDF. The PDF is generated in the background: on sync.api hosts the request waits for it (unless you pass `wait=false`), otherwise poll GET /submissions/{submission_id} until `state` isn't `pending`.  Data that doesn't match the template's fields returns a 422 with an `invalid_data` error. The submission is still saved, with its errors, so you can find it in DocSpring: the error's `submission_id` is its ID.
+Creates a submission: fills in a template with your data and generates a PDF. The PDF is generated in the background: on sync.api hosts the request waits for it (unless you pass `wait=false`), otherwise poll GET /submissions/{submission_id} until `state` isn't `pending`.  Data that doesn't match the template's fields returns a 422 with an `invalid_data` error. The submission is still saved, with its errors, so you can find it in DocSpring: the error's `submission_id` is its ID.  With `signature_requests`, the PDF is generated once everyone has signed. DocSpring emails each signer a link to sign, unless `send_email` is false, and can send reminders and the completed document.
 
 ### Example
 
@@ -543,9 +768,9 @@ $apiInstance = new DocSpring\Api\Client(
 );
 $template_id = tpl_1234567890abcdef01; // string | The template's ID.
 $body = {"data":{"first_name":"John","last_name":"Smith","phone_number":"+11234567890"},"metadata":{"user_id":42},"test":true}; // \DocSpring\Model\CreateSubmissionRequest | The submission's data and settings.
-$version = 'version_example'; // string | The template version to use: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `latest` (the draft when no version has been published).
+$version = 'version_example'; // string | The template version to use: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` (the newest published version, or the draft when none has been published) or `draft`. Default `latest`.
 $wait = True; // bool | Wait until the files have been generated before responding. Default true on sync.api hosts.
-$idempotency_key = 'idempotency_key_example'; // string | A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of creating another submission. Send a new key with each new submission, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` means the first request is still being processed: send the request again in a few seconds.
+$idempotency_key = 'idempotency_key_example'; // string | A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
 
 try {
     $result = $apiInstance->createSubmission($template_id, $body, $version, $wait, $idempotency_key);
@@ -561,9 +786,9 @@ try {
 | ------------- | ------------- | ------------- | ------------- |
 | **template_id** | **string**| The template's ID. | |
 | **body** | [**\DocSpring\Model\CreateSubmissionRequest**](../Model/CreateSubmissionRequest.md)| The submission's data and settings. | |
-| **version** | **string**| The template version to use: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `latest` (the draft when no version has been published). | [optional] |
+| **version** | **string**| The template version to use: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` (the newest published version, or the draft when none has been published) or `draft`. Default `latest`. | [optional] |
 | **wait** | **bool**| Wait until the files have been generated before responding. Default true on sync.api hosts. | [optional] |
-| **idempotency_key** | **string**| A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of creating another submission. Send a new key with each new submission, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` means the first request is still being processed: send the request again in a few seconds. | [optional] |
+| **idempotency_key** | **string**| A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. | [optional] |
 
 ### Return type
 
@@ -613,7 +838,7 @@ $apiInstance = new DocSpring\Api\Client(
 );
 $body = {"template_id":"tpl_1234567890abcdef01","metadata":{"job_id":54321},"submissions":[{"data":{"first_name":"John","last_name":"Smith"},"metadata":{"row":1}},{"data":{"first_name":"Jane","last_name":"Doe"},"test":true,"metadata":{"row":2}}]}; // \DocSpring\Model\CreateSubmissionBatchRequest | The submissions to create, and the settings they share.
 $wait = True; // bool | Wait until every file in the batch has been generated before responding. Default true on sync.api hosts.
-$idempotency_key = 'idempotency_key_example'; // string | A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of creating another batch. Send a new key with each new batch, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` means the first request is still being processed: send the request again in a few seconds.
+$idempotency_key = 'idempotency_key_example'; // string | A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
 
 try {
     $result = $apiInstance->createSubmissionBatch($body, $wait, $idempotency_key);
@@ -629,7 +854,7 @@ try {
 | ------------- | ------------- | ------------- | ------------- |
 | **body** | [**\DocSpring\Model\CreateSubmissionBatchRequest**](../Model/CreateSubmissionBatchRequest.md)| The submissions to create, and the settings they share. | |
 | **wait** | **bool**| Wait until every file in the batch has been generated before responding. Default true on sync.api hosts. | [optional] |
-| **idempotency_key** | **string**| A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of creating another batch. Send a new key with each new batch, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` means the first request is still being processed: send the request again in a few seconds. | [optional] |
+| **idempotency_key** | **string**| A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. | [optional] |
 
 ### Return type
 
@@ -651,12 +876,12 @@ try {
 ## `createTemplate()`
 
 ```php
-createTemplate($body, $wait): \DocSpring\Model\Template
+createTemplate($body, $wait, $idempotency_key): \DocSpring\Model\Template
 ```
 
 Create a template
 
-Creates an HTML template, or a PDF or Word template from a file you uploaded with the presigned upload (GET /uploads/presign): pass its `fields.key` as `cache_id`. You can send a link to the file (`document_url`) or the file in base64 (`document_base64`) instead, or send the file with the request with POST /templates/upload. A Word template is made from a Word document (.docx) or an OpenDocument text file (.odt), which DocSpring converts to a Word document. It needs its `output_format`: what each submission makes, a Word document (`docx`), an OpenDocument file (`odt`) or a PDF.  A PDF template is ready to generate PDFs once DocSpring has processed its PDF, a template created from a `document_url` once its document has been downloaded, and one created from an .odt once it has been converted (`ready` is true). On sync.api hosts the request waits for that unless you pass `wait=false`.
+Creates an HTML template, or a PDF or Word template from a file you uploaded with the presigned upload (GET /uploads/presign): pass its `fields.key` as `cache_id`. You can send a link to the file (`document_url`) or the file in base64 (`document_base64`) instead, or send the file with the request with POST /templates/upload. A Word template is made from a Word document (.docx) or an OpenDocument text file (.odt), which DocSpring converts to a Word document. It needs its `output_format`: what each submission makes, a Word document (`docx`), an OpenDocument file (`odt`) or a PDF. A page design (`page_designer`) takes its `layout` in the Page Designer layout format, or starts with an empty page without one.  A PDF template is ready to generate PDFs once DocSpring has processed its PDF, a template created from a `document_url` once its document has been downloaded, and one created from an .odt once it has been converted (`ready` is true). On sync.api hosts the request waits for that unless you pass `wait=false`.
 
 ### Example
 
@@ -679,9 +904,10 @@ $apiInstance = new DocSpring\Api\Client(
 );
 $body = {"template_type":"html","name":"Receipt","html":"<h1>Receipt for {{ name }}</h1>","scss":"h1 { font-size: 24px; }","html_engine_options":{"format":"A4","landscape":true},"parent_folder_id":"fld_1234567890abcdef01"}; // \DocSpring\Model\CreateTemplateRequest | The template to create.
 $wait = True; // bool | Wait until the PDF has been processed, a `document_url`'s PDF or Word document downloaded, and an OpenDocument file converted, before responding. Default true on sync.api hosts.
+$idempotency_key = 'idempotency_key_example'; // string | A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
 
 try {
-    $result = $apiInstance->createTemplate($body, $wait);
+    $result = $apiInstance->createTemplate($body, $wait, $idempotency_key);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling Client->createTemplate: ', $e->getMessage(), PHP_EOL;
@@ -694,6 +920,7 @@ try {
 | ------------- | ------------- | ------------- | ------------- |
 | **body** | [**\DocSpring\Model\CreateTemplateRequest**](../Model/CreateTemplateRequest.md)| The template to create. | |
 | **wait** | **bool**| Wait until the PDF has been processed, a `document_url`'s PDF or Word document downloaded, and an OpenDocument file converted, before responding. Default true on sync.api hosts. | [optional] |
+| **idempotency_key** | **string**| A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. | [optional] |
 
 ### Return type
 
@@ -715,12 +942,12 @@ try {
 ## `createTemplatePreview()`
 
 ```php
-createTemplatePreview($template_id, $body, $version): \DocSpring\Model\TemplatePreview
+createTemplatePreview($template_id, $body, $version, $idempotency_key): \DocSpring\Model\TemplatePreview
 ```
 
 Preview a template with data
 
-Makes PNG images of a template's pages filled in with the data you send (not a PDF), so you can check how an HTML, PDF or Word template prints with your data before you publish a version or send live data. A Word template's pages are its PDF's, whatever its `output_format`. It renders the template's draft, or the published `version` you ask for. A preview makes no submission and uses no credits, and its pages are watermarked like a test submission's PDF. It's `pending` while it renders: get it with GET /templates/{template_id}/previews/{preview_id} until it's `processed`, with an image of each page, or `error`.
+Makes PNG images of a template's pages filled in with the data you send (not a PDF), so you can check how an HTML, PDF or Word template or a page design prints with your data before you publish a version or send live data. A Word template's pages are its PDF's, whatever its `output_format`. It renders the template's draft, or the published `version` you ask for. A preview makes no submission and uses no credits, and its pages are watermarked like a test submission's PDF. It's `pending` while it renders: get it with GET /templates/{template_id}/previews/{preview_id} until it's `processed`, with an image of each page, or `error`.
 
 ### Example
 
@@ -743,10 +970,11 @@ $apiInstance = new DocSpring\Api\Client(
 );
 $template_id = tpl_1234567890abcdef02; // string | The template's ID.
 $body = {"data":{"invoice_number":"INV-001"}}; // \DocSpring\Model\CreateTemplatePreviewRequest | The data to render the template with.
-$version = 'version_example'; // string | A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `draft`.
+$version = 'version_example'; // string | A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` (the newest published version, or the draft when none has been published) or `draft`. Default `draft`.
+$idempotency_key = 'idempotency_key_example'; // string | A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
 
 try {
-    $result = $apiInstance->createTemplatePreview($template_id, $body, $version);
+    $result = $apiInstance->createTemplatePreview($template_id, $body, $version, $idempotency_key);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling Client->createTemplatePreview: ', $e->getMessage(), PHP_EOL;
@@ -759,7 +987,8 @@ try {
 | ------------- | ------------- | ------------- | ------------- |
 | **template_id** | **string**| The template's ID. | |
 | **body** | [**\DocSpring\Model\CreateTemplatePreviewRequest**](../Model/CreateTemplatePreviewRequest.md)| The data to render the template with. | |
-| **version** | **string**| A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `draft`. | [optional] |
+| **version** | **string**| A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` (the newest published version, or the draft when none has been published) or `draft`. Default `draft`. | [optional] |
+| **idempotency_key** | **string**| A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. | [optional] |
 
 ### Return type
 
@@ -781,7 +1010,7 @@ try {
 ## `createWebhook()`
 
 ```php
-createWebhook($body): \DocSpring\Model\Webhook
+createWebhook($body, $idempotency_key): \DocSpring\Model\Webhook
 ```
 
 Create a webhook
@@ -808,9 +1037,10 @@ $apiInstance = new DocSpring\Api\Client(
     $config
 );
 $body = {"name":"Test Webhook","url":"https://example.com/webhook","event_types":["submission.processed","signature_request.completed"],"template_ids":["tpl_1234567890abcdef01"],"headers":{"X-Zapier-Subscription":"123"}}; // \DocSpring\Model\CreateWebhookRequest | The webhook to create.
+$idempotency_key = 'idempotency_key_example'; // string | A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
 
 try {
-    $result = $apiInstance->createWebhook($body);
+    $result = $apiInstance->createWebhook($body, $idempotency_key);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling Client->createWebhook: ', $e->getMessage(), PHP_EOL;
@@ -822,6 +1052,7 @@ try {
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
 | **body** | [**\DocSpring\Model\CreateWebhookRequest**](../Model/CreateWebhookRequest.md)| The webhook to create. | |
+| **idempotency_key** | **string**| A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. | [optional] |
 
 ### Return type
 
@@ -840,10 +1071,74 @@ try {
 [[Back to Model list]](../../README.md#methods)
 [[Back to README]](../../README.md)
 
+## `deleteAccountEmailAction()`
+
+```php
+deleteAccountEmailAction($email_action_id, $idempotency_key): \DocSpring\Model\EmailAction
+```
+
+Delete an account email action
+
+Deletes one of your account's email actions, with every template's customization of it. Emails it has already queued for submissions aren't sent. Submissions keep the record of the emails it sent.
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+// Configure HTTP basic authorization: api_token_basic
+$config = DocSpring\Configuration::getDefaultConfiguration()
+              ->setUsername('YOUR_USERNAME')
+              ->setPassword('YOUR_PASSWORD');
+
+
+$apiInstance = new DocSpring\Api\Client(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$email_action_id = 'email_action_id_example'; // string | The account email action's ID.
+$idempotency_key = 'idempotency_key_example'; // string | A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
+
+try {
+    $result = $apiInstance->deleteAccountEmailAction($email_action_id, $idempotency_key);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling Client->deleteAccountEmailAction: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **email_action_id** | **string**| The account email action's ID. | |
+| **idempotency_key** | **string**| A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. | [optional] |
+
+### Return type
+
+[**\DocSpring\Model\EmailAction**](../Model/EmailAction.md)
+
+### Authorization
+
+[api_token_basic](../../README.md#install-and-configure)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/json`
+
+[[Back to top]](#) [[Back to API list]](../../README.md#methods)
+[[Back to Model list]](../../README.md#methods)
+[[Back to README]](../../README.md)
+
 ## `deleteCustomFile()`
 
 ```php
-deleteCustomFile($custom_file_id): \DocSpring\Model\CustomFile
+deleteCustomFile($custom_file_id, $idempotency_key): \DocSpring\Model\CustomFile
 ```
 
 Delete a custom file
@@ -870,9 +1165,10 @@ $apiInstance = new DocSpring\Api\Client(
     $config
 );
 $custom_file_id = 'custom_file_id_example'; // string | The custom file's ID.
+$idempotency_key = 'idempotency_key_example'; // string | A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
 
 try {
-    $result = $apiInstance->deleteCustomFile($custom_file_id);
+    $result = $apiInstance->deleteCustomFile($custom_file_id, $idempotency_key);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling Client->deleteCustomFile: ', $e->getMessage(), PHP_EOL;
@@ -884,6 +1180,7 @@ try {
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
 | **custom_file_id** | **string**| The custom file's ID. | |
+| **idempotency_key** | **string**| A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. | [optional] |
 
 ### Return type
 
@@ -902,10 +1199,206 @@ try {
 [[Back to Model list]](../../README.md#methods)
 [[Back to README]](../../README.md)
 
+## `deleteEmailAction()`
+
+```php
+deleteEmailAction($template_id, $email_action_id, $idempotency_key): \DocSpring\Model\EmailAction
+```
+
+Delete an email action
+
+Deletes an email action. Emails it has already queued for submissions aren't sent. Submissions keep the record of the emails it sent.
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+// Configure HTTP basic authorization: api_token_basic
+$config = DocSpring\Configuration::getDefaultConfiguration()
+              ->setUsername('YOUR_USERNAME')
+              ->setPassword('YOUR_PASSWORD');
+
+
+$apiInstance = new DocSpring\Api\Client(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$template_id = 'template_id_example'; // string | The template's ID.
+$email_action_id = 'email_action_id_example'; // string | The email action's ID.
+$idempotency_key = 'idempotency_key_example'; // string | A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
+
+try {
+    $result = $apiInstance->deleteEmailAction($template_id, $email_action_id, $idempotency_key);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling Client->deleteEmailAction: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **template_id** | **string**| The template's ID. | |
+| **email_action_id** | **string**| The email action's ID. | |
+| **idempotency_key** | **string**| A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. | [optional] |
+
+### Return type
+
+[**\DocSpring\Model\EmailAction**](../Model/EmailAction.md)
+
+### Authorization
+
+[api_token_basic](../../README.md#install-and-configure)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/json`
+
+[[Back to top]](#) [[Back to API list]](../../README.md#methods)
+[[Back to Model list]](../../README.md#methods)
+[[Back to README]](../../README.md)
+
+## `deleteEmailActionCustomization()`
+
+```php
+deleteEmailActionCustomization($template_id, $email_action_id, $idempotency_key): \DocSpring\Model\EmailAction
+```
+
+Reset an account email action's customization
+
+Removes the template's changes to one of your account's email actions: it sends for this template as it is, and again if the template had turned it off.
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+// Configure HTTP basic authorization: api_token_basic
+$config = DocSpring\Configuration::getDefaultConfiguration()
+              ->setUsername('YOUR_USERNAME')
+              ->setPassword('YOUR_PASSWORD');
+
+
+$apiInstance = new DocSpring\Api\Client(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$template_id = 'template_id_example'; // string | The template's ID.
+$email_action_id = 'email_action_id_example'; // string | The ID of one of your account's email actions that sends for the template.
+$idempotency_key = 'idempotency_key_example'; // string | A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
+
+try {
+    $result = $apiInstance->deleteEmailActionCustomization($template_id, $email_action_id, $idempotency_key);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling Client->deleteEmailActionCustomization: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **template_id** | **string**| The template's ID. | |
+| **email_action_id** | **string**| The ID of one of your account's email actions that sends for the template. | |
+| **idempotency_key** | **string**| A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. | [optional] |
+
+### Return type
+
+[**\DocSpring\Model\EmailAction**](../Model/EmailAction.md)
+
+### Authorization
+
+[api_token_basic](../../README.md#install-and-configure)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/json`
+
+[[Back to top]](#) [[Back to API list]](../../README.md#methods)
+[[Back to Model list]](../../README.md#methods)
+[[Back to README]](../../README.md)
+
+## `deleteEmailDomain()`
+
+```php
+deleteEmailDomain($email_domain_id, $idempotency_key): \DocSpring\Model\EmailDomain
+```
+
+Remove an email domain
+
+Removes an email domain. Email actions that send from an address at it fail until you add and verify it again, or change their `from_address`. You can then remove its DNS records.
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+// Configure HTTP basic authorization: api_token_basic
+$config = DocSpring\Configuration::getDefaultConfiguration()
+              ->setUsername('YOUR_USERNAME')
+              ->setPassword('YOUR_PASSWORD');
+
+
+$apiInstance = new DocSpring\Api\Client(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$email_domain_id = 'email_domain_id_example'; // string | The email domain's ID.
+$idempotency_key = 'idempotency_key_example'; // string | A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
+
+try {
+    $result = $apiInstance->deleteEmailDomain($email_domain_id, $idempotency_key);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling Client->deleteEmailDomain: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **email_domain_id** | **string**| The email domain's ID. | |
+| **idempotency_key** | **string**| A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. | [optional] |
+
+### Return type
+
+[**\DocSpring\Model\EmailDomain**](../Model/EmailDomain.md)
+
+### Authorization
+
+[api_token_basic](../../README.md#install-and-configure)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/json`
+
+[[Back to top]](#) [[Back to API list]](../../README.md#methods)
+[[Back to Model list]](../../README.md#methods)
+[[Back to README]](../../README.md)
+
 ## `deleteFolder()`
 
 ```php
-deleteFolder($folder_id): \DocSpring\Model\Folder
+deleteFolder($folder_id, $idempotency_key): \DocSpring\Model\Folder
 ```
 
 Delete a folder
@@ -932,9 +1425,10 @@ $apiInstance = new DocSpring\Api\Client(
     $config
 );
 $folder_id = 'folder_id_example'; // string | The folder's ID.
+$idempotency_key = 'idempotency_key_example'; // string | A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
 
 try {
-    $result = $apiInstance->deleteFolder($folder_id);
+    $result = $apiInstance->deleteFolder($folder_id, $idempotency_key);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling Client->deleteFolder: ', $e->getMessage(), PHP_EOL;
@@ -946,6 +1440,7 @@ try {
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
 | **folder_id** | **string**| The folder's ID. | |
+| **idempotency_key** | **string**| A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. | [optional] |
 
 ### Return type
 
@@ -967,7 +1462,7 @@ try {
 ## `deleteTemplate()`
 
 ```php
-deleteTemplate($template_id, $version): \DocSpring\Model\Template
+deleteTemplate($template_id, $version, $idempotency_key): \DocSpring\Model\Template
 ```
 
 Delete a template
@@ -995,9 +1490,10 @@ $apiInstance = new DocSpring\Api\Client(
 );
 $template_id = tpl_1234567890abcdef02; // string | The template's ID.
 $version = 'version_example'; // string | Delete only this published version (`1.2.0`) or the draft (`draft`, when no version has been published). Without it, the draft and every published version are deleted.
+$idempotency_key = 'idempotency_key_example'; // string | A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
 
 try {
-    $result = $apiInstance->deleteTemplate($template_id, $version);
+    $result = $apiInstance->deleteTemplate($template_id, $version, $idempotency_key);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling Client->deleteTemplate: ', $e->getMessage(), PHP_EOL;
@@ -1010,6 +1506,7 @@ try {
 | ------------- | ------------- | ------------- | ------------- |
 | **template_id** | **string**| The template's ID. | |
 | **version** | **string**| Delete only this published version (`1.2.0`) or the draft (`draft`, when no version has been published). Without it, the draft and every published version are deleted. | [optional] |
+| **idempotency_key** | **string**| A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. | [optional] |
 
 ### Return type
 
@@ -1031,7 +1528,7 @@ try {
 ## `deleteWebhook()`
 
 ```php
-deleteWebhook($webhook_id): \DocSpring\Model\Webhook
+deleteWebhook($webhook_id, $idempotency_key): \DocSpring\Model\Webhook
 ```
 
 Delete a webhook
@@ -1058,9 +1555,10 @@ $apiInstance = new DocSpring\Api\Client(
     $config
 );
 $webhook_id = 'webhook_id_example'; // string | The webhook's ID.
+$idempotency_key = 'idempotency_key_example'; // string | A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
 
 try {
-    $result = $apiInstance->deleteWebhook($webhook_id);
+    $result = $apiInstance->deleteWebhook($webhook_id, $idempotency_key);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling Client->deleteWebhook: ', $e->getMessage(), PHP_EOL;
@@ -1072,6 +1570,7 @@ try {
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
 | **webhook_id** | **string**| The webhook's ID. | |
+| **idempotency_key** | **string**| A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. | [optional] |
 
 ### Return type
 
@@ -1093,7 +1592,7 @@ try {
 ## `expireCombinedPdf()`
 
 ```php
-expireCombinedPdf($combined_pdf_id): \DocSpring\Model\CombinedPdf
+expireCombinedPdf($combined_pdf_id, $idempotency_key): \DocSpring\Model\CombinedPdf
 ```
 
 Expire a combined PDF
@@ -1120,9 +1619,10 @@ $apiInstance = new DocSpring\Api\Client(
     $config
 );
 $combined_pdf_id = com_1234567890abcdef05; // string | The combined PDF's ID.
+$idempotency_key = 'idempotency_key_example'; // string | A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
 
 try {
-    $result = $apiInstance->expireCombinedPdf($combined_pdf_id);
+    $result = $apiInstance->expireCombinedPdf($combined_pdf_id, $idempotency_key);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling Client->expireCombinedPdf: ', $e->getMessage(), PHP_EOL;
@@ -1134,6 +1634,7 @@ try {
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
 | **combined_pdf_id** | **string**| The combined PDF's ID. | |
+| **idempotency_key** | **string**| A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. | [optional] |
 
 ### Return type
 
@@ -1155,7 +1656,7 @@ try {
 ## `expireSubmission()`
 
 ```php
-expireSubmission($submission_id): \DocSpring\Model\Submission
+expireSubmission($submission_id, $idempotency_key): \DocSpring\Model\Submission
 ```
 
 Expire a submission
@@ -1182,9 +1683,10 @@ $apiInstance = new DocSpring\Api\Client(
     $config
 );
 $submission_id = sub_1234567890abcdef01; // string | The submission's ID.
+$idempotency_key = 'idempotency_key_example'; // string | A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
 
 try {
-    $result = $apiInstance->expireSubmission($submission_id);
+    $result = $apiInstance->expireSubmission($submission_id, $idempotency_key);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling Client->expireSubmission: ', $e->getMessage(), PHP_EOL;
@@ -1196,6 +1698,7 @@ try {
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
 | **submission_id** | **string**| The submission's ID. | |
+| **idempotency_key** | **string**| A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. | [optional] |
 
 ### Return type
 
@@ -1217,7 +1720,7 @@ try {
 ## `generateSubmissionFiles()`
 
 ```php
-generateSubmissionFiles($submission_id, $body, $wait): \DocSpring\Model\Submission
+generateSubmissionFiles($submission_id, $body, $wait, $idempotency_key): \DocSpring\Model\Submission
 ```
 
 Generate more files
@@ -1246,9 +1749,10 @@ $apiInstance = new DocSpring\Api\Client(
 $submission_id = sub_1234567890abcdef01; // string | The submission's ID.
 $body = {"formats":["png"]}; // \DocSpring\Model\GenerateSubmissionFilesRequest | The formats to make.
 $wait = True; // bool | Wait until the files have been generated before responding. Default true on sync.api hosts.
+$idempotency_key = 'idempotency_key_example'; // string | A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
 
 try {
-    $result = $apiInstance->generateSubmissionFiles($submission_id, $body, $wait);
+    $result = $apiInstance->generateSubmissionFiles($submission_id, $body, $wait, $idempotency_key);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling Client->generateSubmissionFiles: ', $e->getMessage(), PHP_EOL;
@@ -1262,6 +1766,7 @@ try {
 | **submission_id** | **string**| The submission's ID. | |
 | **body** | [**\DocSpring\Model\GenerateSubmissionFilesRequest**](../Model/GenerateSubmissionFilesRequest.md)| The formats to make. | |
 | **wait** | **bool**| Wait until the files have been generated before responding. Default true on sync.api hosts. | [optional] |
+| **idempotency_key** | **string**| A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. | [optional] |
 
 ### Return type
 
@@ -1283,7 +1788,7 @@ try {
 ## `generateSubmissionPreview()`
 
 ```php
-generateSubmissionPreview($submission_id): \DocSpring\Model\Submission
+generateSubmissionPreview($submission_id, $idempotency_key): \DocSpring\Model\Submission
 ```
 
 Generate a preview PDF
@@ -1310,9 +1815,10 @@ $apiInstance = new DocSpring\Api\Client(
     $config
 );
 $submission_id = sub_1234567890abcdef03; // string | The submission's ID.
+$idempotency_key = 'idempotency_key_example'; // string | A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
 
 try {
-    $result = $apiInstance->generateSubmissionPreview($submission_id);
+    $result = $apiInstance->generateSubmissionPreview($submission_id, $idempotency_key);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling Client->generateSubmissionPreview: ', $e->getMessage(), PHP_EOL;
@@ -1324,10 +1830,73 @@ try {
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
 | **submission_id** | **string**| The submission's ID. | |
+| **idempotency_key** | **string**| A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. | [optional] |
 
 ### Return type
 
 [**\DocSpring\Model\Submission**](../Model/Submission.md)
+
+### Authorization
+
+[api_token_basic](../../README.md#install-and-configure)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/json`
+
+[[Back to top]](#) [[Back to API list]](../../README.md#methods)
+[[Back to Model list]](../../README.md#methods)
+[[Back to README]](../../README.md)
+
+## `getAccountEmailAction()`
+
+```php
+getAccountEmailAction($email_action_id): \DocSpring\Model\EmailAction
+```
+
+Get an account email action
+
+Returns one of your account's email actions, with its settings and whether its emails are failing.
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+// Configure HTTP basic authorization: api_token_basic
+$config = DocSpring\Configuration::getDefaultConfiguration()
+              ->setUsername('YOUR_USERNAME')
+              ->setPassword('YOUR_PASSWORD');
+
+
+$apiInstance = new DocSpring\Api\Client(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$email_action_id = 'email_action_id_example'; // string | The account email action's ID.
+
+try {
+    $result = $apiInstance->getAccountEmailAction($email_action_id);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling Client->getAccountEmailAction: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **email_action_id** | **string**| The account email action's ID. | |
+
+### Return type
+
+[**\DocSpring\Model\EmailAction**](../Model/EmailAction.md)
 
 ### Authorization
 
@@ -1452,6 +2021,132 @@ try {
 ### Return type
 
 [**\DocSpring\Model\CustomFile**](../Model/CustomFile.md)
+
+### Authorization
+
+[api_token_basic](../../README.md#install-and-configure)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/json`
+
+[[Back to top]](#) [[Back to API list]](../../README.md#methods)
+[[Back to Model list]](../../README.md#methods)
+[[Back to README]](../../README.md)
+
+## `getEmailAction()`
+
+```php
+getEmailAction($template_id, $email_action_id): \DocSpring\Model\EmailAction
+```
+
+Get an email action
+
+Returns one of a template's email actions, with its settings and whether its emails are failing.
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+// Configure HTTP basic authorization: api_token_basic
+$config = DocSpring\Configuration::getDefaultConfiguration()
+              ->setUsername('YOUR_USERNAME')
+              ->setPassword('YOUR_PASSWORD');
+
+
+$apiInstance = new DocSpring\Api\Client(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$template_id = 'template_id_example'; // string | The template's ID.
+$email_action_id = 'email_action_id_example'; // string | The email action's ID.
+
+try {
+    $result = $apiInstance->getEmailAction($template_id, $email_action_id);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling Client->getEmailAction: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **template_id** | **string**| The template's ID. | |
+| **email_action_id** | **string**| The email action's ID. | |
+
+### Return type
+
+[**\DocSpring\Model\EmailAction**](../Model/EmailAction.md)
+
+### Authorization
+
+[api_token_basic](../../README.md#install-and-configure)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/json`
+
+[[Back to top]](#) [[Back to API list]](../../README.md#methods)
+[[Back to Model list]](../../README.md#methods)
+[[Back to README]](../../README.md)
+
+## `getEmailDomain()`
+
+```php
+getEmailDomain($email_domain_id): \DocSpring\Model\EmailDomain
+```
+
+Get an email domain
+
+Returns an email domain, whether it's verified, and the DNS records to add to it.
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+// Configure HTTP basic authorization: api_token_basic
+$config = DocSpring\Configuration::getDefaultConfiguration()
+              ->setUsername('YOUR_USERNAME')
+              ->setPassword('YOUR_PASSWORD');
+
+
+$apiInstance = new DocSpring\Api\Client(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$email_domain_id = 'email_domain_id_example'; // string | The email domain's ID.
+
+try {
+    $result = $apiInstance->getEmailDomain($email_domain_id);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling Client->getEmailDomain: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **email_domain_id** | **string**| The email domain's ID. | |
+
+### Return type
+
+[**\DocSpring\Model\EmailDomain**](../Model/EmailDomain.md)
 
 ### Authorization
 
@@ -1805,7 +2500,7 @@ $apiInstance = new DocSpring\Api\Client(
     $config
 );
 $template_id = tpl_1234567890abcdef01; // string | The template's ID.
-$version = latest; // string | A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `draft`.
+$version = latest; // string | A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` (the newest published version, or the draft when none has been published) or `draft`. Default `draft`.
 
 try {
     $result = $apiInstance->getTemplate($template_id, $version);
@@ -1820,7 +2515,7 @@ try {
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
 | **template_id** | **string**| The template's ID. | |
-| **version** | **string**| A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `draft`. | [optional] |
+| **version** | **string**| A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` (the newest published version, or the draft when none has been published) or `draft`. Default `draft`. | [optional] |
 
 ### Return type
 
@@ -1869,7 +2564,7 @@ $apiInstance = new DocSpring\Api\Client(
     $config
 );
 $template_id = tpl_1234567890abcdef01; // string | The template's ID.
-$version = 0.1.0; // string | A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `draft`.
+$version = 0.1.0; // string | A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` (the newest published version, or the draft when none has been published) or `draft`. Default `draft`.
 
 try {
     $result = $apiInstance->getTemplateDiff($template_id, $version);
@@ -1884,7 +2579,7 @@ try {
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
 | **template_id** | **string**| The template's ID. | |
-| **version** | **string**| A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `draft`. | [optional] |
+| **version** | **string**| A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` (the newest published version, or the draft when none has been published) or `draft`. Default `draft`. | [optional] |
 
 ### Return type
 
@@ -1934,7 +2629,7 @@ $apiInstance = new DocSpring\Api\Client(
 );
 $template_id = tpl_1234567890abcdef01; // string | The template's ID.
 $lang = typescript; // \DocSpring\Model\ModelCodeLanguage | The language to generate the code in.
-$version = draft; // string | The template version: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `latest` (the draft when no version has been published), the version a submission uses by default.
+$version = draft; // string | The template version: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` (the newest published version, or the draft when none has been published) or `draft`. Default `latest`, the version a submission uses by default.
 $just_types = true; // bool | Return only the types (interfaces, classes or structs), without the code that converts JSON to and from them. Default false. JavaScript has no types, PHP has no types-only code, and Rust's code is only types (serde converts the JSON), so theirs is the same either way.
 
 try {
@@ -1951,7 +2646,7 @@ try {
 | ------------- | ------------- | ------------- | ------------- |
 | **template_id** | **string**| The template's ID. | |
 | **lang** | [**\DocSpring\Model\ModelCodeLanguage**](../Model/.md)| The language to generate the code in. | |
-| **version** | **string**| The template version: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `latest` (the draft when no version has been published), the version a submission uses by default. | [optional] |
+| **version** | **string**| The template version: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` (the newest published version, or the draft when none has been published) or `draft`. Default `latest`, the version a submission uses by default. | [optional] |
 | **just_types** | **bool**| Return only the types (interfaces, classes or structs), without the code that converts JSON to and from them. Default false. JavaScript has no types, PHP has no types-only code, and Rust's code is only types (serde converts the JSON), so theirs is the same either way. | [optional] |
 
 ### Return type
@@ -2001,7 +2696,7 @@ $apiInstance = new DocSpring\Api\Client(
     $config
 );
 $template_id = tpl_1234567890abcdef01; // string | The template's ID.
-$version = latest; // string | A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `draft`.
+$version = latest; // string | A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` (the newest published version, or the draft when none has been published) or `draft`. Default `draft`.
 
 try {
     $result = $apiInstance->getTemplatePageImages($template_id, $version);
@@ -2016,7 +2711,7 @@ try {
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
 | **template_id** | **string**| The template's ID. | |
-| **version** | **string**| A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `draft`. | [optional] |
+| **version** | **string**| A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` (the newest published version, or the draft when none has been published) or `draft`. Default `draft`. | [optional] |
 
 ### Return type
 
@@ -2129,7 +2824,7 @@ $apiInstance = new DocSpring\Api\Client(
     $config
 );
 $template_id = tpl_1234567890abcdef01; // string | The template's ID.
-$version = draft; // string | The template version: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `latest` (the draft when no version has been published), the version a submission uses by default.
+$version = draft; // string | The template version: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` (the newest published version, or the draft when none has been published) or `draft`. Default `latest`, the version a submission uses by default.
 
 try {
     $result = $apiInstance->getTemplateSchema($template_id, $version);
@@ -2144,7 +2839,7 @@ try {
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
 | **template_id** | **string**| The template's ID. | |
-| **version** | **string**| The template version: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `latest` (the draft when no version has been published), the version a submission uses by default. | [optional] |
+| **version** | **string**| The template version: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` (the newest published version, or the draft when none has been published) or `draft`. Default `latest`, the version a submission uses by default. | [optional] |
 
 ### Return type
 
@@ -2211,6 +2906,70 @@ try {
 ### Return type
 
 [**\DocSpring\Model\Webhook**](../Model/Webhook.md)
+
+### Authorization
+
+[api_token_basic](../../README.md#install-and-configure)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/json`
+
+[[Back to top]](#) [[Back to API list]](../../README.md#methods)
+[[Back to Model list]](../../README.md#methods)
+[[Back to README]](../../README.md)
+
+## `listAccountEmailActions()`
+
+```php
+listAccountEmailActions($limit, $cursor): \DocSpring\Model\EmailActionList
+```
+
+List account email actions
+
+Returns your account's email actions, newest first, one page at a time. Each one emails the files of every template's processed submissions, or of the templates and folders it lists. A template's own email actions are listed with the template (`GET /templates/{template_id}/email_actions`).
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+// Configure HTTP basic authorization: api_token_basic
+$config = DocSpring\Configuration::getDefaultConfiguration()
+              ->setUsername('YOUR_USERNAME')
+              ->setPassword('YOUR_PASSWORD');
+
+
+$apiInstance = new DocSpring\Api\Client(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$limit = 50; // int | How many items to return (1-100, default 50).
+$cursor = 'cursor_example'; // string | The previous page's `next_cursor`, to get the next page. It's the ID of that page's last item, so get the next page before you delete or change the items on this one.
+
+try {
+    $result = $apiInstance->listAccountEmailActions($limit, $cursor);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling Client->listAccountEmailActions: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **limit** | **int**| How many items to return (1-100, default 50). | [optional] [default to 50] |
+| **cursor** | **string**| The previous page's `next_cursor`, to get the next page. It's the ID of that page's last item, so get the next page before you delete or change the items on this one. | [optional] |
+
+### Return type
+
+[**\DocSpring\Model\EmailActionList**](../Model/EmailActionList.md)
 
 ### Authorization
 
@@ -2339,6 +3098,136 @@ try {
 ### Return type
 
 [**\DocSpring\Model\CustomFileList**](../Model/CustomFileList.md)
+
+### Authorization
+
+[api_token_basic](../../README.md#install-and-configure)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/json`
+
+[[Back to top]](#) [[Back to API list]](../../README.md#methods)
+[[Back to Model list]](../../README.md#methods)
+[[Back to README]](../../README.md)
+
+## `listEmailActions()`
+
+```php
+listEmailActions($template_id, $limit, $cursor): \DocSpring\Model\EmailActionList
+```
+
+List email actions
+
+Returns the email actions of a template's draft, and your account's email actions that send for it, newest first, one page at a time. Each one emails every processed submission's files to the people it lists. An account email action (`template_id` null) shows the settings it sends for this template, with the template's changes in `customization`.
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+// Configure HTTP basic authorization: api_token_basic
+$config = DocSpring\Configuration::getDefaultConfiguration()
+              ->setUsername('YOUR_USERNAME')
+              ->setPassword('YOUR_PASSWORD');
+
+
+$apiInstance = new DocSpring\Api\Client(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$template_id = 'template_id_example'; // string | The template's ID.
+$limit = 50; // int | How many items to return (1-100, default 50).
+$cursor = 'cursor_example'; // string | The previous page's `next_cursor`, to get the next page. It's the ID of that page's last item, so get the next page before you delete or change the items on this one.
+
+try {
+    $result = $apiInstance->listEmailActions($template_id, $limit, $cursor);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling Client->listEmailActions: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **template_id** | **string**| The template's ID. | |
+| **limit** | **int**| How many items to return (1-100, default 50). | [optional] [default to 50] |
+| **cursor** | **string**| The previous page's `next_cursor`, to get the next page. It's the ID of that page's last item, so get the next page before you delete or change the items on this one. | [optional] |
+
+### Return type
+
+[**\DocSpring\Model\EmailActionList**](../Model/EmailActionList.md)
+
+### Authorization
+
+[api_token_basic](../../README.md#install-and-configure)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/json`
+
+[[Back to top]](#) [[Back to API list]](../../README.md#methods)
+[[Back to Model list]](../../README.md#methods)
+[[Back to README]](../../README.md)
+
+## `listEmailDomains()`
+
+```php
+listEmailDomains($limit, $cursor): \DocSpring\Model\EmailDomainList
+```
+
+List email domains
+
+Returns the domains in your account that email actions can send from once they're verified, newest first, one page at a time.
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+// Configure HTTP basic authorization: api_token_basic
+$config = DocSpring\Configuration::getDefaultConfiguration()
+              ->setUsername('YOUR_USERNAME')
+              ->setPassword('YOUR_PASSWORD');
+
+
+$apiInstance = new DocSpring\Api\Client(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$limit = 50; // int | How many items to return (1-100, default 50).
+$cursor = 'cursor_example'; // string | The previous page's `next_cursor`, to get the next page. It's the ID of that page's last item, so get the next page before you delete or change the items on this one.
+
+try {
+    $result = $apiInstance->listEmailDomains($limit, $cursor);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling Client->listEmailDomains: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **limit** | **int**| How many items to return (1-100, default 50). | [optional] [default to 50] |
+| **cursor** | **string**| The previous page's `next_cursor`, to get the next page. It's the ID of that page's last item, so get the next page before you delete or change the items on this one. | [optional] |
+
+### Return type
+
+[**\DocSpring\Model\EmailDomainList**](../Model/EmailDomainList.md)
 
 ### Authorization
 
@@ -2527,7 +3416,7 @@ $apiInstance = new DocSpring\Api\Client(
     $config
 );
 $template_id = tpl_1234567890abcdef01; // string | The template's ID.
-$version = latest; // string | A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `draft`.
+$version = latest; // string | A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` (the newest published version, or the draft when none has been published) or `draft`. Default `draft`.
 
 try {
     $result = $apiInstance->listTemplateFields($template_id, $version);
@@ -2542,7 +3431,7 @@ try {
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
 | **template_id** | **string**| The template's ID. | |
-| **version** | **string**| A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `draft`. | [optional] |
+| **version** | **string**| A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` (the newest published version, or the draft when none has been published) or `draft`. Default `draft`. | [optional] |
 
 ### Return type
 
@@ -2668,7 +3557,7 @@ $apiInstance = new DocSpring\Api\Client(
     new GuzzleHttp\Client(),
     $config
 );
-$query = rental; // string | Only list templates whose name contains this text (ignoring case).
+$query = rental; // string | Only list templates whose name contains this text (ignoring case). `%` and `_` match themselves.
 $parent_folder_id = fld_1234567890abcdef01; // string | Only list the templates in this folder (not in its subfolders).
 $limit = 1; // int | How many items to return (1-100, default 50).
 $cursor = 'cursor_example'; // string | The previous page's `next_cursor`, to get the next page. It's the ID of that page's last item, so get the next page before you delete or change the items on this one.
@@ -2685,7 +3574,7 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **query** | **string**| Only list templates whose name contains this text (ignoring case). | [optional] |
+| **query** | **string**| Only list templates whose name contains this text (ignoring case). `%` and `_` match themselves. | [optional] |
 | **parent_folder_id** | **string**| Only list the templates in this folder (not in its subfolders). | [optional] |
 | **limit** | **int**| How many items to return (1-100, default 50). | [optional] [default to 50] |
 | **cursor** | **string**| The previous page's `next_cursor`, to get the next page. It's the ID of that page's last item, so get the next page before you delete or change the items on this one. | [optional] |
@@ -2784,7 +3673,7 @@ try {
 ## `moveFolder()`
 
 ```php
-moveFolder($folder_id, $body): \DocSpring\Model\Folder
+moveFolder($folder_id, $body, $idempotency_key): \DocSpring\Model\Folder
 ```
 
 Move a folder
@@ -2812,9 +3701,10 @@ $apiInstance = new DocSpring\Api\Client(
 );
 $folder_id = 'folder_id_example'; // string | The folder's ID.
 $body = {"parent_folder_id":"fld_1234567890abcdef02"}; // \DocSpring\Model\MoveFolderRequest | Where to move the folder.
+$idempotency_key = 'idempotency_key_example'; // string | A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
 
 try {
-    $result = $apiInstance->moveFolder($folder_id, $body);
+    $result = $apiInstance->moveFolder($folder_id, $body, $idempotency_key);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling Client->moveFolder: ', $e->getMessage(), PHP_EOL;
@@ -2827,6 +3717,7 @@ try {
 | ------------- | ------------- | ------------- | ------------- |
 | **folder_id** | **string**| The folder's ID. | |
 | **body** | [**\DocSpring\Model\MoveFolderRequest**](../Model/MoveFolderRequest.md)| Where to move the folder. | |
+| **idempotency_key** | **string**| A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. | [optional] |
 
 ### Return type
 
@@ -2848,7 +3739,7 @@ try {
 ## `moveTemplate()`
 
 ```php
-moveTemplate($template_id, $body): \DocSpring\Model\Template
+moveTemplate($template_id, $body, $idempotency_key): \DocSpring\Model\Template
 ```
 
 Move a template to a folder
@@ -2876,9 +3767,10 @@ $apiInstance = new DocSpring\Api\Client(
 );
 $template_id = tpl_1234567890abcdef01; // string | The template's ID.
 $body = {"parent_folder_id":null}; // \DocSpring\Model\MoveTemplateRequest | Where to move the template.
+$idempotency_key = 'idempotency_key_example'; // string | A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
 
 try {
-    $result = $apiInstance->moveTemplate($template_id, $body);
+    $result = $apiInstance->moveTemplate($template_id, $body, $idempotency_key);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling Client->moveTemplate: ', $e->getMessage(), PHP_EOL;
@@ -2891,6 +3783,7 @@ try {
 | ------------- | ------------- | ------------- | ------------- |
 | **template_id** | **string**| The template's ID. | |
 | **body** | [**\DocSpring\Model\MoveTemplateRequest**](../Model/MoveTemplateRequest.md)| Where to move the template. | |
+| **idempotency_key** | **string**| A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. | [optional] |
 
 ### Return type
 
@@ -2912,7 +3805,7 @@ try {
 ## `publishTemplateVersion()`
 
 ```php
-publishTemplateVersion($template_id, $body): \DocSpring\Model\TemplateVersion
+publishTemplateVersion($template_id, $body, $idempotency_key): \DocSpring\Model\TemplateVersion
 ```
 
 Publish a template version
@@ -2940,9 +3833,10 @@ $apiInstance = new DocSpring\Api\Client(
 );
 $template_id = tpl_1234567890abcdef01; // string | The template's ID.
 $body = {"version_type":"minor","description":"Added the signature fields"}; // \DocSpring\Model\PublishTemplateVersionRequest | The version to publish.
+$idempotency_key = 'idempotency_key_example'; // string | A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
 
 try {
-    $result = $apiInstance->publishTemplateVersion($template_id, $body);
+    $result = $apiInstance->publishTemplateVersion($template_id, $body, $idempotency_key);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling Client->publishTemplateVersion: ', $e->getMessage(), PHP_EOL;
@@ -2955,6 +3849,7 @@ try {
 | ------------- | ------------- | ------------- | ------------- |
 | **template_id** | **string**| The template's ID. | |
 | **body** | [**\DocSpring\Model\PublishTemplateVersionRequest**](../Model/PublishTemplateVersionRequest.md)| The version to publish. | |
+| **idempotency_key** | **string**| A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. | [optional] |
 
 ### Return type
 
@@ -2976,7 +3871,7 @@ try {
 ## `removeTemplateFields()`
 
 ```php
-removeTemplateFields($template_id, $body): \DocSpring\Model\TemplateFields
+removeTemplateFields($template_id, $body, $idempotency_key): \DocSpring\Model\TemplateFields
 ```
 
 Remove fields from a template
@@ -3004,9 +3899,10 @@ $apiInstance = new DocSpring\Api\Client(
 );
 $template_id = tpl_1234567890abcdef01; // string | The template's ID.
 $body = {"field_ids":[3]}; // \DocSpring\Model\RemoveTemplateFieldsRequest | The fields to remove from the template's draft.
+$idempotency_key = 'idempotency_key_example'; // string | A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
 
 try {
-    $result = $apiInstance->removeTemplateFields($template_id, $body);
+    $result = $apiInstance->removeTemplateFields($template_id, $body, $idempotency_key);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling Client->removeTemplateFields: ', $e->getMessage(), PHP_EOL;
@@ -3019,6 +3915,7 @@ try {
 | ------------- | ------------- | ------------- | ------------- |
 | **template_id** | **string**| The template's ID. | |
 | **body** | [**\DocSpring\Model\RemoveTemplateFieldsRequest**](../Model/RemoveTemplateFieldsRequest.md)| The fields to remove from the template's draft. | |
+| **idempotency_key** | **string**| A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. | [optional] |
 
 ### Return type
 
@@ -3040,7 +3937,7 @@ try {
 ## `renameFolder()`
 
 ```php
-renameFolder($folder_id, $body): \DocSpring\Model\Folder
+renameFolder($folder_id, $body, $idempotency_key): \DocSpring\Model\Folder
 ```
 
 Rename a folder
@@ -3068,9 +3965,10 @@ $apiInstance = new DocSpring\Api\Client(
 );
 $folder_id = 'folder_id_example'; // string | The folder's ID.
 $body = {"name":"Folder 3"}; // \DocSpring\Model\RenameFolderRequest | The folder's new name.
+$idempotency_key = 'idempotency_key_example'; // string | A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
 
 try {
-    $result = $apiInstance->renameFolder($folder_id, $body);
+    $result = $apiInstance->renameFolder($folder_id, $body, $idempotency_key);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling Client->renameFolder: ', $e->getMessage(), PHP_EOL;
@@ -3083,6 +3981,7 @@ try {
 | ------------- | ------------- | ------------- | ------------- |
 | **folder_id** | **string**| The folder's ID. | |
 | **body** | [**\DocSpring\Model\RenameFolderRequest**](../Model/RenameFolderRequest.md)| The folder's new name. | |
+| **idempotency_key** | **string**| A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. | [optional] |
 
 ### Return type
 
@@ -3104,7 +4003,7 @@ try {
 ## `reorderTemplateFields()`
 
 ```php
-reorderTemplateFields($template_id, $body): \DocSpring\Model\TemplateFields
+reorderTemplateFields($template_id, $body, $idempotency_key): \DocSpring\Model\TemplateFields
 ```
 
 Reorder a template's fields
@@ -3132,9 +4031,10 @@ $apiInstance = new DocSpring\Api\Client(
 );
 $template_id = tpl_1234567890abcdef01; // string | The template's ID.
 $body = {"field_ids":[3,1,2]}; // \DocSpring\Model\ReorderTemplateFieldsRequest | The new order of the fields in the template's draft.
+$idempotency_key = 'idempotency_key_example'; // string | A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
 
 try {
-    $result = $apiInstance->reorderTemplateFields($template_id, $body);
+    $result = $apiInstance->reorderTemplateFields($template_id, $body, $idempotency_key);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling Client->reorderTemplateFields: ', $e->getMessage(), PHP_EOL;
@@ -3147,6 +4047,7 @@ try {
 | ------------- | ------------- | ------------- | ------------- |
 | **template_id** | **string**| The template's ID. | |
 | **body** | [**\DocSpring\Model\ReorderTemplateFieldsRequest**](../Model/ReorderTemplateFieldsRequest.md)| The new order of the fields in the template's draft. | |
+| **idempotency_key** | **string**| A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. | [optional] |
 
 ### Return type
 
@@ -3168,7 +4069,7 @@ try {
 ## `restoreTemplateVersion()`
 
 ```php
-restoreTemplateVersion($template_id, $body): \DocSpring\Model\Template
+restoreTemplateVersion($template_id, $body, $idempotency_key): \DocSpring\Model\Template
 ```
 
 Restore a template version
@@ -3196,9 +4097,10 @@ $apiInstance = new DocSpring\Api\Client(
 );
 $template_id = tpl_1234567890abcdef01; // string | The template's ID.
 $body = {"version":"0.1.0"}; // \DocSpring\Model\RestoreTemplateVersionRequest | The version to restore.
+$idempotency_key = 'idempotency_key_example'; // string | A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
 
 try {
-    $result = $apiInstance->restoreTemplateVersion($template_id, $body);
+    $result = $apiInstance->restoreTemplateVersion($template_id, $body, $idempotency_key);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling Client->restoreTemplateVersion: ', $e->getMessage(), PHP_EOL;
@@ -3211,6 +4113,7 @@ try {
 | ------------- | ------------- | ------------- | ------------- |
 | **template_id** | **string**| The template's ID. | |
 | **body** | [**\DocSpring\Model\RestoreTemplateVersionRequest**](../Model/RestoreTemplateVersionRequest.md)| The version to restore. | |
+| **idempotency_key** | **string**| A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. | [optional] |
 
 ### Return type
 
@@ -3223,6 +4126,138 @@ try {
 ### HTTP request headers
 
 - **Content-Type**: `application/json`
+- **Accept**: `application/json`
+
+[[Back to top]](#) [[Back to API list]](../../README.md#methods)
+[[Back to Model list]](../../README.md#methods)
+[[Back to README]](../../README.md)
+
+## `sendAccountEmailActionTestEmail()`
+
+```php
+sendAccountEmailActionTestEmail($email_action_id, $body, $idempotency_key): \DocSpring\Model\EmailActionTestEmail
+```
+
+Send a test email for an account email action
+
+Sends the account email action's email to the API token's user only, as it would go for one template it sends for, with each field shown as its name in brackets, so you can check how it looks. When the email action attaches its files and that template is a PDF template, the test attaches the template's blank PDF. It isn't recorded on any submission.
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+// Configure HTTP basic authorization: api_token_basic
+$config = DocSpring\Configuration::getDefaultConfiguration()
+              ->setUsername('YOUR_USERNAME')
+              ->setPassword('YOUR_PASSWORD');
+
+
+$apiInstance = new DocSpring\Api\Client(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$email_action_id = 'email_action_id_example'; // string | The account email action's ID.
+$body = {"template_id":"tpl_1234567890abcdef01"}; // \DocSpring\Model\SendAccountEmailActionTestEmailRequest | Which template the test email is for.
+$idempotency_key = 'idempotency_key_example'; // string | A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
+
+try {
+    $result = $apiInstance->sendAccountEmailActionTestEmail($email_action_id, $body, $idempotency_key);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling Client->sendAccountEmailActionTestEmail: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **email_action_id** | **string**| The account email action's ID. | |
+| **body** | [**\DocSpring\Model\SendAccountEmailActionTestEmailRequest**](../Model/SendAccountEmailActionTestEmailRequest.md)| Which template the test email is for. | [optional] |
+| **idempotency_key** | **string**| A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. | [optional] |
+
+### Return type
+
+[**\DocSpring\Model\EmailActionTestEmail**](../Model/EmailActionTestEmail.md)
+
+### Authorization
+
+[api_token_basic](../../README.md#install-and-configure)
+
+### HTTP request headers
+
+- **Content-Type**: `application/json`
+- **Accept**: `application/json`
+
+[[Back to top]](#) [[Back to API list]](../../README.md#methods)
+[[Back to Model list]](../../README.md#methods)
+[[Back to README]](../../README.md)
+
+## `sendEmailActionTestEmail()`
+
+```php
+sendEmailActionTestEmail($template_id, $email_action_id, $idempotency_key): \DocSpring\Model\EmailActionTestEmail
+```
+
+Send a test email
+
+Sends the email action's email to the API token's user only, with each field and metadata value shown as its name in brackets, so you can check how it looks. When the email action attaches its files and the template is a PDF template, the test attaches the template's blank PDF. It isn't recorded on any submission. Without a paid plan, the user needs a confirmed email address.
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+// Configure HTTP basic authorization: api_token_basic
+$config = DocSpring\Configuration::getDefaultConfiguration()
+              ->setUsername('YOUR_USERNAME')
+              ->setPassword('YOUR_PASSWORD');
+
+
+$apiInstance = new DocSpring\Api\Client(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$template_id = 'template_id_example'; // string | The template's ID.
+$email_action_id = 'email_action_id_example'; // string | The email action's ID.
+$idempotency_key = 'idempotency_key_example'; // string | A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
+
+try {
+    $result = $apiInstance->sendEmailActionTestEmail($template_id, $email_action_id, $idempotency_key);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling Client->sendEmailActionTestEmail: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **template_id** | **string**| The template's ID. | |
+| **email_action_id** | **string**| The email action's ID. | |
+| **idempotency_key** | **string**| A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. | [optional] |
+
+### Return type
+
+[**\DocSpring\Model\EmailActionTestEmail**](../Model/EmailActionTestEmail.md)
+
+### Authorization
+
+[api_token_basic](../../README.md#install-and-configure)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
 - **Accept**: `application/json`
 
 [[Back to top]](#) [[Back to API list]](../../README.md#methods)
@@ -3288,10 +4323,212 @@ This endpoint does not need any parameter.
 [[Back to Model list]](../../README.md#methods)
 [[Back to README]](../../README.md)
 
+## `updateAccountEmailAction()`
+
+```php
+updateAccountEmailAction($email_action_id, $body, $idempotency_key): \DocSpring\Model\EmailAction
+```
+
+Update an account email action
+
+Changes one of your account's email actions. Properties left out keep their values. Its templates' customizations keep their own changes, and follow the rest. Set `enabled` to false to stop its emails for every template.
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+// Configure HTTP basic authorization: api_token_basic
+$config = DocSpring\Configuration::getDefaultConfiguration()
+              ->setUsername('YOUR_USERNAME')
+              ->setPassword('YOUR_PASSWORD');
+
+
+$apiInstance = new DocSpring\Api\Client(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$email_action_id = 'email_action_id_example'; // string | The account email action's ID.
+$body = {"template_ids":["tpl_1234567890abcdef01"],"delivery":"link"}; // \DocSpring\Model\UpdateAccountEmailActionRequest | The settings to change. Properties left out keep their values.
+$idempotency_key = 'idempotency_key_example'; // string | A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
+
+try {
+    $result = $apiInstance->updateAccountEmailAction($email_action_id, $body, $idempotency_key);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling Client->updateAccountEmailAction: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **email_action_id** | **string**| The account email action's ID. | |
+| **body** | [**\DocSpring\Model\UpdateAccountEmailActionRequest**](../Model/UpdateAccountEmailActionRequest.md)| The settings to change. Properties left out keep their values. | |
+| **idempotency_key** | **string**| A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. | [optional] |
+
+### Return type
+
+[**\DocSpring\Model\EmailAction**](../Model/EmailAction.md)
+
+### Authorization
+
+[api_token_basic](../../README.md#install-and-configure)
+
+### HTTP request headers
+
+- **Content-Type**: `application/json`
+- **Accept**: `application/json`
+
+[[Back to top]](#) [[Back to API list]](../../README.md#methods)
+[[Back to Model list]](../../README.md#methods)
+[[Back to README]](../../README.md)
+
+## `updateEmailAction()`
+
+```php
+updateEmailAction($template_id, $email_action_id, $body, $idempotency_key): \DocSpring\Model\EmailAction
+```
+
+Update an email action
+
+Changes an email action's settings. Properties left out keep their values. Set `enabled` to false to stop its emails, or to true to turn it back on after DocSpring turned it off.
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+// Configure HTTP basic authorization: api_token_basic
+$config = DocSpring\Configuration::getDefaultConfiguration()
+              ->setUsername('YOUR_USERNAME')
+              ->setPassword('YOUR_PASSWORD');
+
+
+$apiInstance = new DocSpring\Api\Client(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$template_id = 'template_id_example'; // string | The template's ID.
+$email_action_id = 'email_action_id_example'; // string | The email action's ID.
+$body = {"cc":["manager@example.com"],"delivery":"link"}; // \DocSpring\Model\UpdateEmailActionRequest | The settings to change. Properties left out keep their values.
+$idempotency_key = 'idempotency_key_example'; // string | A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
+
+try {
+    $result = $apiInstance->updateEmailAction($template_id, $email_action_id, $body, $idempotency_key);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling Client->updateEmailAction: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **template_id** | **string**| The template's ID. | |
+| **email_action_id** | **string**| The email action's ID. | |
+| **body** | [**\DocSpring\Model\UpdateEmailActionRequest**](../Model/UpdateEmailActionRequest.md)| The settings to change. Properties left out keep their values. | |
+| **idempotency_key** | **string**| A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. | [optional] |
+
+### Return type
+
+[**\DocSpring\Model\EmailAction**](../Model/EmailAction.md)
+
+### Authorization
+
+[api_token_basic](../../README.md#install-and-configure)
+
+### HTTP request headers
+
+- **Content-Type**: `application/json`
+- **Accept**: `application/json`
+
+[[Back to top]](#) [[Back to API list]](../../README.md#methods)
+[[Back to Model list]](../../README.md#methods)
+[[Back to README]](../../README.md)
+
+## `updateEmailActionCustomization()`
+
+```php
+updateEmailActionCustomization($template_id, $email_action_id, $body, $idempotency_key): \DocSpring\Model\EmailAction
+```
+
+Customize an account email action for a template
+
+Changes one of your account's email actions for this template only, replacing any changes the template had. Each setting you send is changed for this template, and the ones you leave out follow the account email action, including later changes to it. Set `enabled` to false to stop it sending for this template.
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+// Configure HTTP basic authorization: api_token_basic
+$config = DocSpring\Configuration::getDefaultConfiguration()
+              ->setUsername('YOUR_USERNAME')
+              ->setPassword('YOUR_PASSWORD');
+
+
+$apiInstance = new DocSpring\Api\Client(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$template_id = 'template_id_example'; // string | The template's ID.
+$email_action_id = 'email_action_id_example'; // string | The ID of one of your account's email actions that sends for the template.
+$body = {"subject":"Your signed {{ template.name }}","cc":["leasing@example.com"]}; // \DocSpring\Model\UpdateEmailActionCustomizationRequest | The template's changes to the account email action, replacing any it had. Each setting you send is changed for this template, and the ones you leave out follow the account email action. `enabled: false` stops it sending for this template; left out, it sends.
+$idempotency_key = 'idempotency_key_example'; // string | A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
+
+try {
+    $result = $apiInstance->updateEmailActionCustomization($template_id, $email_action_id, $body, $idempotency_key);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling Client->updateEmailActionCustomization: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **template_id** | **string**| The template's ID. | |
+| **email_action_id** | **string**| The ID of one of your account's email actions that sends for the template. | |
+| **body** | [**\DocSpring\Model\UpdateEmailActionCustomizationRequest**](../Model/UpdateEmailActionCustomizationRequest.md)| The template's changes to the account email action, replacing any it had. Each setting you send is changed for this template, and the ones you leave out follow the account email action. `enabled: false` stops it sending for this template; left out, it sends. | |
+| **idempotency_key** | **string**| A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. | [optional] |
+
+### Return type
+
+[**\DocSpring\Model\EmailAction**](../Model/EmailAction.md)
+
+### Authorization
+
+[api_token_basic](../../README.md#install-and-configure)
+
+### HTTP request headers
+
+- **Content-Type**: `application/json`
+- **Accept**: `application/json`
+
+[[Back to top]](#) [[Back to API list]](../../README.md#methods)
+[[Back to Model list]](../../README.md#methods)
+[[Back to README]](../../README.md)
+
 ## `updateSignatureRequest()`
 
 ```php
-updateSignatureRequest($signature_request_id, $body): \DocSpring\Model\SignatureRequest
+updateSignatureRequest($signature_request_id, $body, $idempotency_key): \DocSpring\Model\SignatureRequest
 ```
 
 Update a signature request
@@ -3319,9 +4556,10 @@ $apiInstance = new DocSpring\Api\Client(
 );
 $signature_request_id = srq_1234567890abcdef01; // string | The signature request's ID.
 $body = {"metadata":{"user_id":43},"auth_type":"oauth","auth_provider":"google","auth_session_started_at":"2018-10-20T08:00:00Z","auth_user_id_hash":"8ae0e445664ca53407906db8638d8ba07a2383f656383a4427bed1ab645ca29a"}; // \DocSpring\Model\UpdateSignatureRequestRequest | The settings to change. Properties left out keep their values.
+$idempotency_key = 'idempotency_key_example'; // string | A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
 
 try {
-    $result = $apiInstance->updateSignatureRequest($signature_request_id, $body);
+    $result = $apiInstance->updateSignatureRequest($signature_request_id, $body, $idempotency_key);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling Client->updateSignatureRequest: ', $e->getMessage(), PHP_EOL;
@@ -3334,6 +4572,7 @@ try {
 | ------------- | ------------- | ------------- | ------------- |
 | **signature_request_id** | **string**| The signature request's ID. | |
 | **body** | [**\DocSpring\Model\UpdateSignatureRequestRequest**](../Model/UpdateSignatureRequestRequest.md)| The settings to change. Properties left out keep their values. | |
+| **idempotency_key** | **string**| A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. | [optional] |
 
 ### Return type
 
@@ -3355,12 +4594,12 @@ try {
 ## `updateTemplate()`
 
 ```php
-updateTemplate($template_id, $body): \DocSpring\Model\Template
+updateTemplate($template_id, $body, $idempotency_key): \DocSpring\Model\Template
 ```
 
 Update a template
 
-Changes a template's draft. Properties left out keep their values. `defaults` and `html_engine_options` replace the whole object, and `field_groups` changes only the groups it lists. Settings such as `webhook_url`, `public_submissions` and `expire_after` apply to every published version too, and setting `parent_folder_id` moves the template and all of its published versions.
+Changes a template's draft. Properties left out keep their values. `defaults`, `html_engine_options` and a page design's `layout` replace the whole object, and `field_groups` changes only the groups it lists. A new layout adds a field for each new value it reads. Settings such as `webhook_url`, `public_submissions` and `expire_after` apply to every published version too, and setting `parent_folder_id` moves the template and all of its published versions.
 
 ### Example
 
@@ -3383,9 +4622,10 @@ $apiInstance = new DocSpring\Api\Client(
 );
 $template_id = tpl_1234567890abcdef01; // string | The template's ID.
 $body = {"name":"Rental Contract 2025","parent_folder_id":null,"slack_webhook_url":"https://hooks.slack.com/services/T000/B000/XXXX","encrypt_pdfs_password":null,"default_form_mode":"dual","ai_field_naming_language":"form_language","defaults":{"typeface":"Helvetica","font_size":10,"bold":true}}; // \DocSpring\Model\UpdateTemplateRequest | The settings to change. Properties left out keep their values.
+$idempotency_key = 'idempotency_key_example'; // string | A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
 
 try {
-    $result = $apiInstance->updateTemplate($template_id, $body);
+    $result = $apiInstance->updateTemplate($template_id, $body, $idempotency_key);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling Client->updateTemplate: ', $e->getMessage(), PHP_EOL;
@@ -3398,6 +4638,7 @@ try {
 | ------------- | ------------- | ------------- | ------------- |
 | **template_id** | **string**| The template's ID. | |
 | **body** | [**\DocSpring\Model\UpdateTemplateRequest**](../Model/UpdateTemplateRequest.md)| The settings to change. Properties left out keep their values. | |
+| **idempotency_key** | **string**| A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. | [optional] |
 
 ### Return type
 
@@ -3419,7 +4660,7 @@ try {
 ## `updateTemplateDocument()`
 
 ```php
-updateTemplateDocument($template_id, $body, $wait): \DocSpring\Model\Template
+updateTemplateDocument($template_id, $body, $wait, $idempotency_key): \DocSpring\Model\Template
 ```
 
 Replace a template's document
@@ -3448,9 +4689,10 @@ $apiInstance = new DocSpring\Api\Client(
 $template_id = tpl_1234567890abcdef01; // string | The template's ID.
 $body = {"cache_id":"cache/original-0000000000","filename":"fw8ben.pdf","reimport_fields":true}; // \DocSpring\Model\UpdateTemplateDocumentRequest | The new PDF, or a Word template's new Word document, as one of `cache_id`, `document_url` and `document_base64`.
 $wait = True; // bool | Wait until the PDF has been processed, a `document_url`'s PDF or Word document downloaded, and an OpenDocument file converted, before responding. Default true on sync.api hosts.
+$idempotency_key = 'idempotency_key_example'; // string | A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
 
 try {
-    $result = $apiInstance->updateTemplateDocument($template_id, $body, $wait);
+    $result = $apiInstance->updateTemplateDocument($template_id, $body, $wait, $idempotency_key);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling Client->updateTemplateDocument: ', $e->getMessage(), PHP_EOL;
@@ -3464,6 +4706,7 @@ try {
 | **template_id** | **string**| The template's ID. | |
 | **body** | [**\DocSpring\Model\UpdateTemplateDocumentRequest**](../Model/UpdateTemplateDocumentRequest.md)| The new PDF, or a Word template's new Word document, as one of `cache_id`, `document_url` and `document_base64`. | |
 | **wait** | **bool**| Wait until the PDF has been processed, a `document_url`'s PDF or Word document downloaded, and an OpenDocument file converted, before responding. Default true on sync.api hosts. | [optional] |
+| **idempotency_key** | **string**| A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. | [optional] |
 
 ### Return type
 
@@ -3485,7 +4728,7 @@ try {
 ## `updateTemplateFields()`
 
 ```php
-updateTemplateFields($template_id, $body): \DocSpring\Model\TemplateFields
+updateTemplateFields($template_id, $body, $idempotency_key): \DocSpring\Model\TemplateFields
 ```
 
 Update a template's fields
@@ -3513,9 +4756,10 @@ $apiInstance = new DocSpring\Api\Client(
 );
 $template_id = tpl_1234567890abcdef01; // string | The template's ID.
 $body = {"fields":[{"id":0,"x":5}]}; // \DocSpring\Model\UpdateTemplateFieldsRequest | The fields to change in the template's draft.
+$idempotency_key = 'idempotency_key_example'; // string | A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
 
 try {
-    $result = $apiInstance->updateTemplateFields($template_id, $body);
+    $result = $apiInstance->updateTemplateFields($template_id, $body, $idempotency_key);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling Client->updateTemplateFields: ', $e->getMessage(), PHP_EOL;
@@ -3528,6 +4772,7 @@ try {
 | ------------- | ------------- | ------------- | ------------- |
 | **template_id** | **string**| The template's ID. | |
 | **body** | [**\DocSpring\Model\UpdateTemplateFieldsRequest**](../Model/UpdateTemplateFieldsRequest.md)| The fields to change in the template's draft. | |
+| **idempotency_key** | **string**| A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. | [optional] |
 
 ### Return type
 
@@ -3549,7 +4794,7 @@ try {
 ## `updateWebhook()`
 
 ```php
-updateWebhook($webhook_id, $body): \DocSpring\Model\Webhook
+updateWebhook($webhook_id, $body, $idempotency_key): \DocSpring\Model\Webhook
 ```
 
 Update a webhook
@@ -3577,9 +4822,10 @@ $apiInstance = new DocSpring\Api\Client(
 );
 $webhook_id = 'webhook_id_example'; // string | The webhook's ID.
 $body = {"name":"Updated Webhook","enabled":false}; // \DocSpring\Model\UpdateWebhookRequest | The settings to change. Properties left out keep their values.
+$idempotency_key = 'idempotency_key_example'; // string | A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
 
 try {
-    $result = $apiInstance->updateWebhook($webhook_id, $body);
+    $result = $apiInstance->updateWebhook($webhook_id, $body, $idempotency_key);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling Client->updateWebhook: ', $e->getMessage(), PHP_EOL;
@@ -3592,6 +4838,7 @@ try {
 | ------------- | ------------- | ------------- | ------------- |
 | **webhook_id** | **string**| The webhook's ID. | |
 | **body** | [**\DocSpring\Model\UpdateWebhookRequest**](../Model/UpdateWebhookRequest.md)| The settings to change. Properties left out keep their values. | |
+| **idempotency_key** | **string**| A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. | [optional] |
 
 ### Return type
 
@@ -3613,7 +4860,7 @@ try {
 ## `uploadTemplate()`
 
 ```php
-uploadTemplate($document, $wait, $name, $description, $parent_folder_id, $ai_field_naming_language, $detect_fields, $field_source, $field_naming, $field_logic, $output_format): \DocSpring\Model\Template
+uploadTemplate($document, $wait, $name, $description, $parent_folder_id, $ai_field_naming_language, $detect_fields, $field_source, $field_naming, $field_logic, $output_format, $idempotency_key): \DocSpring\Model\Template
 ```
 
 Create a template from an uploaded PDF or Word document
@@ -3650,9 +4897,10 @@ $field_source = new \DocSpring\Model\FieldSetupSource(); // \DocSpring\Model\Fie
 $field_naming = new \DocSpring\Model\FieldSetupNaming(); // \DocSpring\Model\FieldSetupNaming | With `detect_fields`, how the fields are named. `ai` (the default) names them and sets their types and settings with AI; `preserve` keeps the names of the PDF's form fields, and AI only names the fields it detected. `preserve` needs `field_source` `auto` or `pdf_form_fields`.
 $field_logic = new \DocSpring\Model\FieldSetupLogic(); // \DocSpring\Model\FieldSetupLogic | With `detect_fields`, whether AI reads the whole form once the fields are named and sets up conditional logic and required fields (`ai`) or not (`none`). Default: your account's template settings.
 $output_format = new \DocSpring\Model\OutputFormat(); // \DocSpring\Model\OutputFormat | What each submission of a Word template makes unless its request sets `output_formats`: `docx` (a Word document), `odt` (an OpenDocument file, converted from the Word document) or `pdf`. Required when `document` is a Word document.
+$idempotency_key = 'idempotency_key_example'; // string | A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
 
 try {
-    $result = $apiInstance->uploadTemplate($document, $wait, $name, $description, $parent_folder_id, $ai_field_naming_language, $detect_fields, $field_source, $field_naming, $field_logic, $output_format);
+    $result = $apiInstance->uploadTemplate($document, $wait, $name, $description, $parent_folder_id, $ai_field_naming_language, $detect_fields, $field_source, $field_naming, $field_logic, $output_format, $idempotency_key);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling Client->uploadTemplate: ', $e->getMessage(), PHP_EOL;
@@ -3674,6 +4922,7 @@ try {
 | **field_naming** | [**\DocSpring\Model\FieldSetupNaming**](../Model/FieldSetupNaming.md)| With `detect_fields`, how the fields are named. `ai` (the default) names them and sets their types and settings with AI; `preserve` keeps the names of the PDF's form fields, and AI only names the fields it detected. `preserve` needs `field_source` `auto` or `pdf_form_fields`. | [optional] |
 | **field_logic** | [**\DocSpring\Model\FieldSetupLogic**](../Model/FieldSetupLogic.md)| With `detect_fields`, whether AI reads the whole form once the fields are named and sets up conditional logic and required fields (`ai`) or not (`none`). Default: your account's template settings. | [optional] |
 | **output_format** | [**\DocSpring\Model\OutputFormat**](../Model/OutputFormat.md)| What each submission of a Word template makes unless its request sets `output_formats`: `docx` (a Word document), `odt` (an OpenDocument file, converted from the Word document) or `pdf`. Required when `document` is a Word document. | [optional] |
+| **idempotency_key** | **string**| A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. | [optional] |
 
 ### Return type
 
@@ -3695,7 +4944,7 @@ try {
 ## `uploadTemplateDocument()`
 
 ```php
-uploadTemplateDocument($template_id, $document, $wait, $reimport_fields): \DocSpring\Model\Template
+uploadTemplateDocument($template_id, $document, $wait, $reimport_fields, $idempotency_key): \DocSpring\Model\Template
 ```
 
 Replace a template's document with an uploaded file
@@ -3725,9 +4974,10 @@ $template_id = tpl_1234567890abcdef01; // string | The template's ID.
 $document = '/path/to/file.txt'; // \SplFileObject | The new PDF, or the new Word document (.docx or .odt) of a Word template.
 $wait = True; // bool | Wait until the PDF has been processed, a `document_url`'s PDF or Word document downloaded, and an OpenDocument file converted, before responding. Default true on sync.api hosts.
 $reimport_fields = True; // bool | Replace all of the template's fields with the fillable fields in the new PDF, once DocSpring has processed it (`document.field_reimport_state`). As on a first upload, the default typeface, font size, bold and color are taken from the PDF's fields; the template's other settings are kept. If the PDF has no fillable fields, the template keeps its fields. A locked template can't re-import its fields. Only for PDF templates: a Word template adds a field for each new tag.
+$idempotency_key = 'idempotency_key_example'; // string | A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
 
 try {
-    $result = $apiInstance->uploadTemplateDocument($template_id, $document, $wait, $reimport_fields);
+    $result = $apiInstance->uploadTemplateDocument($template_id, $document, $wait, $reimport_fields, $idempotency_key);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling Client->uploadTemplateDocument: ', $e->getMessage(), PHP_EOL;
@@ -3742,6 +4992,7 @@ try {
 | **document** | **\SplFileObject****\SplFileObject**| The new PDF, or the new Word document (.docx or .odt) of a Word template. | |
 | **wait** | **bool**| Wait until the PDF has been processed, a `document_url`'s PDF or Word document downloaded, and an OpenDocument file converted, before responding. Default true on sync.api hosts. | [optional] |
 | **reimport_fields** | **bool**| Replace all of the template's fields with the fillable fields in the new PDF, once DocSpring has processed it (`document.field_reimport_state`). As on a first upload, the default typeface, font size, bold and color are taken from the PDF's fields; the template's other settings are kept. If the PDF has no fillable fields, the template keeps its fields. A locked template can't re-import its fields. Only for PDF templates: a Word template adds a field for each new tag. | [optional] |
+| **idempotency_key** | **string**| A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. | [optional] |
 
 ### Return type
 
@@ -3763,7 +5014,7 @@ try {
 ## `validateSubmission()`
 
 ```php
-validateSubmission($template_id, $body, $version): \DocSpring\Model\SubmissionValidation
+validateSubmission($template_id, $body, $version, $idempotency_key): \DocSpring\Model\SubmissionValidation
 ```
 
 Check a submission without creating it
@@ -3791,10 +5042,11 @@ $apiInstance = new DocSpring\Api\Client(
 );
 $template_id = tpl_1234567890abcdef01; // string | The template's ID.
 $body = {"data":{"first_name":"John","last_name":"Smith","phone_number":"+11234567890"}}; // \DocSpring\Model\ValidateSubmissionRequest | The submission's data and settings.
-$version = latest; // string | The template version to use: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `latest` (the draft when no version has been published).
+$version = latest; // string | The template version to use: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` (the newest published version, or the draft when none has been published) or `draft`. Default `latest`.
+$idempotency_key = 'idempotency_key_example'; // string | A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
 
 try {
-    $result = $apiInstance->validateSubmission($template_id, $body, $version);
+    $result = $apiInstance->validateSubmission($template_id, $body, $version, $idempotency_key);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling Client->validateSubmission: ', $e->getMessage(), PHP_EOL;
@@ -3807,7 +5059,8 @@ try {
 | ------------- | ------------- | ------------- | ------------- |
 | **template_id** | **string**| The template's ID. | |
 | **body** | [**\DocSpring\Model\ValidateSubmissionRequest**](../Model/ValidateSubmissionRequest.md)| The submission's data and settings. | |
-| **version** | **string**| The template version to use: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `latest` (the draft when no version has been published). | [optional] |
+| **version** | **string**| The template version to use: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` (the newest published version, or the draft when none has been published) or `draft`. Default `latest`. | [optional] |
+| **idempotency_key** | **string**| A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. | [optional] |
 
 ### Return type
 
@@ -3820,6 +5073,70 @@ try {
 ### HTTP request headers
 
 - **Content-Type**: `application/json`
+- **Accept**: `application/json`
+
+[[Back to top]](#) [[Back to API list]](../../README.md#methods)
+[[Back to Model list]](../../README.md#methods)
+[[Back to README]](../../README.md)
+
+## `verifyEmailDomain()`
+
+```php
+verifyEmailDomain($email_domain_id, $idempotency_key): \DocSpring\Model\EmailDomain
+```
+
+Verify an email domain
+
+Checks the email domain's DNS records now, instead of waiting for the next check. If DocSpring has stopped looking for its DKIM records (3 days after they were created), it starts again with new ones: replace the CNAME records with them.
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+// Configure HTTP basic authorization: api_token_basic
+$config = DocSpring\Configuration::getDefaultConfiguration()
+              ->setUsername('YOUR_USERNAME')
+              ->setPassword('YOUR_PASSWORD');
+
+
+$apiInstance = new DocSpring\Api\Client(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$email_domain_id = 'email_domain_id_example'; // string | The email domain's ID.
+$idempotency_key = 'idempotency_key_example'; // string | A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
+
+try {
+    $result = $apiInstance->verifyEmailDomain($email_domain_id, $idempotency_key);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling Client->verifyEmailDomain: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **email_domain_id** | **string**| The email domain's ID. | |
+| **idempotency_key** | **string**| A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then. | [optional] |
+
+### Return type
+
+[**\DocSpring\Model\EmailDomain**](../Model/EmailDomain.md)
+
+### Authorization
+
+[api_token_basic](../../README.md#install-and-configure)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
 - **Accept**: `application/json`
 
 [[Back to top]](#) [[Back to API list]](../../README.md#methods)

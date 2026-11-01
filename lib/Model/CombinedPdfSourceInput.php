@@ -394,7 +394,7 @@ class CombinedPdfSourceInput implements ModelInterface, ArrayAccess, \JsonSerial
     /**
      * Sets template_version
      *
-     * @param string|null $template_version For a `template` source, the version to use: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `latest` (the draft when no version has been published).
+     * @param string|null $template_version For a `template` source, the version to use: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` (the newest published version, or the draft when none has been published) or `draft`. Default `latest`.
      *
      * @return self
      */
