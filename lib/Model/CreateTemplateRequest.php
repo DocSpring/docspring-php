@@ -91,6 +91,9 @@ class CreateTemplateRequest implements ModelInterface, ArrayAccess, \JsonSeriali
         'signature_request_notification_emails' => 'string[]',
         'signature_request_reply_to' => 'string',
         'signature_request_signing_url' => 'string',
+        'success_title' => 'string',
+        'success_message' => 'string',
+        'show_fill_again_button' => 'bool',
         'slack_webhook_url' => 'string',
         'defaults' => '\DocSpring\Model\TemplateDefaultsInput',
         'field_dependencies' => '\DocSpring\Model\TemplateFieldDependencyInput[]',
@@ -110,7 +113,8 @@ class CreateTemplateRequest implements ModelInterface, ArrayAccess, \JsonSeriali
         'detect_fields' => 'bool',
         'field_source' => '\DocSpring\Model\FieldSetupSource',
         'field_naming' => '\DocSpring\Model\FieldSetupNaming',
-        'field_logic' => '\DocSpring\Model\FieldSetupLogic'
+        'field_logic' => '\DocSpring\Model\FieldSetupLogic',
+        'include_office_use_fields' => 'bool'
     ];
 
     /**
@@ -154,6 +158,9 @@ class CreateTemplateRequest implements ModelInterface, ArrayAccess, \JsonSeriali
         'signature_request_notification_emails' => null,
         'signature_request_reply_to' => null,
         'signature_request_signing_url' => null,
+        'success_title' => null,
+        'success_message' => null,
+        'show_fill_again_button' => null,
         'slack_webhook_url' => null,
         'defaults' => null,
         'field_dependencies' => null,
@@ -173,7 +180,8 @@ class CreateTemplateRequest implements ModelInterface, ArrayAccess, \JsonSeriali
         'detect_fields' => null,
         'field_source' => null,
         'field_naming' => null,
-        'field_logic' => null
+        'field_logic' => null,
+        'include_office_use_fields' => null
     ];
 
     /**
@@ -215,6 +223,9 @@ class CreateTemplateRequest implements ModelInterface, ArrayAccess, \JsonSeriali
         'signature_request_notification_emails' => false,
         'signature_request_reply_to' => true,
         'signature_request_signing_url' => true,
+        'success_title' => true,
+        'success_message' => true,
+        'show_fill_again_button' => false,
         'slack_webhook_url' => true,
         'defaults' => false,
         'field_dependencies' => false,
@@ -234,7 +245,8 @@ class CreateTemplateRequest implements ModelInterface, ArrayAccess, \JsonSeriali
         'detect_fields' => false,
         'field_source' => false,
         'field_naming' => false,
-        'field_logic' => false
+        'field_logic' => false,
+        'include_office_use_fields' => false
     ];
 
     /**
@@ -356,6 +368,9 @@ class CreateTemplateRequest implements ModelInterface, ArrayAccess, \JsonSeriali
         'signature_request_notification_emails' => 'signature_request_notification_emails',
         'signature_request_reply_to' => 'signature_request_reply_to',
         'signature_request_signing_url' => 'signature_request_signing_url',
+        'success_title' => 'success_title',
+        'success_message' => 'success_message',
+        'show_fill_again_button' => 'show_fill_again_button',
         'slack_webhook_url' => 'slack_webhook_url',
         'defaults' => 'defaults',
         'field_dependencies' => 'field_dependencies',
@@ -375,7 +390,8 @@ class CreateTemplateRequest implements ModelInterface, ArrayAccess, \JsonSeriali
         'detect_fields' => 'detect_fields',
         'field_source' => 'field_source',
         'field_naming' => 'field_naming',
-        'field_logic' => 'field_logic'
+        'field_logic' => 'field_logic',
+        'include_office_use_fields' => 'include_office_use_fields'
     ];
 
     /**
@@ -417,6 +433,9 @@ class CreateTemplateRequest implements ModelInterface, ArrayAccess, \JsonSeriali
         'signature_request_notification_emails' => 'setSignatureRequestNotificationEmails',
         'signature_request_reply_to' => 'setSignatureRequestReplyTo',
         'signature_request_signing_url' => 'setSignatureRequestSigningUrl',
+        'success_title' => 'setSuccessTitle',
+        'success_message' => 'setSuccessMessage',
+        'show_fill_again_button' => 'setShowFillAgainButton',
         'slack_webhook_url' => 'setSlackWebhookUrl',
         'defaults' => 'setDefaults',
         'field_dependencies' => 'setFieldDependencies',
@@ -436,7 +455,8 @@ class CreateTemplateRequest implements ModelInterface, ArrayAccess, \JsonSeriali
         'detect_fields' => 'setDetectFields',
         'field_source' => 'setFieldSource',
         'field_naming' => 'setFieldNaming',
-        'field_logic' => 'setFieldLogic'
+        'field_logic' => 'setFieldLogic',
+        'include_office_use_fields' => 'setIncludeOfficeUseFields'
     ];
 
     /**
@@ -478,6 +498,9 @@ class CreateTemplateRequest implements ModelInterface, ArrayAccess, \JsonSeriali
         'signature_request_notification_emails' => 'getSignatureRequestNotificationEmails',
         'signature_request_reply_to' => 'getSignatureRequestReplyTo',
         'signature_request_signing_url' => 'getSignatureRequestSigningUrl',
+        'success_title' => 'getSuccessTitle',
+        'success_message' => 'getSuccessMessage',
+        'show_fill_again_button' => 'getShowFillAgainButton',
         'slack_webhook_url' => 'getSlackWebhookUrl',
         'defaults' => 'getDefaults',
         'field_dependencies' => 'getFieldDependencies',
@@ -497,7 +520,8 @@ class CreateTemplateRequest implements ModelInterface, ArrayAccess, \JsonSeriali
         'detect_fields' => 'getDetectFields',
         'field_source' => 'getFieldSource',
         'field_naming' => 'getFieldNaming',
-        'field_logic' => 'getFieldLogic'
+        'field_logic' => 'getFieldLogic',
+        'include_office_use_fields' => 'getIncludeOfficeUseFields'
     ];
 
     /**
@@ -590,6 +614,9 @@ class CreateTemplateRequest implements ModelInterface, ArrayAccess, \JsonSeriali
         $this->setIfExists('signature_request_notification_emails', $data ?? [], null);
         $this->setIfExists('signature_request_reply_to', $data ?? [], null);
         $this->setIfExists('signature_request_signing_url', $data ?? [], null);
+        $this->setIfExists('success_title', $data ?? [], null);
+        $this->setIfExists('success_message', $data ?? [], null);
+        $this->setIfExists('show_fill_again_button', $data ?? [], null);
         $this->setIfExists('slack_webhook_url', $data ?? [], null);
         $this->setIfExists('defaults', $data ?? [], null);
         $this->setIfExists('field_dependencies', $data ?? [], null);
@@ -610,6 +637,7 @@ class CreateTemplateRequest implements ModelInterface, ArrayAccess, \JsonSeriali
         $this->setIfExists('field_source', $data ?? [], null);
         $this->setIfExists('field_naming', $data ?? [], null);
         $this->setIfExists('field_logic', $data ?? [], null);
+        $this->setIfExists('include_office_use_fields', $data ?? [], null);
     }
 
     /**
@@ -1008,7 +1036,7 @@ class CreateTemplateRequest implements ModelInterface, ArrayAccess, \JsonSeriali
     /**
      * Sets embed_domains
      *
-     * @param string[]|null $embed_domains The sites that can embed the template's live signature requests and its embedded template editor: a host such as `app.example.com`, with an optional leading wildcard (`*.example.com`), port (`localhost:3000`) or scheme (`https://app.example.com`; without one, `http` and `https` both work), without a path. Browsers open a live signature request in a frame only on these sites (and DocSpring's), so with an empty list it can't be embedded anywhere; a test signature request can be embedded on any site. The embedded template editor loads only for a page on one of these sites (by its Referer or Origin header), and on any site when the list is empty. Forms embedded on a page (Visual Forms JS and the simple form) aren't restricted.
+     * @param string[]|null $embed_domains The sites that can embed the template's live signature requests and its embedded template editor: a host such as `app.example.com`, with an optional leading wildcard (`*.example.com`), port (`localhost:3000`) or scheme (`https://app.example.com`; without one, `http` and `https` both work), without a path. Each one is stored in lowercase, without a trailing slash. Browsers open a live signature request in a frame only on these sites (and DocSpring's), so with an empty list it can't be embedded anywhere; a test signature request can be embedded on any site. The embedded template editor loads only for a page on one of these sites (by its Referer or Origin header), and on any site when the list is empty. Forms embedded on a page (Visual Forms JS and Web Forms JS) aren't restricted.
      *
      * @return self
      */
@@ -1366,7 +1394,7 @@ class CreateTemplateRequest implements ModelInterface, ArrayAccess, \JsonSeriali
     /**
      * Sets redirect_url
      *
-     * @param string|null $redirect_url Where the web form sends people after they submit it.
+     * @param string|null $redirect_url Where the web form sends people after they submit it, instead of showing its success screen. After its `?` or `#`, it can have variables such as `{{ data.first_name }}`, which the form fills in with what they submitted.
      *
      * @return self
      */
@@ -1608,6 +1636,101 @@ class CreateTemplateRequest implements ModelInterface, ArrayAccess, \JsonSeriali
             }
         }
         $this->container['signature_request_signing_url'] = $signature_request_signing_url;
+
+        return $this;
+    }
+
+    /**
+     * Gets success_title
+     *
+     * @return string|null
+     */
+    public function getSuccessTitle()
+    {
+        return $this->container['success_title'];
+    }
+
+    /**
+     * Sets success_title
+     *
+     * @param string|null $success_title The title of the web form's success screen. When it's null or empty, the screen says "Thanks for filling out" and the template's name. It can have variables such as `{{ data.first_name }}`.
+     *
+     * @return self
+     */
+    public function setSuccessTitle($success_title)
+    {
+        if (is_null($success_title)) {
+            array_push($this->openAPINullablesSetToNull, 'success_title');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('success_title', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['success_title'] = $success_title;
+
+        return $this;
+    }
+
+    /**
+     * Gets success_message
+     *
+     * @return string|null
+     */
+    public function getSuccessMessage()
+    {
+        return $this->container['success_message'];
+    }
+
+    /**
+     * Sets success_message
+     *
+     * @param string|null $success_message A message under the title of the web form's success screen, as plain text. Line breaks show, and web addresses become links. It can have variables such as `{{ data.first_name }}`.
+     *
+     * @return self
+     */
+    public function setSuccessMessage($success_message)
+    {
+        if (is_null($success_message)) {
+            array_push($this->openAPINullablesSetToNull, 'success_message');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('success_message', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['success_message'] = $success_message;
+
+        return $this;
+    }
+
+    /**
+     * Gets show_fill_again_button
+     *
+     * @return bool|null
+     */
+    public function getShowFillAgainButton()
+    {
+        return $this->container['show_fill_again_button'];
+    }
+
+    /**
+     * Sets show_fill_again_button
+     *
+     * @param bool|null $show_fill_again_button Whether the web form's success screen has a "Fill out again" button, which clears the form so someone can fill it in again.
+     *
+     * @return self
+     */
+    public function setShowFillAgainButton($show_fill_again_button)
+    {
+        if (is_null($show_fill_again_button)) {
+            throw new \InvalidArgumentException('non-nullable show_fill_again_button cannot be null');
+        }
+        $this->container['show_fill_again_button'] = $show_fill_again_button;
 
         return $this;
     }
@@ -2204,6 +2327,33 @@ class CreateTemplateRequest implements ModelInterface, ArrayAccess, \JsonSeriali
             throw new \InvalidArgumentException('non-nullable field_logic cannot be null');
         }
         $this->container['field_logic'] = $field_logic;
+
+        return $this;
+    }
+
+    /**
+     * Gets include_office_use_fields
+     *
+     * @return bool|null
+     */
+    public function getIncludeOfficeUseFields()
+    {
+        return $this->container['include_office_use_fields'];
+    }
+
+    /**
+     * Sets include_office_use_fields
+     *
+     * @param bool|null $include_office_use_fields With `detect_fields`, whether AI field setup keeps the fields that only the office receiving the form fills in, such as a "For office use only" box (`true`), or leaves them out (`false`). Default: your account's template settings.
+     *
+     * @return self
+     */
+    public function setIncludeOfficeUseFields($include_office_use_fields)
+    {
+        if (is_null($include_office_use_fields)) {
+            throw new \InvalidArgumentException('non-nullable include_office_use_fields cannot be null');
+        }
+        $this->container['include_office_use_fields'] = $include_office_use_fields;
 
         return $this;
     }

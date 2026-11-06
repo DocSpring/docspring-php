@@ -417,7 +417,7 @@ class HtmlEngineOptions implements ModelInterface, ArrayAccess, \JsonSerializabl
     /**
      * Sets width
      *
-     * @param string|null $width The page width for the `Custom` format, with a unit (`8.5in`, `210mm`).
+     * @param string|null $width The page width for the `Custom` format, with a unit (`8.5in`, `210mm`), from 0.05in to 200in.
      *
      * @return self
      */
@@ -444,7 +444,7 @@ class HtmlEngineOptions implements ModelInterface, ArrayAccess, \JsonSerializabl
     /**
      * Sets height
      *
-     * @param string|null $height The page height for the `Custom` format, with a unit.
+     * @param string|null $height The page height for the `Custom` format, with a unit, from 0.05in to 200in.
      *
      * @return self
      */
@@ -552,7 +552,7 @@ class HtmlEngineOptions implements ModelInterface, ArrayAccess, \JsonSerializabl
     /**
      * Sets margin_top
      *
-     * @param string $margin_top The top margin, with a unit, such as `1in` or `20mm`.
+     * @param string $margin_top The top margin, with a unit, such as `1in` or `20mm`. The top and bottom margins together must be less than the page's height.
      *
      * @return self
      */
@@ -606,7 +606,7 @@ class HtmlEngineOptions implements ModelInterface, ArrayAccess, \JsonSerializabl
     /**
      * Sets margin_left
      *
-     * @param string $margin_left The left margin, with a unit.
+     * @param string $margin_left The left margin, with a unit. The left and right margins together must be less than the page's width.
      *
      * @return self
      */

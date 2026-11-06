@@ -68,7 +68,9 @@ class ErrorInfo implements ModelInterface, ArrayAccess, \JsonSerializable
         'template_id' => 'string',
         'folder_id' => 'string',
         'custom_file_id' => 'string',
-        'webhook_id' => 'string'
+        'webhook_id' => 'string',
+        'email_action_id' => 'string',
+        'email_domain_id' => 'string'
     ];
 
     /**
@@ -89,7 +91,9 @@ class ErrorInfo implements ModelInterface, ArrayAccess, \JsonSerializable
         'template_id' => null,
         'folder_id' => null,
         'custom_file_id' => null,
-        'webhook_id' => null
+        'webhook_id' => null,
+        'email_action_id' => null,
+        'email_domain_id' => null
     ];
 
     /**
@@ -108,7 +112,9 @@ class ErrorInfo implements ModelInterface, ArrayAccess, \JsonSerializable
         'template_id' => false,
         'folder_id' => false,
         'custom_file_id' => false,
-        'webhook_id' => false
+        'webhook_id' => false,
+        'email_action_id' => false,
+        'email_domain_id' => false
     ];
 
     /**
@@ -207,7 +213,9 @@ class ErrorInfo implements ModelInterface, ArrayAccess, \JsonSerializable
         'template_id' => 'template_id',
         'folder_id' => 'folder_id',
         'custom_file_id' => 'custom_file_id',
-        'webhook_id' => 'webhook_id'
+        'webhook_id' => 'webhook_id',
+        'email_action_id' => 'email_action_id',
+        'email_domain_id' => 'email_domain_id'
     ];
 
     /**
@@ -226,7 +234,9 @@ class ErrorInfo implements ModelInterface, ArrayAccess, \JsonSerializable
         'template_id' => 'setTemplateId',
         'folder_id' => 'setFolderId',
         'custom_file_id' => 'setCustomFileId',
-        'webhook_id' => 'setWebhookId'
+        'webhook_id' => 'setWebhookId',
+        'email_action_id' => 'setEmailActionId',
+        'email_domain_id' => 'setEmailDomainId'
     ];
 
     /**
@@ -245,7 +255,9 @@ class ErrorInfo implements ModelInterface, ArrayAccess, \JsonSerializable
         'template_id' => 'getTemplateId',
         'folder_id' => 'getFolderId',
         'custom_file_id' => 'getCustomFileId',
-        'webhook_id' => 'getWebhookId'
+        'webhook_id' => 'getWebhookId',
+        'email_action_id' => 'getEmailActionId',
+        'email_domain_id' => 'getEmailDomainId'
     ];
 
     /**
@@ -316,6 +328,8 @@ class ErrorInfo implements ModelInterface, ArrayAccess, \JsonSerializable
         $this->setIfExists('folder_id', $data ?? [], null);
         $this->setIfExists('custom_file_id', $data ?? [], null);
         $this->setIfExists('webhook_id', $data ?? [], null);
+        $this->setIfExists('email_action_id', $data ?? [], null);
+        $this->setIfExists('email_domain_id', $data ?? [], null);
     }
 
     /**
@@ -385,7 +399,7 @@ class ErrorInfo implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets code
      *
-     * @param \DocSpring\Model\ErrorCode $code A machine-readable error code. Clients should handle codes they don't know: new codes can be added. `invalid_data`: a submission's data doesn't match its template's fields. The submission is still recorded. `insufficient_credits` (402): your credit balance can't cover a live PDF. The record was saved and waits for credits in the `insufficient_credits` state: its ID is in `submission_id`, `submission_batch_id` or `combined_pdf_id`. `insufficient_credits_to_send` (402): your credit balance can't cover a live signature request that DocSpring would email, so nothing was saved. Add credits and send the request again. `upgrade_required` (403): your plan doesn't include this, such as more templates, another active integration (webhooks count), the embedded template editor, email actions, or live signature requests before your account's first payment. `account_suspended` (403): the account is suspended, so it can't create submissions. `polling_timeout`: on a sync.api host, the files weren't ready in time. The record was created and is still being processed: its ID is in `submission_id`, `submission_batch_id`, `combined_pdf_id` or `template_id`. Without one of these IDs, the request itself got no answer in time, and the record may or may not have been created. `idempotency_key_in_use` (409): the first request with the same Idempotency-Key is still being processed, and the response has a `Retry-After` header: send the request again then. Without the header, the first request was processed but its response is no longer kept. When the first request created a record, its ID is in `submission_id`, `submission_batch_id`, `combined_pdf_id`, `template_id`, `folder_id`, `custom_file_id` or `webhook_id`. `idempotency_key_reused` (422): the Idempotency-Key was already used for a different request. `rate_limited` (429): too many API requests. Wait for the `Retry-After` header's seconds. `daily_email_limit_reached` (429): a submission that DocSpring would email would take your account over its daily email limit, so nothing was saved. Send it again after the `Retry-After` header's seconds (midnight UTC), or send the signing links yourself (`send_email: false`).
+     * @param \DocSpring\Model\ErrorCode $code A machine-readable error code. Clients should handle codes they don't know: new codes can be added. `invalid_data`: a submission's data doesn't match its template's fields. The submission is still recorded. `insufficient_credits` (402): your credit balance can't cover a live PDF. The record was saved and waits for credits in the `insufficient_credits` state: its ID is in `submission_id`, `submission_batch_id` or `combined_pdf_id`. `insufficient_credits_to_send` (402): your credit balance can't cover a live signature request that DocSpring would email, so nothing was saved. Add credits and send the request again. `upgrade_required` (403): your plan doesn't include this, such as more templates, another active integration (webhooks count), the embedded template editor, email actions, or live signature requests before your account's first payment. `account_suspended` (403): the account is suspended, so it can't create submissions. `polling_timeout`: on a sync.api host, the files weren't ready in time. The record was created and is still being processed: its ID is in `submission_id`, `submission_batch_id`, `combined_pdf_id` or `template_id`. Without one of these IDs, the request itself got no answer in time, and the record may or may not have been created. `idempotency_key_in_use` (409): the first request with the same Idempotency-Key is still being processed, and the response has a `Retry-After` header: send the request again then. Without the header, the first request was processed but its response is no longer kept, or it failed after creating or changing a record, and the message says which. When the first request created a record, or changed a template's fields or published a version of it, the message names it, and its ID is in `submission_id`, `submission_batch_id`, `combined_pdf_id`, `template_id`, `folder_id`, `custom_file_id`, `webhook_id`, `email_action_id` or `email_domain_id` (a signature request's events and tokens have no member). `idempotency_key_reused` (422): the Idempotency-Key was already used for a different request. `rate_limited` (429): too many API requests. Wait for the `Retry-After` header's seconds. `daily_email_limit_reached` (429): a submission that DocSpring would email would take your account over its daily email limit, so nothing was saved. Send it again after the `Retry-After` header's seconds (midnight UTC), or send the signing links yourself (`send_email: false`).
      *
      * @return self
      */
@@ -581,7 +595,7 @@ class ErrorInfo implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets template_id
      *
-     * @param string|null $template_id With `polling_timeout`, the template whose PDF is still being processed. With `idempotency_key_in_use`, the template the first request with the key created.
+     * @param string|null $template_id With `polling_timeout`, the template whose PDF is still being processed. With `idempotency_key_in_use`, the template the first request with the key created, or whose fields it changed or whose version it published.
      *
      * @return self
      */
@@ -672,6 +686,60 @@ class ErrorInfo implements ModelInterface, ArrayAccess, \JsonSerializable
             throw new \InvalidArgumentException('non-nullable webhook_id cannot be null');
         }
         $this->container['webhook_id'] = $webhook_id;
+
+        return $this;
+    }
+
+    /**
+     * Gets email_action_id
+     *
+     * @return string|null
+     */
+    public function getEmailActionId()
+    {
+        return $this->container['email_action_id'];
+    }
+
+    /**
+     * Sets email_action_id
+     *
+     * @param string|null $email_action_id With `idempotency_key_in_use`, the email action the first request with the key created.
+     *
+     * @return self
+     */
+    public function setEmailActionId($email_action_id)
+    {
+        if (is_null($email_action_id)) {
+            throw new \InvalidArgumentException('non-nullable email_action_id cannot be null');
+        }
+        $this->container['email_action_id'] = $email_action_id;
+
+        return $this;
+    }
+
+    /**
+     * Gets email_domain_id
+     *
+     * @return string|null
+     */
+    public function getEmailDomainId()
+    {
+        return $this->container['email_domain_id'];
+    }
+
+    /**
+     * Sets email_domain_id
+     *
+     * @param string|null $email_domain_id With `idempotency_key_in_use`, the email domain the first request with the key created.
+     *
+     * @return self
+     */
+    public function setEmailDomainId($email_domain_id)
+    {
+        if (is_null($email_domain_id)) {
+            throw new \InvalidArgumentException('non-nullable email_domain_id cannot be null');
+        }
+        $this->container['email_domain_id'] = $email_domain_id;
 
         return $this;
     }

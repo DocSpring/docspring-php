@@ -101,11 +101,15 @@ class Template implements ModelInterface, ArrayAccess, \JsonSerializable
         'signature_request_notification_emails' => 'string[]',
         'signature_request_reply_to' => 'string',
         'signature_request_signing_url' => 'string',
+        'success_title' => 'string',
+        'success_message' => 'string',
+        'show_fill_again_button' => 'bool',
         'has_slack_webhook_url' => 'bool',
         'last_changed_by' => '\DocSpring\Model\TemplateActor',
         'defaults' => '\DocSpring\Model\TemplateDefaults',
         'field_dependencies' => '\DocSpring\Model\TemplateFieldDependency[]',
         'field_groups' => '\DocSpring\Model\FieldGroup[]',
+        'form_sections' => '\DocSpring\Model\TemplateFormSection[]',
         'predefined_fields' => '\DocSpring\Model\PredefinedField[]',
         'predefined_fields_sample_data' => 'array<string,mixed>',
         'html' => 'string',
@@ -170,11 +174,15 @@ class Template implements ModelInterface, ArrayAccess, \JsonSerializable
         'signature_request_notification_emails' => null,
         'signature_request_reply_to' => null,
         'signature_request_signing_url' => null,
+        'success_title' => null,
+        'success_message' => null,
+        'show_fill_again_button' => null,
         'has_slack_webhook_url' => null,
         'last_changed_by' => null,
         'defaults' => null,
         'field_dependencies' => null,
         'field_groups' => null,
+        'form_sections' => null,
         'predefined_fields' => null,
         'predefined_fields_sample_data' => null,
         'html' => null,
@@ -237,11 +245,15 @@ class Template implements ModelInterface, ArrayAccess, \JsonSerializable
         'signature_request_notification_emails' => false,
         'signature_request_reply_to' => true,
         'signature_request_signing_url' => true,
+        'success_title' => true,
+        'success_message' => true,
+        'show_fill_again_button' => false,
         'has_slack_webhook_url' => false,
         'last_changed_by' => true,
         'defaults' => false,
         'field_dependencies' => false,
         'field_groups' => false,
+        'form_sections' => false,
         'predefined_fields' => false,
         'predefined_fields_sample_data' => true,
         'html' => true,
@@ -384,11 +396,15 @@ class Template implements ModelInterface, ArrayAccess, \JsonSerializable
         'signature_request_notification_emails' => 'signature_request_notification_emails',
         'signature_request_reply_to' => 'signature_request_reply_to',
         'signature_request_signing_url' => 'signature_request_signing_url',
+        'success_title' => 'success_title',
+        'success_message' => 'success_message',
+        'show_fill_again_button' => 'show_fill_again_button',
         'has_slack_webhook_url' => 'has_slack_webhook_url',
         'last_changed_by' => 'last_changed_by',
         'defaults' => 'defaults',
         'field_dependencies' => 'field_dependencies',
         'field_groups' => 'field_groups',
+        'form_sections' => 'form_sections',
         'predefined_fields' => 'predefined_fields',
         'predefined_fields_sample_data' => 'predefined_fields_sample_data',
         'html' => 'html',
@@ -451,11 +467,15 @@ class Template implements ModelInterface, ArrayAccess, \JsonSerializable
         'signature_request_notification_emails' => 'setSignatureRequestNotificationEmails',
         'signature_request_reply_to' => 'setSignatureRequestReplyTo',
         'signature_request_signing_url' => 'setSignatureRequestSigningUrl',
+        'success_title' => 'setSuccessTitle',
+        'success_message' => 'setSuccessMessage',
+        'show_fill_again_button' => 'setShowFillAgainButton',
         'has_slack_webhook_url' => 'setHasSlackWebhookUrl',
         'last_changed_by' => 'setLastChangedBy',
         'defaults' => 'setDefaults',
         'field_dependencies' => 'setFieldDependencies',
         'field_groups' => 'setFieldGroups',
+        'form_sections' => 'setFormSections',
         'predefined_fields' => 'setPredefinedFields',
         'predefined_fields_sample_data' => 'setPredefinedFieldsSampleData',
         'html' => 'setHtml',
@@ -518,11 +538,15 @@ class Template implements ModelInterface, ArrayAccess, \JsonSerializable
         'signature_request_notification_emails' => 'getSignatureRequestNotificationEmails',
         'signature_request_reply_to' => 'getSignatureRequestReplyTo',
         'signature_request_signing_url' => 'getSignatureRequestSigningUrl',
+        'success_title' => 'getSuccessTitle',
+        'success_message' => 'getSuccessMessage',
+        'show_fill_again_button' => 'getShowFillAgainButton',
         'has_slack_webhook_url' => 'getHasSlackWebhookUrl',
         'last_changed_by' => 'getLastChangedBy',
         'defaults' => 'getDefaults',
         'field_dependencies' => 'getFieldDependencies',
         'field_groups' => 'getFieldGroups',
+        'form_sections' => 'getFormSections',
         'predefined_fields' => 'getPredefinedFields',
         'predefined_fields_sample_data' => 'getPredefinedFieldsSampleData',
         'html' => 'getHtml',
@@ -636,11 +660,15 @@ class Template implements ModelInterface, ArrayAccess, \JsonSerializable
         $this->setIfExists('signature_request_notification_emails', $data ?? [], null);
         $this->setIfExists('signature_request_reply_to', $data ?? [], null);
         $this->setIfExists('signature_request_signing_url', $data ?? [], null);
+        $this->setIfExists('success_title', $data ?? [], null);
+        $this->setIfExists('success_message', $data ?? [], null);
+        $this->setIfExists('show_fill_again_button', $data ?? [], null);
         $this->setIfExists('has_slack_webhook_url', $data ?? [], null);
         $this->setIfExists('last_changed_by', $data ?? [], null);
         $this->setIfExists('defaults', $data ?? [], null);
         $this->setIfExists('field_dependencies', $data ?? [], null);
         $this->setIfExists('field_groups', $data ?? [], null);
+        $this->setIfExists('form_sections', $data ?? [], null);
         $this->setIfExists('predefined_fields', $data ?? [], null);
         $this->setIfExists('predefined_fields_sample_data', $data ?? [], null);
         $this->setIfExists('html', $data ?? [], null);
@@ -810,6 +838,15 @@ class Template implements ModelInterface, ArrayAccess, \JsonSerializable
         if ($this->container['signature_request_signing_url'] === null && !$this->isNullableSetToNull('signature_request_signing_url')) {
             $invalidProperties[] = "'signature_request_signing_url' is required";
         }
+        if ($this->container['success_title'] === null && !$this->isNullableSetToNull('success_title')) {
+            $invalidProperties[] = "'success_title' is required";
+        }
+        if ($this->container['success_message'] === null && !$this->isNullableSetToNull('success_message')) {
+            $invalidProperties[] = "'success_message' is required";
+        }
+        if ($this->container['show_fill_again_button'] === null) {
+            $invalidProperties[] = "'show_fill_again_button' can't be null";
+        }
         if ($this->container['has_slack_webhook_url'] === null) {
             $invalidProperties[] = "'has_slack_webhook_url' can't be null";
         }
@@ -824,6 +861,9 @@ class Template implements ModelInterface, ArrayAccess, \JsonSerializable
         }
         if ($this->container['field_groups'] === null) {
             $invalidProperties[] = "'field_groups' can't be null";
+        }
+        if ($this->container['form_sections'] === null) {
+            $invalidProperties[] = "'form_sections' can't be null";
         }
         if ($this->container['predefined_fields'] === null) {
             $invalidProperties[] = "'predefined_fields' can't be null";
@@ -1543,7 +1583,7 @@ class Template implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets embed_domains
      *
-     * @param string[] $embed_domains The sites that can embed the template's live signature requests and its embedded template editor: a host such as `app.example.com`, with an optional leading wildcard (`*.example.com`), port (`localhost:3000`) or scheme (`https://app.example.com`; without one, `http` and `https` both work), without a path. Browsers open a live signature request in a frame only on these sites (and DocSpring's), so with an empty list it can't be embedded anywhere; a test signature request can be embedded on any site. The embedded template editor loads only for a page on one of these sites (by its Referer or Origin header), and on any site when the list is empty. Forms embedded on a page (Visual Forms JS and the simple form) aren't restricted.
+     * @param string[] $embed_domains The sites that can embed the template's live signature requests and its embedded template editor: a host such as `app.example.com`, with an optional leading wildcard (`*.example.com`), port (`localhost:3000`) or scheme (`https://app.example.com`; without one, `http` and `https` both work), without a path. Each one is stored in lowercase, without a trailing slash. Browsers open a live signature request in a frame only on these sites (and DocSpring's), so with an empty list it can't be embedded anywhere; a test signature request can be embedded on any site. The embedded template editor loads only for a page on one of these sites (by its Referer or Origin header), and on any site when the list is empty. Forms embedded on a page (Visual Forms JS and Web Forms JS) aren't restricted.
      *
      * @return self
      */
@@ -1894,7 +1934,7 @@ class Template implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets redirect_url
      *
-     * @param string|null $redirect_url Where the web form sends people after they submit it.
+     * @param string|null $redirect_url Where the web form sends people after they submit it, instead of showing its success screen. After its `?` or `#`, it can have variables such as `{{ data.first_name }}`, which the form fills in with what they submitted.
      *
      * @return self
      */
@@ -2140,6 +2180,101 @@ class Template implements ModelInterface, ArrayAccess, \JsonSerializable
     }
 
     /**
+     * Gets success_title
+     *
+     * @return string|null
+     */
+    public function getSuccessTitle()
+    {
+        return $this->container['success_title'];
+    }
+
+    /**
+     * Sets success_title
+     *
+     * @param string|null $success_title The title of the web form's success screen. When it's null or empty, the screen says "Thanks for filling out" and the template's name. It can have variables such as `{{ data.first_name }}`.
+     *
+     * @return self
+     */
+    public function setSuccessTitle($success_title)
+    {
+        if (is_null($success_title)) {
+            array_push($this->openAPINullablesSetToNull, 'success_title');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('success_title', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['success_title'] = $success_title;
+
+        return $this;
+    }
+
+    /**
+     * Gets success_message
+     *
+     * @return string|null
+     */
+    public function getSuccessMessage()
+    {
+        return $this->container['success_message'];
+    }
+
+    /**
+     * Sets success_message
+     *
+     * @param string|null $success_message A message under the title of the web form's success screen, as plain text. Line breaks show, and web addresses become links. It can have variables such as `{{ data.first_name }}`.
+     *
+     * @return self
+     */
+    public function setSuccessMessage($success_message)
+    {
+        if (is_null($success_message)) {
+            array_push($this->openAPINullablesSetToNull, 'success_message');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('success_message', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['success_message'] = $success_message;
+
+        return $this;
+    }
+
+    /**
+     * Gets show_fill_again_button
+     *
+     * @return bool
+     */
+    public function getShowFillAgainButton()
+    {
+        return $this->container['show_fill_again_button'];
+    }
+
+    /**
+     * Sets show_fill_again_button
+     *
+     * @param bool $show_fill_again_button Whether the web form's success screen has a "Fill out again" button, which clears the form so someone can fill it in again.
+     *
+     * @return self
+     */
+    public function setShowFillAgainButton($show_fill_again_button)
+    {
+        if (is_null($show_fill_again_button)) {
+            throw new \InvalidArgumentException('non-nullable show_fill_again_button cannot be null');
+        }
+        $this->container['show_fill_again_button'] = $show_fill_again_button;
+
+        return $this;
+    }
+
+    /**
      * Gets has_slack_webhook_url
      *
      * @return bool
@@ -2277,6 +2412,33 @@ class Template implements ModelInterface, ArrayAccess, \JsonSerializable
             throw new \InvalidArgumentException('non-nullable field_groups cannot be null');
         }
         $this->container['field_groups'] = $field_groups;
+
+        return $this;
+    }
+
+    /**
+     * Gets form_sections
+     *
+     * @return \DocSpring\Model\TemplateFormSection[]
+     */
+    public function getFormSections()
+    {
+        return $this->container['form_sections'];
+    }
+
+    /**
+     * Sets form_sections
+     *
+     * @param \DocSpring\Model\TemplateFormSection[] $form_sections The web form's sections, in order: Web Forms JS and the hosted web form show one section at a time. Empty when the template has none, and the web form shows all of its fields together, in the order the fields endpoint lists them. A field that no section lists (one added later) goes after the field before it in that order, in that field's section.
+     *
+     * @return self
+     */
+    public function setFormSections($form_sections)
+    {
+        if (is_null($form_sections)) {
+            throw new \InvalidArgumentException('non-nullable form_sections cannot be null');
+        }
+        $this->container['form_sections'] = $form_sections;
 
         return $this;
     }

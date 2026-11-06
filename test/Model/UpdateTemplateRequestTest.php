@@ -368,6 +368,33 @@ class UpdateTemplateRequestTest extends TestCase
     }
 
     /**
+     * Test attribute "success_title"
+     */
+    public function testPropertySuccessTitle()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * Test attribute "success_message"
+     */
+    public function testPropertySuccessMessage()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * Test attribute "show_fill_again_button"
+     */
+    public function testPropertyShowFillAgainButton()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
      * Test attribute "slack_webhook_url"
      */
     public function testPropertySlackWebhookUrl()
@@ -398,6 +425,15 @@ class UpdateTemplateRequestTest extends TestCase
      * Test attribute "field_groups"
      */
     public function testPropertyFieldGroups()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * Test attribute "form_sections"
+     */
+    public function testPropertyFormSections()
     {
         // TODO: implement
         self::markTestIncomplete('Not implemented');

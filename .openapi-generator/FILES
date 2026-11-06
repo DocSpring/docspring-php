@@ -158,6 +158,8 @@ docs/Model/TemplateFieldLogicStatus.md
 docs/Model/TemplateFieldMove.md
 docs/Model/TemplateFields.md
 docs/Model/TemplateFormMode.md
+docs/Model/TemplateFormSection.md
+docs/Model/TemplateFormSectionInput.md
 docs/Model/TemplateModelCode.md
 docs/Model/TemplatePageAiError.md
 docs/Model/TemplatePageAiNamingStatus.md
@@ -354,6 +356,8 @@ lib/Model/TemplateFieldLogicStatus.php
 lib/Model/TemplateFieldMove.php
 lib/Model/TemplateFields.php
 lib/Model/TemplateFormMode.php
+lib/Model/TemplateFormSection.php
+lib/Model/TemplateFormSectionInput.php
 lib/Model/TemplateModelCode.php
 lib/Model/TemplatePageAiError.php
 lib/Model/TemplatePageAiNamingStatus.php
@@ -545,6 +549,8 @@ test/Model/TemplateFieldLogicStatusTest.php
 test/Model/TemplateFieldMoveTest.php
 test/Model/TemplateFieldsTest.php
 test/Model/TemplateFormModeTest.php
+test/Model/TemplateFormSectionInputTest.php
+test/Model/TemplateFormSectionTest.php
 test/Model/TemplateModelCodeTest.php
 test/Model/TemplatePageAiErrorTest.php
 test/Model/TemplatePageAiNamingStatusTest.php

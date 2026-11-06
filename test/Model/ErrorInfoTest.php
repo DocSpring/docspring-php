@@ -177,4 +177,22 @@ class ErrorInfoTest extends TestCase
         // TODO: implement
         self::markTestIncomplete('Not implemented');
     }
+
+    /**
+     * Test attribute "email_action_id"
+     */
+    public function testPropertyEmailActionId()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * Test attribute "email_domain_id"
+     */
+    public function testPropertyEmailDomainId()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
 }
